@@ -4,7 +4,11 @@ Sadece gruba gönderilen sinyaller sayılır (Claude bölümü hariç). Sanal k�
 
 ## Son 7 gün
 
-**127 sinyal sonuçlandı: ✅ 64 tuttu, ❌ 63 tutmadı (%50)**
+**127 sinyal sonuçlandı (61 farklı maç): ✅ 64 tuttu, ❌ 63 tutmadı (%50)**
+
+_Aynı maçtaki sinyaller birbirinden bağımsız değildir; gerçek kanıt gücü maç sayısına yakındır._
+
+%90 güven aralığı (maç bazlı): piyasaya göre fark -4 ile +10 puan, sanal kâr -1579 ile +1981 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
 
 Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -4 TL • Piyasa bizim yönümüze döndü: -
 
@@ -55,7 +59,11 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -4 TL • Piy
 
 ## Tüm zamanlar
 
-**127 sinyal sonuçlandı: ✅ 64 tuttu, ❌ 63 tutmadı (%50)**
+**127 sinyal sonuçlandı (61 farklı maç): ✅ 64 tuttu, ❌ 63 tutmadı (%50)**
+
+_Aynı maçtaki sinyaller birbirinden bağımsız değildir; gerçek kanıt gücü maç sayısına yakındır._
+
+%90 güven aralığı (maç bazlı): piyasaya göre fark -4 ile +10 puan, sanal kâr -1579 ile +1981 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
 
 Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -4 TL • Piyasa bizim yönümüze döndü: -
 
