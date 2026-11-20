@@ -367,9 +367,20 @@ def market_compare(api: Api, hist, preds):
                 odds[it["fixture"]["id"]] = o
             page += 1
             time.sleep(0.1)
-    rows = []
+    # oranları biriktir: her hafta yeni 7 gün eklenir, örneklem büyür
+    store_path = MODEL_DIR / "piyasa_oranlari.json"
+    try:
+        store = json.loads(store_path.read_text()) if store_path.exists() else {}
+    except Exception:
+        store = {}
     for fid, o in odds.items():
-        r, pr = hist.get(fid), preds.get(fid)
+        if o:
+            store[str(fid)] = o
+    MODEL_DIR.mkdir(parents=True, exist_ok=True)
+    store_path.write_text(json.dumps(store, separators=(",", ":")))
+    rows = []
+    for fid, o in store.items():
+        r, pr = hist.get(int(fid)), preds.get(int(fid))
         if not r or not pr or "1x2" not in o:
             continue
         rows.append((r, pr["p"], o))
@@ -448,7 +459,10 @@ def run():
         "olusturma": dt.datetime.now(TZ).isoformat(timespec="minutes"), "mac_sayisi": n,
         "lig": leagues, "gol_egrisi": goals_curve, "kart_egrisi": cards_curve,
         "gol_durum": state_mult, "kart_gec_yakin": late_close,
-        "on_mac": {"shrink": best_k, "model_agirligi": (mkt or {}).get("en_iyi_agirlik", 0.5)},
+        "on_mac": {"shrink": best_k,
+                   # Piyasa örneklemi küçükse ağırlığa güvenme, varsayılan 0.5 kalsın.
+                   "model_agirligi": (mkt or {}).get("en_iyi_agirlik", 0.5) if (mkt or {}).get("mac", 0) >= 300 else 0.5,
+                   "piyasa_orneklem": (mkt or {}).get("mac", 0)},
     }
     (MODEL_DIR / "params.json").write_text(json.dumps(params, ensure_ascii=False, indent=1))
     teams_out = {}
