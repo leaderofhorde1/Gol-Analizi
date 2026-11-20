@@ -84,6 +84,16 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,35,0-1,,6,,yüksek,,,evet,bekliyor,,0.729,0.526,korner,,,,,107,,12.5
 2026-11-20,1601612,Italy - Serie B,Hellas Verona - Cesena,14,0-1,,0,,orta,,,evet,bekliyor,,0.607,0.5,kart,,,,,110,,4.5
 2026-11-20,1549058,Denmark - Superliga,Aarhus - Lyngby,85,2-1,,6,,orta,,,evet,ıska,6,0.713,0.625,korner,,,1.52,-100,111,evet,6.5
-2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,20,0-0,,Pogon Szczecin,,orta,,,evet,bekliyor,,0.281,0.236,baski,0.02698,,,,115,,35
+2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,20,0-0,,Pogon Szczecin,,orta,,,evet,ıska,,0.281,0.236,baski,0.02698,,4.03,-100,115,evet,35
 2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,23,0-0,,3,,orta,,,evet,bekliyor,,0.686,0.558,korner,,,,,116,,10.5
 2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,24,0-0,,0,,orta,,,evet,bekliyor,,0.57,0.5,iy,,,,,117,,0.5
+2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,46,3-0,,3-0,,düşük,,,evet,bekliyor,,0.692,0.625,kg,,,,,122,,
+2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,46,3-0,,4,,orta,,,evet,bekliyor,,0.659,0.558,korner,,,,,123,,8.5
+2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,49,1-1,,Metz,,yüksek,,,evet,bekliyor,,0.361,0.276,baski,0.03228,,,,124,,64
+2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,50,1-1,,9,,yüksek,,,evet,bekliyor,,0.818,0.577,korner,,,,,125,,13.5
+2026-11-20,1551889,Netherlands - Eerste Divisie,Den Bosch - VVV Venlo,50,1-0,,1-0,,düşük,,,evet,bekliyor,,0.655,0.589,kg,,,,,126,,
+2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,49,0-0,,6,,yüksek,,,evet,bekliyor,,0.727,0.461,korner,,,,,127,,11.5
+2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,49,0-0,,De Graafschap,,yüksek,,,evet,bekliyor,,0.457,0.309,baski,0.03701,,,,128,,64
+2026-11-20,1552537,France - Ligue 2,RED Star FC 93 - PAU,50,1-0,,6,,yüksek,,,evet,bekliyor,,0.644,0.463,korner,,,,,130,,10.5
+2026-11-20,1565306,Romania - Liga I,Farul Constanta - Universitatea Cluj,76,2-1,iki taraf,22.3,12.3,orta,hayır,"xG ve tehlikeli atak sıfır; pencere baskısı zayıf. Model-piyasa farkı büyük, şüpheli. Skor açık ama sinyal yetersiz.",hayır,bekliyor,,0.63,0.48,gol,0.03636,,,,,,3.5
+2026-11-20,1565306,Romania - Liga I,Farul Constanta - Universitatea Cluj,76,2-1,,5,,orta,,,evet,bekliyor,,0.463,0.375,korner,,,,,,,7.5
