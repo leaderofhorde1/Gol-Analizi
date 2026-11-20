@@ -417,7 +417,8 @@ def goal_events(item: dict) -> list[dict]:
                 cancelled.remove(hit)
                 continue
             side = "home" if tid == home_id else "away"
-            res.append({"minute": minute, "side": side})
+            res.append({"minute": minute, "side": side,
+                        "own": "own" in (ev.get("detail") or "").lower()})
     return res
 
 

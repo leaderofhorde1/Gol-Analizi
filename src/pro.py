@@ -71,6 +71,54 @@ NO_XG_EXTRA_EDGE = 0.02
 LOW_QUALITY = re.compile(r"\bU-?(1[5-9]|2[0-3])\b|youth|women|\bW\b|reserve|friendl|\bII\b|\bJong\b|primavera|juvenil",
                          re.IGNORECASE)
 
+STALE_MIN = int(os.environ.get("STALE_MIN", "8"))
+CUM_KEYS = ("sot", "shots", "inbox", "corners", "xg", "red", "danger", "blocked", "fouls", "yellow")
+
+
+def data_health(m) -> str | None:
+    """Veri sorunluysa sebebini döndürür (o maçta sinyal verilmez), sağlıklıysa None."""
+    snaps = m.snaps
+    if len(snaps) < 2:
+        return "az veri"
+    cur = snaps[-1]["stats"]
+    h, a = cur["home"], cur["away"]
+    # 1) Tutarlılık: isabetli/ceza sahası şut toplam şuttan fazla olamaz
+    for t in (h, a):
+        if t["shots"] > 0 and (t["sot"] > t["shots"] or t["inbox"] > t["shots"]):
+            return "tutarsız şut verisi"
+        if t["shots"] == 0 and t["sot"] > 0:
+            return "tutarsız şut verisi"
+    # 2) Boş veri: 15. dakikadan sonra hiç şut/faul/korner yoksa istatistik akmıyor demektir
+    if m.minute >= 15 and sum(t[k] for t in (h, a) for k in ("shots", "fouls", "corners")) == 0:
+        return "istatistik yok"
+    # 3) Geriye gidiş: birikimli değerler azalmamalı (son iki ölçüm)
+    prev = snaps[-2]["stats"]
+    for side in ("home", "away"):
+        for k in CUM_KEYS:
+            if cur[side].get(k, 0) + 1e-9 < prev[side].get(k, 0) - (0.05 if k == "xg" else 0):
+                return "veri geriye gitti"
+    # 4) Donma: dakika ilerliyor ama STALE_MIN dakikadır hiçbir değer değişmiyor
+    sig = lambda st: tuple(st[s].get(k, 0) for s in ("home", "away") for k in CUM_KEYS)
+    now_sig, frozen_since = sig(cur), snaps[-1]["min"]
+    for sn in reversed(snaps[:-1]):
+        if sig(sn["stats"]) != now_sig:
+            break
+        frozen_since = sn["min"]
+    if snaps[-1]["min"] - frozen_since >= STALE_MIN:
+        return "veri donmuş"
+    # 5) Gol üzerinden 4+ dk geçti ama şut sayısı hiç artmadı → istatistik geride kalmış
+    #    (kendi kalesine goller şut sayılmaz, onlar hariç)
+    last = snaps[-1]["min"]
+    shot_goals = [g for g in (getattr(m, "goals", None) or [])
+                  if not g.get("own") and last - 10 <= g["minute"] <= last - 4]
+    base = next((sn for sn in snaps if sn["min"] >= min(g["minute"] for g in shot_goals) - 1), None) \
+        if shot_goals else None
+    if base and base is not snaps[-1]:
+        if sum(cur[s]["shots"] for s in ("home", "away")) <= sum(base["stats"][s]["shots"] for s in ("home", "away")):
+            return "gol var, şut yok"
+    return None
+
+
 SAMPLES_DIR = DATA / "ornekler"
 REFEREE_JSON = DATA / "hakemler.json"          # geçmiş veri (analiz yazar)
 REFEREE_LIVE = DATA / "hakemler_canli.json"    # canlı oturumların eklediği maçlar
@@ -650,6 +698,14 @@ class ProEngine:
         # Kalite filtresi: gençlik/kadın/yedek/hazırlık maçlarında sinyal yok
         if LOW_QUALITY.search(f"{m.league} {m.home} {m.away}"):
             return
+        # Veri sağlığı: donmuş/tutarsız/eksik istatistikle sinyal verilmez
+        sorun = data_health(m)
+        if sorun:
+            if meta.get("veri_sorunu") != sorun:
+                meta["veri_sorunu"] = sorun
+                print(f"  [veri] {m.name} {m.minute}': {sorun} → sinyal yok")
+            return
+        meta.pop("veri_sorunu", None)
         # Eğitilmiş model piyasadan iyiyse onun olasılığı kullanılır
         sample_like = {"baski_ev": pr["home"], "baski_dep": pr["away"], "dakika": m.minute,
                            "skor_farki": m.gh - m.ga, "kirmizi_farki": pr["cur"]["stats"]["home"]["red"] - pr["cur"]["stats"]["away"]["red"],
@@ -671,8 +727,8 @@ class ProEngine:
                 sent.add(f"gol:{float(ust_line)}")
                 self.goal_signal(m, pr, side, pu, pu_m, qg, ust_line)
         # 🧊 maç sonu Alt: son 15 dakikada iki takımın da baskısı çok düşükse
-        # (Alt riskli bir tercih: daha uzun sessizlik ve isabetli şut/xG şartı aranır)
-        if ("alt" in SIGNALS_ON and not meta.get("alt_gonderildi") and pu_m is not None
+        # (Alt riskli bir tercih: sadece xG verisi olan maçlarda; uzun sessizlik ve isabetli şut/xG şartı)
+        if ("alt" in SIGNALS_ON and has_xg and not meta.get("alt_gonderildi") and pu_m is not None
                 and remaining_minutes(m.minute) <= 40):
             pr15 = evaluate_pressure(m, lookback=15, min_span=14)
             if pr15 and not pr15.get("goal_in_window"):
