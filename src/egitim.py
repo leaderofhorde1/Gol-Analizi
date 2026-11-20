@@ -120,7 +120,7 @@ def logloss(ps, ys):
 
 def load_samples():
     rows = []
-    for path in sorted(glob.glob(str(DATA / "ornekler" / "*-v2.csv.gz"))):
+    for path in sorted(glob.glob(str(DATA / "ornekler" / "*-v[23].csv.gz"))):
         with gzip.open(path, "rt", encoding="utf-8") as f:
             text = f.read()
         # aynı dosyaya birden çok oturum ekleyince başlık satırı tekrarlanabilir

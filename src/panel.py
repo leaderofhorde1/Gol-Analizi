@@ -89,7 +89,8 @@ def build():
     parts = []
     note = ("Model olasılığı piyasanınkinden yüksek ve isabet oranı piyasa olasılığını aşıyorsa model piyasadan iyi demektir. "
             "Sanal kâr: piyasanın 10 dakikalık olasılığından %5 marjla hesaplanan oranla 100 TL'lik bahis.")
-    for tur, label in (("gol", "⚽ Gol sinyalleri"), ("korner", "🚩 Korner sinyalleri"), ("kart", "🟨 Kart sinyalleri")):
+    for tur, label in (("gol", "⚽ Gol sinyalleri"), ("korner", "🚩 2+ Korner sinyalleri"), ("kart", "🟨 Kart sinyalleri"),
+                       ("iy", "⏱ İlk yarı gol sinyalleri"), ("kg", "🤝 KG Var sinyalleri")):
         rows = [r for r in sent if r["tur"] == tur]
         parts.append(card(label, stats(rows), note if tur == "gol" else ""))
     # Claude etkisi
@@ -101,7 +102,7 @@ def build():
 <p class="note">Elenenlerin isabeti onaylananlardan düşükse Claude işe yarıyor demektir.</p></section>""")
     # güven düzeyine göre
     rows = []
-    for tur in ("gol", "korner", "kart"):
+    for tur in ("gol", "korner", "kart", "iy", "kg"):
         for conf in ("yüksek", "orta", "düşük"):
             s = stats([r for r in sent if r["tur"] == tur and r.get("guven") == conf])
             if s["n"]:
