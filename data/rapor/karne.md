@@ -4,16 +4,16 @@ Sadece gruba gönderilen sinyaller sayılır (Claude bölümü hariç). Sanal k�
 
 ## Son 7 gün
 
-**126 sinyal sonuçlandı: ✅ 64 tuttu, ❌ 62 tutmadı (%51)**
+**127 sinyal sonuçlandı: ✅ 64 tuttu, ❌ 63 tutmadı (%50)**
 
-Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: +96 TL • Piyasa bizim yönümüze döndü: -
+Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -4 TL • Piyasa bizim yönümüze döndü: -
 
 ### Tür bazında
 
 | Tür | Sonuç | İsabet | Piyasa | Fark | Sanal kâr | Piyasa lehte | Durum |
 |---|---|---|---|---|---|---|---|
 | ⚽ Üst (gol) | 19 | %74 | %68 | +5 puan | +1 TL | - | ⏳ veri az (19/30) |
-| 🧊 Alt | 41 | %41 | %40 | +2 puan | -170 TL | - | 🟡 piyasa kadar |
+| 🧊 Alt | 42 | %40 | %39 | +1 puan | -270 TL | - | 🟡 piyasa kadar |
 | 🚩 Korner | 28 | %46 | %52 | -6 puan | -207 TL | - | ⏳ veri az (28/30) |
 | 🟨 Kart | 8 | %75 | %50 | +25 puan | +375 TL | - | ⏳ veri az (8/30) |
 | ⏱ İlk yarı | 12 | %42 | %53 | -11 puan | -306 TL | - | ⏳ veri az (12/30) |
@@ -42,7 +42,7 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: +96 TL • Pi
 
 | Form | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| ✅ destekliyor | 0 | - | - | - |
+| ✅ destekliyor | 1 | %0 | %29 | -100 TL |
 | ⚠️ ters | 1 | %100 | %54 | +76 TL |
 
 ### 📶 Güven seviyesine göre
@@ -50,21 +50,21 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: +96 TL • Pi
 | Güven | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
 | yüksek | 56 | %46 | %42 | +216 TL |
-| orta | 54 | %57 | %53 | +231 TL |
+| orta | 55 | %56 | %53 | +131 TL |
 | düşük | 16 | %44 | %58 | -351 TL |
 
 ## Tüm zamanlar
 
-**126 sinyal sonuçlandı: ✅ 64 tuttu, ❌ 62 tutmadı (%51)**
+**127 sinyal sonuçlandı: ✅ 64 tuttu, ❌ 63 tutmadı (%50)**
 
-Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: +96 TL • Piyasa bizim yönümüze döndü: -
+Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -4 TL • Piyasa bizim yönümüze döndü: -
 
 ### Tür bazında
 
 | Tür | Sonuç | İsabet | Piyasa | Fark | Sanal kâr | Piyasa lehte | Durum |
 |---|---|---|---|---|---|---|---|
 | ⚽ Üst (gol) | 19 | %74 | %68 | +5 puan | +1 TL | - | ⏳ veri az (19/30) |
-| 🧊 Alt | 41 | %41 | %40 | +2 puan | -170 TL | - | 🟡 piyasa kadar |
+| 🧊 Alt | 42 | %40 | %39 | +1 puan | -270 TL | - | 🟡 piyasa kadar |
 | 🚩 Korner | 28 | %46 | %52 | -6 puan | -207 TL | - | ⏳ veri az (28/30) |
 | 🟨 Kart | 8 | %75 | %50 | +25 puan | +375 TL | - | ⏳ veri az (8/30) |
 | ⏱ İlk yarı | 12 | %42 | %53 | -11 puan | -306 TL | - | ⏳ veri az (12/30) |
@@ -93,7 +93,7 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: +96 TL • Pi
 
 | Form | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| ✅ destekliyor | 0 | - | - | - |
+| ✅ destekliyor | 1 | %0 | %29 | -100 TL |
 | ⚠️ ters | 1 | %100 | %54 | +76 TL |
 
 ### 📶 Güven seviyesine göre
@@ -101,5 +101,5 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: +96 TL • Pi
 | Güven | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
 | yüksek | 56 | %46 | %42 | +216 TL |
-| orta | 54 | %57 | %53 | +231 TL |
+| orta | 55 | %56 | %53 | +131 TL |
 | düşük | 16 | %44 | %58 | -351 TL |
