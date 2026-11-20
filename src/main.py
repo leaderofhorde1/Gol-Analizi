@@ -135,8 +135,8 @@ def notify(title: str, message: str, priority: int = 4, tags=None, click=None):
         return
     payload = {"topic": NTFY_TOPIC, "title": title, "message": message,
                "priority": priority, "tags": tags or []}
-    if click:
-        payload["click"] = click
+    # Bildirime dokununca Gol Sinyali uygulaması açılsın
+    payload["click"] = click or os.environ.get("APP_LINK", "golsinyali://canli")
     try:
         requests.post("https://ntfy.sh/", json=payload, timeout=15).raise_for_status()
     except Exception as e:  # bildirim hatası takibi durdurmasın

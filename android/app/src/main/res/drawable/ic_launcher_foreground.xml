@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Top ve sinyal dalgaları -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- top -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M47,38a16,16 0,1 1,0 32a16,16 0,1 1,0 -32z" />
+    <path android:fillColor="#0F1115"
+        android:pathData="M47,47l6,4.4l-2.3,7.1h-7.4l-2.3,-7.1z" />
+    <path android:fillColor="#0F1115"
+        android:pathData="M47,38.5l3,2.4l-3,3l-3,-3z M61.5,50.5l-1.8,4l-3.4,-1.6l0.6,-3.6z M32.5,50.5l3.6,-1.2l0.6,3.6l-3.4,1.6z M38,66l1.8,-3.6l3.4,1.2l-0.6,3.6z M56,66l-4.6,1.2l-0.6,-3.6l3.4,-1.2z" />
+    <!-- sinyal dalgaları -->
+    <path android:strokeColor="#FFFFFF" android:strokeWidth="4" android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M68,42a14,14 0,0 1,0 24" />
+    <path android:strokeColor="#FFFFFF" android:strokeWidth="4" android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M75,36a22,22 0,0 1,0 36" />
+</vector>

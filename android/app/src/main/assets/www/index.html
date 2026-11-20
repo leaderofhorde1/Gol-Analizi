@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gol Sinyali</title>
+<style>
+  :root { --bg:#0f1115; --card:#181b21; --line:#2a2f37; --fg:#e7e9ee; --mut:#98a2b3; --brand:#3ccb8f; --warn:#ffb84d; --red:#ff7a59; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html, body { margin:0; height:100%; background:var(--bg); color:var(--fg);
+    font:15px/1.45 system-ui,-apple-system,Roboto,sans-serif; }
+  header { position:sticky; top:0; z-index:5; background:var(--bg); padding:14px 16px 8px;
+    border-bottom:1px solid var(--line); display:flex; align-items:center; gap:10px; }
+  header h1 { font-size:18px; margin:0; flex:1; }
+  header small { color:var(--mut); font-size:12px; }
+  main { padding:10px 12px 90px; }
+  .tab { display:none; } .tab.on { display:block; }
+  nav { position:fixed; bottom:0; left:0; right:0; display:flex; background:var(--card);
+    border-top:1px solid var(--line); padding-bottom:env(safe-area-inset-bottom); z-index:5; }
+  nav button { flex:1; background:none; border:0; color:var(--mut); padding:10px 0 12px; font-size:12px; }
+  nav button b { display:block; font-size:20px; line-height:1.2; }
+  nav button.on { color:var(--brand); }
+  .chips { display:flex; gap:8px; overflow-x:auto; padding:2px 0 10px; }
+  .chip { border:1px solid var(--line); background:var(--card); color:var(--fg); border-radius:999px;
+    padding:6px 12px; font-size:13px; white-space:nowrap; }
+  .chip.on { border-color:var(--brand); color:var(--brand); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 14px; margin:10px 0; }
+  .card h3 { margin:0 0 4px; font-size:15px; }
+  .card .t { color:var(--mut); font-size:12px; margin-bottom:6px; }
+  .card pre { margin:0; white-space:pre-wrap; font:inherit; font-size:14px; }
+  .card.gol { border-left:4px solid var(--brand); }
+  .card.korner { border-left:4px solid #5aa9ff; }
+  .card.kart { border-left:4px solid var(--warn); }
+  .empty { color:var(--mut); text-align:center; padding:40px 10px; }
+  .btn { display:inline-block; background:var(--brand); color:#06281b; border:0; border-radius:10px;
+    padding:10px 14px; font-weight:600; font-size:14px; text-decoration:none; margin:6px 6px 0 0; }
+  .btn.ghost { background:none; color:var(--fg); border:1px solid var(--line); }
+  input { width:100%; background:var(--bg); color:var(--fg); border:1px solid var(--line); border-radius:10px;
+    padding:10px 12px; font-size:15px; margin-top:6px; }
+  label { color:var(--mut); font-size:13px; }
+  iframe { width:100%; height:calc(100vh - 150px); border:0; border-radius:12px; background:var(--bg); }
+  .md table { border-collapse:collapse; font-size:12.5px; width:100%; }
+  .md th, .md td { border-bottom:1px solid var(--line); padding:5px 6px; text-align:left; white-space:nowrap; }
+  .md th { color:var(--mut); }
+  .md .tw { overflow-x:auto; margin:8px 0 14px; }
+  .md h1 { font-size:18px; } .md h2 { font-size:16px; margin-top:18px; } .md p { color:var(--mut); font-size:13px; }
+  .banner { background:#123526; border:1px solid var(--brand); border-radius:12px; padding:10px 12px; margin:8px 0; display:none; }
+</style>
+</head>
+<body>
+<header><h1 id="title">📡 Canlı sinyaller</h1><small id="stamp"></small></header>
+<main>
+  <div class="banner" id="update"></div>
+
+  <section class="tab" id="tab-canli">
+    <div class="chips" id="chips"></div>
+    <div id="feed"><div class="empty">Yükleniyor…</div></div>
+  </section>
+
+  <section class="tab" id="tab-panel">
+    <iframe id="panel" title="Performans paneli"></iframe>
+  </section>
+
+  <section class="tab" id="tab-rapor">
+    <div class="chips"><button class="chip on" id="r-today">Bugün</button><button class="chip" id="r-yday">Dün</button><button class="chip" id="r-analiz">Model analizi</button></div>
+    <div class="md" id="rapor"><div class="empty">Yükleniyor…</div></div>
+  </section>
+
+  <section class="tab" id="tab-ayar">
+    <div class="card">
+      <h3>ntfy konu adı</h3>
+      <label>Sinyallerin geldiği ntfy konusu. Sadece bu telefonda saklanır.</label>
+      <input id="topic" placeholder="örn. Gol_Sinyalim_..." autocapitalize="off" autocorrect="off" spellcheck="false">
+      <button class="btn" id="save">Kaydet</button>
+    </div>
+    <div class="card">
+      <h3>Bildirimler</h3>
+      <label>Anlık bildirimler ntfy uygulaması üzerinden gelir. Bildirime dokununca bu uygulama açılır.</label>
+    </div>
+    <div class="card">
+      <h3>Sürüm</h3>
+      <div class="t" id="ver"></div>
+      <button class="btn ghost" id="check">Güncellemeleri denetle</button>
+      <a class="btn ghost" href="https://github.com/leaderofhorde1/Gol-Analizi">GitHub deposu</a>
+    </div>
+  </section>
+</main>
+
+<nav>
+  <button data-tab="canli" class="on"><b>📡</b>Canlı</button>
+  <button data-tab="panel"><b>📊</b>Performans</button>
+  <button data-tab="rapor"><b>☀️</b>Rapor</button>
+  <button data-tab="ayar"><b>⚙️</b>Ayarlar</button>
+</nav>
+
+<script>
+const REPO = "leaderofhorde1/Gol-Analizi";
+const RAW = `https://raw.githubusercontent.com/${REPO}/main/`;
+const PANEL = "https://leaderofhorde1.github.io/Gol-Analizi/";
+const VERSION = Number(new URLSearchParams(location.search).get("v") || 0);
+const TITLES = { canli: "📡 Canlı sinyaller", panel: "📊 Performans", rapor: "☀️ Rapor", ayar: "⚙️ Ayarlar" };
+const FILTERS = [["hepsi", "Tümü"], ["gol", "⚽ Gol"], ["korner", "🚩 Korner"], ["kart", "🟨 Kart"],
+                 ["oran", "📉 Oran"], ["rapor", "☀️ Rapor"], ["diger", "📊 Diğer"]];
+let filter = "hepsi", feedTimer = null, messages = [];
+
+const store = {
+  get(k) { try { return localStorage.getItem(k) || ""; } catch { return ""; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+};
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const istDate = (offsetDays = 0) => {
+  const d = new Date(Date.now() + 3 * 3600e3 - offsetDays * 86400e3);  // Europe/Istanbul = UTC+3
+  return d.toISOString().slice(0, 10);
+};
+const stamp = () => { document.getElementById("stamp").textContent =
+  new Date().toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" }); };
+
+function showTab(name) {
+  if (!TITLES[name]) name = "canli";
+  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("on", t.id === "tab-" + name));
+  document.querySelectorAll("nav button").forEach(b => b.classList.toggle("on", b.dataset.tab === name));
+  document.getElementById("title").textContent = TITLES[name];
+  clearInterval(feedTimer);
+  if (name === "canli") { loadFeed(); feedTimer = setInterval(loadFeed, 30000); }
+  if (name === "panel") document.getElementById("panel").src = PANEL + "?t=" + Date.now();
+  if (name === "rapor") loadReport("today");
+  history.replaceState(null, "", "#" + name);
+}
+window.showTab = showTab;
+
+// ---- canlı akış (ntfy)
+function kind(m) {
+  const t = m.title || "";
+  if (t.includes("Gol sinyali")) return "gol";
+  if (t.includes("Korner")) return "korner";
+  if (t.includes("Kart")) return "kart";
+  if (t.includes("Oran düşüşü")) return "oran";
+  if (t.includes("rapor")) return "rapor";
+  return "diger";
+}
+function renderChips() {
+  const el = document.getElementById("chips");
+  el.innerHTML = FILTERS.map(([k, l]) => {
+    const n = k === "hepsi" ? messages.length : messages.filter(m => kind(m) === k).length;
+    return `<button class="chip ${k === filter ? "on" : ""}" data-f="${k}">${l} ${n ? "· " + n : ""}</button>`;
+  }).join("");
+  el.querySelectorAll(".chip").forEach(b => b.onclick = () => { filter = b.dataset.f; renderChips(); renderFeed(); });
+}
+function renderFeed() {
+  const el = document.getElementById("feed");
+  const list = messages.filter(m => filter === "hepsi" || kind(m) === filter);
+  if (!list.length) { el.innerHTML = `<div class="empty">Son 24 saatte bu türde bildirim yok.<br>Sinyaller canlı maçlarda şartlar oluşunca gelir.</div>`; return; }
+  el.innerHTML = list.map(m => {
+    const t = new Date(m.time * 1000).toLocaleString("tr-TR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+    return `<div class="card ${kind(m)}"><div class="t">${t}</div><h3>${esc(m.title)}</h3><pre>${esc(m.message)}</pre></div>`;
+  }).join("");
+}
+async function loadFeed() {
+  const topic = store.get("topic");
+  const el = document.getElementById("feed");
+  if (!topic) {
+    el.innerHTML = `<div class="empty">Önce Ayarlar'dan ntfy konu adını gir.<br><br><button class="btn" onclick="showTab('ayar')">Ayarlara git</button></div>`;
+    document.getElementById("chips").innerHTML = "";
+    return;
+  }
+  try {
+    const r = await fetch(`https://ntfy.sh/${encodeURIComponent(topic)}/json?poll=1&since=24h`, { cache: "no-store" });
+    const text = await r.text();
+    messages = text.split("\n").filter(Boolean).map(l => { try { return JSON.parse(l); } catch { return null; } })
+      .filter(m => m && m.event === "message").sort((a, b) => b.time - a.time);
+    renderChips(); renderFeed(); stamp();
+  } catch (e) {
+    el.innerHTML = `<div class="empty">Bağlantı hatası, tekrar denenecek.<br><small>${esc(e.message)}</small></div>`;
+  }
+}
+
+// ---- rapor (markdown → html)
+function md2html(md) {
+  const lines = md.split("\n"); let out = [], i = 0;
+  const inline = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/`(.+?)`/g, "<code>$1</code>");
+  while (i < lines.length) {
+    const l = lines[i];
+    if (l.startsWith("|")) {
+      const rows = [];
+      while (i < lines.length && lines[i].startsWith("|")) { rows.push(lines[i]); i++; }
+      const cells = r => r.trim().replace(/^\||\|$/g, "").split("|").map(c => c.trim());
+      const head = cells(rows[0]), body = rows.slice(2).map(cells);
+      out.push(`<div class="tw"><table><thead><tr>${head.map(h => `<th>${inline(h)}</th>`).join("")}</tr></thead><tbody>` +
+        body.map(r => `<tr>${r.map(c => `<td>${inline(c)}</td>`).join("")}</tr>`).join("") + "</tbody></table></div>");
+      continue;
+    }
+    if (l.startsWith("### ")) out.push(`<h3>${inline(l.slice(4))}</h3>`);
+    else if (l.startsWith("## ")) out.push(`<h2>${inline(l.slice(3))}</h2>`);
+    else if (l.startsWith("# ")) out.push(`<h1>${inline(l.slice(2))}</h1>`);
+    else if (l.trim()) out.push(`<p>${inline(l)}</p>`);
+    i++;
+  }
+  return out.join("");
+}
+async function loadReport(which) {
+  ["r-today", "r-yday", "r-analiz"].forEach(id => document.getElementById(id).classList.toggle("on",
+    id === { today: "r-today", yday: "r-yday", analiz: "r-analiz" }[which]));
+  const el = document.getElementById("rapor");
+  el.innerHTML = `<div class="empty">Yükleniyor…</div>`;
+  const path = which === "analiz" ? "data/analiz/rapor.md" : `data/rapor/${istDate(which === "yday" ? 1 : 0)}.md`;
+  try {
+    const r = await fetch(RAW + path + "?t=" + Date.now(), { cache: "no-store" });
+    if (!r.ok) throw new Error(r.status === 404 ? "Bu gün için rapor henüz yok (her sabah 10:00'da oluşur)." : "HTTP " + r.status);
+    el.innerHTML = md2html(await r.text()); stamp();
+  } catch (e) { el.innerHTML = `<div class="empty">${esc(e.message)}</div>`; }
+}
+document.getElementById("r-today").onclick = () => loadReport("today");
+document.getElementById("r-yday").onclick = () => loadReport("yday");
+document.getElementById("r-analiz").onclick = () => loadReport("analiz");
+
+// ---- ayarlar ve güncelleme
+document.getElementById("topic").value = store.get("topic");
+document.getElementById("save").onclick = () => {
+  store.set("topic", document.getElementById("topic").value.trim());
+  showTab("canli");
+};
+document.getElementById("ver").textContent = `Yüklü sürüm: 1.${VERSION}`;
+async function checkUpdate(manual) {
+  const box = document.getElementById("update");
+  try {
+    const r = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`, { cache: "no-store" });
+    const j = await r.json();
+    const latest = Number(String(j.tag_name || "").replace(/\D/g, "")) || 0;
+    const asset = (j.assets || []).find(a => a.name.endsWith(".apk"));
+    if (latest > VERSION && asset) {
+      box.innerHTML = `🆕 Yeni sürüm var (1.${latest}).<br><a class="btn" href="${asset.browser_download_url}">İndir ve kur</a>`;
+      box.style.display = "block";
+    } else if (manual) {
+      box.innerHTML = "✅ Uygulama güncel."; box.style.display = "block";
+      setTimeout(() => box.style.display = "none", 3000);
+    }
+  } catch (e) { if (manual) { box.textContent = "Güncelleme denetlenemedi."; box.style.display = "block"; } }
+}
+document.getElementById("check").onclick = () => checkUpdate(true);
+
+document.querySelectorAll("nav button").forEach(b => b.onclick = () => showTab(b.dataset.tab));
+showTab((location.hash || "#canli").slice(1));
+checkUpdate(false);
+</script>
+</body>
+</html>
