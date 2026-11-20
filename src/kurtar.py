@@ -18,7 +18,8 @@ from main import (API_KEY, FINISHED, NTFY_TOPIC, TZ, Api, goal_events, load_sign
 
 TYPES = {"⚽ Gol sinyali: ": "gol", "🚩 Korner sinyali: ": "korner", "🟨 Kart sinyali: ": "kart",
          "⚽ GOL SİNYALİ: ": "gol", "🚩 KORNER SİNYALİ: ": "korner", "🟨 KART SİNYALİ: ": "kart",
-         "⏱ İLK YARI GOL SİNYALİ: ": "iy", "🤝 KG SİNYALİ: ": "kg", "🔥 BASKI ALARMI: ": "baski"}
+         "⏱ İLK YARI GOL SİNYALİ: ": "iy", "🤝 KG SİNYALİ: ": "kg", "🔥 BASKI ALARMI: ": "baski",
+         "🧊 ALT SİNYALİ: ": "alt"}
 
 
 def parse(msg: dict) -> dict | None:
@@ -33,7 +34,8 @@ def parse(msg: dict) -> dict | None:
     pk = re.search(r"piyasa %(\d+)", body, re.I)
     gv = re.search(r"Güven: (?:[●○]+ )?(\S+)", body)
     ai = re.search(r"🤖 (.+)", body)
-    cnt = re.search(r"Maçtaki (?:korner|kart): (\d+)", body)
+    cnt = re.search(r"(?:Maçtaki (?:korner|kart)|Şu an): (\d+)", body)
+    line = re.search(r"(\d+\.5) (?:ÜST|ALT)", body)
     if not m:
         return None
     return {
@@ -42,7 +44,7 @@ def parse(msg: dict) -> dict | None:
         "skor": f"{m.group(2)}-{m.group(3)}", "tur": tur,
         "p_model": int(pm.group(1)) / 100 if pm else "", "p_piyasa": int(pk.group(1)) / 100 if pk else "",
         "guven": (gv.group(1).lower() if gv else ""), "ai_onay": "evet" if ai else "", "ai_yorum": ai.group(1) if ai else "",
-        "baski": cnt.group(1) if cnt else "", "gonderildi": "evet", "sonuc": "bekliyor", "gol_dakikasi": "",
+        "baski": cnt.group(1) if cnt else "", "cizgi": float(line.group(1)) if line else "", "gonderildi": "evet", "sonuc": "bekliyor", "gol_dakikasi": "",
         "_zaman": msg["time"],
     }
 
@@ -78,6 +80,9 @@ def run():
         minute = it["fixture"]["status"].get("elapsed") or 0
         smin = s["dakika"]
         done = status in FINISHED or minute > smin + 10
+        if s.get("cizgi") not in ("", None) and s["tur"] in ("gol", "alt", "korner", "kart"):
+            # maç sonu çizgili sinyaller: sonucu canlı motor (devralma ile) belirler
+            continue
         if s["tur"] in ("gol", "baski"):
             hits = [g["minute"] for g in goal_events(it) if smin < g["minute"] <= smin + 10]
         elif s["tur"] == "kart":

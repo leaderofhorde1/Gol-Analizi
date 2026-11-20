@@ -88,7 +88,7 @@ CSV_FIELDS = [
     "tarih", "fixture_id", "lig", "mac", "dakika", "skor", "taraf", "baski",
     "baski_rakip", "guven", "ai_onay", "ai_yorum", "gonderildi", "sonuc",
     "gol_dakikasi", "p_model", "p_piyasa", "tur", "q_once", "q_sonra", "adil_oran", "kar",
-    "tg_mesaj", "duyuruldu",
+    "tg_mesaj", "duyuruldu", "cizgi",
 ]
 
 

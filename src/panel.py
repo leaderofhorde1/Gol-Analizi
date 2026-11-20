@@ -88,8 +88,9 @@ def build():
     sent = [r for r in sig if r.get("gonderildi", "evet") == "evet"]
     parts = []
     note = ("Model olasılığı piyasanınkinden yüksek ve isabet oranı piyasa olasılığını aşıyorsa model piyasadan iyi demektir. "
-            "Sanal kâr: piyasanın 10 dakikalık olasılığından %5 marjla hesaplanan oranla 100 TL'lik bahis.")
-    for tur, label in (("gol", "⚽ Gol sinyalleri"), ("korner", "🚩 2+ Korner sinyalleri"), ("kart", "🟨 Kart sinyalleri"),
+            "Sanal kâr: piyasanın olasılığından %5 marjla hesaplanan oranla 100 TL'lik bahis.")
+    for tur, label in (("gol", "⚽ Maç sonu Üst sinyalleri"), ("alt", "🧊 Maç sonu Alt sinyalleri"),
+                       ("korner", "🚩 Korner Üst sinyalleri"), ("kart", "🟨 Kart Üst sinyalleri"),
                        ("iy", "⏱ İlk yarı gol sinyalleri"), ("kg", "🤝 KG Var sinyalleri"),
                        ("baski", "🔥 Baskı alarmları (10 dk içinde gol)")):
         rows = [r for r in sent if r["tur"] == tur]
@@ -103,7 +104,7 @@ def build():
 <p class="note">Elenenlerin isabeti onaylananlardan düşükse Claude işe yarıyor demektir.</p></section>""")
     # güven düzeyine göre
     rows = []
-    for tur in ("gol", "korner", "kart", "iy", "kg", "baski"):
+    for tur in ("gol", "alt", "korner", "kart", "iy", "kg", "baski"):
         for conf in ("yüksek", "orta", "düşük"):
             s = stats([r for r in sent if r["tur"] == tur and r.get("guven") == conf])
             if s["n"]:

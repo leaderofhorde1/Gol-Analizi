@@ -64,10 +64,12 @@ jobs:
           WINDOW_END: "23:45"     # ücretsiz planda takibin biteceği saat (TR)
           RUN_MINUTES: ${{ github.event.inputs.sure || (github.event.inputs.mod == 'kisa' && '6') || '350' }}  # bir oturumun süresi (dk)
           INTERVAL: "30"          # Pro/Ultra: tur aralığı (sn)
-          SIGNALS: "gol,korner,kart,iy,kg,baski"  # açık sinyal türleri (iy = ilk yarı gol, kg = karşılıklı gol, baski = baskı alarmı)
+          SIGNALS: "gol,alt,korner,kart,iy,kg,baski"  # gol = maç sonu Üst, alt = maç sonu Alt, iy = ilk yarı gol, kg = karşılıklı gol, baski = baskı alarmı
           EDGE_IY: "0.05"         # ilk yarı gol için model-piyasa farkı
           EDGE_KG: "0.06"         # KG Var için model-piyasa farkı
-          EDGE: "0.04"            # gol: model olasılığı piyasadan en az bu kadar yüksekse sinyal
+          EDGE: "0.04"            # baskı alarmı notu için 10 dk gol farkı
+          EDGE_UST: "0.05"        # maç sonu Üst: model-piyasa farkı
+          EDGE_ALT: "0.06"        # maç sonu Alt: model-piyasa farkı
           EDGE_CORNER: "0.07"     # korner için aynı fark
           EDGE_CARD: "0.07"       # kart için aynı fark
           ALERT_DROP_PCT: "0.12"  # oran düşüşü uyarısı eşiği (%12)

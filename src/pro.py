@@ -30,13 +30,15 @@ EDGE = float(os.environ.get("EDGE", "0.04"))
 EDGE_CORNER = float(os.environ.get("EDGE_CORNER", "0.07"))
 EDGE_CARD = float(os.environ.get("EDGE_CARD", "0.07"))
 EDGE_IY = float(os.environ.get("EDGE_IY", "0.05"))
+EDGE_UST = float(os.environ.get("EDGE_UST", "0.05"))
+EDGE_ALT = float(os.environ.get("EDGE_ALT", "0.06"))
 EDGE_KG = float(os.environ.get("EDGE_KG", "0.06"))
 TARGET_INTERVAL = int(os.environ.get("INTERVAL", "30"))
 MAX_BATCHES = 15
 SAMPLE_EVERY = 5
 DROP_PCT = float(os.environ.get("DROP_PCT", "0.07"))
 MAX_CLAUDE = int(os.environ.get("MAX_CLAUDE_CALLS", "25"))
-SIGNALS_ON = set(os.environ.get("SIGNALS", "gol,korner,kart,iy,kg,baski").split(","))
+SIGNALS_ON = set(os.environ.get("SIGNALS", "gol,alt,korner,kart,iy,kg,baski").split(","))
 ALARM_MULT = float(os.environ.get("ALARM_MULT", "1.8"))  # baskı alarmı: tek takım baskısı eşiğin bu katı
 TYPICAL_TOTAL_PRESSURE = 12.0
 DEFAULT_MU = 2.6
@@ -260,6 +262,35 @@ def ou_line_prob(item: dict | None, name: str, line: float) -> float | None:
     return fair_prob(over, under) if over and under else None
 
 
+def count_line_market(item: dict | None, names: tuple, current: int):
+    """Toplam (korner/kart) pazarında mevcut sayının üstündeki en yakın X.5 çizgisi ve Üst olasılığı."""
+    lines = {}
+    for mk in (item or {}).get("odds") or []:
+        if mk.get("name") not in names:
+            continue
+        for v in mk.get("values") or []:
+            if v.get("suspended"):
+                continue
+            try:
+                h, odd = float(v.get("handicap")), float(v.get("odd"))
+            except (TypeError, ValueError):
+                continue
+            if abs(h - math.floor(h) - 0.5) > 1e-6 or h < current:
+                continue
+            side = (v.get("value") or "").lower()
+            if side in ("over", "under"):
+                lines.setdefault(h, {})[side] = odd
+    for h in sorted(lines):
+        d = lines[h]
+        if "over" in d and "under" in d:
+            return h, fair_prob(d["over"], d["under"])
+    return None, None
+
+
+def fmt_line(x: float) -> str:
+    return f"{x:.1f}"
+
+
 def damp(f: float, horizon: float) -> float:
     """Baskının etkisi ~15 dakika sürer; uzun ufuklarda etkisini azalt."""
     return 1 + (f - 1) * min(1.0, 15.0 / max(horizon, 1.0))
@@ -413,6 +444,10 @@ class ProEngine:
         # Sonucu bekleyen sinyali olan maçlar izleme listesinde olmasa bile her turda kontrol edilir
         pending_ids = {int(r["fixture_id"]) for r in self.rows_today if r.get("sonuc") == "bekliyor" and r.get("fixture_id")}
         tracked_ids = {m.id for m in tracked}
+        to_final = [m for m in self.matches.values()
+                    if m.id in pending_ids and m.status in FINISHED and not getattr(m, "finalized", False)]
+        if to_final:
+            self.finalize(to_final)
         for m in self.matches.values():
             if m.status in FINISHED:
                 self.check_outcomes(m)
@@ -464,6 +499,53 @@ class ProEngine:
             tm = curve_avg(PARAMS["gol_egrisi"], minute, max(1, span))
             return tm * (PARAMS.get("gol_durum") or {}).get(goal_state(m.gh, m.ga), 1.0)
         return 1.0
+
+    def rest_goal(self, m: Match, pr: dict):
+        """Maç sonuna kadar en az bir gol daha (Üst toplam+0.5)."""
+        rem = remaining_minutes(m.minute)
+        f = min(3.0, max(0.55, 0.55 + 0.45 * (pr["home"] + pr["away"]) / TYPICAL_TOTAL_PRESSURE))
+        rate = self.mu(m.id) / 94.0 * self.time_mult(m, m.minute, int(rem))
+        p_model = 1 - math.exp(-rate * rem * damp(f, rem))
+        odds = self.meta.get(m.id, {}).get("odds")
+        p_mkt = parse_live_goal_market(odds, m.gh + m.ga) if odds else None
+        return p_model, p_mkt, m.gh + m.ga + 0.5
+
+    def corner_total(self, m: Match, pr: dict):
+        cur, base, span = pr["cur"]["stats"], pr["base"]["stats"], max(pr["span"], 6)
+        corners = int(cur["home"]["corners"] + cur["away"]["corners"])
+        d = lambda k: sum(max(0.0, cur[s][k] - base[s][k]) for s in ("home", "away"))
+        attack = (d("shots") + 0.5 * d("blocked") + 0.8 * d("corners")) * 10 / span
+        f = min(2.2, max(0.6, 0.6 + 0.4 * attack / TYPICAL_ATTACK_10))
+        rate = league_param(m.league_id, "korner", LEAGUE_CORNERS) / 94
+        if m.minute >= 20:
+            rate = 0.6 * rate + 0.4 * corners / m.minute
+        if abs(m.gh - m.ga) == 1 and m.minute >= 70:
+            f *= 1.15
+        line, p_mkt = count_line_market(self.meta.get(m.id, {}).get("odds"), ("Total Corners", "Asian Corners"), corners)
+        if line is None:
+            return None, None, None, f, corners
+        rem = remaining_minutes(m.minute)
+        p_model = poisson_over(rate * rem * damp(f, rem), int(line - corners + 0.5))
+        return p_model, p_mkt, line, f, corners
+
+    def card_total(self, m: Match, pr: dict):
+        cur, base, span = pr["cur"]["stats"], pr["base"]["stats"], max(pr["span"], 6)
+        cards = int(sum(cur[s]["yellow"] + cur[s]["red"] for s in ("home", "away")))
+        fouls10 = sum(max(0.0, cur[s]["fouls"] - base[s]["fouls"]) for s in ("home", "away")) * 10 / span
+        avg, src = self.referee_avg(m)
+        rem = remaining_minutes(m.minute)
+        phase = curve_avg(PARAMS["kart_egrisi"], m.minute, int(rem)) if PARAMS.get("kart_egrisi") else 1.2
+        typical = league_param(m.league_id, "faul", TYPICAL_FOULS_10 / 10 * 94) * 10 / 94
+        f = min(2.2, max(0.6, 0.6 + 0.4 * fouls10 / typical))
+        if abs(m.gh - m.ga) <= 1 and m.minute >= 70:
+            f *= PARAMS.get("kart_gec_yakin", 1.2)
+        if m.minute >= 20:
+            avg = 0.7 * avg + 0.3 * cards / m.minute * 94
+        line, p_mkt = count_line_market(self.meta.get(m.id, {}).get("odds"), ("Total Cards",), cards)
+        if line is None:
+            return None, None, None, f, cards, fouls10, src
+        p_model = poisson_over(avg / 94 * phase * rem * damp(f, rem), int(line - cards + 0.5))
+        return p_model, p_mkt, line, f, cards, fouls10, src
 
     def iy_model(self, m: Match, pr: dict):
         """Devre arasına kadar en az bir gol."""
@@ -561,21 +643,35 @@ class ProEngine:
         pc = self.trained_prob("korner", sample_like, pc)
         pk = self.trained_prob("kart", sample_like, pk)
         has_xg = pr["cur"]["stats"].get("has_xg")
-        # ⚽ gol
-        if "gol" in SIGNALS_ON and m.minute - m.last_signal_min >= 12 and not (REQUIRE_MARKET and pg_m is None):
+        extra = 0 if has_xg else NO_XG_EXTRA_EDGE
+        pu, pu_m, ust_line = self.rest_goal(m, pr)
+        # ⚽ maç sonu Üst (toplam + 0.5): anlık baskı tetikler, tahmin maç sonunu kapsar
+        sent = meta.setdefault("cizgiler", set())  # her tür ve çizgi için maç başına bir sinyal
+        if ("gol" in SIGNALS_ON and m.minute - m.last_signal_min >= 12 and pu_m is not None
+                and f"gol:{ust_line}" not in sent):
             side = signal_side(pr)
-            need = EDGE + (0 if has_xg else NO_XG_EXTRA_EDGE)
-            if side and (pg_m is None or pg - pg_m >= need):
+            if side and pu - pu_m >= EDGE_UST + extra:
                 m.last_signal_min = m.minute
-                self.goal_signal(m, pr, side, pg, pg_m, qg)
-        # 🚩 korner
-        if "korner" in SIGNALS_ON and m.minute - meta.get("son_korner", -99) >= 10 and fc >= 1.4:
-            if (pc_m is not None and pc - pc_m >= EDGE_CORNER) or (not REQUIRE_MARKET and pc_m is None and pc >= 0.6):
-                meta["son_korner"] = m.minute
-                d = {k: pr["d_home"][k] + pr["d_away"][k] for k in pr["d_home"]}
-                self.simple_signal(m, "korner", pc, pc_m, corners, qc, [
-                    f"📈 Son {int(pr['span'])} dk (iki takım):", *stat_bullets(d),
-                    f"🚩 Maçtaki korner: {corners}"])
+                sent.add(f"gol:{ust_line}")
+                self.goal_signal(m, pr, side, pu, pu_m, qg, ust_line)
+        # 🧊 maç sonu Alt: maçın son bölümünde iki takımın da baskısı çok düşükse
+        if ("alt" in SIGNALS_ON and not meta.get("alt_gonderildi") and pu_m is not None
+                and remaining_minutes(m.minute) <= 40 and not pr.get("goal_in_window")
+                and pr["home"] + pr["away"] <= COMBINED_THRESHOLD * 0.35 and pu_m - pu >= EDGE_ALT):
+            meta["alt_gonderildi"] = True
+            d = {k: pr["d_home"][k] + pr["d_away"][k] for k in pr["d_home"]}
+            self.simple_signal(m, "alt", 1 - pu, 1 - pu_m, None, None, [
+                f"🧊 Son {int(pr['span'])} dk iki takımın da baskısı düşük:", *stat_bullets(d)], cizgi=ust_line)
+        # 🚩 maç sonu korner Üst
+        pcu, pcu_m, c_line, fcu, corners_now = self.corner_total(m, pr)
+        if ("korner" in SIGNALS_ON and pcu is not None and m.minute - meta.get("son_korner", -99) >= 15
+                and f"korner:{c_line}" not in sent and fcu >= 1.4 and pcu - pcu_m >= EDGE_CORNER):
+            meta["son_korner"] = m.minute
+            sent.add(f"korner:{c_line}")
+            d = {k: pr["d_home"][k] + pr["d_away"][k] for k in pr["d_home"]}
+            self.simple_signal(m, "korner", pcu, pcu_m, corners_now, None, [
+                f"🚩 Şu an: {corners_now} korner",
+                f"📈 Son {int(pr['span'])} dk (iki takım):", *stat_bullets(d)], cizgi=c_line)
         # 🔥 baskı alarmı: piyasa şartı olmadan, çok yüksek baskıda bilgi amaçlı
         # (aynı maçta son 12 dakikada gol sinyali gittiyse alarm tekrar etmez)
         if ("baski" in SIGNALS_ON and not meta.get("alarm_gonderildi") and 10 <= m.minute <= 85
@@ -592,19 +688,19 @@ class ProEngine:
         if ("iy" in SIGNALS_ON and piy is not None and piy_m is not None and 15 <= m.minute <= 40
                 and not meta.get("iy_gonderildi") and not pr.get("goal_in_window")
                 and (signal_side(pr) or pr["home"] + pr["away"] >= COMBINED_THRESHOLD * 0.8)
-                and piy - piy_m >= EDGE_IY + (0 if has_xg else NO_XG_EXTRA_EDGE)):
+                and piy - piy_m >= EDGE_IY + extra):
             meta["iy_gonderildi"] = True
             side = signal_side(pr)
             team = m.home if side == "ev" else m.away if side == "deplasman" else "İki takım"
             dd = pr["d_home"] if side == "ev" else pr["d_away"] if side == "deplasman" else {
                 k: pr["d_home"][k] + pr["d_away"][k] for k in pr["d_home"]}
             self.simple_signal(m, "iy", piy, piy_m, m.gh + m.ga, None, [
-                f"📈 Son {int(pr['span'])} dk ({team}):", *stat_bullets(dd)])
+                f"📈 Son {int(pr['span'])} dk ({team}):", *stat_bullets(dd)], cizgi=m.gh + m.ga + 0.5)
         # 🤝 karşılıklı gol
         if ("kg" in SIGNALS_ON and pkg is not None and pkg_m is not None and 25 <= m.minute <= 80
                 and not meta.get("kg_gonderildi")
                 and any(pr[sd] >= THRESHOLD * 0.8 for sd in kg_need)
-                and pkg - pkg_m >= EDGE_KG + (0 if has_xg else NO_XG_EXTRA_EDGE)):
+                and pkg - pkg_m >= EDGE_KG + extra):
             meta["kg_gonderildi"] = True
             names = [m.home if sd == "home" else m.away for sd in kg_need]
             sd0 = max(kg_need, key=lambda sd: pr[sd])
@@ -612,13 +708,16 @@ class ProEngine:
                 f"👉 Gol atması gereken: {' ve '.join(names)}",
                 f"📈 Son {int(pr['span'])} dk ({m.home if sd0 == 'home' else m.away}):",
                 *stat_bullets(pr["d_home"] if sd0 == "home" else pr["d_away"])])
-        # 🟨 kart
-        if "kart" in SIGNALS_ON and m.minute - meta.get("son_kart", -99) >= 12 and fk >= 1.5:
-            if (pk_m is not None and pk - pk_m >= EDGE_CARD) or (not REQUIRE_MARKET and pk_m is None and pk >= 0.55):
-                meta["son_kart"] = m.minute
-                self.simple_signal(m, "kart", pk, pk_m, cards, qk, [
-                    f"🦵 Faul temposu: 10 dk'da {fouls10:.1f} (normali ~{TYPICAL_FOULS_10})",
-                    f"🟨 Maçtaki kart: {cards}", f"👨‍⚖️ Hakem: {ref_src}"])
+        # 🟨 maç sonu kart Üst
+        pku, pku_m, k_line, fku, cards_now, fouls_now, ref_now = self.card_total(m, pr)
+        if ("kart" in SIGNALS_ON and pku is not None and m.minute - meta.get("son_kart", -99) >= 15
+                and f"kart:{k_line}" not in sent and fku >= 1.5 and pku - pku_m >= EDGE_CARD):
+            meta["son_kart"] = m.minute
+            sent.add(f"kart:{k_line}")
+            self.simple_signal(m, "kart", pku, pku_m, cards_now, None, [
+                f"🟨 Şu an: {cards_now} kart",
+                f"🦵 Faul temposu: 10 dk'da {fouls_now:.1f} (normali ~{TYPICAL_FOULS_10})",
+                f"👨‍⚖️ Hakem: {ref_now}"], cizgi=k_line)
 
     def trained_prob(self, tur, s, default):
         t = TRAINED.get(tur) or {}
@@ -640,28 +739,31 @@ class ProEngine:
             row.update(extra)
         return row
 
-    def simple_signal(self, m, tur, p, p_mkt, count, q, lines):
+    def simple_signal(self, m, tur, p, p_mkt, count, q, lines, cizgi=None):
         ratio = p / p_mkt if p_mkt else None
         conf = "yüksek" if (ratio and ratio >= 1.25) else "orta" if (ratio and ratio >= 1.12) else "düşük"
-        row = self._row(m, tur, "", p, p_mkt, conf, {"baski": count, "q_once": "" if q is None else round(q, 5)})
+        row = self._row(m, tur, "", p, p_mkt, conf, {"baski": "" if count is None else count,
+                                                       "q_once": "" if q is None else round(q, 5),
+                                                       "cizgi": "" if cizgi is None else cizgi})
         self.rows_today.append(row)
         icon, label = {"korner": ("🚩", "KORNER SİNYALİ"), "kart": ("🟨", "KART SİNYALİ"),
                        "iy": ("⏱", "İLK YARI GOL SİNYALİ"), "kg": ("🤝", "KG SİNYALİ"),
-                       "baski": ("🔥", "BASKI ALARMI")}[tur]
-        log(f"SİNYAL[{tur}] {m.name} {m.minute}' model={p:.2f} piyasa={p_mkt}")
-        until = min(m.minute + 10, 90)
-        tahmin = {"korner": f"🎯 TAHMİN: {m.minute}'-{until}' arası EN AZ 2 KORNER",
-                  "kart": f"🎯 TAHMİN: {m.minute}'-{until}' arası KART",
-                  "iy": "🎯 TAHMİN: İLK YARI BİTMEDEN GOL",
+                       "baski": ("🔥", "BASKI ALARMI"), "alt": ("🧊", "ALT SİNYALİ")}[tur]
+        log(f"SİNYAL[{tur}] {m.name} {m.minute}' model={p:.2f} piyasa={p_mkt} çizgi={cizgi}")
+        ln = fmt_line(cizgi) if cizgi is not None else ""
+        tahmin = {"korner": f"🎯 TAHMİN: MAÇ SONU KORNER {ln} ÜST",
+                  "kart": f"🎯 TAHMİN: MAÇ SONU KART {ln} ÜST",
+                  "alt": f"🎯 TAHMİN: MAÇ SONU {ln} ALT",
+                  "iy": f"🎯 TAHMİN: İLK YARI {ln} ÜST (devreden önce gol)",
                   "kg": "🎯 TAHMİN: KARŞILIKLI GOL (KG VAR)",
-                  "baski": f"🎯 DİKKAT: {count} yoğun baskıda ({m.minute}'-{until}')"}[tur]
+                  "baski": f"🎯 DİKKAT: {count} yoğun baskıda, gol yakın olabilir"}[tur]
         body = [tahmin, LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}", "",
                 *lines, "", *prob_lines(p, p_mkt, conf), LINE, "ℹ️ Bahis tavsiyesi değildir."]
         row["tg_mesaj"] = notify(f"{icon} {label}: {m.name}", "\n".join(body), priority=4,
-                                 tags=[{"korner": "triangular_flag_on_post", "kart": "yellow_square",
+                                 tags=[{"korner": "triangular_flag_on_post", "kart": "yellow_square", "alt": "ice_cube",
                                         "iy": "stopwatch", "kg": "handshake", "baski": "fire"}[tur]]) or ""
 
-    def goal_signal(self, m, pr, side, p_model, p_mkt, q=None):
+    def goal_signal(self, m, pr, side, p_model, p_mkt, q=None, line=None):
         drop = self.book.over_drop(m.id)
         ratio = p_model / p_mkt if p_mkt else None
         conf = "yüksek" if (ratio and ratio >= 1.4) else "orta" if (ratio and ratio >= 1.2) else "düşük"
@@ -671,8 +773,9 @@ class ProEngine:
                    "pencere_dk": pr["span"], "ev_son_pencere": pr["d_home"], "dep_son_pencere": pr["d_away"],
                    "ev_toplam": pr["cur"]["stats"]["home"], "dep_toplam": pr["cur"]["stats"]["away"],
                    "mac_oncesi_beklenen_gol": round(self.mu(m.id), 2), "mac_oncesi_ust_oran_dususu": drop,
-                   "model_10dk_gol_olasiligi": round(p_model, 3),
-                   "piyasa_10dk_gol_olasiligi": None if p_mkt is None else round(p_mkt, 3),
+                   "tahmin": f"maç sonu {line} üst (en az bir gol daha)",
+                   "model_mac_sonu_gol_olasiligi": round(p_model, 3),
+                   "piyasa_mac_sonu_gol_olasiligi": None if p_mkt is None else round(p_mkt, 3),
                    "model_taraf": side}
             try:
                 ai = self.claude.judge(ctx)
@@ -686,7 +789,8 @@ class ProEngine:
             "baski": max(pr["home"], pr["away"]), "baski_rakip": min(pr["home"], pr["away"]),
             "ai_onay": "" if ai is None else ("evet" if ai.get("onay") else "hayır"),
             "ai_yorum": "" if ai is None else ai.get("yorum", ""),
-            "gonderildi": "evet" if send else "hayır", "q_once": "" if q is None else round(q, 5)})
+            "gonderildi": "evet" if send else "hayır", "q_once": "" if q is None else round(q, 5),
+            "cizgi": line if line is not None else ""})
         self.rows_today.append(row)
         log(f"SİNYAL[gol] {m.name} {m.minute}' {side} model={p_model:.2f} piyasa={p_mkt} gönder={send}")
         if not send:
@@ -694,8 +798,7 @@ class ProEngine:
         d = pr["d_home"] if side == "ev" else pr["d_away"] if side == "deplasman" else {
             k: pr["d_home"][k] + pr["d_away"][k] for k in pr["d_home"]}
         team = m.home if side == "ev" else m.away if side == "deplasman" else "İki takım"
-        until = min(m.minute + 10, 90)
-        lines = [f"🎯 TAHMİN: {m.minute}'-{until}' arası GOL"]
+        lines = [f"🎯 TAHMİN: MAÇ SONU {fmt_line(line)} ÜST"]
         if side in ("ev", "deplasman"):
             lines.append(f"👉 Baskıyı kuran: {team}")
         lines += [LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}", "",
@@ -719,6 +822,55 @@ class ProEngine:
                 last = int(st["home"][key] + st["away"][key])
         return last
 
+    def current_count(self, m: Match, key: str) -> int | None:
+        final = getattr(m, "final", None)
+        if final:
+            return int(final["home"][key] + final["away"][key])
+        if m.snaps:
+            st = m.snaps[-1]["stats"]
+            return int(st["home"][key] + st["away"][key])
+        return None
+
+    def finalize(self, matches: list):
+        """Biten maçların son skorunu, olaylarını ve istatistiklerini çeker (sonuçlar için)."""
+        from main import parse_stats
+        ids = [str(m.id) for m in matches]
+        for i in range(0, len(ids), 20):
+            try:
+                items = self.api.get("fixtures", ids="-".join(ids[i:i + 20]))
+            except Exception as e:
+                log("Bitiş verisi alınamadı:", e)
+                continue
+            for it in items:
+                m = self.matches.get(it["fixture"]["id"])
+                if not m:
+                    continue
+                m.status = it["fixture"]["status"]["short"]
+                m.minute = it["fixture"]["status"].get("elapsed") or m.minute
+                m.gh, m.ga = it["goals"]["home"] or 0, it["goals"]["away"] or 0
+                m.goals = goal_events(it)
+                m.events = it.get("events") or []
+                if m.status in FINISHED:
+                    m.final = parse_stats(it)
+                m.finalized = m.status in FINISHED
+
+    def resolve_carried(self):
+        """Önceki oturumdan devralınan sinyallerin maçlarını yükler ve bitenleri sonuçlandırır."""
+        ids = {int(r["fixture_id"]) for r in self.rows_today if r.get("fixture_id") and r["sonuc"] == "bekliyor"}
+        if not ids:
+            return
+        for fid in ids:
+            if fid not in self.matches:
+                try:
+                    it = self.api.get("fixtures", ids=str(fid))[0]
+                    self.matches[fid] = Match(it)
+                except Exception:
+                    continue
+        self.finalize([self.matches[f] for f in ids if f in self.matches])
+        for f in ids:
+            if f in self.matches:
+                self.check_outcomes(self.matches[f])
+
     def check_outcomes(self, m: Match):
         for r in self.rows_today:
             if int(r["fixture_id"]) != m.id or r["sonuc"] != "bekliyor":
@@ -730,28 +882,47 @@ class ProEngine:
                 if q_now:
                     r["q_sonra"] = round(q_now, 5)
             over = m.minute > smin + 10 or m.status in FINISHED
-            if tur in ("iy", "kg"):
-                over = False  # uzun ufuklu türler kendi kurallarıyla sonuçlanır
-            if tur in ("gol", "baski"):
-                sh, sa = (int(x) for x in r["skor"].split("-"))
+            done = m.status in FINISHED
+            sh, sa = (int(x) for x in r["skor"].split("-"))
+            after = sorted(g["minute"] for g in m.goals if g["minute"] >= smin)
+            more_goals = (m.gh + m.ga) > (sh + sa)
+            line = float(r["cizgi"]) if r.get("cizgi") not in ("", None) else None
+            if tur == "gol":  # maç sonu Üst
+                if more_goals:
+                    r["sonuc"], r["gol_dakikasi"] = "isabet", (after[0] if after else m.minute)
+                elif done:
+                    r["sonuc"] = "ıska"
+            elif tur == "alt":
+                if more_goals:
+                    r["sonuc"], r["gol_dakikasi"] = "ıska", (after[0] if after else m.minute)
+                elif done:
+                    r["sonuc"] = "isabet"
+            elif tur == "baski":  # 10 dk içinde gol
                 hits = [g for g in m.goals if smin < g["minute"] <= smin + 10]
-                if hits or ((m.gh + m.ga) > (sh + sa) and m.minute <= smin + 10):
+                if hits or (more_goals and m.minute <= smin + 10):
                     r["sonuc"], r["gol_dakikasi"] = "isabet", (hits[0]["minute"] if hits else m.minute)
                 elif over:
                     r["sonuc"] = "ıska"
             elif tur == "korner":
-                last = self.count_after(m, "corners", smin)
-                if last is not None and r.get("baski") not in ("", None) and last >= int(float(r["baski"])) + 2:
-                    r["sonuc"] = "isabet"
-                elif over:
-                    # pencere içinde hiç anlık veri yoksa (oturum değişimi) sonuç bilinemez
-                    r["sonuc"] = "ıska" if last is not None else "bilinmiyor"
+                now = self.current_count(m, "corners")
+                if line is None:  # eski tür (10 dk'da 2+) kayıtları
+                    if done:
+                        r["sonuc"] = "bilinmiyor"
+                elif now is not None and now > line:
+                    r["sonuc"], r["gol_dakikasi"] = "isabet", now
+                elif done:
+                    r["sonuc"] = "ıska" if getattr(m, "final", None) else "bilinmiyor"
+                    r["gol_dakikasi"] = "" if now is None else now
             elif tur == "kart":
-                hits = [t for t in card_events(m) if smin < t <= smin + 10]
-                if hits:
-                    r["sonuc"], r["gol_dakikasi"] = "isabet", hits[0]
-                elif over:
-                    r["sonuc"] = "ıska"
+                st_y, st_r = self.current_count(m, "yellow"), self.current_count(m, "red")
+                now = max(len(card_events(m)), (st_y or 0) + (st_r or 0))
+                if line is None:
+                    if done:
+                        r["sonuc"] = "bilinmiyor"
+                elif now > line:
+                    r["sonuc"], r["gol_dakikasi"] = "isabet", now
+                elif done:
+                    r["sonuc"], r["gol_dakikasi"] = "ıska", now
             elif tur == "iy":
                 hits = [g["minute"] for g in m.goals if smin < g["minute"] <= 45]
                 if hits:
@@ -765,7 +936,7 @@ class ProEngine:
                     r["gol_dakikasi"] = max(later) if later else m.minute
                 elif m.status in FINISHED:
                     r["sonuc"] = "ıska"
-            if r["sonuc"] != "bekliyor":
+            if r["sonuc"] in ("isabet", "ıska"):
                 self.announce(r, m)
             # sanal kâr-zarar: piyasanın 10 dk olasılığından, %5 marjla adil oran
             if r["sonuc"] in ("isabet", "ıska") and r.get("p_piyasa") not in ("", None) and r.get("kar") in ("", None):
@@ -779,18 +950,32 @@ class ProEngine:
             return
         r["duyuruldu"] = "evet"
         tur = r.get("tur") or "gol"
-        icon, olay = {"gol": ("⚽", "GOL"), "korner": ("🚩", "2+ KORNER"), "kart": ("🟨", "KART"),
-                      "iy": ("⏱", "İLK YARI GOLÜ"), "kg": ("🤝", "KARŞILIKLI GOL"), "baski": ("🔥", "GOL")}[tur]
         smin = int(r["dakika"])
-        when = f"{r['gol_dakikasi']}' " if r.get("gol_dakikasi") not in ("", None) else ""
-        if r["sonuc"] == "isabet":
-            text = f"✅ TUTTU!\n{icon} {when}{olay} geldi\n📊 Skor: {m.gh}-{m.ga}"
+        ln = fmt_line(float(r["cizgi"])) if r.get("cizgi") not in ("", None) else ""
+        dk = r.get("gol_dakikasi")
+        skor = f"📊 Skor: {m.gh}-{m.ga}"
+        ok = r["sonuc"] == "isabet"
+        if tur == "gol":
+            text = (f"✅ TUTTU!\n⚽ {dk}' gol geldi, {ln} ÜST oldu\n{skor}" if ok else
+                    f"❌ TUTMADI\n⚽ Maç {m.gh}-{m.ga} bitti, {ln} üst olmadı")
+        elif tur == "alt":
+            text = (f"✅ TUTTU!\n🧊 Maç {m.gh}-{m.ga} bitti, {ln} ALT" if ok else
+                    f"❌ TUTMADI\n⚽ {dk}' gol geldi, {ln} alt bozuldu\n{skor}")
+        elif tur == "korner":
+            text = (f"✅ TUTTU!\n🚩 Korner sayısı {dk} oldu, {ln} ÜST\n{skor}" if ok else
+                    f"❌ TUTMADI\n🚩 Maç {dk} kornerle bitti, {ln} üst olmadı")
+        elif tur == "kart":
+            text = (f"✅ TUTTU!\n🟨 Kart sayısı {dk} oldu, {ln} ÜST\n{skor}" if ok else
+                    f"❌ TUTMADI\n🟨 Maç {dk} kartla bitti, {ln} üst olmadı")
         elif tur == "iy":
-            text = f"❌ TUTMADI\n{icon} İlk yarıda gol olmadı\n📊 Devre skoru: {m.gh}-{m.ga}"
+            text = (f"✅ TUTTU!\n⏱ {dk}' ilk yarı golü geldi\n{skor}" if ok else
+                    f"❌ TUTMADI\n⏱ İlk yarıda gol olmadı\n📊 Devre skoru: {m.gh}-{m.ga}")
         elif tur == "kg":
-            text = f"❌ TUTMADI\n{icon} Maç karşılıklı golsüz bitti\n📊 Maç sonu: {m.gh}-{m.ga}"
-        else:
-            text = f"❌ TUTMADI\n{icon} {smin}'-{min(smin + 10, 90)}' arası {olay.lower()} olmadı\n📊 Skor: {m.gh}-{m.ga}"
+            text = (f"✅ TUTTU!\n🤝 {dk}' karşılıklı gol oldu\n{skor}" if ok else
+                    f"❌ TUTMADI\n🤝 Maç karşılıklı golsüz bitti\n📊 Maç sonu: {m.gh}-{m.ga}")
+        else:  # baskı alarmı
+            text = (f"✅ TUTTU!\n🔥 {dk}' gol geldi\n{skor}" if ok else
+                    f"❌ TUTMADI\n🔥 {smin}'-{min(smin + 10, 90)}' arası gol olmadı\n{skor}")
         from main import telegram_reply
         telegram_reply(r["tg_mesaj"], text)
 
@@ -860,8 +1045,9 @@ class ProEngine:
         self.save()
         rows = self.all_rows + self.rows_today
         msg = []
-        for tur, label in (("gol", "⚽ Gol"), ("korner", "🚩 2+ Korner"), ("kart", "🟨 Kart"),
-                           ("iy", "⏱ İlk yarı gol"), ("kg", "🤝 KG Var"), ("baski", "🔥 Baskı alarmı")):
+        for tur, label in (("gol", "⚽ Maç sonu Üst"), ("alt", "🧊 Maç sonu Alt"), ("korner", "🚩 Korner Üst"),
+                           ("kart", "🟨 Kart Üst"), ("iy", "⏱ İlk yarı gol"), ("kg", "🤝 KG Var"),
+                           ("baski", "🔥 Baskı alarmı")):
             sent = [r for r in self.rows_today if (r.get("tur") or "gol") == tur and r["gonderildi"] == "evet"]
             hit = [r for r in sent if r["sonuc"] == "isabet"]
             hist = [r for r in rows if (r.get("tur") or "gol") == tur and r.get("gonderildi") == "evet"
@@ -891,6 +1077,10 @@ class ProEngine:
             self.prematch_phase()
         except Exception as e:
             log("Maç öncesi aşama hatası:", e)
+        try:
+            self.resolve_carried()
+        except Exception as e:
+            log("Devralınan sinyaller işlenemedi:", e)
         notify("✅ Takip başladı", f"Pro mod ({', '.join(sorted(SIGNALS_ON))}), bitiş {end:%H:%M}.",
                priority=2, tags=["white_check_mark"])
         last_save = last_odds = time.time()
