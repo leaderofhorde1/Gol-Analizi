@@ -322,6 +322,17 @@ class ProEngine:
                  and r.get("tarih") in (self.today, (self.now0 - dt.timedelta(days=1)).date().isoformat())]
         self.all_rows = [r for r in self.all_rows if r not in carry]
         self.rows_today: list[dict] = carry
+        # Bugün önceki oturumlarda gönderilen sinyalleri hatırla: aynı maça aynı sinyal tekrar gitmesin
+        flags = {"alt": "alt_gonderildi", "iy": "iy_gonderildi", "kg": "kg_gonderildi", "baski": "alarm_gonderildi"}
+        for r in self.all_rows + self.rows_today:
+            if r.get("tarih") != self.today or not r.get("fixture_id"):
+                continue
+            meta = self.meta.setdefault(int(r["fixture_id"]), {})
+            tur = r.get("tur") or "gol"
+            if tur in flags:
+                meta[flags[tur]] = True
+            if r.get("cizgi") not in ("", None):
+                meta.setdefault("cizgiler", set()).add(f"{tur}:{float(r['cizgi'])}")
         self.odds_live_ok = True
         self.tick_cost = 0
         self.alerted: set = set()
@@ -650,11 +661,11 @@ class ProEngine:
         # ⚽ maç sonu Üst (toplam + 0.5): anlık baskı tetikler, tahmin maç sonunu kapsar
         sent = meta.setdefault("cizgiler", set())  # her tür ve çizgi için maç başına bir sinyal
         if ("gol" in SIGNALS_ON and m.minute - m.last_signal_min >= 12 and pu_m is not None
-                and f"gol:{ust_line}" not in sent):
+                and f"gol:{float(ust_line)}" not in sent):
             side = signal_side(pr)
             if side and pu - pu_m >= EDGE_UST + extra:
                 m.last_signal_min = m.minute
-                sent.add(f"gol:{ust_line}")
+                sent.add(f"gol:{float(ust_line)}")
                 self.goal_signal(m, pr, side, pu, pu_m, qg, ust_line)
         # 🧊 maç sonu Alt: son 15 dakikada iki takımın da baskısı çok düşükse
         # (Alt riskli bir tercih: daha uzun sessizlik ve isabetli şut/xG şartı aranır)
@@ -674,9 +685,9 @@ class ProEngine:
         # 🚩 maç sonu korner Üst
         pcu, pcu_m, c_line, fcu, corners_now = self.corner_total(m, pr)
         if ("korner" in SIGNALS_ON and pcu is not None and m.minute - meta.get("son_korner", -99) >= 15
-                and f"korner:{c_line}" not in sent and fcu >= 1.4 and pcu - pcu_m >= EDGE_CORNER):
+                and f"korner:{float(c_line)}" not in sent and fcu >= 1.4 and pcu - pcu_m >= EDGE_CORNER):
             meta["son_korner"] = m.minute
-            sent.add(f"korner:{c_line}")
+            sent.add(f"korner:{float(c_line)}")
             d = {k: pr["d_home"][k] + pr["d_away"][k] for k in pr["d_home"]}
             self.simple_signal(m, "korner", pcu, pcu_m, corners_now, None, [
                 f"🚩 Şu an: {corners_now} korner",
@@ -720,9 +731,9 @@ class ProEngine:
         # 🟨 maç sonu kart Üst
         pku, pku_m, k_line, fku, cards_now, fouls_now, ref_now = self.card_total(m, pr)
         if ("kart" in SIGNALS_ON and pku is not None and m.minute - meta.get("son_kart", -99) >= 15
-                and f"kart:{k_line}" not in sent and fku >= 1.5 and pku - pku_m >= EDGE_CARD):
+                and f"kart:{float(k_line)}" not in sent and fku >= 1.5 and pku - pku_m >= EDGE_CARD):
             meta["son_kart"] = m.minute
-            sent.add(f"kart:{k_line}")
+            sent.add(f"kart:{float(k_line)}")
             self.simple_signal(m, "kart", pku, pku_m, cards_now, None, [
                 f"🟨 Şu an: {cards_now} kart",
                 f"🦵 Faul temposu: 10 dk'da {fouls_now:.1f} (normali ~{TYPICAL_FOULS_10})",
