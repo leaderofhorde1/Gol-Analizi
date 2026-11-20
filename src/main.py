@@ -209,11 +209,30 @@ def telegram_send(title: str, message: str):
             res = _tg("sendMessage", chat_id=_tg_chat, text=text, parse_mode="HTML", disable_web_page_preview=True)
         if not res.get("ok"):
             log("Telegram hatası:", res.get("description"))
+            _tg_alarm(res.get("description"))
             return None
         return (res.get("result") or {}).get("message_id")
     except Exception as e:
         log("Telegram hatası:", e)
     return None
+
+
+_tg_alarm_sent = False
+
+
+def _tg_alarm(desc):
+    """Telegram'a gönderim başarısızsa bir kez ntfy ile uyar."""
+    global _tg_alarm_sent
+    if _tg_alarm_sent or not NTFY_TOPIC:
+        return
+    _tg_alarm_sent = True
+    try:
+        requests.post("https://ntfy.sh/", json={
+            "topic": NTFY_TOPIC, "title": "⚠️ Telegram'a mesaj gönderilemiyor", "priority": 4,
+            "message": f"Hata: {desc}\nGenelde token değişmiştir: BotFather'dan token'ı alıp GitHub'daki TELEGRAM_TOKEN'ı güncelleyin."},
+            timeout=15)
+    except Exception:
+        pass
 
 
 def telegram_reply(message_id, text: str):
@@ -231,6 +250,7 @@ def telegram_reply(message_id, text: str):
                   reply_parameters={"message_id": int(message_id), "allow_sending_without_reply": True})
         if not res.get("ok"):
             log("Telegram cevap hatası:", res.get("description"))
+            _tg_alarm(res.get("description"))
     except Exception as e:
         log("Telegram cevap hatası:", e)
 
