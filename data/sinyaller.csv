@@ -39,7 +39,14 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-20,1576235,Germany - 2. Bundesliga,SV Darmstadt 98 - 1. FC Heidenheim,15,0-1,,1,,düşük,,,evet,isabet,22,0.715,0.663,iy,,,1.43,43,38,evet,1.5
 2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,21,0-1,,Al-Nassr,,yüksek,,,evet,ıska,,0.363,0.284,baski,0.03343,,3.35,-100,41,evet,
 2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,21,0-1,,1,,düşük,,,evet,isabet,32,0.659,0.608,iy,,,1.56,56,42,evet,1.5
-2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,44,1-0,ev,23.4,22.8,orta,evet,"Ev sahibi xG üstün, ceza sahası şutları fazla; ilk yarı sonu ve 1.5 üst piyasa olasılığı yüksek.",evet,bekliyor,,0.903,0.828,gol,0.03521,0.03301,,,39,,1.5
+2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,44,1-0,ev,23.4,22.8,orta,evet,"Ev sahibi xG üstün, ceza sahası şutları fazla; ilk yarı sonu ve 1.5 üst piyasa olasılığı yüksek.",evet,isabet,59,0.903,0.828,gol,0.03521,0.03301,1.15,15,39,evet,1.5
 2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,44,1-0,,1-0,,düşük,,,evet,bekliyor,,0.669,0.608,kg,,,,,40,,
 2026-11-20,1650523,Kuwait - Crown Prince Cup,Al Tadhamon - Al Jazira,61,1-1,,,,yüksek,,,evet,bekliyor,,0.485,0.329,alt,,,,,43,,2.5
 2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,28,0-1,,2,,orta,,,evet,bekliyor,,0.644,0.537,korner,,,,,49,,7.5
+2026-11-20,1648806,Malta - Premier League,Zabbar St. Patrick - Gzira United,64,0-0,,,,yüksek,,,evet,ıska,64,0.538,0.392,alt,,,2.42,-100,54,evet,0.5
+2026-11-20,1558275,Poland - I Liga,Chrobry Głogów - Puszcza Niepołomice,62,0-1,,,,orta,,,evet,bekliyor,,0.477,0.386,alt,,,,,55,,1.5
+2026-11-20,1639806,Ecuador - Liga Pro,Independiente del Valle - Macara,56,0-1,,10,,yüksek,,,evet,bekliyor,,0.864,0.537,korner,,,,,57,,13.5
+2026-11-20,1568397,Poland - III Liga - Group 4,Wisłoka Dębica - Busko-Zdroj,62,1-1,,,,yüksek,,,evet,bekliyor,,0.425,0.301,alt,,,,,59,,2.5
+2026-11-20,1494808,Norway - Eliteserien,Molde - Bodo/Glimt,22,0-2,,2,,düşük,,,evet,bekliyor,,0.732,0.663,iy,,,,,60,,2.5
+2026-11-20,1609558,Cyprus - 2. Division,PAEEK - Halkanoras,65,1-0,,,,yüksek,,,evet,bekliyor,,0.441,0.337,alt,,,,,61,,1.5
+2026-11-20,1639806,Ecuador - Liga Pro,Independiente del Valle - Macara,62,0-1,iki taraf,14.9,9.6,orta,evet,"Maç açık, iki takım da isabetli şut üretiyor; 0-1 skor, 62. dakika, 10 dakikalık pencerede xG düşük ama gol olasılığı makul.",evet,bekliyor,,0.737,0.686,gol,0.03617,,,,62,,1.5
