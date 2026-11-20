@@ -25,7 +25,10 @@ PICK_FIELDS = ["tarih", "fixture_id", "saat", "lig", "mac", "secim", "model", "a
                "piyasa", "oran", "sonuc", "skor"]
 DROP_PCT = 0.07
 MAX_REPORT_MATCHES = 40
-VALUE_EDGE = 0.06
+VALUE_EDGE = 0.05      # harmanlanmış olasılık piyasadan en az bu kadar yüksek olmalı
+MODEL_WEIGHT = 0.5     # harman: model %50 + piyasa %50 (piyasa genelde iyi bilgilidir)
+MAX_RAW_GAP = 0.22     # model ile piyasa bundan fazla ayrışıyorsa veri şüphelidir, alma
+SHRINK_GAMES = 6
 
 
 def _f(x):
@@ -229,6 +232,12 @@ def team_lambdas(api, fx: dict, cache: dict) -> tuple[float, float, str]:
         h_against = _f(h["goals"]["against"]["average"]["home"])
         a_for = _f(a["goals"]["for"]["average"]["away"])
         a_against = _f(a["goals"]["against"]["average"]["away"])
+        # Az maçlı takımlarda ortalamayı lig ortalamasına doğru çek (shrinkage).
+        wh, wa = hp / (hp + SHRINK_GAMES), ap / (ap + SHRINK_GAMES)
+        h_for = wh * h_for + (1 - wh) * 1.45
+        h_against = wh * h_against + (1 - wh) * 1.15
+        a_for = wa * a_for + (1 - wa) * 1.15
+        a_against = wa * a_against + (1 - wa) * 1.45
         lh = max(0.2, (h_for + a_against) / 2)
         la = max(0.2, (a_for + h_against) / 2)
         return lh, la, "takım istatistiği"
@@ -335,6 +344,9 @@ def morning_report(api, book: OddsBook):
             odd = odds_of.get(key)
             if p_mod is None or not odd or not (1.4 <= odd <= 4.0):
                 continue
+            if abs(p_mod - p_mkt) > MAX_RAW_GAP:
+                continue
+            p_mod = MODEL_WEIGHT * p_mod + (1 - MODEL_WEIGHT) * p_mkt
             edge = p_mod - p_mkt
             if edge < VALUE_EDGE:
                 continue
@@ -381,7 +393,8 @@ def write_report_md(day, rows, picks):
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     pc = lambda v: f"%{round(v * 100)}" if isinstance(v, (int, float)) else "-"
     out = [f"# Maç öncesi rapor – {day}", "",
-           "Model: takım istatistiklerinden Poisson (Dixon-Coles düzeltmeli). "
+           "Model: takım istatistiklerinden Poisson (Dixon-Coles düzeltmeli, az maçlı takımlar lig ortalamasına çekilir). "
+           "Seçimlerdeki 'Model' sütunu model ile piyasanın %50-%50 harmanıdır. "
            "API: API-Football tahmini. Piyasa: Bet365 oranından marjı temizlenmiş olasılık.", ""]
     if picks:
         out += ["## Modelin piyasadan yüksek gördükleri", "",
