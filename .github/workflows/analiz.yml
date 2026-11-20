@@ -1,0 +1,45 @@
+name: Model Analizi
+
+on:
+  schedule:
+    # Her pazartesi 04:00 (TR) = pazartesi 01:00 UTC: yeni maçları indirip modeli yeniden ayarlar.
+    - cron: "0 1 * * 1"
+  workflow_dispatch:
+    inputs:
+      istek:
+        description: "En fazla kaç API isteği kullanılsın (indirme için)"
+        default: "6000"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: model-analizi
+  cancel-in-progress: false
+
+jobs:
+  analiz:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Geçmiş veri ve analiz
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          BACKFILL_REQUESTS: ${{ github.event.inputs.istek || '3000' }}
+        run: cd src && python analiz.py
+      - name: Sonuçları depoya kaydet
+        if: always()
+        run: |
+          git config user.name "gol-sinyali-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data docs || true
+          if ! git diff --cached --quiet; then
+            git commit -m "Model analizi: $(date -u +%F)"
+            for i in 1 2 3; do git pull --rebase && git push && break; sleep 5; done
+          fi
