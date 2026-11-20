@@ -89,8 +89,9 @@ def substitutions(m) -> list[dict]:
     return out
 
 
-def sub_shift(m, since: int = 0) -> dict:
-    """Takım başına net hücum değişikliği (+: daha hücumcu, -: daha savunmacı)."""
+def sub_shift(m, since: int = 46) -> dict:
+    """Takım başına net hücum değişikliği (+: daha hücumcu, -: daha savunmacı).
+    İlk yarı değişiklikleri genelde sakatlık kaynaklı olduğundan varsayılan olarak sayılmaz."""
     net = {"home": 0, "away": 0}
     for s in substitutions(m):
         if s["minute"] >= since and s["delta"]:
