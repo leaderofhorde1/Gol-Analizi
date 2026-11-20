@@ -858,6 +858,10 @@ def run_diag():
 def main():
     if MODE == "diag":
         return run_diag()
+    if MODE == "kurtar":
+        import kurtar
+        kurtar.run()
+        return 0
     if MODE == "test":
         return run_test()
     if MODE == "sim":

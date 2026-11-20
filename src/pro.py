@@ -561,10 +561,11 @@ class ProEngine:
                     r["sonuc"] = "ıska"
             elif tur == "korner":
                 last = self.count_after(m, "corners", smin)
-                if last is not None and last > int(r["baski"]):
+                if last is not None and r.get("baski") not in ("", None) and last > int(float(r["baski"])):
                     r["sonuc"] = "isabet"
                 elif over:
-                    r["sonuc"] = "ıska"
+                    # pencere içinde hiç anlık veri yoksa (oturum değişimi) sonuç bilinemez
+                    r["sonuc"] = "ıska" if last is not None else "bilinmiyor"
             elif tur == "kart":
                 hits = [t for t in card_events(m) if smin < t <= smin + 10]
                 if hits:
