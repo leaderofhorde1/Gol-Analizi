@@ -16,7 +16,8 @@ import requests
 from main import (API_KEY, FINISHED, NTFY_TOPIC, TZ, Api, goal_events, load_signals, log,
                   save_signals)
 
-TYPES = {"⚽ Gol sinyali: ": "gol", "🚩 Korner sinyali: ": "korner", "🟨 Kart sinyali: ": "kart"}
+TYPES = {"⚽ Gol sinyali: ": "gol", "🚩 Korner sinyali: ": "korner", "🟨 Kart sinyali: ": "kart",
+         "⚽ GOL SİNYALİ: ": "gol", "🚩 KORNER SİNYALİ: ": "korner", "🟨 KART SİNYALİ: ": "kart"}
 
 
 def parse(msg: dict) -> dict | None:
@@ -26,20 +27,20 @@ def parse(msg: dict) -> dict | None:
         return None
     name = next(title[len(p):] for p in TYPES if title.startswith(p))
     lines = body.split("\n")
-    m = re.search(r"(\d+)'\s+Skor (\d+)-(\d+)", body)
-    pm = re.search(r"model %(\d+)", body)
-    pk = re.search(r"piyasa %(\d+)", body)
-    gv = re.search(r"Güven: (\S+)", body)
+    m = re.search(r"(\d+)'[^\n]*?Skor (\d+)-(\d+)", body)
+    pm = re.search(r"model %(\d+)", body, re.I)
+    pk = re.search(r"piyasa %(\d+)", body, re.I)
+    gv = re.search(r"Güven: (?:[●○]+ )?(\S+)", body)
     ai = re.search(r"🤖 (.+)", body)
     cnt = re.search(r"Maçtaki (?:korner|kart): (\d+)", body)
     if not m:
         return None
     return {
         "tarih": dt.datetime.fromtimestamp(msg["time"], TZ).date().isoformat(),
-        "lig": lines[0] if lines else "", "mac": name, "dakika": int(m.group(1)),
+        "lig": next((l[2:].strip() for l in lines if l.startswith("🏆")), lines[0] if lines else ""), "mac": name, "dakika": int(m.group(1)),
         "skor": f"{m.group(2)}-{m.group(3)}", "tur": tur,
         "p_model": int(pm.group(1)) / 100 if pm else "", "p_piyasa": int(pk.group(1)) / 100 if pk else "",
-        "guven": gv.group(1) if gv else "", "ai_onay": "evet" if ai else "", "ai_yorum": ai.group(1) if ai else "",
+        "guven": (gv.group(1).lower() if gv else ""), "ai_onay": "evet" if ai else "", "ai_yorum": ai.group(1) if ai else "",
         "baski": cnt.group(1) if cnt else "", "gonderildi": "evet", "sonuc": "bekliyor", "gol_dakikasi": "",
         "_zaman": msg["time"],
     }

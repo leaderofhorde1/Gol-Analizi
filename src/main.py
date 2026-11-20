@@ -150,7 +150,7 @@ def notify(title: str, message: str, priority: int = 4, tags=None, click=None, t
 # ---------------------------------------------------------------- Telegram
 TG_TOKEN = os.environ.get("TELEGRAM_TOKEN", "").strip()
 TG_FILE = ROOT / "data" / "telegram.json"
-TG_SKIP = ("✅ Takip başladı", "🔔 Test bildirimi")
+TG_SKIP = ("✅ Takip başladı", "🔔 Test bildirimi", "✅ Test başarılı", "⚠️ Testte sorun var")
 _tg_chat = None
 
 
@@ -197,7 +197,9 @@ def telegram_send(title: str, message: str):
         log("Telegram: grup bulunamadı (botu gruba ekleyip grupta bir mesaj yazın).")
         return
     esc = lambda t: t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-    text = f"<b>{esc(title)}</b>\n{esc(message)}"[:4000]
+    body = "\n".join(f"<b>{esc(l)}</b>" if l.startswith(("🎯", "✅", "❌")) else
+                     f"<i>{esc(l)}</i>" if l.startswith(("🤖", "ℹ️")) else esc(l) for l in message.split("\n"))
+    text = f"<b>{esc(title)}</b>\n{body}"[:4000]
     try:
         res = _tg("sendMessage", chat_id=chat, text=text, parse_mode="HTML", disable_web_page_preview=True)
         new_id = (res.get("parameters") or {}).get("migrate_to_chat_id")
@@ -222,7 +224,10 @@ def telegram_reply(message_id, text: str):
     if not chat:
         return
     try:
-        res = _tg("sendMessage", chat_id=chat, text=text[:4000], disable_web_page_preview=True,
+        esc = lambda t: t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        lines = text.split("\n")
+        html = "\n".join([f"<b>{esc(lines[0])}</b>", *map(esc, lines[1:])])
+        res = _tg("sendMessage", chat_id=chat, text=html[:4000], parse_mode="HTML", disable_web_page_preview=True,
                   reply_parameters={"message_id": int(message_id), "allow_sending_without_reply": True})
         if not res.get("ok"):
             log("Telegram cevap hatası:", res.get("description"))

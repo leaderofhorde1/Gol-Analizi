@@ -206,8 +206,8 @@ def drop_alerts(book: OddsBook, alerted: set) -> list[str]:
                 mk, k = key.split(":")
                 a, b = rec["ilk"][mk][k], rec["son"][mk][k]
                 t = dt.datetime.fromtimestamp(ts, TZ).strftime("%H:%M")
-                lines.append(f"{t} {fx.get('ev', '?')} - {fx.get('dep', '?')}: "
-                             f"{LABELS[key]} {a:.2f} → {b:.2f} (%{round(d * 100)})")
+                lines.append(f"🕖 {t}  {fx.get('ev', '?')} - {fx.get('dep', '?')}\n"
+                             f"   📉 {LABELS[key]}: {a:.2f} → {b:.2f} (▼%{round(d * 100)})")
     if lines:
         ODDS_DIR.mkdir(parents=True, exist_ok=True)
         seen_path.write_text(json.dumps(sorted(alerted)))
