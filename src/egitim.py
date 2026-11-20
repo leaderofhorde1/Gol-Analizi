@@ -65,6 +65,7 @@ def features(tur: str, s: dict) -> list[float] | None:
     return common
 
 
+B_IDX = [0, 1, 5, 6, 7, 8]  # sabit, logit(piyasa), dakika, skor eşit, 1 gol fark, kırmızı kart farkı
 FEATURE_NAMES = ["sabit", "logit(piyasa)", "model-piyasa farkı", "log toplam baskı", "log en yüksek baskı",
                  "dakika", "skor eşit", "1 gol fark", "kırmızı kart farkı", "log faul temposu"]
 
@@ -144,13 +145,29 @@ def train_one(tur, rows):
         res["not"] = "örneklem yetersiz"
         return res
     cut = int(n * 0.7)
+    # aynı maçın örnekleri eğitim ve teste bölünmesin
+    while 0 < cut < n and data[cut][3].get("fixture_id") == data[cut - 1][3].get("fixture_id"):
+        cut += 1
     tr, te = data[:cut], data[cut:]
+    if len(te) < 50:
+        res["not"] = "test örneklemi yetersiz"
+        return res
     w = fit_logistic([d[0] for d in tr], [d[1] for d in tr])
     p_new = [sigmoid(sum(a * b for a, b in zip(w, d[0]))) for d in te]
     p_mkt = [d[2] for d in te]
     p_old = [sigmoid(d[0][1] + d[0][2]) for d in te]  # eski el yapımı model
     ys = [d[1] for d in te]
     ll_m, ll_o, ll_n = logloss(p_mkt, ys), logloss(p_old, ys), logloss(p_new, ys)
+    # Model B: piyasa + maç durumu (dakika, skor, kırmızı) — canlı istatistik YOK.
+    # Tam model (C) bunu geçmiyorsa canlı istatistikler ölçülebilir katkı sağlamıyor demektir.
+    sub = lambda x: [x[i] for i in B_IDX]
+    wb = fit_logistic([sub(d[0]) for d in tr], [d[1] for d in tr])
+    p_b = [sigmoid(sum(a * b for a, b in zip(wb, sub(d[0])))) for d in te]
+    ll_b = logloss(p_b, ys)
+    res["logloss_piyasa_durum"] = round(ll_b, 5)
+    res["brier"] = {"piyasa": round(sum((p - y) ** 2 for p, y in zip(p_mkt, ys)) / len(ys), 5),
+                    "piyasa_durum": round(sum((p - y) ** 2 for p, y in zip(p_b, ys)) / len(ys), 5),
+                    "tam": round(sum((p - y) ** 2 for p, y in zip(p_new, ys)) / len(ys), 5)}
     # sinyal simülasyonu: yeni model piyasadan en az 5 puan yüksekse
     sig = [(pn, pm, y) for pn, pm, y in zip(p_new, p_mkt, ys) if pn - pm >= 0.05]
     res.update({
@@ -160,7 +177,8 @@ def train_one(tur, rows):
         "sinyal_sim": {"adet": len(sig), "isabet": round(sum(y for *_, y in sig) / len(sig), 3) if sig else None,
                        "piyasa_ort": round(sum(pm for _, pm, _ in sig) / len(sig), 3) if sig else None},
     })
-    res["kullan"] = n >= MIN_SAMPLES and ll_n < ll_m - 0.0005
+    # tam model hem piyasayı hem "piyasa + maç durumu" modelini geçmeli
+    res["kullan"] = n >= MIN_SAMPLES and ll_n < ll_m - 0.0005 and ll_n < ll_b - 0.0003
     if res["kullan"]:  # son model tüm veriyle
         res["agirliklar"] = [round(v, 4) for v in fit_logistic([d[0] for d in data], [d[1] for d in data])]
     return res
@@ -262,7 +280,9 @@ def write_report(out, n):
                   f"| Olay oranı | {r['oran']} |",
                   f"| Log kayıp: piyasa | {r['logloss_piyasa']} |",
                   f"| Log kayıp: eski model | {r['logloss_eski_model']} |",
-                  f"| Log kayıp: yeni model | {r['logloss_yeni_model']} |",
+                  f"| Log kayıp: piyasa + maç durumu (B) | {r.get('logloss_piyasa_durum', '-')} |",
+                  f"| Log kayıp: tam model (C) | {r['logloss_yeni_model']} |",
+                  f"| Brier (piyasa / B / C) | {r.get('brier', {}).get('piyasa', '-')} / {r.get('brier', {}).get('piyasa_durum', '-')} / {r.get('brier', {}).get('tam', '-')} |",
                   f"| Simüle sinyal (yeni − piyasa ≥ 5 puan) | {r['sinyal_sim']['adet']} adet, isabet {r['sinyal_sim']['isabet']}, piyasa ort. {r['sinyal_sim']['piyasa_ort']} |",
                   f"| Kullanımda | {'evet' if r['kullan'] else 'hayır'} |", "",
                   "Ağırlıklar: " + ", ".join(f"{nm} {w}" for nm, w in zip(FEATURE_NAMES, r["agirliklar"])), ""]

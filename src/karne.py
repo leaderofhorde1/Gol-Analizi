@@ -55,6 +55,29 @@ def summ(rows):
             "roi": sum(kar) / (100 * len(kar)) if kar else None, "leh": leh, "al": al, "no": no, "z": sig}
 
 
+def boot_ci(rows, n_boot=1000, seed=7):
+    """Maç bazında kümelenmiş bootstrap: isabet − piyasa beklentisi farkı ve sanal kâr için %90 aralık.
+    Aynı maçtaki sinyaller birlikte örneklenir (bağımsız sayılmaz)."""
+    import random
+    by = defaultdict(list)
+    for r in rows:
+        if r.get("sonuc") in ("isabet", "ıska") and _f(r.get("p_piyasa")) is not None:
+            by[r.get("fixture_id")].append(r)
+    keys = list(by)
+    if len(keys) < 15:
+        return None
+    rnd = random.Random(seed)
+    diffs, kars = [], []
+    for _ in range(n_boot):
+        smp = [r for k in (rnd.choice(keys) for _ in keys) for r in by[k]]
+        n = len(smp)
+        diffs.append(sum((r["sonuc"] == "isabet") - _f(r["p_piyasa"]) for r in smp) / n)
+        kars.append(sum(_f(r.get("kar")) or 0 for r in smp))
+    diffs.sort(); kars.sort()
+    lo, hi = int(0.05 * n_boot), int(0.95 * n_boot) - 1
+    return {"fark": (diffs[lo], diffs[hi]), "kar": (kars[lo], kars[hi]), "mac": len(keys)}
+
+
 def pct(x):
     return "-" if x is None else f"%{round(x * 100)}"
 
@@ -112,8 +135,16 @@ def section(title, rows):
     if not s["n"]:
         return L + ["Sonuçlanmış sinyal yok.", ""]
     maclar = len({r.get("fixture_id") for r in sent if r.get("sonuc") in ("isabet", "ıska")})
+    ci = boot_ci(sent)
+    ci_txt = ("" if not ci else
+              f"%90 güven aralığı (maç bazlı): piyasaya göre fark {ci['fark'][0] * 100:+.0f} ile {ci['fark'][1] * 100:+.0f} puan, "
+              f"sanal kâr {ci['kar'][0]:+.0f} ile {ci['kar'][1]:+.0f} TL. "
+              + ("**Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**"
+                 if ci['fark'][0] <= 0 <= ci['fark'][1] else
+                 ("**Piyasanın üstünde (anlamlı).**" if ci['fark'][0] > 0 else "**Piyasanın altında (anlamlı).**")))
     L += [f"**{s['n']} sinyal sonuçlandı ({maclar} farklı maç): ✅ {s['hit']} tuttu, ❌ {s['n'] - s['hit']} tutmadı ({pct(s['rate'])})**", "",
           "_Aynı maçtaki sinyaller birbirinden bağımsız değildir; gerçek kanıt gücü maç sayısına yakındır._", "",
+          *([ci_txt, ""] if ci_txt else []),
           f"Piyasanın beklediği isabet: {pct(s['exp'])} → fark {fark(s)} • Sanal kâr: {kar_s(s)}"
           f" • Piyasa bizim yönümüze döndü: {yon_s(s)}", ""]
     # tür
@@ -204,6 +235,30 @@ def section(title, rows):
               table(["Piyasa", "Sonuç", "İsabet", "Sanal kâr"],
                     [[k, t["n"], pct(t["rate"]), kar_s(t)] for k in ("lehte", "nötr", "aleyhte") if k in py
                      for t in [summ(py[k])]]), ""]
+    # beklenen getiri (gerçek oranla)
+    ev = defaultdict(list)
+    for r in sent:
+        e = _f(r.get("ev"))
+        if e is not None:
+            ev["EV > +%2" if e > 0.02 else "EV 0 ile +%2" if e >= 0 else "EV negatif"].append(r)
+    if ev:
+        L += ["### 💰 Beklenen getiri (sunulan gerçek oranla)", "",
+              "EV = model olasılığı × gerçek oran − 1. Negatif EV'li sinyal, model piyasadan iyimser olsa bile "
+              "oranın marjı yüzünden zararlıdır.", "",
+              table(["EV", "Sonuç", "İsabet", "Ort. oran", "Sanal kâr"],
+                    [[k, t["n"], pct(t["rate"]),
+                      f"{sum(_f(r.get('oran')) or 0 for r in ev[k]) / max(1, len(ev[k])):.2f}", kar_s(t)]
+                     for k in ("EV > +%2", "EV 0 ile +%2", "EV negatif") if k in ev for t in [summ(ev[k])]]), ""]
+    # gölge mod
+    gl = defaultdict(list)
+    for r in rows:
+        if r.get("gonderildi") == "gölge":
+            gl[r.get("tur") or "gol"].append(r)
+    if gl:
+        L += ["### 👻 Gölge moddaki türler (gruba gitmiyor, ölçülüyor)", "",
+              table(["Tür", "Sonuç", "İsabet", "Piyasa", "Fark", "Sanal kâr", "Durum"],
+                    [[TUR_AD.get(k, k), t["n"], pct(t["rate"]), pct(t["exp"]), fark(t), kar_s(t), karar(t)]
+                     for k, v in gl.items() for t in [summ(v)]]), ""]
     # güven
     gv = defaultdict(list)
     for r in sent:

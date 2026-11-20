@@ -80,6 +80,7 @@ FORM_ON = os.environ.get("FORM", "1") == "1"
 FORM_WEAK = float(os.environ.get("FORM_WEAK", "0.2"))      # bu oranın altı "form ters"
 FORM_STRONG = float(os.environ.get("FORM_STRONG", "0.6"))  # bu oranın üstü "form destekliyor"
 FORM_EXTRA = float(os.environ.get("FORM_EXTRA", "0.03"))   # form tersse istenen ek fark
+GOLGE = {t.strip() for t in os.environ.get("GOLGE", "iy,korner").split(",") if t.strip()}  # gruba gitmez, ölçülür
 STEAM_MIN = 5            # dk: oran akışı bu kadar öncesiyle karşılaştırılır
 STEAM_UP, STEAM_DOWN = 1.15, 0.87  # gol hızında %15 artış / %13 düşüş "akış" sayılır
 STEAM_EXTRA = float(os.environ.get("STEAM_EXTRA", "0.03"))
@@ -93,6 +94,64 @@ CUM_KEYS = ("sot", "shots", "inbox", "corners", "xg", "red", "danger", "blocked"
 
 
 EVENT_COOLDOWN = 2  # dk
+
+
+ODDS_MAX_AGE = int(os.environ.get("ODDS_MAX_AGE", "90"))  # sn: bundan eski canlı oranla sinyal verilmez
+
+
+def odds_state(odds: dict | None) -> str | None:
+    """Canlı oran kullanılabilir mi? Askıda/durdurulmuş ya da eski ise sebebini döndürür."""
+    if not odds:
+        return None  # oran yoksa piyasa şartı zaten sinyali engeller
+    st = odds.get("status") or {}
+    if st.get("blocked") or st.get("stopped"):
+        return "oranlar askıda"
+    up = odds.get("update")
+    if up:
+        try:
+            age = (dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(up)).total_seconds()
+            if age > ODDS_MAX_AGE:
+                return f"oranlar {int(age)} sn eski"
+        except ValueError:
+            pass
+    return None
+
+
+def _goal_market(name: str) -> bool:
+    n = (name or "").lower()
+    return ("over/under" in n or "match goals" in n) and not any(
+        w in n for w in ("1st", "2nd", "half", "corner", "card", "home", "away", "team", "asian", "extra"))
+
+
+def offered_odd(odds: dict | None, tur: str, line) -> float | None:
+    """Sinyalin yönündeki gerçek (marjlı) oran: gruba gidenin karşılığı alınabilecek fiyat."""
+    if not odds:
+        return None
+    if tur == "kg":
+        names, label, h = (lambda n: n == "Both Teams to Score"), "yes", None
+    elif tur in ("gol", "alt"):
+        names, label, h = _goal_market, ("under" if tur == "alt" else "over"), line
+    elif tur == "iy":
+        names, label, h = (lambda n: n == "Over/Under (1st Half)"), "over", line
+    elif tur == "korner":
+        names, label, h = (lambda n: n in ("Total Corners", "Asian Corners")), "over", line
+    elif tur == "kart":
+        names, label, h = (lambda n: n == "Total Cards"), "over", line
+    else:
+        return None
+    for mk in odds.get("odds") or []:
+        if not names(mk.get("name")):
+            continue
+        for v in mk.get("values") or []:
+            if v.get("suspended") or (v.get("value") or "").lower() != label:
+                continue
+            try:
+                if h is not None and abs(float(v.get("handicap")) - float(h)) > 1e-6:
+                    continue
+                return float(v.get("odd"))
+            except (TypeError, ValueError):
+                continue
+    return None
 
 
 def recent_event(m) -> str | None:
@@ -929,6 +988,14 @@ class ProEngine:
                 meta["son_olay"] = olay
                 log(f"  [olay] {m.name} {m.minute}': {olay} → 2 dk sinyal yok")
             return
+        # Oran doğrulama: askıdaki ya da eski oranla karşılaştırma sahte avantaj üretir
+        os_ = odds_state(meta.get("odds"))
+        if os_:
+            if meta.get("oran_sorunu") != os_.split(" ")[1]:
+                meta["oran_sorunu"] = os_.split(" ")[1]
+                log(f"  [oran] {m.name} {m.minute}': {os_} → sinyal yok")
+            return
+        meta.pop("oran_sorunu", None)
         # Veri sağlığı: donmuş/tutarsız/eksik istatistikle sinyal verilmez
         sorun = data_health(m)
         if sorun:
@@ -1070,6 +1137,15 @@ class ProEngine:
 
     GOL_YONLU = ("gol", "iy", "kg", "baski")
 
+    def price_fields(self, m, row, tur, line, p):
+        """Gerçek oran ve beklenen getiri (EV = olasılık × oran − 1)."""
+        try:
+            o = offered_odd(self.meta.get(m.id, {}).get("odds"), tur, line)
+        except Exception:
+            o = None
+        row["oran"] = "" if o is None else o
+        row["ev"] = "" if o is None or p is None else round(p * o - 1, 3)
+
     def clv_start(self, m, row, tur, line):
         """Sinyal anındaki piyasa hızını kaydeder (sonra lehte/aleyhte dönüşü ölçmek için)."""
         if tur == "baski" or line is None:
@@ -1184,7 +1260,8 @@ class ProEngine:
     def pending_types(self, mid) -> set:
         """Bu maçta sonucu hâlâ bekleyen sinyal türleri (zıt yönlü sinyal gitmesin diye)."""
         return {r.get("tur") or "gol" for r in self.rows_today
-                if str(r.get("fixture_id")) == str(mid) and r.get("sonuc") == "bekliyor"}
+                if str(r.get("fixture_id")) == str(mid) and r.get("sonuc") == "bekliyor"
+                and r.get("gonderildi") == "evet"}
 
     def simple_signal(self, m, tur, p, p_mkt, count, q, lines, cizgi=None, form=None):
         ratio = p / p_mkt if p_mkt else None
@@ -1196,10 +1273,15 @@ class ProEngine:
                                                        "oran_akisi": f"{(form['akis'] - 1) * 100:+.0f}%" if form and form.get("akis") else "",
                                                        "baglam": self.context_tag(m)})
         self.clv_start(m, row, tur, cizgi)
+        self.price_fields(m, row, tur, cizgi, p)
         self.rows_today.append(row)
         icon, label = {"korner": ("🚩", "KORNER SİNYALİ"), "kart": ("🟨", "KART SİNYALİ"),
                        "iy": ("⏱", "İLK YARI GOL SİNYALİ"), "kg": ("🤝", "KG SİNYALİ"),
                        "baski": ("🔥", "BASKI ALARMI"), "alt": ("🧊", "ALT SİNYALİ")}[tur]
+        if tur in GOLGE:  # gölge mod: gruba gönderilmez, sonucu ölçülmeye devam eder
+            row["gonderildi"] = "gölge"
+            log(f"GÖLGE[{tur}] {m.name} {m.minute}' model={p:.2f} piyasa={p_mkt} çizgi={cizgi}")
+            return
         log(f"SİNYAL[{tur}] {m.name} {m.minute}' model={p:.2f} piyasa={p_mkt} çizgi={cizgi}")
         ln = fmt_line(cizgi) if cizgi is not None and tur != "baski" else ""
         tahmin = {"korner": f"🎯 TAHMİN: MAÇ SONU KORNER {ln} ÜST",
@@ -1247,7 +1329,7 @@ class ProEngine:
                 fresh = self.api.get("odds/live", fixture=m.id)
                 if fresh:
                     self.meta.setdefault(m.id, {})["odds"] = fresh[0]
-                    p_now = goal_line_prob(fresh[0], float(line))
+                    p_now = goal_line_prob(fresh[0], float(line)) if not odds_state(fresh[0]) else 0.999
             except Exception as e:
                 log("Karar anı oranı alınamadı:", e)
             if p_now is not None and p_model - p_now < EDGE_UST / 2:
@@ -1268,6 +1350,7 @@ class ProEngine:
             "oran_akisi": f"{(form['akis'] - 1) * 100:+.0f}%" if form and form.get("akis") else "",
             "baglam": self.context_tag(m)})
         self.clv_start(m, row, "gol", line)
+        self.price_fields(m, row, "gol", line, p_model)
         self.rows_today.append(row)
         log(f"SİNYAL[gol] {m.name} {m.minute}' {side} model={p_model:.2f} piyasa={p_mkt} gönder={send}")
         if not send:
@@ -1442,8 +1525,10 @@ class ProEngine:
             if r["sonuc"] in ("isabet", "ıska"):
                 self.announce(r, m)
             # sanal kâr-zarar: piyasanın 10 dk olasılığından, %5 marjla adil oran
-            if r["sonuc"] in ("isabet", "ıska") and r.get("p_piyasa") not in ("", None) and r.get("kar") in ("", None):
-                odd = 0.95 / max(float(r["p_piyasa"]), 0.02)
+            if r["sonuc"] in ("isabet", "ıska") and r.get("kar") in ("", None) and (
+                    r.get("oran") not in ("", None) or r.get("p_piyasa") not in ("", None)):
+                # gerçek oran varsa onunla, yoksa piyasa olasılığından %5 marjla
+                odd = float(r["oran"]) if r.get("oran") not in ("", None) else 0.95 / max(float(r["p_piyasa"]), 0.02)
                 r["adil_oran"] = round(odd, 2)
                 r["kar"] = round(100 * (odd - 1)) if r["sonuc"] == "isabet" else -100
 
