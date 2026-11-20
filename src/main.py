@@ -321,12 +321,24 @@ def parse_stats(item: dict) -> dict:
 
 
 def goal_events(item: dict) -> list[dict]:
+    """Geçerli goller. VAR ile iptal edilen goller (aynı takım, ±3 dk) çıkarılır."""
     res = []
     home_id = item["teams"]["home"]["id"]
-    for ev in item.get("events") or []:
+    events = item.get("events") or []
+    cancelled = []
+    for ev in events:
+        det = (ev.get("detail") or "").lower()
+        if ev.get("type") == "Var" and ("goal" in det and ("cancel" in det or "disallow" in det)):
+            cancelled.append(((ev.get("time") or {}).get("elapsed") or 0, (ev.get("team") or {}).get("id")))
+    for ev in events:
         if ev.get("type") == "Goal" and "Missed" not in (ev.get("detail") or ""):
             minute = (ev.get("time") or {}).get("elapsed") or 0
-            side = "home" if (ev.get("team") or {}).get("id") == home_id else "away"
+            tid = (ev.get("team") or {}).get("id")
+            hit = next((c for c in cancelled if abs(c[0] - minute) <= 3), None)
+            if hit:
+                cancelled.remove(hit)
+                continue
+            side = "home" if tid == home_id else "away"
             res.append({"minute": minute, "side": side})
     return res
 

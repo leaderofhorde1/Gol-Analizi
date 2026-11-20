@@ -880,7 +880,33 @@ class ProEngine:
             if f in self.matches:
                 self.check_outcomes(self.matches[f])
 
+    def recheck_goal_results(self, m: Match):
+        """Gol sayesinde sonuçlanan sinyalleri, gol VAR ile iptal edilirse yeniden açar."""
+        if m.status in FINISHED:
+            return
+        for r in self.rows_today:
+            if int(r["fixture_id"]) != m.id or r["sonuc"] not in ("isabet", "ıska"):
+                continue
+            tur = r.get("tur") or "gol"
+            sh, sa = (int(x) for x in r["skor"].split("-"))
+            total_now, total_then = m.gh + m.ga, sh + sa
+            by_goal = ((tur in ("gol", "baski", "iy") and r["sonuc"] == "isabet") or
+                       (tur == "alt" and r["sonuc"] == "ıska") or (tur == "kg" and r["sonuc"] == "isabet"))
+            if not by_goal:
+                continue
+            undone = total_now <= total_then if tur != "kg" else not (m.gh > 0 and m.ga > 0)
+            if tur == "iy" and m.status not in ("1H", "HT"):
+                undone = False
+            if not undone:
+                continue
+            log(f"VAR düzeltmesi: {m.name} {tur} {r['dakika']}' → yeniden açık")
+            r.update({"sonuc": "bekliyor", "gol_dakikasi": "", "kar": "", "adil_oran": "", "duyuruldu": ""})
+            if r.get("tg_mesaj"):
+                from main import telegram_reply
+                telegram_reply(r["tg_mesaj"], f"⚠️ DÜZELTME\n🖥 Gol VAR ile iptal edildi, sinyal yeniden açık\n📊 Skor: {m.gh}-{m.ga}")
+
     def check_outcomes(self, m: Match):
+        self.recheck_goal_results(m)
         for r in self.rows_today:
             if int(r["fixture_id"]) != m.id or r["sonuc"] != "bekliyor":
                 continue
