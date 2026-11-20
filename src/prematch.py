@@ -22,13 +22,43 @@ ODDS_DIR = DATA / "oranlar"
 REPORT_DIR = DATA / "rapor"
 PICKS_CSV = DATA / "maconcesi.csv"
 PICK_FIELDS = ["tarih", "fixture_id", "saat", "lig", "mac", "secim", "model", "api",
-               "piyasa", "oran", "sonuc", "skor"]
+               "piyasa", "oran", "sonuc", "skor", "kar"]
 DROP_PCT = 0.07
 MAX_REPORT_MATCHES = 40
 VALUE_EDGE = 0.05      # harmanlanmış olasılık piyasadan en az bu kadar yüksek olmalı
 MODEL_WEIGHT = 0.5     # harman: model %50 + piyasa %50 (piyasa genelde iyi bilgilidir)
 MAX_RAW_GAP = 0.22     # model ile piyasa bundan fazla ayrışıyorsa veri şüphelidir, alma
 SHRINK_GAMES = 6
+
+
+def _load(path):
+    try:
+        return json.loads(path.read_text()) if path.exists() else {}
+    except Exception:
+        return {}
+
+
+PARAMS = _load(DATA / "model" / "params.json")
+RATINGS = _load(DATA / "model" / "takimlar.json")
+if PARAMS.get("on_mac"):
+    MODEL_WEIGHT = float(PARAMS["on_mac"].get("model_agirligi", MODEL_WEIGHT))
+RATING_K = (PARAMS.get("on_mac") or {}).get("shrink", 10)
+
+
+def rating_lambdas(fx: dict):
+    """Geçmiş veriden hesaplanan takım puanlarıyla (zamanında tahmin modeliyle aynı formül)."""
+    T = RATINGS.get(str(fx["lig_id"]))
+    if not T:
+        return None
+    H, A = T.get(str(fx["ev_id"])), T.get(str(fx["dep_id"]))
+    if not H or not A or H["nh"] < 3 or A["na"] < 3:
+        return None
+    k, mh, ma = RATING_K, T["_mh"], T["_ma"]
+    att_h = (H["hf"] + k * mh) / (H["nh"] + k)
+    def_a = (A["aa"] + k * mh) / (A["na"] + k)
+    att_a = (A["af"] + k * ma) / (A["na"] + k)
+    def_h = (H["ha"] + k * ma) / (H["nh"] + k)
+    return max(0.15, att_h * def_a / mh), max(0.15, att_a * def_h / ma), "geçmiş veri"
 
 
 def _f(x):
@@ -292,6 +322,7 @@ def resolve_picks(api):
             continue
         r["skor"] = f"{gh}-{ga}"
         r["sonuc"] = "isabet" if pick_won(r["secim"], gh, ga) else "ıska"
+        r["kar"] = round(100 * (float(r["oran"]) - 1)) if r["sonuc"] == "isabet" else -100
         changed += 1
     if changed:
         save_picks(rows)
@@ -313,7 +344,8 @@ def morning_report(api, book: OddsBook):
     cands = cands[:MAX_REPORT_MATCHES]
     cache, rows, picks = {}, [], []
     for fid, fx, rec in cands:
-        lh, la, src = team_lambdas(api, fx, cache)
+        rl = rating_lambdas(fx)
+        lh, la, src = rl if rl else team_lambdas(api, fx, cache)
         mp = model_probs(lh, la)
         try:
             pr = api.get("predictions", fixture=fid)
@@ -337,7 +369,7 @@ def morning_report(api, book: OddsBook):
         mu = book.mu(fid)
         rows.append({"saat": t, "mac": name, "lig": fx["lig"], "lh": lh, "la": la, "kaynak": src,
                      "mp": mp, "api": api_p, "piyasa": market, "mu": mu, "drops": book.drops(fid)})
-        if src != "takım istatistiği":
+        if src == "varsayılan" or MODEL_WEIGHT <= 0:
             continue
         for key, p_mkt in market.items():
             p_mod = mp.get(key)
@@ -382,7 +414,9 @@ def morning_report(api, book: OddsBook):
     hist = [r for r in load_picks() if r["sonuc"] in ("isabet", "ıska")]
     if hist:
         w = sum(r["sonuc"] == "isabet" for r in hist)
-        msg.append(f"\nGeçmiş maç öncesi seçimler: {w}/{len(hist)} (%{100 * w // len(hist)})")
+        kar = sum(float(r.get("kar") or 0) for r in hist)
+        msg.append(f"\nGeçmiş maç öncesi seçimler: {w}/{len(hist)} (%{100 * w // len(hist)}), "
+                   f"100 TL sabit bahisle sanal kâr: {kar:+.0f} TL")
     msg.append("Tam rapor: depoda data/rapor/")
     notify("☀️ Günün maç öncesi raporu", "\n".join(msg) if msg else "Bugün raporlanacak maç yok.",
            priority=3, tags=["sunny"])
@@ -393,7 +427,7 @@ def write_report_md(day, rows, picks):
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     pc = lambda v: f"%{round(v * 100)}" if isinstance(v, (int, float)) else "-"
     out = [f"# Maç öncesi rapor – {day}", "",
-           "Model: takım istatistiklerinden Poisson (Dixon-Coles düzeltmeli, az maçlı takımlar lig ortalamasına çekilir). "
+           "Model: geçmiş veriden zamanında hesaplanan takım hücum/savunma puanlarıyla Poisson (Dixon-Coles düzeltmeli); geçmiş verisi olmayan liglerde bu sezonun takım istatistikleri. "
            "Seçimlerdeki 'Model' sütunu model ile piyasanın %50-%50 harmanıdır. "
            "API: API-Football tahmini. Piyasa: Bet365 oranından marjı temizlenmiş olasılık.", ""]
     if picks:
@@ -410,7 +444,7 @@ def write_report_md(day, rows, picks):
         dr = ", ".join(f"{LABELS[k]} %{round(v * 100)}" for k, v in r["drops"].items() if v >= DROP_PCT) or "-"
         out.append(
             f"| {r['saat']} | {r['lig']} | {r['mac']} | {r['lh'] + r['la']:.2f}"
-            f"{'' if r['kaynak'] == 'takım istatistiği' else ' (vars.)'} | "
+            f"{' (vars.)' if r['kaynak'] == 'varsayılan' else ''} | "
             f"{pc(mp['1x2:ev'])} / {pc(mp['1x2:x'])} / {pc(mp['1x2:dep'])} | "
             f"{pc(mk.get('1x2:ev'))} / {pc(mk.get('1x2:x'))} / {pc(mk.get('1x2:dep'))} | "
             f"{pc(mp['ou:ust'])} / {pc(mk.get('ou:ust'))} | {pc(mp['kg:var'])} / {pc(mk.get('kg:var'))} | "

@@ -41,6 +41,12 @@ LEAGUE_CARDS = 4.3        # maç başı ortalama kart (sarı + kırmızı)
 TYPICAL_FOULS_10 = 2.4    # iki takım toplam, 10 dakikada faul
 TYPICAL_ATTACK_10 = 3.9   # şut + engellenen/2 + korner*0.8, iki takım, 10 dk
 
+PARAMS_PATH = DATA / "model" / "params.json"
+try:
+    PARAMS = json.loads(PARAMS_PATH.read_text()) if PARAMS_PATH.exists() else {}
+except Exception:
+    PARAMS = {}
+
 SAMPLES_DIR = DATA / "ornekler"
 REFEREE_JSON = DATA / "hakemler.json"
 SAMPLE_FIELDS = ["tarih", "fixture_id", "lig_id", "dakika", "skor_farki", "toplam_gol",
@@ -50,6 +56,25 @@ SAMPLE_FIELDS = ["tarih", "fixture_id", "lig_id", "dakika", "skor_farki", "topla
 
 
 # ---------------------------------------------------------------- olasılık yardımcıları
+def curve_avg(curve, minute: int, span: int = 10) -> float:
+    """Zaman eğrisinin (18 adet 5 dk'lık dilim) önümüzdeki 'span' dakikadaki ortalaması."""
+    if not curve:
+        return 1.0
+    vals = [curve[min(17, max(0, (min(m, 90) - 1) // 5))] for m in range(minute + 1, minute + span + 1)]
+    return sum(vals) / len(vals)
+
+
+def league_param(lid, key, default):
+    v = (PARAMS.get("lig") or {}).get(str(lid), {}).get(key)
+    return v if v else default
+
+
+def goal_state(gh, ga) -> str:
+    d = abs(gh - ga)
+    return "esit" if d == 0 else "fark1" if d == 1 else "fark2+"
+
+
+
 def poisson_over(mu: float, k: int) -> float:
     s, term = 0.0, math.exp(-mu)
     for i in range(k):
@@ -90,7 +115,14 @@ def p_next10_from_rest(p_rest: float, minute: int) -> float:
 
 
 def p_next10_from_count_market(item: dict, names: tuple, current: int, minute: int) -> float | None:
-    """Toplam (korner/kart) Üst-Alt pazarından 10 dk içinde en az bir olay olasılığı."""
+    rate = count_market_rate(item, names, current, minute)
+    if rate is None:
+        return None
+    return 1 - math.exp(-rate * min(10.0, remaining_minutes(minute)))
+
+
+def count_market_rate(item: dict, names: tuple, current: int, minute: int) -> float | None:
+    """Toplam (korner/kart) Üst-Alt pazarından piyasanın dakika başı olay hızı."""
     lines = {}
     for mk in item.get("odds") or []:
         if mk.get("name") not in names:
@@ -121,8 +153,7 @@ def p_next10_from_count_market(item: dict, names: tuple, current: int, minute: i
     if k < 1 or k > 8 or not (0.02 < p_over < 0.98):
         return None
     lam = solve_lambda(p_over, k)
-    rem = remaining_minutes(minute)
-    return 1 - math.exp(-lam / rem * min(10.0, rem))
+    return lam / remaining_minutes(minute)
 
 
 def parse_live_goal_market(item: dict, total_goals: int) -> float | None:
@@ -302,12 +333,17 @@ class ProEngine:
         rate = self.mu(m.id) / 94.0
         total = pr["home"] + pr["away"]
         f = min(3.0, max(0.55, 0.55 + 0.45 * total / TYPICAL_TOTAL_PRESSURE))
-        late = 1.15 if m.minute >= 75 else 1.0
-        p_model = 1 - math.exp(-rate * min(10.0, remaining_minutes(m.minute)) * f * late)
+        if PARAMS.get("gol_egrisi"):
+            time_mult = curve_avg(PARAMS["gol_egrisi"], m.minute)
+            time_mult *= (PARAMS.get("gol_durum") or {}).get(goal_state(m.gh, m.ga), 1.0)
+        else:
+            time_mult = 1.15 if m.minute >= 75 else 1.0
+        p_model = 1 - math.exp(-rate * min(10.0, remaining_minutes(m.minute)) * f * time_mult)
         odds = self.meta.get(m.id, {}).get("odds")
         p_rest = parse_live_goal_market(odds, m.gh + m.ga) if odds else None
         p_mkt = p_next10_from_rest(p_rest, m.minute) if p_rest else None
-        return p_model, p_mkt
+        q = -math.log(1 - min(max(p_rest, 0.001), 0.999)) / remaining_minutes(m.minute) if p_rest else None
+        return p_model, p_mkt, q
 
     def corner_model(self, m: Match, pr: dict):
         cur, base, span = pr["cur"]["stats"], pr["base"]["stats"], max(pr["span"], 6)
@@ -315,42 +351,47 @@ class ProEngine:
         d = lambda k: sum(max(0.0, cur[s][k] - base[s][k]) for s in ("home", "away"))
         attack = (d("shots") + 0.5 * d("blocked") + 0.8 * d("corners")) * 10 / span
         f = min(2.2, max(0.6, 0.6 + 0.4 * attack / TYPICAL_ATTACK_10))
-        base_rate = LEAGUE_CORNERS / 94
+        base_rate = league_param(m.league_id, "korner", LEAGUE_CORNERS) / 94
         if m.minute >= 20:
             base_rate = 0.6 * base_rate + 0.4 * corners / m.minute
         if abs(m.gh - m.ga) == 1 and m.minute >= 70:
             f *= 1.15
         p_model = 1 - math.exp(-base_rate * f * min(10.0, remaining_minutes(m.minute)))
         odds = self.meta.get(m.id, {}).get("odds")
-        p_mkt = p_next10_from_count_market(odds, ("Total Corners", "Asian Corners"), corners,
-                                           m.minute) if odds else None
-        return p_model, p_mkt, f, corners
+        q = count_market_rate(odds, ("Total Corners", "Asian Corners"), corners, m.minute) if odds else None
+        p_mkt = 1 - math.exp(-q * min(10.0, remaining_minutes(m.minute))) if q else None
+        return p_model, p_mkt, f, corners, q
 
     def referee_avg(self, m: Match) -> tuple[float, str]:
         ref = (getattr(m, "referee", None) or "").split(",")[0].strip()
         r = self.referees.get("hakem", {}).get(ref)
-        if ref and r and r["mac"] >= 5:
-            return r["kart"] / r["mac"], f"hakem {ref}: maç başı {r['kart'] / r['mac']:.1f} kart ({r['mac']} maç)"
         lg = self.referees.get("lig", {}).get(str(m.league_id))
-        if lg and lg["mac"] >= 10:
-            return lg["kart"] / lg["mac"], f"lig ortalaması {lg['kart'] / lg['mac']:.1f}"
-        return LEAGUE_CARDS, "genel ortalama (hakem verisi birikiyor)"
+        lg_avg = lg["kart"] / lg["mac"] if lg and lg["mac"] >= 10 else league_param(m.league_id, "kart", LEAGUE_CARDS)
+        if ref and r and r["mac"] >= 3:
+            avg = (r["kart"] + 5 * lg_avg) / (r["mac"] + 5)  # az maçlı hakemi lig ortalamasına çek
+            return avg, f"hakem {ref}: maç başı {r['kart'] / r['mac']:.1f} kart ({r['mac']} maç)"
+        return lg_avg, f"lig ortalaması {lg_avg:.1f} (hakem verisi yok)"
 
     def card_model(self, m: Match, pr: dict):
         cur, base, span = pr["cur"]["stats"], pr["base"]["stats"], max(pr["span"], 6)
         cards = int(sum(cur[s]["yellow"] + cur[s]["red"] for s in ("home", "away")))
         fouls10 = sum(max(0.0, cur[s]["fouls"] - base[s]["fouls"]) for s in ("home", "away")) * 10 / span
         avg, src = self.referee_avg(m)
-        phase = 0.6 if m.minute < 30 else 1.0 if m.minute < 60 else 1.35
-        f = min(2.2, max(0.6, 0.6 + 0.4 * fouls10 / TYPICAL_FOULS_10))
+        if PARAMS.get("kart_egrisi"):
+            phase = curve_avg(PARAMS["kart_egrisi"], m.minute)
+        else:
+            phase = 0.6 if m.minute < 30 else 1.0 if m.minute < 60 else 1.35
+        typical_fouls = league_param(m.league_id, "faul", TYPICAL_FOULS_10 / 10 * 94) * 10 / 94
+        f = min(2.2, max(0.6, 0.6 + 0.4 * fouls10 / typical_fouls))
         if abs(m.gh - m.ga) <= 1 and m.minute >= 70:
-            f *= 1.2
+            f *= PARAMS.get("kart_gec_yakin", 1.2)
         if m.minute >= 20:
             avg = 0.7 * avg + 0.3 * cards / m.minute * 94
         p_model = 1 - math.exp(-avg / 94 * phase * f * min(10.0, remaining_minutes(m.minute)))
         odds = self.meta.get(m.id, {}).get("odds")
-        p_mkt = p_next10_from_count_market(odds, ("Total Cards",), cards, m.minute) if odds else None
-        return p_model, p_mkt, f, cards, fouls10, src
+        q = count_market_rate(odds, ("Total Cards",), cards, m.minute) if odds else None
+        p_mkt = 1 - math.exp(-q * min(10.0, remaining_minutes(m.minute))) if q else None
+        return p_model, p_mkt, f, cards, fouls10, src, q
 
     # --- değerlendirme
     def evaluate(self, m: Match):
@@ -358,9 +399,10 @@ class ProEngine:
         if not pr:
             return
         meta = self.meta.setdefault(m.id, {})
-        pg, pg_m = self.goal_model(m, pr)
-        pc, pc_m, fc, corners = self.corner_model(m, pr)
-        pk, pk_m, fk, cards, fouls10, ref_src = self.card_model(m, pr)
+        pg, pg_m, qg = self.goal_model(m, pr)
+        pc, pc_m, fc, corners, qc = self.corner_model(m, pr)
+        pk, pk_m, fk, cards, fouls10, ref_src, qk = self.card_model(m, pr)
+        meta["q"] = {"gol": qg, "korner": qc, "kart": qk}
         if m.minute - meta.get("son_ornek", -99) >= SAMPLE_EVERY:
             meta["son_ornek"] = m.minute
             st = pr["cur"]["stats"]
@@ -383,20 +425,20 @@ class ProEngine:
             side = signal_side(pr)
             if side and (pg_m is None or pg - pg_m >= EDGE):
                 m.last_signal_min = m.minute
-                self.goal_signal(m, pr, side, pg, pg_m)
+                self.goal_signal(m, pr, side, pg, pg_m, qg)
         # 🚩 korner
         if "korner" in SIGNALS_ON and m.minute - meta.get("son_korner", -99) >= 10 and fc >= 1.5:
             if (pc_m is not None and pc - pc_m >= EDGE_CORNER) or (pc_m is None and pc >= 0.85):
                 meta["son_korner"] = m.minute
                 d = {k: pr["d_home"][k] + pr["d_away"][k] for k in pr["d_home"]}
-                self.simple_signal(m, "korner", pc, pc_m, corners, [
+                self.simple_signal(m, "korner", pc, pc_m, corners, qc, [
                     f"Son {int(pr['span'])} dk: {fmt_delta(d)}",
                     f"Maçtaki korner: {corners}"])
         # 🟨 kart
         if "kart" in SIGNALS_ON and m.minute - meta.get("son_kart", -99) >= 12 and fk >= 1.5:
             if (pk_m is not None and pk - pk_m >= EDGE_CARD) or (pk_m is None and pk >= 0.55):
                 meta["son_kart"] = m.minute
-                self.simple_signal(m, "kart", pk, pk_m, cards, [
+                self.simple_signal(m, "kart", pk, pk_m, cards, qk, [
                     f"Son {int(pr['span'])} dk faul temposu: 10 dk'da {fouls10:.1f} (normali ~{TYPICAL_FOULS_10})",
                     f"Maçtaki kart: {cards}", f"Hakem verisi: {ref_src}"])
 
@@ -410,10 +452,10 @@ class ProEngine:
             row.update(extra)
         return row
 
-    def simple_signal(self, m, tur, p, p_mkt, count, lines):
+    def simple_signal(self, m, tur, p, p_mkt, count, q, lines):
         ratio = p / p_mkt if p_mkt else None
         conf = "yüksek" if (ratio and ratio >= 1.25) else "orta" if (ratio and ratio >= 1.12) else "düşük"
-        row = self._row(m, tur, "", p, p_mkt, conf, {"baski": count})  # baski alanı: o anki sayı
+        row = self._row(m, tur, "", p, p_mkt, conf, {"baski": count, "q_once": "" if q is None else round(q, 5)})
         self.rows_today.append(row)
         icon, label = ("🚩", "Korner") if tur == "korner" else ("🟨", "Kart")
         log(f"SİNYAL[{tur}] {m.name} {m.minute}' model={p:.2f} piyasa={p_mkt}")
@@ -424,7 +466,7 @@ class ProEngine:
         notify(f"{icon} {label} sinyali: {m.name}", "\n".join(body), priority=4,
                tags=["triangular_flag_on_post" if tur == "korner" else "yellow_square"])
 
-    def goal_signal(self, m, pr, side, p_model, p_mkt):
+    def goal_signal(self, m, pr, side, p_model, p_mkt, q=None):
         drop = self.book.over_drop(m.id)
         ratio = p_model / p_mkt if p_mkt else None
         conf = "yüksek" if (ratio and ratio >= 1.4) else "orta" if (ratio and ratio >= 1.2) else "düşük"
@@ -449,7 +491,7 @@ class ProEngine:
             "baski": max(pr["home"], pr["away"]), "baski_rakip": min(pr["home"], pr["away"]),
             "ai_onay": "" if ai is None else ("evet" if ai.get("onay") else "hayır"),
             "ai_yorum": "" if ai is None else ai.get("yorum", ""),
-            "gonderildi": "evet" if send else "hayır"})
+            "gonderildi": "evet" if send else "hayır", "q_once": "" if q is None else round(q, 5)})
         self.rows_today.append(row)
         log(f"SİNYAL[gol] {m.name} {m.minute}' {side} model={p_model:.2f} piyasa={p_mkt} gönder={send}")
         if not send:
@@ -484,6 +526,11 @@ class ProEngine:
             if int(r["fixture_id"]) != m.id or r["sonuc"] != "bekliyor":
                 continue
             smin, tur = int(r["dakika"]), r.get("tur") or "gol"
+            # piyasa hareketi: sinyalden 3+ dk sonra, olay olmadan önceki piyasa hızı
+            if r.get("q_once") not in ("", None) and r.get("q_sonra") in ("", None) and m.minute >= smin + 3:
+                q_now = (self.meta.get(m.id, {}).get("q") or {}).get(tur)
+                if q_now:
+                    r["q_sonra"] = round(q_now, 5)
             over = m.minute > smin + 10 or m.status in FINISHED
             if tur == "gol":
                 sh, sa = (int(x) for x in r["skor"].split("-"))
@@ -504,6 +551,11 @@ class ProEngine:
                     r["sonuc"], r["gol_dakikasi"] = "isabet", hits[0]
                 elif over:
                     r["sonuc"] = "ıska"
+            # sanal kâr-zarar: piyasanın 10 dk olasılığından, %5 marjla adil oran
+            if r["sonuc"] != "bekliyor" and r.get("p_piyasa") not in ("", None) and r.get("kar") in ("", None):
+                odd = 0.95 / max(float(r["p_piyasa"]), 0.02)
+                r["adil_oran"] = round(odd, 2)
+                r["kar"] = round(100 * (odd - 1)) if r["sonuc"] == "isabet" else -100
 
     def label_samples(self, m: Match):
         keep = []
@@ -581,6 +633,12 @@ class ProEngine:
                            + (f", tüm zamanlar {hh}/{len(hist)} (%{100 * hh // len(hist)})" if hist else ""))
         msg.append(f"API isteği: {self.api.used}, kalan: {self.api.remaining}, Claude: {self.claude.calls}")
         log("ÖZET:", " | ".join(msg))
+        try:
+            import panel
+            panel.build()
+            msg.append("Panel: https://leaderofhorde1.github.io/Gol-Analizi/")
+        except Exception as e:
+            log("Panel hatası:", e)
         notify("📊 Oturum özeti", "\n".join(msg), priority=2, tags=["bar_chart"])
 
     # --- ana döngü
