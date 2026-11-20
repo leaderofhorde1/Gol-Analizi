@@ -122,7 +122,7 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-20,1551887,Netherlands - Eerste Divisie,Almere City FC - NAC Breda,72,0-4,,0-4,,yüksek,,,evet,isabet,87,0.48,0.375,kg,,,2.53,153,163,evet,
 2026-11-20,1551889,Netherlands - Eerste Divisie,Den Bosch - VVV Venlo,76,1-0,ev,16.8,5.2,orta,evet,"Ev sahibi son 10 dakikada 3 ceza sahası içi şut ve 0.36 xG ile baskılı; 1-0 skor açık, ancak toplam xG düşük.",evet,ıska,,0.669,0.614,gol,0.05287,0.05296,1.55,-100,164,evet,1.5
 2026-11-20,1551894,Netherlands - Eerste Divisie,FC OSS - Roda,78,1-0,deplasman,19.6,4.1,orta,hayır,"Deplasman 4 şut ama toplam xG 0.12 düşük; 78. dakikada 10 dakikalık gol olasılığı zayıf, sinyal ele.",hayır,ıska,,0.575,0.52,gol,0.04584,0.04496,1.83,-100,,,1.5
-2026-11-20,1601612,Italy - Serie B,Hellas Verona - Cesena,50,0-1,,3,,orta,,,evet,bekliyor,,0.549,0.463,kart,,,,,168,,6.5
+2026-11-20,1601612,Italy - Serie B,Hellas Verona - Cesena,50,0-1,,3,,orta,,,evet,isabet,7,0.549,0.463,kart,,,2.05,105,168,evet,6.5
 2026-11-20,1551894,Netherlands - Eerste Divisie,FC OSS - Roda,79,1-0,,1-0,,orta,,,evet,ıska,,0.44,0.375,kg,,,2.53,-100,169,evet,
 2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,48,0-0,,5,,orta,,,evet,bekliyor,,0.648,0.577,korner,,,,,170,,9.5
 2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,85,3-0,ev,17.3,0.0,orta,hayır,"85. dakikada 3-0 önde, son pencerede tek şut var; kalan süre kısa, baskı zayıf, model olasılığı şişirilmiş.",hayır,ıska,,0.431,0.375,gol,0.05222,0.04822,2.53,-100,,,3.5
@@ -132,3 +132,6 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-20,1559201,Belgium - Challenger Pro League,K. Lierse S.K. - Lokeren-Temse,85,1-0,,16,,yüksek,,,evet,isabet,18,0.583,0.411,korner,,,2.31,131,177,evet,17.5
 2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,65,1-0,ev,30.8,4.8,orta,evet,"Ev sahibi son 6 dakikada 3 isabetli şut, 0.5 xG ile gerçek baskı kuruyor; 1-0'da açık oyun.",evet,isabet,67,0.754,0.625,gol,0.03382,,1.52,52,194,evet,1.5
 2026-11-20,1570025,Spain - Segunda División,FC Andorra - Leganes,62,1-2,,,,yüksek,,,evet,bekliyor,,0.4,0.303,alt,,,,,202,,3.5
+2026-11-20,1552827,France - Ligue 1,Estac Troyes - Le Havre,60,1-1,,,,yüksek,,,evet,bekliyor,,0.474,0.364,alt,,,,,204,,2.5
+2026-11-20,1558682,Belgium - Jupiler Pro League,Cercle Brugge - KVC Westerlo,61,0-0,,,,yüksek,,,evet,bekliyor,,0.411,0.303,alt,,,,,205,,0.5
+2026-11-20,1575221,Germany - Bundesliga,Bayern München - 1. FC Köln,74,1-1,,,,orta,,,evet,bekliyor,,0.465,0.398,alt,,,,,207,,2.5
