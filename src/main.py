@@ -729,6 +729,13 @@ def run_diag():
     api = Api(API_KEY)
     od = api.get("odds/live")
     print("odds/live maç sayısı:", len(od))
+    names = {}
+    for it in od:
+        for mk in it.get("odds") or []:
+            names.setdefault(mk.get("name"), mk.get("values", [])[:4])
+    for n, v in sorted(names.items(), key=lambda x: str(x[0])):
+        if any(w in str(n).lower() for w in ("card", "corner", "booking")):
+            print("PAZAR:", repr(n), v)
     for it in od[:2]:
         print("ÜST ALANLAR:", list(it.keys()), "status:", it.get("status"))
         for mk in (it.get("odds") or [])[:40]:
