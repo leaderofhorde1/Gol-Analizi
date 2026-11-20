@@ -31,6 +31,7 @@ jobs:
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           BACKFILL_REQUESTS: ${{ github.event.inputs.istek || '3000' }}
         run: cd src && python analiz.py
       - name: Sonuçları depoya kaydet

@@ -53,6 +53,7 @@ jobs:
           FORCE_REPORT: ${{ github.event.inputs.mod == 'kisa' && '1' || '0' }}
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           WINDOW_END: "23:45"     # ücretsiz planda takibin biteceği saat (TR)
           RUN_MINUTES: ${{ github.event.inputs.sure || (github.event.inputs.mod == 'kisa' && '6') || '350' }}  # bir oturumun süresi (dk)

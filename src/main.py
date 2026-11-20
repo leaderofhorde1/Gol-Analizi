@@ -130,6 +130,7 @@ class Api:
 
 # ---------------------------------------------------------------- ntfy
 def notify(title: str, message: str, priority: int = 4, tags=None, click=None):
+    telegram_send(title, message)
     if not NTFY_TOPIC:
         log("[ntfy kapalı]", title, "|", message)
         return
@@ -141,6 +142,70 @@ def notify(title: str, message: str, priority: int = 4, tags=None, click=None):
         requests.post("https://ntfy.sh/", json=payload, timeout=15).raise_for_status()
     except Exception as e:  # bildirim hatası takibi durdurmasın
         log("ntfy hatası:", e)
+
+
+# ---------------------------------------------------------------- Telegram
+TG_TOKEN = os.environ.get("TELEGRAM_TOKEN", "").strip()
+TG_FILE = ROOT / "data" / "telegram.json"
+TG_SKIP = ("✅ Takip başladı", "🔔 Test bildirimi")
+_tg_chat = None
+
+
+def _tg(method: str, **params):
+    r = requests.post(f"https://api.telegram.org/bot{TG_TOKEN}/{method}", json=params, timeout=20)
+    return r.json()
+
+
+def telegram_chat_id():
+    """Grup kimliği: TELEGRAM_CHAT_ID > data/telegram.json > botun eklendiği son grup."""
+    global _tg_chat
+    if _tg_chat:
+        return _tg_chat
+    if os.environ.get("TELEGRAM_CHAT_ID"):
+        _tg_chat = os.environ["TELEGRAM_CHAT_ID"].strip()
+        return _tg_chat
+    try:
+        _tg_chat = json.loads(TG_FILE.read_text()).get("chat_id")
+    except Exception:
+        _tg_chat = None
+    try:  # bot yeni bir gruba eklendiyse onu kullan
+        found = None
+        for u in _tg("getUpdates", allowed_updates=["message", "my_chat_member"]).get("result", []):
+            obj = u.get("my_chat_member") or u.get("message") or {}
+            chat = obj.get("chat") or {}
+            if chat.get("type") in ("group", "supergroup"):
+                found = chat
+        if found and str(found["id"]) != str(_tg_chat):
+            _tg_chat = str(found["id"])
+            TG_FILE.parent.mkdir(exist_ok=True)
+            TG_FILE.write_text(json.dumps({"chat_id": _tg_chat, "baslik": found.get("title")}, ensure_ascii=False))
+            log("Telegram grubu bulundu:", found.get("title"))
+    except Exception as e:
+        log("Telegram grup arama hatası:", e)
+    return _tg_chat
+
+
+def telegram_send(title: str, message: str):
+    global _tg_chat
+    if not TG_TOKEN or title.startswith(TG_SKIP):
+        return
+    chat = telegram_chat_id()
+    if not chat:
+        log("Telegram: grup bulunamadı (botu gruba ekleyip grupta bir mesaj yazın).")
+        return
+    esc = lambda t: t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    text = f"<b>{esc(title)}</b>\n{esc(message)}"[:4000]
+    try:
+        res = _tg("sendMessage", chat_id=chat, text=text, parse_mode="HTML", disable_web_page_preview=True)
+        new_id = (res.get("parameters") or {}).get("migrate_to_chat_id")
+        if new_id:  # grup süper gruba dönüştüyse yeni kimlikle tekrar dene
+            _tg_chat = str(new_id)
+            TG_FILE.write_text(json.dumps({"chat_id": _tg_chat}, ensure_ascii=False))
+            res = _tg("sendMessage", chat_id=_tg_chat, text=text, parse_mode="HTML", disable_web_page_preview=True)
+        if not res.get("ok"):
+            log("Telegram hatası:", res.get("description"))
+    except Exception as e:
+        log("Telegram hatası:", e)
 
 
 # ---------------------------------------------------------------- Claude
@@ -666,6 +731,16 @@ def run_test():
             ok = False
             report.append(f"Claude HATA: {e}")
 
+    if TG_TOKEN:
+        try:
+            me = _tg("getMe").get("result") or {}
+            chat = telegram_chat_id()
+            report.append(f"Telegram: bot @{me.get('username')} " + (f"grup bağlı ({chat})" if chat else
+                          "— grup bulunamadı, botu gruba ekleyip grupta bir mesaj yazın"))
+            ok &= bool(chat)
+        except Exception as e:
+            report.append(f"Telegram HATA: {e}")
+            ok = False
     text = "\n".join(report)
     log("TEST SONUCU\n" + text)
     notify("✅ Test başarılı" if ok else "⚠️ Testte sorun var", text, priority=3)
