@@ -77,7 +77,7 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-20,1494808,Norway - Eliteserien,Molde - Bodo/Glimt,68,0-3,,0-3,,yüksek,,,evet,isabet,74,0.586,0.442,kg,,,2.15,115,100,evet,
 2026-11-20,1494808,Norway - Eliteserien,Molde - Bodo/Glimt,70,0-3,,8,,yüksek,,,evet,isabet,11,0.671,0.537,korner,,,1.77,77,101,evet,10.5
 2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,33,0-1,,1,,orta,,,evet,isabet,43,0.425,0.375,iy,,,2.53,153,102,evet,1.5
-2026-11-20,1552537,France - Ligue 2,RED Star FC 93 - PAU,34,1-0,,1-0,,düşük,,,evet,bekliyor,,0.598,0.537,kg,,,,,103,,
+2026-11-20,1552537,France - Ligue 2,RED Star FC 93 - PAU,34,1-0,,1-0,,düşük,,,evet,isabet,69,0.598,0.537,kg,,,1.77,77,103,evet,
 2026-11-20,1549058,Denmark - Superliga,Aarhus - Lyngby,72,2-1,,,,orta,,,evet,isabet,,0.519,0.447,alt,,,2.13,113,104,evet,3.5
 2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,33,3-0,ev,19.0,0.0,orta,evet,"Ev baskısı gerçek: son 6 dakikada 2 isabetli şut, xG 0.27. Ancak 3-0 skorda tempo düşebilir; model fazla iyimser.",evet,bekliyor,,0.929,0.864,gol,0.03273,0.03384,,,105,,3.5
 2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,33,3-0,,3,,orta,,,evet,ıska,,0.493,0.423,iy,,,2.25,-100,106,evet,3.5
@@ -89,19 +89,27 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,24,0-0,,0,,orta,,,evet,ıska,,0.57,0.5,iy,,,1.9,-100,117,evet,0.5
 2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,46,3-0,,3-0,,düşük,,,evet,bekliyor,,0.692,0.625,kg,,,,,122,,
 2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,46,3-0,,4,,orta,,,evet,bekliyor,,0.659,0.558,korner,,,,,123,,8.5
-2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,49,1-1,,Metz,,yüksek,,,evet,bekliyor,,0.361,0.276,baski,0.03228,,,,124,,64
+2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,49,1-1,,Metz,,yüksek,,,evet,ıska,,0.361,0.276,baski,0.03228,,3.44,-100,124,evet,64
 2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,50,1-1,,9,,yüksek,,,evet,bekliyor,,0.818,0.577,korner,,,,,125,,13.5
 2026-11-20,1551889,Netherlands - Eerste Divisie,Den Bosch - VVV Venlo,50,1-0,,1-0,,düşük,,,evet,bekliyor,,0.655,0.589,kg,,,,,126,,
 2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,49,0-0,,6,,yüksek,,,evet,bekliyor,,0.727,0.461,korner,,,,,127,,11.5
 2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,49,0-0,,De Graafschap,,yüksek,,,evet,isabet,50,0.457,0.309,baski,0.03701,,3.07,207,128,evet,64
 2026-11-20,1552537,France - Ligue 2,RED Star FC 93 - PAU,50,1-0,,6,,yüksek,,,evet,bekliyor,,0.644,0.463,korner,,,,,130,,10.5
 2026-11-20,1565306,Romania - Liga I,Farul Constanta - Universitatea Cluj,76,2-1,iki taraf,22.3,12.3,orta,hayır,"xG ve tehlikeli atak sıfır; pencere baskısı zayıf. Model-piyasa farkı büyük, şüpheli. Skor açık ama sinyal yetersiz.",hayır,isabet,79,0.63,0.48,gol,0.03636,0.03389,1.98,98,,,3.5
-2026-11-20,1565306,Romania - Liga I,Farul Constanta - Universitatea Cluj,76,2-1,,5,,orta,,,evet,bekliyor,,0.463,0.375,korner,,,,,131,,7.5
+2026-11-20,1565306,Romania - Liga I,Farul Constanta - Universitatea Cluj,76,2-1,,5,,orta,,,evet,ıska,7,0.463,0.375,korner,,,2.53,-100,131,evet,7.5
 2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,50,1-0,,1-0,,yüksek,,,evet,bekliyor,,0.61,0.485,kg,,,,,133,,
-2026-11-20,1552827,France - Ligue 1,Estac Troyes - Le Havre,25,1-1,,Estac Troyes,,yüksek,,,evet,bekliyor,,0.316,0.243,baski,0.02789,,,,134,,40
-2026-11-20,1559201,Belgium - Challenger Pro League,K. Lierse S.K. - Lokeren-Temse,46,1-0,,10,,yüksek,,,evet,bekliyor,,0.841,0.577,korner,,,,,135,,15.5
+2026-11-20,1552827,France - Ligue 1,Estac Troyes - Le Havre,25,1-1,,Estac Troyes,,yüksek,,,evet,ıska,,0.316,0.243,baski,0.02789,,3.91,-100,134,evet,40
+2026-11-20,1559201,Belgium - Challenger Pro League,K. Lierse S.K. - Lokeren-Temse,46,1-0,,10,,yüksek,,,evet,isabet,16,0.841,0.577,korner,,,1.65,65,135,evet,15.5
 2026-11-20,1552827,France - Ligue 1,Estac Troyes - Le Havre,26,1-1,,2,,düşük,,,evet,bekliyor,,0.515,0.463,iy,,,,,136,,2.5
 2026-11-20,1551887,Netherlands - Eerste Divisie,Almere City FC - NAC Breda,51,0-3,deplasman,15.1,3.6,orta,evet,"Deplasman 0-3 önde, son pencerede ceza sahası şutları ve xG 0.38; toplam baskı gerçekçi, ancak skor düşürücü olabilir.",evet,isabet,57,0.866,0.792,gol,0.03653,0.03831,1.2,20,137,evet,3.5
 2026-11-20,1551894,Netherlands - Eerste Divisie,FC OSS - Roda,54,1-0,,,,yüksek,,,evet,bekliyor,,0.301,0.234,alt,,,,,138,,1.5
 2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,62,1-1,,,,yüksek,,,evet,bekliyor,,0.525,0.341,alt,,,,,141,,2.5
 2026-11-20,1552827,France - Ligue 1,Estac Troyes - Le Havre,35,1-1,,1,,yüksek,,,evet,bekliyor,,0.56,0.442,kart,,,,,143,,3.5
+2026-11-20,1552531,France - Ligue 2,Annecy - Clermont Foot,61,3-0,iki taraf,13.1,11.4,orta,hayır,"3-0 skorda tempo düşük; son pencerede sadece bir isabetli şut, xG çok düşük. Sinyal zayıf, model olasılığı şişkin.",hayır,isabet,67,0.746,0.671,gol,0.03365,0.03468,1.42,42,,,3.5
+2026-11-20,1552531,France - Ligue 2,Annecy - Clermont Foot,61,3-0,,3-0,,orta,,,evet,bekliyor,,0.487,0.392,kg,,,,,145,,
+2026-11-20,1552535,France - Ligue 2,Nancy - Dijon,67,1-0,,,,orta,,,evet,bekliyor,,0.452,0.375,alt,,,,,146,,1.5
+2026-11-20,1551889,Netherlands - Eerste Divisie,Den Bosch - VVV Venlo,66,1-0,,,,yüksek,,,evet,bekliyor,,0.357,0.269,alt,,,,,147,,1.5
+2026-11-20,1551887,Netherlands - Eerste Divisie,Almere City FC - NAC Breda,63,0-4,deplasman,18.6,0.0,orta,evet,"Deplasman üstün (xG 2.24, 5 isabetli şut), son pencerede 0.71 xG; ancak 0-4 skorda tempo düşebilir.",evet,bekliyor,,0.776,0.697,gol,0.03848,0.03991,,,148,,4.5
+2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,67,2-0,ev,23.7,0.0,orta,evet,"Ev baskısı sürüyor, son 6 dakikada 2 isabetli şut; 2-0 önde, 3. gol için makul ihtimal.",evet,bekliyor,,0.774,0.659,gol,0.03981,0.04065,,,150,,2.5
+2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,68,2-0,,7,,yüksek,,,evet,bekliyor,,0.882,0.589,korner,,,,,152,,8.5
+2026-11-20,1552532,France - Ligue 2,Guingamp - Rodez,70,1-2,,10,,yüksek,,,evet,bekliyor,,0.903,0.553,korner,,,,,153,,11.5
