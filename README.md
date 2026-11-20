@@ -1,6 +1,6 @@
 # Gol Analizi – Gol Sinyali
 
-Canlı maçları takip eder. Son dakikalarda baskı belirgin şekilde artınca ve modelin gol olasılığı bahis piyasasının fiyatladığından yüksekse Claude'a onaylatır, sonra telefona **ntfy** bildirimi gönderir. Her sinyalin sonucunu (gol geldi mi) kendisi kaydeder.
+Canlı maçları takip eder ve telefona **ntfy** ile üç tür sinyal gönderir: ⚽ **gol**, 🚩 **korner**, 🟨 **kart**. Her sinyalde modelin olasılığı bahis piyasasının fiyatladığıyla karşılaştırılır; sinyal yalnızca model belirgin şekilde yüksekse gelir. Her sabah ☀️ **maç öncesi rapor** gönderir, maç başlamadan önemli 📉 **oran düşüşlerini** bildirir. Tüm sinyallerin ve tahminlerin sonucunu kendisi kaydeder.
 
 ## Çalışma takvimi
 
@@ -23,12 +23,26 @@ API planı otomatik algılanır:
 4. **Model ve piyasa karşılaştırması:**
    - **Model:** maç öncesi beklenen gol × baskı × dakika üzerinden "10 dakika içinde gol" olasılığı.
    - **Piyasa:** canlı Üst/Alt oranından marjı temizlenmiş "10 dakika içinde gol" olasılığı.
-5. **Sinyal:** Baskı eşiği geçilmeli **ve** model olasılığı piyasadan en az **4 puan** yüksek olmalı. Sonra Claude değerlendirip onaylar ya da eler.
-6. **Kayıt:**
-   - `data/sinyaller.csv`: her sinyal ve sonucu (`isabet` = 10 dakika içinde gol, `ıska` = gol yok)
-   - `data/ornekler/`: her canlı maçtan 5 dakikada bir örnek ve 10 dakika sonrası etiketi. Model kalibrasyonu için.
+5. **Gol sinyali:** Baskı eşiği geçilmeli **ve** model olasılığı piyasadan en az **4 puan** yüksek olmalı. Sonra Claude değerlendirip onaylar ya da eler.
+6. **🚩 Korner sinyali:** Son dakikalardaki şut, engellenen şut ve korner temposu normalin en az 1,5 katı olmalı. "10 dakikada korner" olasılığı da canlı korner pazarından (Total/Asian Corners) en az **7 puan** yüksek olmalı. Geride olan takımın son dakikalarda yüklenmesi hesaba katılır.
+7. **🟨 Kart sinyali:** Faul temposu normalin en az 1,5 katı olmalı ve model canlı kart pazarından (Total Cards) en az **7 puan** yüksek olmalı. Hakemin geçmiş kart ortalaması, maçın evresi ve skor gerginliği hesaba katılır. Hakem verisi sistem çalıştıkça `data/hakemler.json`'da birikir; ilk haftalarda genel ortalama kullanılır.
+   Korner ve kart sinyalleri Claude'a sorulmaz, böylece abonelik limitin gol sinyallerine kalır.
+8. **Kayıt:**
+   - `data/sinyaller.csv`: her sinyal (`tur`: gol/korner/kart) ve sonucu (`isabet` = 10 dakika içinde olay oldu, `ıska` = olmadı)
+   - `data/ornekler/`: her canlı maçtan 5 dakikada bir örnek ve 10 dakika sonrası gol/korner/kart etiketi. Model kalibrasyonu için.
    - `data/oranlar/`: günlük maç öncesi oran geçmişi
-7. Her oturum sonunda bir **özet bildirimi** gelir.
+9. Her oturum sonunda üç sinyal türünün isabetini gösteren bir **özet bildirimi** gelir.
+
+## Maç öncesi modül
+
+- **☀️ Sabah raporu (10:00 oturumu):** Günün en önemli 40 maçı için olasılıklar hesaplanır.
+  - **Model:** Takımların bu sezonki iç saha ve deplasman gol ortalamalarından Poisson (Dixon-Coles düzeltmeli) tahmini: 1/X/2, Üst-Alt 2.5, KG Var-Yok, en olası skorlar.
+  - **API:** API-Football'un kendi tahmini (ikinci görüş).
+  - **Piyasa:** Bet365 oranından marjı temizlenmiş olasılık.
+  - Model piyasadan en az **6 puan** yüksekse ve 1/X/2 seçimlerinde API de aynı yöndeyse seçim "değerli" olarak işaretlenir (oran 1,40-4,00 arası, en fazla 8 seçim).
+  - Bildirimde gol beklentisi en yüksek maçlar, değerli görünen seçimler ve oranı düşen maçlar yer alır. Tam rapor: `data/rapor/GÜN.md`.
+- **📉 Oran düşüşü uyarısı:** Oranlar saatte bir yenilenir. Başlamasına 3 saatten az kalan maçlarda bir oran (1/X/2, Üst-Alt, KG) günün ilk oranına göre **%7 veya daha fazla** düşmüşse bildirim gelir.
+- **Sonuç takibi:** Seçimler `data/maconcesi.csv`'ye kaydedilir; maç bitince sonucu otomatik işaretlenir. Sabah raporu geçmiş isabet oranını da gösterir.
 
 ## Gizli anahtarlar
 
@@ -42,7 +56,10 @@ API planı otomatik algılanır:
 
 ## Test
 
-**Actions → Gol Sinyali → Run workflow** yoluna gir ve `test` seç. Bağlantıları, toplu istatistiği, xG'yi ve canlı oranları kontrol edip sonucu bildirim olarak gönderir.
+**Actions → Gol Sinyali → Run workflow** yoluna gir ve şunlardan birini seç:
+- `test`: bağlantıları, toplu istatistiği, xG'yi ve canlı oranları kontrol eder, sonucu bildirim olarak gönderir.
+- `kisa`: 6 dakikalık gerçek bir canlı deneme yapar ve sabah raporunu hemen üretir.
+- `diag`: canlı oran pazarlarının adlarını loglara yazar.
 
 Canlı takibi hemen başlatmak için `run` seç.
 
@@ -53,7 +70,8 @@ Canlı takibi hemen başlatmak için `run` seç.
 | Ayar | Anlamı |
 |---|---|
 | `INTERVAL` | Tur aralığı (sn). Ultra için 30. |
-| `EDGE` | Model ile piyasa arasında aranan en az fark. Büyütürsen daha az ama daha seçici sinyal gelir. |
+| `SIGNALS` | Açık sinyal türleri, örn. sadece gol ve korner için `gol,korner`. |
+| `EDGE` / `EDGE_CORNER` / `EDGE_CARD` | Model ile piyasa arasında aranan en az fark. Büyütürsen daha az ama daha seçici sinyal gelir. |
 | `THRESHOLD` | Baskı eşiği. |
 | `MAX_CLAUDE_CALLS` | Bir oturumda en fazla Claude çağrısı. |
 

@@ -87,7 +87,7 @@ PRIORITY = {
 CSV_FIELDS = [
     "tarih", "fixture_id", "lig", "mac", "dakika", "skor", "taraf", "baski",
     "baski_rakip", "guven", "ai_onay", "ai_yorum", "gonderildi", "sonuc",
-    "gol_dakikasi", "p_model", "p_piyasa",
+    "gol_dakikasi", "p_model", "p_piyasa", "tur",
 ]
 
 
@@ -206,6 +206,9 @@ STAT_KEYS = {
     "Ball Possession": "poss",
     "Red Cards": "red",
     "Dangerous Attacks": "danger",
+    "Blocked Shots": "blocked",
+    "Fouls": "fouls",
+    "Yellow Cards": "yellow",
 }
 
 
@@ -258,6 +261,8 @@ class Match:
 
     def update(self, item: dict):
         st = item["fixture"]["status"]
+        self.referee = item["fixture"].get("referee") or getattr(self, "referee", None)
+        self.events = item.get("events") or getattr(self, "events", [])
         self.status = st["short"]
         self.minute = st.get("elapsed") or self.minute
         self.gh = item["goals"]["home"] or 0
@@ -295,9 +300,9 @@ def evaluate_pressure(m: Match) -> dict | None:
     span = cur["min"] - base["min"]
     if span < MIN_SPAN:
         return None
-    # Pencerede gol olduysa baskı "harcanmış" sayılır; golden sonrasına bak.
-    if (cur["gh"], cur["ga"]) != (base["gh"], base["ga"]):
-        return None
+    # Pencerede gol olduysa baskı "harcanmış" sayılır: gol sinyali verilmez
+    # (korner/kart modelleri yine çalışır).
+    goal_in_window = (cur["gh"], cur["ga"]) != (base["gh"], base["ga"])
     has_xg = cur["stats"]["has_xg"]
     ph, dh = team_pressure(cur["stats"]["home"], base["stats"]["home"], has_xg, span)
     pa, da = team_pressure(cur["stats"]["away"], base["stats"]["away"], has_xg, span)
@@ -322,11 +327,13 @@ def evaluate_pressure(m: Match) -> dict | None:
 
     ph *= ctx_mult("home")
     pa *= ctx_mult("away")
-    return {"home": round(ph, 1), "away": round(pa, 1), "span": span,
+    return {"home": round(ph, 1), "away": round(pa, 1), "span": span, "goal_in_window": goal_in_window,
             "d_home": dh, "d_away": da, "cur": cur, "base": base}
 
 
 def signal_side(pr: dict) -> str | None:
+    if pr.get("goal_in_window"):
+        return None
     if pr["home"] >= THRESHOLD and pr["home"] >= pr["away"]:
         return "ev"
     if pr["away"] >= THRESHOLD:

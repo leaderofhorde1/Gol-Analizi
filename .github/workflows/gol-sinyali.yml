@@ -11,9 +11,9 @@ on:
   workflow_dispatch:
     inputs:
       mod:
-        description: "test = bağlantıları dene, run = canlı takibi şimdi başlat"
+        description: "test = bağlantıları dene, run = canlı takibi başlat, kisa = 6 dk deneme + sabah raporu, diag = teşhis"
         type: choice
-        options: [test, run, diag]
+        options: [test, run, kisa, diag]
         default: test
 
 permissions:
@@ -45,14 +45,18 @@ jobs:
 
       - name: Gol sinyali motoru
         env:
-          MODE: ${{ github.event.inputs.mod || 'run' }}
+          MODE: ${{ github.event.inputs.mod == 'kisa' && 'run' || github.event.inputs.mod || 'run' }}
+          FORCE_REPORT: ${{ github.event.inputs.mod == 'kisa' && '1' || '0' }}
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           WINDOW_END: "23:45"     # ücretsiz planda takibin biteceği saat (TR)
-          RUN_MINUTES: "350"      # Pro planda bir oturumun süresi (dk)
+          RUN_MINUTES: ${{ github.event.inputs.mod == 'kisa' && '6' || '350' }}  # bir oturumun süresi (dk)
           INTERVAL: "30"          # Pro/Ultra: tur aralığı (sn)
-          EDGE: "0.04"            # Pro: model olasılığı piyasadan en az bu kadar yüksekse sinyal
+          SIGNALS: "gol,korner,kart"  # açık sinyal türleri
+          EDGE: "0.04"            # gol: model olasılığı piyasadan en az bu kadar yüksekse sinyal
+          EDGE_CORNER: "0.07"     # korner için aynı fark
+          EDGE_CARD: "0.07"       # kart için aynı fark
           MAX_TRACK: "3"          # günde takip edilecek maç sayısı (ücretsiz kota için 3)
           THRESHOLD: "13"         # baskı eşiği: büyütürsen daha az ama daha güçlü sinyal
           CLAUDE_MODEL: "sonnet"

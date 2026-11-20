@@ -1,14 +1,11 @@
-"""Gol Sinyali – Pro motoru (API-Football ücretli plan).
+"""Gol Sinyali – Pro/Ultra motoru.
 
-Ücretsiz motordan farkları:
-  * Tüm canlı maçlar tek istekle taranır, istatistikler 20'şer maçlık
-    gruplar halinde çekilir (günlük kotaya göre otomatik ölçeklenir).
-  * Maç öncesi oranlardan beklenen gol sayısı (mu) hesaplanır,
-    gün içindeki oran düşüşleri ("akıllı para" izi) tespit edilir.
-  * Canlı oranlardan piyasanın "10 dakika içinde gol" olasılığı çıkarılır.
-    Sinyal, modelin olasılığı piyasanınkinden belirgin yüksekse gelir.
-  * Her canlı maç için 5 dakikada bir örnek kaydedilir; 10 dakika sonra
-    gol olup olmadığı etiketlenir. Bu veri ileride modeli kalibre etmek için.
+* Tüm canlı maçlar 30 sn'de bir taranır; istatistikler 20'şer maçlık gruplarla.
+* Üç canlı sinyal türü: ⚽ gol, 🚩 korner, 🟨 kart. Her biri için model
+  olasılığı canlı oranlardan çıkarılan piyasa olasılığıyla karşılaştırılır.
+* Maç öncesi modül (prematch.py): sabah raporu, oran düşüşü uyarıları,
+  seçimlerin sonuç takibi.
+* Her canlı maçtan 5 dakikada bir örnek kaydedilir (model kalibrasyonu için).
 """
 from __future__ import annotations
 
@@ -28,26 +25,32 @@ from main import (
 )
 
 RUN_MINUTES = int(os.environ.get("RUN_MINUTES", "350"))
-EDGE = float(os.environ.get("EDGE", "0.04"))           # model - piyasa farkı eşiği
-TARGET_INTERVAL = int(os.environ.get("INTERVAL", "30"))  # hedef tur aralığı (sn)
-MAX_BATCHES = 15                                      # tur başına en fazla 15x20 = 300 maç
-SAMPLE_EVERY = 5                                      # örnek kaydı (maç dakikası)
-BOOKMAKER = int(os.environ.get("BOOKMAKER", "8"))     # 8 = Bet365
-DROP_PCT = float(os.environ.get("DROP_PCT", "0.07"))  # %7 ve üzeri düşüş
+EDGE = float(os.environ.get("EDGE", "0.04"))
+EDGE_CORNER = float(os.environ.get("EDGE_CORNER", "0.07"))
+EDGE_CARD = float(os.environ.get("EDGE_CARD", "0.07"))
+TARGET_INTERVAL = int(os.environ.get("INTERVAL", "30"))
+MAX_BATCHES = 15
+SAMPLE_EVERY = 5
+DROP_PCT = float(os.environ.get("DROP_PCT", "0.07"))
 MAX_CLAUDE = int(os.environ.get("MAX_CLAUDE_CALLS", "25"))
+SIGNALS_ON = set(os.environ.get("SIGNALS", "gol,korner,kart").split(","))
 TYPICAL_TOTAL_PRESSURE = 12.0
 DEFAULT_MU = 2.6
+LEAGUE_CORNERS = 10.2     # maç başı ortalama korner
+LEAGUE_CARDS = 4.3        # maç başı ortalama kart (sarı + kırmızı)
+TYPICAL_FOULS_10 = 2.4    # iki takım toplam, 10 dakikada faul
+TYPICAL_ATTACK_10 = 3.9   # şut + engellenen/2 + korner*0.8, iki takım, 10 dk
 
-ODDS_DIR = DATA / "oranlar"
 SAMPLES_DIR = DATA / "ornekler"
+REFEREE_JSON = DATA / "hakemler.json"
 SAMPLE_FIELDS = ["tarih", "fixture_id", "lig_id", "dakika", "skor_farki", "toplam_gol",
                  "baski_ev", "baski_dep", "kirmizi_farki", "mu", "dusus", "p_model",
-                 "p_piyasa", "gol_10dk"]
+                 "p_piyasa", "gol_10dk", "korner", "p_korner", "p_korner_piyasa", "korner_10dk",
+                 "kart", "faul_10", "p_kart", "p_kart_piyasa", "kart_10dk"]
 
 
-# ---------------------------------------------------------------- olasılık
+# ---------------------------------------------------------------- olasılık yardımcıları
 def poisson_over(mu: float, k: int) -> float:
-    """P(N >= k) for Poisson(mu)."""
     s, term = 0.0, math.exp(-mu)
     for i in range(k):
         s += term
@@ -55,19 +58,22 @@ def poisson_over(mu: float, k: int) -> float:
     return 1.0 - s
 
 
-def mu_from_over25(p_over: float) -> float:
-    lo, hi = 0.3, 7.0
-    for _ in range(40):
+def solve_lambda(p_over: float, k: int) -> float:
+    lo, hi = 0.001, 40.0
+    for _ in range(50):
         mid = (lo + hi) / 2
-        if poisson_over(mid, 3) < p_over:
+        if poisson_over(mid, k) < p_over:
             lo = mid
         else:
             hi = mid
-    return round((lo + hi) / 2, 3)
+    return (lo + hi) / 2
+
+
+def mu_from_over25(p_over: float) -> float:
+    return round(solve_lambda(p_over, 3), 3)
 
 
 def fair_prob(odd_a: float, odd_b: float) -> float:
-    """İki seçenekli pazarda marjı temizlenmiş A olasılığı."""
     ia, ib = 1 / odd_a, 1 / odd_b
     return ia / (ia + ib)
 
@@ -83,28 +89,48 @@ def p_next10_from_rest(p_rest: float, minute: int) -> float:
     return 1 - math.exp(-q * min(10.0, rem))
 
 
-# ---------------------------------------------------------------- oran ayrıştırma
-def parse_prematch(item: dict) -> dict | None:
-    """odds?bet=5 cevabından Over/Under 2.5 oranları."""
-    for bm in item.get("bookmakers") or []:
-        for bet in bm.get("bets") or []:
-            vals = {v.get("value"): v.get("odd") for v in bet.get("values") or []}
-            o, u = vals.get("Over 2.5"), vals.get("Under 2.5")
-            if o and u:
-                try:
-                    return {"over": float(o), "under": float(u)}
-                except ValueError:
-                    return None
-    return None
+def p_next10_from_count_market(item: dict, names: tuple, current: int, minute: int) -> float | None:
+    """Toplam (korner/kart) Üst-Alt pazarından 10 dk içinde en az bir olay olasılığı."""
+    lines = {}
+    for mk in item.get("odds") or []:
+        if mk.get("name") not in names:
+            continue
+        for v in mk.get("values") or []:
+            if v.get("suspended"):
+                continue
+            try:
+                h = float(v.get("handicap"))
+                odd = float(v.get("odd"))
+            except (TypeError, ValueError):
+                continue
+            if abs(h - math.floor(h) - 0.5) > 1e-6 or h < current:
+                continue
+            side = (v.get("value") or "").lower()
+            if side in ("over", "under"):
+                lines.setdefault(h, {})[side] = odd
+    best = None
+    for h in sorted(lines):
+        d = lines[h]
+        if "over" in d and "under" in d:
+            best = (h, fair_prob(d["over"], d["under"]))
+            break
+    if not best:
+        return None
+    h, p_over = best
+    k = int(h - current + 0.5)
+    if k < 1 or k > 8 or not (0.02 < p_over < 0.98):
+        return None
+    lam = solve_lambda(p_over, k)
+    rem = remaining_minutes(minute)
+    return 1 - math.exp(-lam / rem * min(10.0, rem))
 
 
 def parse_live_goal_market(item: dict, total_goals: int) -> float | None:
-    """Canlı oranlardan 'en az bir gol daha' olasılığı (maçın kalanı için)."""
     line = total_goals + 0.5
     best = None
     for mk in item.get("odds") or []:
         name = (mk.get("name") or "").lower()
-        if "over/under" not in name and "match goals" not in name and "total" not in name:
+        if "over/under" not in name and "match goals" not in name:
             continue
         if any(w in name for w in ("1st", "2nd", "half", "corner", "card", "home", "away", "team", "asian")):
             continue
@@ -113,117 +139,93 @@ def parse_live_goal_market(item: dict, total_goals: int) -> float | None:
             if v.get("suspended"):
                 continue
             try:
-                h = float(v.get("handicap")) if v.get("handicap") not in (None, "") else None
-            except ValueError:
-                h = None
-            label = (v.get("value") or "").strip()
-            if h is None:  # "Over 2.5" biçimi
-                parts = label.split()
-                if len(parts) == 2:
-                    try:
-                        h = float(parts[1])
-                    except ValueError:
-                        continue
-                    label = parts[0]
-            if h is None or abs(h - line) > 1e-6:
-                continue
-            try:
+                h = float(v.get("handicap"))
                 odd = float(v.get("odd"))
             except (TypeError, ValueError):
                 continue
-            if label.lower().startswith("over"):
+            if abs(h - line) > 1e-6:
+                continue
+            label = (v.get("value") or "").lower()
+            if label.startswith("over"):
                 over = odd
-            elif label.lower().startswith("under"):
+            elif label.startswith("under"):
                 under = odd
         if over and under:
             best = fair_prob(over, under)
             break
-        if over and best is None:
-            best = min(0.99, 1 / over / 1.05)
     return best
+
+
+def card_events(m: Match) -> list[int]:
+    return [(ev.get("time") or {}).get("elapsed") or 0
+            for ev in getattr(m, "events", []) or [] if ev.get("type") == "Card"]
 
 
 # ---------------------------------------------------------------- motor
 class ProEngine:
     def __init__(self, api: Api, claude: Claude):
+        from prematch import OddsBook
         self.api = api
         self.claude = claude
         self.now0 = dt.datetime.now(TZ)
         self.today = self.now0.date().isoformat()
+        self.book = OddsBook(api, self.today)
         self.matches: dict[int, Match] = {}
-        self.meta: dict[int, dict] = {}        # mu, dusus, p_piyasa, son_ornek
+        self.meta: dict[int, dict] = {}
         self.pending_samples: list[dict] = []
         self.done_samples: list[dict] = []
         self.all_rows = load_signals()
         self.rows_today: list[dict] = []
         self.odds_live_ok = True
         self.tick_cost = 0
+        self.alerted: set = set()
+        self.referees = json.loads(REFEREE_JSON.read_text()) if REFEREE_JSON.exists() else {}
+        self.ref_done: set = set()
 
     # --- zaman ve bütçe
-    def end_time(self) -> dt.datetime:
-        reset = (self.now0 + dt.timedelta(days=1 if self.now0.hour >= 3 else 0)).replace(
+    def _reset(self, now):
+        return (now + dt.timedelta(days=1 if now.hour >= 3 else 0)).replace(
             hour=2, minute=55, second=0, microsecond=0)
-        return min(self.now0 + dt.timedelta(minutes=RUN_MINUTES), reset)
+
+    def end_time(self) -> dt.datetime:
+        return min(self.now0 + dt.timedelta(minutes=RUN_MINUTES), self._reset(self.now0))
 
     def per_minute_budget(self) -> float:
         now = dt.datetime.now(TZ)
-        reset = (now + dt.timedelta(days=1 if now.hour >= 3 else 0)).replace(
-            hour=2, minute=55, second=0, microsecond=0)
-        mins = max(10.0, (reset - now).total_seconds() / 60)
+        mins = max(10.0, (self._reset(now) - now).total_seconds() / 60)
         rem = (self.api.remaining if self.api.remaining is not None else 500) - REQUEST_RESERVE * 10
         return max(0.0, rem) / mins
 
-    # --- maç öncesi oranlar
-    def load_prematch_odds(self):
-        ODDS_DIR.mkdir(parents=True, exist_ok=True)
-        path = ODDS_DIR / f"{self.today}.json"
-        store = json.loads(path.read_text()) if path.exists() else {}
-        page, pages, n = 1, 1, 0
-        stamp = dt.datetime.now(TZ).strftime("%H:%M")
-        while page <= pages and page <= 60:
+    # --- maç öncesi
+    def prematch_phase(self):
+        import prematch
+        self.book.load_fixtures()
+        self.book.refresh()
+        try:
+            prematch.resolve_picks(self.api)
+        except Exception as e:
+            log("Tahmin sonuçları işlenemedi:", e)
+        report = prematch.REPORT_DIR / f"{self.today}.md"
+        if (self.now0.hour < 13 and not report.exists()) or os.environ.get("FORCE_REPORT") == "1":
             try:
-                r = self.api.s.get(f"https://v3.football.api-sports.io/odds",
-                                   params={"date": self.today, "bet": 5, "bookmaker": BOOKMAKER,
-                                           "timezone": "Europe/Istanbul", "page": page}, timeout=30)
-                self.api.used += 1
-                rem = r.headers.get("x-ratelimit-requests-remaining")
-                if rem and rem.isdigit():
-                    self.api.remaining = int(rem)
-                body = r.json()
+                prematch.morning_report(self.api, self.book)
             except Exception as e:
-                log("Oran sayfası hatası:", e)
-                break
-            if body.get("errors"):
-                log("Oran API hatası:", body["errors"])
-                break
-            pages = (body.get("paging") or {}).get("total", 1) or 1
-            for it in body.get("response") or []:
-                fid = str(it["fixture"]["id"])
-                o = parse_prematch(it)
-                if not o:
-                    continue
-                rec = store.setdefault(fid, {"ilk": o, "ilk_saat": stamp})
-                rec["son"] = o
-                rec["son_saat"] = stamp
-                n += 1
-            page += 1
-        path.write_text(json.dumps(store, ensure_ascii=False))
-        drops = 0
-        for fid, rec in store.items():
-            first, last = rec["ilk"], rec.get("son", rec["ilk"])
-            p_over = fair_prob(last["over"], last["under"])
-            drop = (first["over"] - last["over"]) / first["over"]
-            self.meta.setdefault(int(fid), {}).update(
-                {"mu": mu_from_over25(p_over), "dusus": round(drop, 3)})
-            drops += drop >= DROP_PCT
-        log(f"Maç öncesi oran: {n} maç güncellendi ({page - 1} sayfa), "
-            f"oran düşüşü olan: {drops}")
+                log("Sabah raporu hatası:", e)
+        self.send_drop_alerts()
+
+    def send_drop_alerts(self):
+        import prematch
+        lines = prematch.drop_alerts(self.book, self.alerted)
+        if lines:
+            notify("📉 Oran düşüşü", "\n".join(lines[:8]), priority=3, tags=["chart_with_downwards_trend"])
+
+    def mu(self, fid) -> float:
+        return self.book.mu(fid) or DEFAULT_MU
 
     # --- seçim
     def score(self, m: Match) -> float:
-        meta = self.meta.get(m.id, {})
-        s = meta.get("mu", DEFAULT_MU) * 25 + PRIORITY.get(m.league_id, 10) / 10
-        if meta.get("dusus", 0) >= DROP_PCT:
+        s = self.mu(m.id) * 25 + PRIORITY.get(m.league_id, 10) / 10
+        if self.book.over_drop(m.id) >= DROP_PCT:
             s += 20
         return s
 
@@ -243,9 +245,10 @@ class ProEngine:
             m.ga = it["goals"]["away"] or 0
             if it.get("events"):
                 m.goals = goal_events(it)
+                m.events = it["events"]
         for fid, m in self.matches.items():
             if fid not in seen and m.status in LIVE:
-                m.status = "FT"  # canlı listeden düştü -> bitti say
+                m.status = "FT"
 
     def tick(self):
         cost = 0
@@ -254,106 +257,186 @@ class ProEngine:
         self.ingest_live(live)
         live_ms = [m for m in self.matches.values() if m.status in LIVE]
         live_ms.sort(key=self.score, reverse=True)
-
         budget = self.per_minute_budget() * (TARGET_INTERVAL / 60)
         batches = min(MAX_BATCHES, max(1, int(budget) - (2 if self.odds_live_ok else 1)))
         tracked = live_ms[: batches * 20]
         for i in range(0, len(tracked), 20):
             chunk = tracked[i:i + 20]
+            cost += 1
             try:
                 items = self.api.get("fixtures", ids="-".join(str(m.id) for m in chunk))
             except Exception as e:
                 log("İstatistik hatası:", e)
                 continue
-            finally:
-                cost += 1
             for it in items:
                 m = self.matches.get(it["fixture"]["id"])
                 if m:
                     m.update(it)
-
         if self.odds_live_ok:
+            cost += 1
             try:
-                odds = self.api.get("odds/live")
-                cost += 1
-                for it in odds:
+                for it in self.api.get("odds/live"):
                     m = self.matches.get(it["fixture"]["id"])
                     if m:
-                        p = parse_live_goal_market(it, m.gh + m.ga)
-                        self.meta.setdefault(m.id, {})["p_rest"] = p
+                        self.meta.setdefault(m.id, {})["odds"] = it
             except Exception as e:
                 log("Canlı oran kapatıldı:", e)
                 self.odds_live_ok = False
-
         for m in tracked:
-            self.check_outcomes(m)
-            self.label_samples(m)
-            self.evaluate(m)
+            try:
+                self.check_outcomes(m)
+                self.label_samples(m)
+                self.evaluate(m)
+            except Exception as e:
+                log(f"{m.name} değerlendirme hatası:", e)
+        for m in self.matches.values():
+            if m.status in FINISHED:
+                self.check_outcomes(m)
+                self.label_samples(m)
+                self.learn_referee(m)
         self.tick_cost = cost
         return len(live_ms), len(tracked)
 
-    # --- model
-    def model_probs(self, m: Match, pr: dict) -> tuple[float, float | None]:
-        meta = self.meta.get(m.id, {})
-        mu = meta.get("mu", DEFAULT_MU)
-        rate = mu / 94.0
+    # --- modeller
+    def goal_model(self, m: Match, pr: dict):
+        rate = self.mu(m.id) / 94.0
         total = pr["home"] + pr["away"]
         f = min(3.0, max(0.55, 0.55 + 0.45 * total / TYPICAL_TOTAL_PRESSURE))
         late = 1.15 if m.minute >= 75 else 1.0
-        rem = remaining_minutes(m.minute)
-        p_model = 1 - math.exp(-rate * min(10.0, rem) * f * late)
-        p_rest = meta.get("p_rest")
+        p_model = 1 - math.exp(-rate * min(10.0, remaining_minutes(m.minute)) * f * late)
+        odds = self.meta.get(m.id, {}).get("odds")
+        p_rest = parse_live_goal_market(odds, m.gh + m.ga) if odds else None
         p_mkt = p_next10_from_rest(p_rest, m.minute) if p_rest else None
         return p_model, p_mkt
 
+    def corner_model(self, m: Match, pr: dict):
+        cur, base, span = pr["cur"]["stats"], pr["base"]["stats"], max(pr["span"], 6)
+        corners = int(cur["home"]["corners"] + cur["away"]["corners"])
+        d = lambda k: sum(max(0.0, cur[s][k] - base[s][k]) for s in ("home", "away"))
+        attack = (d("shots") + 0.5 * d("blocked") + 0.8 * d("corners")) * 10 / span
+        f = min(2.2, max(0.6, 0.6 + 0.4 * attack / TYPICAL_ATTACK_10))
+        base_rate = LEAGUE_CORNERS / 94
+        if m.minute >= 20:
+            base_rate = 0.6 * base_rate + 0.4 * corners / m.minute
+        if abs(m.gh - m.ga) == 1 and m.minute >= 70:
+            f *= 1.15
+        p_model = 1 - math.exp(-base_rate * f * min(10.0, remaining_minutes(m.minute)))
+        odds = self.meta.get(m.id, {}).get("odds")
+        p_mkt = p_next10_from_count_market(odds, ("Total Corners", "Asian Corners"), corners,
+                                           m.minute) if odds else None
+        return p_model, p_mkt, f, corners
+
+    def referee_avg(self, m: Match) -> tuple[float, str]:
+        ref = (getattr(m, "referee", None) or "").split(",")[0].strip()
+        r = self.referees.get("hakem", {}).get(ref)
+        if ref and r and r["mac"] >= 5:
+            return r["kart"] / r["mac"], f"hakem {ref}: maç başı {r['kart'] / r['mac']:.1f} kart ({r['mac']} maç)"
+        lg = self.referees.get("lig", {}).get(str(m.league_id))
+        if lg and lg["mac"] >= 10:
+            return lg["kart"] / lg["mac"], f"lig ortalaması {lg['kart'] / lg['mac']:.1f}"
+        return LEAGUE_CARDS, "genel ortalama (hakem verisi birikiyor)"
+
+    def card_model(self, m: Match, pr: dict):
+        cur, base, span = pr["cur"]["stats"], pr["base"]["stats"], max(pr["span"], 6)
+        cards = int(sum(cur[s]["yellow"] + cur[s]["red"] for s in ("home", "away")))
+        fouls10 = sum(max(0.0, cur[s]["fouls"] - base[s]["fouls"]) for s in ("home", "away")) * 10 / span
+        avg, src = self.referee_avg(m)
+        phase = 0.6 if m.minute < 30 else 1.0 if m.minute < 60 else 1.35
+        f = min(2.2, max(0.6, 0.6 + 0.4 * fouls10 / TYPICAL_FOULS_10))
+        if abs(m.gh - m.ga) <= 1 and m.minute >= 70:
+            f *= 1.2
+        if m.minute >= 20:
+            avg = 0.7 * avg + 0.3 * cards / m.minute * 94
+        p_model = 1 - math.exp(-avg / 94 * phase * f * min(10.0, remaining_minutes(m.minute)))
+        odds = self.meta.get(m.id, {}).get("odds")
+        p_mkt = p_next10_from_count_market(odds, ("Total Cards",), cards, m.minute) if odds else None
+        return p_model, p_mkt, f, cards, fouls10, src
+
+    # --- değerlendirme
     def evaluate(self, m: Match):
         pr = evaluate_pressure(m)
         if not pr:
             return
-        p_model, p_mkt = self.model_probs(m, pr)
         meta = self.meta.setdefault(m.id, {})
-        # örnek kaydı
-        last = meta.get("son_ornek", -99)
-        if m.minute - last >= SAMPLE_EVERY:
+        pg, pg_m = self.goal_model(m, pr)
+        pc, pc_m, fc, corners = self.corner_model(m, pr)
+        pk, pk_m, fk, cards, fouls10, ref_src = self.card_model(m, pr)
+        if m.minute - meta.get("son_ornek", -99) >= SAMPLE_EVERY:
             meta["son_ornek"] = m.minute
             st = pr["cur"]["stats"]
+            r3 = lambda v: "" if v is None else round(v, 3)
             self.pending_samples.append({
                 "tarih": self.today, "fixture_id": m.id, "lig_id": m.league_id,
                 "dakika": m.minute, "skor_farki": m.gh - m.ga, "toplam_gol": m.gh + m.ga,
                 "baski_ev": pr["home"], "baski_dep": pr["away"],
                 "kirmizi_farki": st["home"]["red"] - st["away"]["red"],
-                "mu": meta.get("mu", ""), "dusus": meta.get("dusus", ""),
-                "p_model": round(p_model, 3),
-                "p_piyasa": "" if p_mkt is None else round(p_mkt, 3), "gol_10dk": "",
+                "mu": round(self.mu(m.id), 2), "dusus": self.book.over_drop(m.id),
+                "p_model": r3(pg), "p_piyasa": r3(pg_m), "gol_10dk": "",
+                "korner": corners, "p_korner": r3(pc), "p_korner_piyasa": r3(pc_m), "korner_10dk": "",
+                "kart": cards, "faul_10": round(fouls10, 1), "p_kart": r3(pk),
+                "p_kart_piyasa": r3(pk_m), "kart_10dk": "",
             })
-        # sinyal
-        if m.minute - m.last_signal_min < 12 or m.minute >= 88:
+        if m.minute >= 88:
             return
-        side = signal_side(pr)
-        if not side:
-            return
-        if p_mkt is not None and p_model - p_mkt < EDGE:
-            return
-        m.last_signal_min = m.minute
-        self.send_signal(m, pr, side, p_model, p_mkt)
+        # ⚽ gol
+        if "gol" in SIGNALS_ON and m.minute - m.last_signal_min >= 12:
+            side = signal_side(pr)
+            if side and (pg_m is None or pg - pg_m >= EDGE):
+                m.last_signal_min = m.minute
+                self.goal_signal(m, pr, side, pg, pg_m)
+        # 🚩 korner
+        if "korner" in SIGNALS_ON and m.minute - meta.get("son_korner", -99) >= 10 and fc >= 1.5:
+            if (pc_m is not None and pc - pc_m >= EDGE_CORNER) or (pc_m is None and pc >= 0.85):
+                meta["son_korner"] = m.minute
+                d = {k: pr["d_home"][k] + pr["d_away"][k] for k in pr["d_home"]}
+                self.simple_signal(m, "korner", pc, pc_m, corners, [
+                    f"Son {int(pr['span'])} dk: {fmt_delta(d)}",
+                    f"Maçtaki korner: {corners}"])
+        # 🟨 kart
+        if "kart" in SIGNALS_ON and m.minute - meta.get("son_kart", -99) >= 12 and fk >= 1.5:
+            if (pk_m is not None and pk - pk_m >= EDGE_CARD) or (pk_m is None and pk >= 0.55):
+                meta["son_kart"] = m.minute
+                self.simple_signal(m, "kart", pk, pk_m, cards, [
+                    f"Son {int(pr['span'])} dk faul temposu: 10 dk'da {fouls10:.1f} (normali ~{TYPICAL_FOULS_10})",
+                    f"Maçtaki kart: {cards}", f"Hakem verisi: {ref_src}"])
 
-    def send_signal(self, m, pr, side, p_model, p_mkt):
-        meta = self.meta.get(m.id, {})
+    def _row(self, m, tur, side, p, p_mkt, conf, extra=None):
+        row = {"tarih": self.today, "fixture_id": m.id, "lig": m.league, "mac": m.name,
+               "dakika": m.minute, "skor": f"{m.gh}-{m.ga}", "taraf": side, "baski": "",
+               "baski_rakip": "", "guven": conf, "ai_onay": "", "ai_yorum": "",
+               "gonderildi": "evet", "sonuc": "bekliyor", "gol_dakikasi": "",
+               "p_model": round(p, 3), "p_piyasa": "" if p_mkt is None else round(p_mkt, 3), "tur": tur}
+        if extra:
+            row.update(extra)
+        return row
+
+    def simple_signal(self, m, tur, p, p_mkt, count, lines):
+        ratio = p / p_mkt if p_mkt else None
+        conf = "yüksek" if (ratio and ratio >= 1.25) else "orta" if (ratio and ratio >= 1.12) else "düşük"
+        row = self._row(m, tur, "", p, p_mkt, conf, {"baski": count})  # baski alanı: o anki sayı
+        self.rows_today.append(row)
+        icon, label = ("🚩", "Korner") if tur == "korner" else ("🟨", "Kart")
+        log(f"SİNYAL[{tur}] {m.name} {m.minute}' model={p:.2f} piyasa={p_mkt}")
+        body = [m.league, f"{m.minute}'  Skor {m.gh}-{m.ga}", *lines,
+                f"10 dk {label.lower()} olasılığı → model %{round(p * 100)}"
+                + (f" | piyasa %{round(p_mkt * 100)}" if p_mkt is not None else " | piyasa: yok"),
+                f"Güven: {conf}"]
+        notify(f"{icon} {label} sinyali: {m.name}", "\n".join(body), priority=4,
+               tags=["triangular_flag_on_post" if tur == "korner" else "yellow_square"])
+
+    def goal_signal(self, m, pr, side, p_model, p_mkt):
+        drop = self.book.over_drop(m.id)
         ratio = p_model / p_mkt if p_mkt else None
         conf = "yüksek" if (ratio and ratio >= 1.4) else "orta" if (ratio and ratio >= 1.2) else "düşük"
         ai = None
         if self.claude.available() and self.claude.calls < MAX_CLAUDE:
-            ctx = {
-                "lig": m.league, "mac": m.name, "dakika": m.minute, "skor": f"{m.gh}-{m.ga}",
-                "pencere_dk": pr["span"], "ev_son_pencere": pr["d_home"],
-                "dep_son_pencere": pr["d_away"], "ev_toplam": pr["cur"]["stats"]["home"],
-                "dep_toplam": pr["cur"]["stats"]["away"],
-                "mac_oncesi_beklenen_gol": meta.get("mu"),
-                "mac_oncesi_ust_oran_dususu": meta.get("dusus"),
-                "model_10dk_gol_olasiligi": round(p_model, 3),
-                "piyasa_10dk_gol_olasiligi": None if p_mkt is None else round(p_mkt, 3),
-                "model_taraf": side,
-            }
+            ctx = {"lig": m.league, "mac": m.name, "dakika": m.minute, "skor": f"{m.gh}-{m.ga}",
+                   "pencere_dk": pr["span"], "ev_son_pencere": pr["d_home"], "dep_son_pencere": pr["d_away"],
+                   "ev_toplam": pr["cur"]["stats"]["home"], "dep_toplam": pr["cur"]["stats"]["away"],
+                   "mac_oncesi_beklenen_gol": round(self.mu(m.id), 2), "mac_oncesi_ust_oran_dususu": drop,
+                   "model_10dk_gol_olasiligi": round(p_model, 3),
+                   "piyasa_10dk_gol_olasiligi": None if p_mkt is None else round(p_mkt, 3),
+                   "model_taraf": side}
             try:
                 ai = self.claude.judge(ctx)
             except Exception as e:
@@ -362,17 +445,13 @@ class ProEngine:
         if ai:
             conf = ai.get("guven", conf)
             side = ai.get("taraf", side)
-        row = {
-            "tarih": self.today, "fixture_id": m.id, "lig": m.league, "mac": m.name,
-            "dakika": m.minute, "skor": f"{m.gh}-{m.ga}", "taraf": side,
+        row = self._row(m, "gol", side, p_model, p_mkt, conf, {
             "baski": max(pr["home"], pr["away"]), "baski_rakip": min(pr["home"], pr["away"]),
-            "guven": conf, "ai_onay": "" if ai is None else ("evet" if ai.get("onay") else "hayır"),
+            "ai_onay": "" if ai is None else ("evet" if ai.get("onay") else "hayır"),
             "ai_yorum": "" if ai is None else ai.get("yorum", ""),
-            "gonderildi": "evet" if send else "hayır", "sonuc": "bekliyor", "gol_dakikasi": "",
-            "p_model": round(p_model, 3), "p_piyasa": "" if p_mkt is None else round(p_mkt, 3),
-        }
+            "gonderildi": "evet" if send else "hayır"})
         self.rows_today.append(row)
-        log(f"SİNYAL {m.name} {m.minute}' {side} model={p_model:.2f} piyasa={p_mkt} gönder={send}")
+        log(f"SİNYAL[gol] {m.name} {m.minute}' {side} model={p_model:.2f} piyasa={p_mkt} gönder={send}")
         if not send:
             return
         d = pr["d_home"] if side == "ev" else pr["d_away"] if side == "deplasman" else {
@@ -383,46 +462,84 @@ class ProEngine:
                  f"10 dk gol olasılığı → model %{round(p_model * 100)}"
                  + (f" | piyasa %{round(p_mkt * 100)}" if p_mkt is not None else " | piyasa: yok"),
                  f"Güven: {conf}"]
-        if meta.get("dusus", 0) >= DROP_PCT:
-            lines.append(f"📉 Maç öncesi Üst 2.5 oranı %{round(meta['dusus'] * 100)} düşmüştü")
+        if drop >= DROP_PCT:
+            lines.append(f"📉 Maç öncesi Üst 2.5 oranı %{round(drop * 100)} düşmüştü")
         if ai and ai.get("yorum"):
             lines.append(f"🤖 {ai['yorum']}")
         notify(f"⚽ Gol sinyali: {m.name}", "\n".join(lines),
                priority=5 if conf == "yüksek" else 4, tags=["soccer"])
 
-    # --- sonuç ve etiketleme
+    # --- sonuçlar
+    def count_after(self, m: Match, key: str, smin: int) -> int | None:
+        """smin+10'a kadarki en son anlık görüntüdeki toplam sayı (korner için)."""
+        last = None
+        for s in m.snaps:
+            if s["min"] <= smin + 10:
+                st = s["stats"]
+                last = int(st["home"][key] + st["away"][key])
+        return last
+
     def check_outcomes(self, m: Match):
         for r in self.rows_today:
             if int(r["fixture_id"]) != m.id or r["sonuc"] != "bekliyor":
                 continue
-            smin = int(r["dakika"])
-            sh, sa = (int(x) for x in r["skor"].split("-"))
-            hits = [g for g in m.goals if smin < g["minute"] <= smin + 10]
-            if hits or ((m.gh + m.ga) > (sh + sa) and m.minute <= smin + 10):
-                r["sonuc"] = "isabet"
-                r["gol_dakikasi"] = hits[0]["minute"] if hits else m.minute
-            elif m.minute > smin + 10 or m.status in FINISHED:
-                r["sonuc"] = "ıska"
+            smin, tur = int(r["dakika"]), r.get("tur") or "gol"
+            over = m.minute > smin + 10 or m.status in FINISHED
+            if tur == "gol":
+                sh, sa = (int(x) for x in r["skor"].split("-"))
+                hits = [g for g in m.goals if smin < g["minute"] <= smin + 10]
+                if hits or ((m.gh + m.ga) > (sh + sa) and m.minute <= smin + 10):
+                    r["sonuc"], r["gol_dakikasi"] = "isabet", (hits[0]["minute"] if hits else m.minute)
+                elif over:
+                    r["sonuc"] = "ıska"
+            elif tur == "korner":
+                last = self.count_after(m, "corners", smin)
+                if last is not None and last > int(r["baski"]):
+                    r["sonuc"] = "isabet"
+                elif over:
+                    r["sonuc"] = "ıska"
+            elif tur == "kart":
+                hits = [t for t in card_events(m) if smin < t <= smin + 10]
+                if hits:
+                    r["sonuc"], r["gol_dakikasi"] = "isabet", hits[0]
+                elif over:
+                    r["sonuc"] = "ıska"
 
     def label_samples(self, m: Match):
         keep = []
+        cards_t = card_events(m)
         for s in self.pending_samples:
             if s["fixture_id"] != m.id:
                 keep.append(s)
                 continue
             smin = s["dakika"]
-            goal = any(smin < g["minute"] <= smin + 10 for g in m.goals) or \
-                (m.gh + m.ga > s["toplam_gol"] and m.minute <= smin + 10)
-            if goal:
-                s["gol_10dk"] = 1
-                self.done_samples.append(s)
-            elif m.minute > smin + 10 or m.status in FINISHED:
-                s["gol_10dk"] = 0
-                self.done_samples.append(s)
-            else:
+            if not (m.minute > smin + 10 or m.status in FINISHED):
                 keep.append(s)
+                continue
+            s["gol_10dk"] = int(any(smin < g["minute"] <= smin + 10 for g in m.goals))
+            last_c = self.count_after(m, "corners", smin)
+            s["korner_10dk"] = "" if last_c is None else int(last_c > s["korner"])
+            s["kart_10dk"] = int(any(smin < t <= smin + 10 for t in cards_t))
+            self.done_samples.append(s)
         self.pending_samples = keep
 
+    def learn_referee(self, m: Match):
+        if m.id in self.ref_done or not m.snaps:
+            return
+        self.ref_done.add(m.id)
+        if m.snaps[-1]["min"] < 80:
+            return
+        st = m.snaps[-1]["stats"]
+        cards = int(sum(st[s]["yellow"] + st[s]["red"] for s in ("home", "away")))
+        ref = (getattr(m, "referee", None) or "").split(",")[0].strip()
+        for key, name in (("lig", str(m.league_id)), ("hakem", ref)):
+            if not name:
+                continue
+            rec = self.referees.setdefault(key, {}).setdefault(name, {"mac": 0, "kart": 0})
+            rec["mac"] += 1
+            rec["kart"] += cards
+
+    # --- kayıt
     def flush_samples(self):
         if not self.done_samples:
             return
@@ -441,22 +558,27 @@ class ProEngine:
     def save(self):
         save_signals(self.all_rows + self.rows_today)
         self.flush_samples()
+        DATA.mkdir(exist_ok=True)
+        REFEREE_JSON.write_text(json.dumps(self.referees, ensure_ascii=False))
 
     def finish(self):
         for m in self.matches.values():
             if m.status in FINISHED:
                 self.check_outcomes(m)
                 self.label_samples(m)
+                self.learn_referee(m)
         self.save()
-        sent = [r for r in self.rows_today if r["gonderildi"] == "evet"]
-        hit = [r for r in sent if r["sonuc"] == "isabet"]
         rows = self.all_rows + self.rows_today
-        all_sent = [r for r in rows if r.get("gonderildi") == "evet" and r.get("sonuc") in ("isabet", "ıska")]
-        all_hit = [r for r in all_sent if r["sonuc"] == "isabet"]
-        msg = [f"Bu oturumda sinyal: {len(sent)}, isabet: {len(hit)}"
-               + (f" (%{100 * len(hit) // len(sent)})" if sent else "")]
-        if all_sent:
-            msg.append(f"Tüm zamanlar: {len(all_hit)}/{len(all_sent)} (%{100 * len(all_hit) // len(all_sent)})")
+        msg = []
+        for tur, label in (("gol", "⚽ Gol"), ("korner", "🚩 Korner"), ("kart", "🟨 Kart")):
+            sent = [r for r in self.rows_today if (r.get("tur") or "gol") == tur and r["gonderildi"] == "evet"]
+            hit = [r for r in sent if r["sonuc"] == "isabet"]
+            hist = [r for r in rows if (r.get("tur") or "gol") == tur and r.get("gonderildi") == "evet"
+                    and r.get("sonuc") in ("isabet", "ıska")]
+            hh = sum(r["sonuc"] == "isabet" for r in hist)
+            if sent or hist:
+                msg.append(f"{label}: bu oturum {len(hit)}/{len(sent)}"
+                           + (f", tüm zamanlar {hh}/{len(hist)} (%{100 * hh // len(hist)})" if hist else ""))
         msg.append(f"API isteği: {self.api.used}, kalan: {self.api.remaining}, Claude: {self.claude.calls}")
         log("ÖZET:", " | ".join(msg))
         notify("📊 Oturum özeti", "\n".join(msg), priority=2, tags=["bar_chart"])
@@ -466,11 +588,12 @@ class ProEngine:
         end = self.end_time()
         log(f"Pro motor başladı, bitiş {end:%H:%M}")
         try:
-            self.load_prematch_odds()
+            self.prematch_phase()
         except Exception as e:
-            log("Maç öncesi oranlar alınamadı:", e)
-        notify("✅ Takip başladı", f"Pro mod, bitiş {end:%H:%M}.", priority=2, tags=["white_check_mark"])
-        last_save = time.time()
+            log("Maç öncesi aşama hatası:", e)
+        notify("✅ Takip başladı", f"Pro mod ({', '.join(sorted(SIGNALS_ON))}), bitiş {end:%H:%M}.",
+               priority=2, tags=["white_check_mark"])
+        last_save = last_odds = time.time()
         idle = 0
         try:
             while dt.datetime.now(TZ) < end:
@@ -484,12 +607,18 @@ class ProEngine:
                 except Exception as e:
                     log("Tur hatası:", e)
                     n_live = 0
+                if time.time() - last_odds > 3600:
+                    last_odds = time.time()
+                    try:
+                        self.book.refresh()
+                        self.send_drop_alerts()
+                    except Exception as e:
+                        log("Oran yenileme hatası:", e)
                 if time.time() - last_save > 900:
                     self.save()
                     last_save = time.time()
                 idle = idle + 1 if n_live == 0 else 0
                 wait = TARGET_INTERVAL if n_live else min(600, 120 * idle)
-                # bütçe yetmiyorsa turu uzat
                 pmb = self.per_minute_budget()
                 if pmb > 0 and self.tick_cost / pmb * 60 > wait:
                     wait = min(300, self.tick_cost / pmb * 60)
