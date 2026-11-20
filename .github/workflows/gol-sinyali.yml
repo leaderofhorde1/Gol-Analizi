@@ -24,7 +24,8 @@ permissions:
   contents: write
 
 concurrency:
-  group: gol-sinyali
+  # test ve teşhis, süren canlı oturumu beklemesin
+  group: gol-sinyali-${{ (github.event.inputs.mod == 'test' || github.event.inputs.mod == 'diag') && 'kontrol' || 'canli' }}
   cancel-in-progress: false
 
 jobs:
