@@ -23,7 +23,9 @@ REPORT_DIR = DATA / "rapor"
 PICKS_CSV = DATA / "maconcesi.csv"
 PICK_FIELDS = ["tarih", "fixture_id", "saat", "lig", "mac", "secim", "model", "api",
                "piyasa", "oran", "sonuc", "skor", "kar"]
-DROP_PCT = 0.07
+import os
+DROP_PCT = 0.07                                                 # raporlarda "düşüş" sayılan oran
+ALERT_DROP_PCT = float(os.environ.get("ALERT_DROP_PCT", "0.12"))  # anlık uyarı eşiği
 MAX_REPORT_MATCHES = 40
 VALUE_EDGE = 0.05      # harmanlanmış olasılık piyasadan en az bu kadar yüksek olmalı
 MODEL_WEIGHT = 0.5     # harman: model %50 + piyasa %50 (piyasa genelde iyi bilgilidir)
@@ -184,7 +186,13 @@ LABELS = {"ou:ust": "Üst 2.5", "ou:alt": "Alt 2.5", "1x2:ev": "Ev sahibi", "1x2
 
 
 def drop_alerts(book: OddsBook, alerted: set) -> list[str]:
-    """Başlamasına 3 saatten az kalan maçlarda yeni oran düşüşleri."""
+    """Başlamasına 3 saatten az kalan maçlarda yeni oran düşüşleri.
+    Gönderilenler dosyada tutulur, böylece sonraki oturum aynı uyarıyı tekrarlamaz."""
+    seen_path = ODDS_DIR / f"{book.today}-uyarilar.json"
+    try:
+        alerted |= set(json.loads(seen_path.read_text()))
+    except Exception:
+        pass
     now = dt.datetime.now(TZ).timestamp()
     lines = []
     for fid, rec in book.data.items():
@@ -192,7 +200,7 @@ def drop_alerts(book: OddsBook, alerted: set) -> list[str]:
         if not ts or not (0 < ts - now < 3 * 3600):
             continue
         for key, d in book.drops(fid).items():
-            if d >= DROP_PCT and f"{fid}:{key}" not in alerted:
+            if d >= ALERT_DROP_PCT and f"{fid}:{key}" not in alerted:
                 alerted.add(f"{fid}:{key}")
                 fx = book.fixtures.get(fid, {})
                 mk, k = key.split(":")
@@ -200,6 +208,9 @@ def drop_alerts(book: OddsBook, alerted: set) -> list[str]:
                 t = dt.datetime.fromtimestamp(ts, TZ).strftime("%H:%M")
                 lines.append(f"{t} {fx.get('ev', '?')} - {fx.get('dep', '?')}: "
                              f"{LABELS[key]} {a:.2f} → {b:.2f} (%{round(d * 100)})")
+    if lines:
+        ODDS_DIR.mkdir(parents=True, exist_ok=True)
+        seen_path.write_text(json.dumps(sorted(alerted)))
     return lines
 
 
