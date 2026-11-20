@@ -170,10 +170,10 @@ def telegram_chat_id():
         _tg_chat = None
     try:  # bot yeni bir gruba eklendiyse onu kullan
         found = None
-        for u in _tg("getUpdates", allowed_updates=["message", "my_chat_member"]).get("result", []):
-            obj = u.get("my_chat_member") or u.get("message") or {}
+        for u in _tg("getUpdates", allowed_updates=["message", "my_chat_member", "channel_post"]).get("result", []):
+            obj = u.get("my_chat_member") or u.get("message") or u.get("channel_post") or {}
             chat = obj.get("chat") or {}
-            if chat.get("type") in ("group", "supergroup"):
+            if chat.get("type") in ("group", "supergroup", "channel"):
                 found = chat
         if found and str(found["id"]) != str(_tg_chat):
             _tg_chat = str(found["id"])
