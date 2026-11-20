@@ -64,12 +64,21 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-20,1639806,Ecuador - Liga Pro,Independiente del Valle - Macara,69,0-1,,0-1,,orta,,,evet,ıska,,0.577,0.515,kg,,,1.84,-100,69,evet,
 2026-11-20,1576235,Germany - 2. Bundesliga,SV Darmstadt 98 - 1. FC Heidenheim,75,3-1,deplasman,14.4,2.7,orta,hayır,"Son 8 dakikada baskı zayıf: xG 0.10, tek isabetli şut. 3-1'de 75. dakikada 10 dakikalık gol sinyali güvenilir değil.",hayır,ıska,,0.621,0.553,gol,0.04234,0.04732,1.72,-100,,,4.5
 2026-11-20,1576233,Germany - 2. Bundesliga,Arminia Bielefeld - 1. FC Magdeburg,82,1-2,,,,yüksek,,,evet,isabet,,0.724,0.52,alt,,,1.83,83,85,evet,3.5
-2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,82,3-1,ev,25.4,11.4,orta,hayır,"Skor 3-1, 82. dakika; ev xG'si tek şuta bağlı, baskı sürekli değil. Model olasılığı şişkin, piyasa daha gerçekçi.",hayır,bekliyor,,0.675,0.513,gol,0.05998,0.06931,,,,,4.5
+2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,82,3-1,ev,25.4,11.4,orta,hayır,"Skor 3-1, 82. dakika; ev xG'si tek şuta bağlı, baskı sürekli değil. Model olasılığı şişkin, piyasa daha gerçekçi.",hayır,ıska,,0.675,0.513,gol,0.05998,0.06931,1.85,-100,,,4.5
 2026-11-20,1549058,Denmark - Superliga,Aarhus - Lyngby,53,2-1,iki taraf,11.0,10.7,orta,hayır,"Son pencerede baskı zayıf, xG çok düşük, ceza sahası şutu yok; model olasılığı piyasadan şişkin, avantaj yok.",hayır,bekliyor,,0.818,0.75,gol,0.03381,0.03555,,,,,3.5
 2026-11-20,1552532,France - Ligue 2,Guingamp - Rodez,18,0-1,,Rodez,,orta,,,evet,isabet,24,0.361,0.29,baski,0.03425,,3.28,228,86,evet,33
 2026-11-20,1549058,Denmark - Superliga,Aarhus - Lyngby,55,2-1,,6,,yüksek,,,evet,bekliyor,,0.565,0.411,korner,,,,,87,,10.5
 2026-11-20,1552532,France - Ligue 2,Guingamp - Rodez,18,0-1,,1,,orta,,,evet,isabet,24,0.718,0.625,iy,,,1.52,52,88,evet,1.5
-2026-11-20,1494808,Norway - Eliteserien,Molde - Bodo/Glimt,57,0-3,deplasman,16.7,3.1,orta,evet,"Son pencerede deplasman baskısı var (1 isabetli, xG 0.43), 0-3 skorda açık oyun; piyasa da yüksek.",evet,bekliyor,,0.898,0.828,gol,0.04758,0.04488,,,89,,3.5
+2026-11-20,1494808,Norway - Eliteserien,Molde - Bodo/Glimt,57,0-3,deplasman,16.7,3.1,orta,evet,"Son pencerede deplasman baskısı var (1 isabetli, xG 0.43), 0-3 skorda açık oyun; piyasa da yüksek.",evet,isabet,74,0.898,0.828,gol,0.04758,0.04488,1.15,15,89,evet,3.5
 2026-11-20,1552532,France - Ligue 2,Guingamp - Rodez,20,0-1,,6,,yüksek,,,evet,bekliyor,,0.973,0.537,korner,,,,,90,,14.5
-2026-11-20,1552531,France - Ligue 2,Annecy - Clermont Foot,27,2-0,ev,17.7,8.9,orta,evet,"Ev sahibi 2-0 önde, 0.79 xG'lik son pencere; 2.5 üst için bir gol daha yeterli, 63 dakika var.",evet,bekliyor,,0.914,0.864,gol,0.0298,,,,96,,2.5
+2026-11-20,1552531,France - Ligue 2,Annecy - Clermont Foot,27,2-0,ev,17.7,8.9,orta,evet,"Ev sahibi 2-0 önde, 0.79 xG'lik son pencere; 2.5 üst için bir gol daha yeterli, 63 dakika var.",evet,bekliyor,,0.914,0.864,gol,0.0298,0.03072,,,96,,2.5
 2026-11-20,1552531,France - Ligue 2,Annecy - Clermont Foot,27,2-0,,2,,orta,,,evet,bekliyor,,0.573,0.485,iy,,,,,97,,2.5
+2026-11-20,1551889,Netherlands - Eerste Divisie,Den Bosch - VVV Venlo,29,1-0,,1,,düşük,,,evet,bekliyor,,0.619,0.558,iy,,,,,99,,1.5
+2026-11-20,1494808,Norway - Eliteserien,Molde - Bodo/Glimt,68,0-3,,0-3,,yüksek,,,evet,isabet,74,0.586,0.442,kg,,,2.15,115,100,evet,
+2026-11-20,1494808,Norway - Eliteserien,Molde - Bodo/Glimt,70,0-3,,8,,yüksek,,,evet,bekliyor,,0.671,0.537,korner,,,,,101,,10.5
+2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,33,0-1,,1,,orta,,,evet,bekliyor,,0.425,0.375,iy,,,,,102,,1.5
+2026-11-20,1552537,France - Ligue 2,RED Star FC 93 - PAU,34,1-0,,1-0,,düşük,,,evet,bekliyor,,0.598,0.537,kg,,,,,103,,
+2026-11-20,1549058,Denmark - Superliga,Aarhus - Lyngby,72,2-1,,,,orta,,,evet,bekliyor,,0.519,0.447,alt,,,,,104,,3.5
+2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,33,3-0,ev,19.0,0.0,orta,evet,"Ev baskısı gerçek: son 6 dakikada 2 isabetli şut, xG 0.27. Ancak 3-0 skorda tempo düşebilir; model fazla iyimser.",evet,bekliyor,,0.929,0.864,gol,0.03273,0.03384,,,105,,3.5
+2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,33,3-0,,3,,orta,,,evet,bekliyor,,0.493,0.423,iy,,,,,106,,3.5
+2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,35,0-1,,6,,yüksek,,,evet,bekliyor,,0.729,0.526,korner,,,,,107,,12.5
