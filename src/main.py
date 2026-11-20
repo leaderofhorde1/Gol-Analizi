@@ -172,24 +172,84 @@ def _tg(method: str, **params):
 
 
 def flush_outbox():
-    """Kuyruktaki Telegram mesajlarını sırayla göndermeyi dener (ilk hatada durur)."""
-    while OUTBOX:
-        kind, a, b, cb = OUTBOX[0]
+    """Geriye dönük uyumluluk: gönderim artık arka plan iş parçacığında yapılıyor."""
+    _tg_start()
+
+
+# Telegram gönderimi arka planda, sırayla yapılır: ana döngü Telegram'ı hiç beklemez.
+import atexit
+import threading
+
+_tg_lock = threading.Condition()
+_tg_thread = None
+
+
+def _tg_worker():
+    backoff = 3
+    while True:
+        with _tg_lock:
+            while not OUTBOX:
+                _tg_lock.wait()
+            kind, a, b, cb = OUTBOX[0]
         try:
             if kind == "send":
                 mid = _send_html(a, b)
             else:
-                mid = _reply_html(a, b)
-        except requests.RequestException:
+                ref, fallback = a
+                target = ref() if callable(ref) else ref
+                if target:
+                    mid = _reply_html(target, b)
+                elif fallback:  # alıntılanacak mesaj hiç gönderilemediyse ayrı mesaj
+                    mid = _send_html(fallback[0], fallback[1])
+                else:
+                    mid = None
+        except requests.RequestException as e:
+            if backoff == 3:
+                log("Telegram'a ulaşılamadı, mesajlar sırada bekliyor:", e)
             if len(OUTBOX) >= 15:
                 _tg_alarm(f"Telegram'a ulaşılamıyor, {len(OUTBOX)} mesaj bekliyor (bağlantı gelince gönderilecek)")
-            return
-        OUTBOX.pop(0)
+            time.sleep(backoff)
+            backoff = min(60, backoff * 2)
+            continue
+        except Exception as e:  # beklenmeyen hata: mesajı atla, sırayı kilitleme
+            log("Telegram gönderim hatası:", e)
+            mid = None
+        backoff = 3
+        with _tg_lock:
+            OUTBOX.pop(0)
+            _tg_lock.notify_all()
         if cb and mid:
             try:
                 cb(mid)
             except Exception:
                 pass
+
+
+def _tg_start():
+    global _tg_thread
+    if _tg_thread is None or not _tg_thread.is_alive():
+        _tg_thread = threading.Thread(target=_tg_worker, daemon=True)
+        _tg_thread.start()
+
+
+def _tg_enqueue(item):
+    _tg_start()
+    with _tg_lock:
+        OUTBOX.append(item)
+        _tg_lock.notify_all()
+
+
+def telegram_drain(timeout: float = 90):
+    """Çıkıştan önce sıradaki mesajların gönderilmesini bekler."""
+    end = time.time() + timeout
+    with _tg_lock:
+        while OUTBOX and time.time() < end:
+            _tg_lock.wait(timeout=2)
+    if OUTBOX:
+        log(f"Telegram: {len(OUTBOX)} mesaj gönderilemeden kaldı")
+
+
+atexit.register(telegram_drain)
 
 
 def telegram_chat_id():
@@ -280,19 +340,11 @@ def _reply_html(message_id, text):
 
 
 def telegram_send(title: str, message: str, on_sent=None):
+    """Mesajı gönderim sırasına koyar; gönderilince on_sent(mesaj_no) çağrılır."""
     if not TG_TOKEN or title.startswith(TG_SKIP):
         return None
-    if OUTBOX:  # sıra bozulmasın: önce kuyruk
-        flush_outbox()
-        if OUTBOX:
-            OUTBOX.append(("send", title, message, on_sent))
-            return None
-    try:
-        return _send_html(title, message)
-    except requests.RequestException as e:
-        log("Telegram'a ulaşılamadı, kuyruğa alındı:", e)
-        OUTBOX.append(("send", title, message, on_sent))
-        return None
+    _tg_enqueue(("send", title, message, on_sent))
+    return None
 
 
 _tg_alarm_sent = False
@@ -324,20 +376,13 @@ def _tg_alarm(desc):
         pass
 
 
-def telegram_reply(message_id, text: str):
-    """Önceki bir mesajı alıntılayarak cevap yazar (sinyal sonucu için)."""
-    if not TG_TOKEN or not message_id:
+def telegram_reply(message_id, text: str, fallback=None):
+    """Önceki bir mesajı alıntılayarak cevap yazar (sinyal sonucu için).
+    message_id bir fonksiyon da olabilir: gönderim anında çözülür (asıl mesaj henüz sıradaysa).
+    fallback=(başlık, metin): alıntılanacak mesaj yoksa ayrı mesaj olarak gönderilir."""
+    if not TG_TOKEN or (not message_id and not fallback):
         return
-    if OUTBOX:
-        flush_outbox()
-        if OUTBOX:
-            OUTBOX.append(("reply", message_id, text, None))
-            return
-    try:
-        _reply_html(message_id, text)
-    except requests.RequestException as e:
-        log("Telegram'a ulaşılamadı, cevap kuyruğa alındı:", e)
-        OUTBOX.append(("reply", message_id, text, None))
+    _tg_enqueue(("reply", (message_id, fallback), text, None))
 
 
 # ---------------------------------------------------------------- Claude

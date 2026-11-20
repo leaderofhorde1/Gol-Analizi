@@ -653,6 +653,11 @@ class ProEngine:
 
     def hot_tick(self):
         """Sinyale yakın (sıcak) maçları ana turlar arasında hızlıca yeniden tarar."""
+        pending = {int(r["fixture_id"]) for r in self.rows_today
+                   if r.get("sonuc") == "bekliyor" and r.get("fixture_id")}
+        for fid in pending:  # sonucu beklenen sinyali olan maçlar da hızlı taranır (sonuç daha erken yazılır)
+            if fid in self.matches:
+                self.meta.setdefault(fid, {})["sicak"] = max(self.meta[fid].get("sicak") or 0, 0.5)
         hot = [m for m in self.matches.values() if m.status in LIVE and m.status != "HT"
                and self.meta.get(m.id, {}).get("sicak")]
         if not hot:
@@ -1207,10 +1212,10 @@ class ProEngine:
         body = [tahmin, LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}", "",
                 *lines, *(form["lines"] if form else []), *self.squad_lines(m), "", *prob_lines(p, p_mkt, conf), LINE,
                 "ℹ️ Bahis tavsiyesi değildir."]
-        row["tg_mesaj"] = notify(f"{icon} {label}: {m.name}", "\n".join(body), priority=4,
+        notify(f"{icon} {label}: {m.name}", "\n".join(body), priority=4,
                                  on_tg=lambda mid, r=row: r.__setitem__("tg_mesaj", mid),
                                  tags=[{"korner": "triangular_flag_on_post", "kart": "yellow_square", "alt": "ice_cube",
-                                        "iy": "stopwatch", "kg": "handshake", "baski": "fire"}[tur]]) or ""
+                                        "iy": "stopwatch", "kg": "handshake", "baski": "fire"}[tur]])
 
     def goal_signal(self, m, pr, side, p_model, p_mkt, q=None, line=None, form=None):
         drop = self.book.over_drop(m.id)
@@ -1265,9 +1270,9 @@ class ProEngine:
         if ai and ai.get("yorum"):
             lines += ["", f"🤖 {ai['yorum']}"]
         lines += [LINE, "ℹ️ Bahis tavsiyesi değildir."]
-        row["tg_mesaj"] = notify(f"⚽ GOL SİNYALİ: {m.name}", "\n".join(lines),
+        notify(f"⚽ GOL SİNYALİ: {m.name}", "\n".join(lines),
                                  on_tg=lambda mid, r=row: r.__setitem__("tg_mesaj", mid),
-                                 priority=5 if conf == "yüksek" else 4, tags=["soccer"]) or ""
+                                 priority=5 if conf == "yüksek" else 4, tags=["soccer"])
 
     # --- sonuçlar
     def count_after(self, m: Match, key: str, smin: int) -> int | None:
@@ -1351,7 +1356,7 @@ class ProEngine:
             r.update({"sonuc": "bekliyor", "gol_dakikasi": "", "kar": "", "adil_oran": "", "duyuruldu": ""})
             if r.get("tg_mesaj"):
                 from main import telegram_reply
-                telegram_reply(r["tg_mesaj"], f"⚠️ DÜZELTME\n🖥 Gol VAR ile iptal edildi, sinyal yeniden açık\n📊 Skor: {m.gh}-{m.ga}")
+                telegram_reply(lambda r=r: r.get("tg_mesaj"), f"⚠️ DÜZELTME\n🖥 Gol VAR ile iptal edildi, sinyal yeniden açık\n📊 Skor: {m.gh}-{m.ga}")
 
     def check_outcomes(self, m: Match):
         self.recheck_goal_results(m)
@@ -1464,14 +1469,14 @@ class ProEngine:
                 span_txt = "devre bitene kadar" if end == 45 else f"{smin}'-{end}' arası"
                 text = (f"❌ TUTMADI\n🔥 {span_txt} gol olmadı\n📊 {'Devre' if end == 45 else str(end) + chr(39) + ' itibarıyla'} skor: {sh}-{sa}"
                         + (f"\nℹ️ Gol {later[0]}. dakikada, süre dolduktan sonra geldi" if later else ""))
-        from main import telegram_reply, telegram_send
-        if r.get("tg_mesaj"):
-            telegram_reply(r["tg_mesaj"], text)
-        else:  # sinyal mesajının numarası yoksa (oturum değişimi) sonucu ayrı mesaj olarak yaz
-            names = {"gol": "MAÇ SONU ÜST", "alt": "MAÇ SONU ALT", "korner": "KORNER ÜST", "kart": "KART ÜST",
-                     "iy": "İLK YARI GOL", "kg": "KG VAR", "baski": "BASKI ALARMI"}
-            head, rest = text.split("\n", 1) if "\n" in text else (text, "")
-            telegram_send(f"{head} | {r['mac']}", f"↪️ {r['dakika']}' {names.get(tur, tur)} {ln} sinyali\n{rest}".strip())
+        from main import telegram_reply
+        # Sinyal mesajının numarası gönderim anında çözülür (asıl mesaj hâlâ sıradaysa da doğru alıntılanır);
+        # numara hiç yoksa (oturum değişimi, gönderilemedi) sonuç ayrı mesaj olarak yazılır
+        names = {"gol": "MAÇ SONU ÜST", "alt": "MAÇ SONU ALT", "korner": "KORNER ÜST", "kart": "KART ÜST",
+                 "iy": "İLK YARI GOL", "kg": "KG VAR", "baski": "BASKI ALARMI"}
+        head, rest = text.split("\n", 1) if "\n" in text else (text, "")
+        fallback = (f"{head} | {r['mac']}", f"↪️ {r['dakika']}' {names.get(tur, tur)} {ln} sinyali\n{rest}".strip())
+        telegram_reply(lambda r=r: r.get("tg_mesaj"), text, fallback=fallback)
 
     def label_samples(self, m: Match):
         keep = []
