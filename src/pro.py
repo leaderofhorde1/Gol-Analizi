@@ -409,11 +409,16 @@ class ProEngine:
                 self.evaluate(m)
             except Exception as e:
                 log(f"{m.name} değerlendirme hatası:", e)
+        # Sonucu bekleyen sinyali olan maçlar izleme listesinde olmasa bile her turda kontrol edilir
+        pending_ids = {int(r["fixture_id"]) for r in self.rows_today if r.get("sonuc") == "bekliyor" and r.get("fixture_id")}
+        tracked_ids = {m.id for m in tracked}
         for m in self.matches.values():
             if m.status in FINISHED:
                 self.check_outcomes(m)
                 self.label_samples(m)
                 self.learn_referee(m)
+            elif m.id in pending_ids and m.id not in tracked_ids:
+                self.check_outcomes(m)
         self.tick_cost = cost
         return len(live_ms), len(tracked)
 
