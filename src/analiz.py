@@ -534,3 +534,8 @@ def write_report(s, leagues):
 
 if __name__ == "__main__":
     run()
+    try:  # takım profilleri de arşivle birlikte yenilenir
+        import profil
+        profil.build()
+    except Exception as e:
+        print("Profil hatası:", e)

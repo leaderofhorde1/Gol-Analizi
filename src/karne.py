@@ -160,6 +160,36 @@ def section(title, rows):
                     [[{"destek": "✅ destekliyor", "nötr": "nötr", "ters": "⚠️ ters"}[c], t["n"], pct(t["rate"]),
                       pct(t["exp"]), kar_s(t)] for c in ("destek", "nötr", "ters") if c in fc
                      for t in [summ(fc[c])]]), ""]
+    # canlı oran akışı (sinyal anında, son 5 dk)
+    ak = defaultdict(list)
+    yonler = {"gol": 1, "iy": 1, "kg": 1, "baski": 1, "alt": -1}
+    for r in sent:
+        v = (r.get("oran_akisi") or "").replace("%", "")
+        tur = r.get("tur") or "gol"
+        if not v or tur not in yonler:
+            continue
+        try:
+            x = float(v) / 100 * yonler[tur]
+        except ValueError:
+            continue
+        ak["aynı yönde" if x >= 0.15 else "ters yönde" if x <= -0.13 else "nötr"].append(r)
+    if ak:
+        L += ["### 💹 Canlı oran akışı (sinyal anında)", "",
+              table(["Akış", "Sonuç", "İsabet", "Piyasa", "Sanal kâr"],
+                    [[k, t["n"], pct(t["rate"]), pct(t["exp"]), kar_s(t)] for k in ("aynı yönde", "nötr", "ters yönde")
+                     if k in ak for t in [summ(ak[k])]]), ""]
+    # maç bağlamı
+    bg = defaultdict(list)
+    for r in sent:
+        b = r.get("baglam") or ""
+        if "rovans" in b:
+            bg["🔁 rövanş"].append(r)
+        if "şampiyonluk" in b or "küme" in b:
+            bg["🏆 yarıştaki takım"].append(r)
+    if bg:
+        L += ["### 🏆 Maç bağlamı", "",
+              table(["Bağlam", "Sonuç", "İsabet", "Piyasa", "Sanal kâr"],
+                    [[k, t["n"], pct(t["rate"]), pct(t["exp"]), kar_s(t)] for k, v in bg.items() for t in [summ(v)]]), ""]
     # piyasa hareketi ↔ sonuç
     py = defaultdict(list)
     for r in sent:

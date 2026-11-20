@@ -88,7 +88,7 @@ CSV_FIELDS = [
     "tarih", "fixture_id", "lig", "mac", "dakika", "skor", "taraf", "baski",
     "baski_rakip", "guven", "ai_onay", "ai_yorum", "gonderildi", "sonuc",
     "gol_dakikasi", "p_model", "p_piyasa", "tur", "q_once", "q_sonra", "adil_oran", "kar",
-    "tg_mesaj", "duyuruldu", "cizgi", "form", "piyasa_yon",
+    "tg_mesaj", "duyuruldu", "cizgi", "form", "piyasa_yon", "oran_akisi", "baglam",
 ]
 
 
@@ -459,6 +459,7 @@ class Match:
         self.home_id = fx["teams"]["home"].get("id")
         self.away_id = fx["teams"]["away"].get("id")
         self.season = fx["league"].get("season")
+        self.round = fx["league"].get("round") or ""
         self.lineups: list = []
         self.kickoff = dt.datetime.fromtimestamp(fx["fixture"]["timestamp"], TZ)
         self.status = fx["fixture"]["status"]["short"]
@@ -487,7 +488,7 @@ class Match:
         if self.status in LIVE and self.status != "HT":
             self.snaps.append({"min": self.minute, "stats": stats,
                                "gh": self.gh, "ga": self.ga})
-            self.snaps = self.snaps[-80:]
+            self.snaps = self.snaps[-240:]  # sık taramada da en az ~20 dk geçmiş kalsın
         return stats
 
 
@@ -1011,6 +1012,14 @@ def main():
         inj = kadro.InjuryBook(api).get(m)
         print("EKSİK:", json.dumps(inj, ensure_ascii=False)[:1500])
         print("MESAJ SATIRLARI:", kadro.info_lines(m, inj))
+        import baglam
+        import profil
+        ctx = baglam.ContextBook(api)
+        print("TUR:", m.round, "| İLK MAÇ:", ctx.first_leg(m))
+        print("PUAN DURUMU:", {k: v for k, v in list(ctx.table(m.league_id, m.season).items())[:3]})
+        print("YARIŞ:", ctx.race(m, "home"), "/", ctx.race(m, "away"), "| BAĞLAM:", ctx.lines(m))
+        pf = profil.Profiles()
+        print("PROFİL:", pf.team(m.home_id), pf.team(m.away_id), "| ÇARPAN:", pf.late_mult(m))
         return 0
     if MODE == "kurtar":
         import kurtar

@@ -166,6 +166,52 @@ def train_one(tur, rows):
     return res
 
 
+CAL_OUT = DATA / "model" / "kalibrasyon.json"
+MIN_CAL = int(os.environ.get("MIN_KALIBRASYON", "200"))
+CAL_TYPES = ("gol", "alt", "korner", "kart", "iy", "kg")
+
+
+def calibrate_signals():
+    """Sinyal türü başına kalibrasyon: gerçek sonuçlara göre model ile piyasanın ağırlığını öğrenir.
+    p_kal = σ(a + b·logit(piyasa) + c·(logit(model) − logit(piyasa))).
+    c ≈ 0 çıkarsa model piyasaya bir şey katmıyor demektir ve o türde sinyaller kendiliğinden azalır.
+    Yalnızca testte ham modelden iyi ise kullanılır."""
+    path = DATA / "sinyaller.csv"
+    if not path.exists():
+        return {}
+    with path.open(encoding="utf-8") as f:
+        rows = [r for r in csv.DictReader(f) if r.get("sonuc") in ("isabet", "ıska")]
+    out = {"olusturma": dt.datetime.now(TZ).isoformat(timespec="minutes")}
+    for tur in CAL_TYPES:
+        data = []
+        for r in rows:
+            if (r.get("tur") or "gol") != tur:
+                continue
+            pm, pk = _f(r.get("p_model")), _f(r.get("p_piyasa"))
+            if pm is None or pk is None:
+                continue
+            data.append(([1.0, logit(pk), logit(pm) - logit(pk)], 1 if r["sonuc"] == "isabet" else 0, pm))
+        res = {"orneklem": len(data), "kullan": False}
+        if len(data) < MIN_CAL:
+            res["not"] = f"en az {MIN_CAL} sonuç gerekli"
+            out[tur] = res
+            continue
+        cut = int(len(data) * 0.7)
+        tr, te = data[:cut], data[cut:]
+        w = fit_logistic([d[0] for d in tr], [d[1] for d in tr], l2=2.0)
+        p_cal = [sigmoid(sum(a * b for a, b in zip(w, d[0]))) for d in te]
+        ys = [d[1] for d in te]
+        ll_cal, ll_raw = logloss(p_cal, ys), logloss([d[2] for d in te], ys)
+        ll_mkt = logloss([sigmoid(d[0][1]) for d in te], ys)
+        res.update({"logloss_kalibre": round(ll_cal, 4), "logloss_ham": round(ll_raw, 4),
+                    "logloss_piyasa": round(ll_mkt, 4), "kullan": ll_cal < ll_raw - 0.002,
+                    "agirliklar": [round(v, 4) for v in fit_logistic([d[0] for d in data], [d[1] for d in data], l2=2.0)]})
+        out[tur] = res
+    CAL_OUT.parent.mkdir(parents=True, exist_ok=True)
+    CAL_OUT.write_text(json.dumps(out, ensure_ascii=False, indent=1))
+    return out
+
+
 def run():
     rows = load_samples()
     log(f"Eğitim örneği: {len(rows)}")
@@ -188,6 +234,17 @@ def run():
                    f"({r['logloss_yeni_model']:.4f} / {r['logloss_piyasa']:.4f}), "
                    f"sim. sinyal {s['adet']} isabet {s['isabet']} vs piyasa {s['piyasa_ort']}"
                    + (" → KULLANIMDA" if r["kullan"] else ""))
+    try:
+        cal = calibrate_signals()
+        for tur in CAL_TYPES:
+            r = cal.get(tur) or {}
+            if r.get("kullan"):
+                msg.append(f"🎯 {tur} kalibrasyonu devrede ({r['orneklem']} sonuç, model ağırlığı {r['agirliklar'][2]:.2f})")
+        waiting = [f"{t} {(cal.get(t) or {}).get('orneklem', 0)}" for t in CAL_TYPES if not (cal.get(t) or {}).get("kullan")]
+        if waiting:
+            msg.append(f"Kalibrasyon için biriken sonuç (en az {MIN_CAL}): " + ", ".join(waiting))
+    except Exception as e:
+        log("Kalibrasyon hatası:", e)
     notify("🧠 Gece eğitimi", "\n".join(msg), priority=2, tags=["brain"], telegram=False)
 
 
