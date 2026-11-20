@@ -38,6 +38,12 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: +20 TL • Pi
 | Onayladı (gönderildi) | 19 | %74 | %68 | +1 TL |
 | Reddetti (gönderilmedi) | 12 | %25 | %52 | -377 TL |
 
+### 📋 Son 5 maç formu
+
+| Form | Sonuç | İsabet | Piyasa | Sanal kâr |
+|---|---|---|---|---|
+| ⚠️ ters | 0 | - | - | - |
+
 ### 📶 Güven seviyesine göre
 
 | Güven | Sonuç | İsabet | Piyasa | Sanal kâr |
@@ -81,6 +87,12 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: +20 TL • Pi
 |---|---|---|---|---|
 | Onayladı (gönderildi) | 19 | %74 | %68 | +1 TL |
 | Reddetti (gönderilmedi) | 12 | %25 | %52 | -377 TL |
+
+### 📋 Son 5 maç formu
+
+| Form | Sonuç | İsabet | Piyasa | Sanal kâr |
+|---|---|---|---|---|
+| ⚠️ ters | 0 | - | - | - |
 
 ### 📶 Güven seviyesine göre
 
