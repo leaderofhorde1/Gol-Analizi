@@ -130,9 +130,11 @@ class Api:
 
 
 # ---------------------------------------------------------------- ntfy
-def notify(title: str, message: str, priority: int = 4, tags=None, click=None, telegram: bool = True):
-    """Bildirimi ntfy'ye ve (istenirse) Telegram grubuna gönderir; Telegram mesaj numarasını döndürür."""
-    tg_id = telegram_send(title, message) if telegram else None
+def notify(title: str, message: str, priority: int = 4, tags=None, click=None, telegram: bool = True,
+           on_tg=None):
+    """Bildirimi ntfy'ye ve (istenirse) Telegram grubuna gönderir; Telegram mesaj numarasını döndürür.
+    Telegram'a o an ulaşılamazsa mesaj kuyruğa alınır; gönderilince on_tg(mesaj_no) çağrılır."""
+    tg_id = telegram_send(title, message, on_sent=on_tg) if telegram else None
     if not NTFY_TOPIC:
         log("[ntfy kapalı]", title, "|", message)
         return
@@ -154,9 +156,40 @@ TG_SKIP = ("✅ Takip başladı", "🔔 Test bildirimi", "✅ Test başarılı",
 _tg_chat = None
 
 
+OUTBOX: list = []          # ulaşılamayan Telegram mesajları (sırayla tekrar denenir)
+
+
 def _tg(method: str, **params):
-    r = requests.post(f"https://api.telegram.org/bot{TG_TOKEN}/{method}", json=params, timeout=20)
-    return r.json()
+    last = None
+    for attempt in range(2):
+        try:
+            r = requests.post(f"https://api.telegram.org/bot{TG_TOKEN}/{method}", json=params, timeout=12)
+            return r.json()
+        except requests.RequestException as e:
+            last = e
+            time.sleep(2)
+    raise last
+
+
+def flush_outbox():
+    """Kuyruktaki Telegram mesajlarını sırayla göndermeyi dener (ilk hatada durur)."""
+    while OUTBOX:
+        kind, a, b, cb = OUTBOX[0]
+        try:
+            if kind == "send":
+                mid = _send_html(a, b)
+            else:
+                mid = _reply_html(a, b)
+        except requests.RequestException:
+            if len(OUTBOX) >= 15:
+                _tg_alarm(f"Telegram'a ulaşılamıyor, {len(OUTBOX)} mesaj bekliyor (bağlantı gelince gönderilecek)")
+            return
+        OUTBOX.pop(0)
+        if cb and mid:
+            try:
+                cb(mid)
+            except Exception:
+                pass
 
 
 def telegram_chat_id():
@@ -188,33 +221,62 @@ def telegram_chat_id():
     return _tg_chat
 
 
-def telegram_send(title: str, message: str):
+def _esc(t):
+    return t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def _send_html(title, message):
+    """HTML biçimli mesajı gönderir; mesaj numarasını döndürür. Ağ hatasında istisna fırlatır."""
     global _tg_chat
-    if not TG_TOKEN or title.startswith(TG_SKIP):
-        return
     chat = telegram_chat_id()
     if not chat:
         log("Telegram: grup bulunamadı (botu gruba ekleyip grupta bir mesaj yazın).")
-        return
-    esc = lambda t: t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-    body = "\n".join(f"<b>{esc(l)}</b>" if l.startswith(("🎯", "✅", "❌")) else
-                     f"<i>{esc(l)}</i>" if l.startswith(("🤖", "ℹ️")) else esc(l) for l in message.split("\n"))
-    text = f"<b>{esc(title)}</b>\n{body}"[:4000]
-    try:
-        res = _tg("sendMessage", chat_id=chat, text=text, parse_mode="HTML", disable_web_page_preview=True)
-        new_id = (res.get("parameters") or {}).get("migrate_to_chat_id")
-        if new_id:  # grup süper gruba dönüştüyse yeni kimlikle tekrar dene
-            _tg_chat = str(new_id)
-            TG_FILE.write_text(json.dumps({"chat_id": _tg_chat}, ensure_ascii=False))
-            res = _tg("sendMessage", chat_id=_tg_chat, text=text, parse_mode="HTML", disable_web_page_preview=True)
-        if not res.get("ok"):
-            log("Telegram hatası:", res.get("description"))
-            _tg_alarm(res.get("description"))
+        return None
+    body = "\n".join(f"<b>{_esc(l)}</b>" if l.startswith(("🎯", "✅", "❌", "⚠️")) else
+                     f"<i>{_esc(l)}</i>" if l.startswith(("🤖", "ℹ️")) else _esc(l) for l in message.split("\n"))
+    text = f"<b>{_esc(title)}</b>\n{body}"[:4000]
+    res = _tg("sendMessage", chat_id=chat, text=text, parse_mode="HTML", disable_web_page_preview=True)
+    new_id = (res.get("parameters") or {}).get("migrate_to_chat_id")
+    if new_id:  # grup süper gruba dönüştüyse yeni kimlikle tekrar dene
+        _tg_chat = str(new_id)
+        TG_FILE.write_text(json.dumps({"chat_id": _tg_chat}, ensure_ascii=False))
+        res = _tg("sendMessage", chat_id=_tg_chat, text=text, parse_mode="HTML", disable_web_page_preview=True)
+    if not res.get("ok"):
+        log("Telegram hatası:", res.get("description"))
+        _tg_alarm(res.get("description"))
+        return None
+    return (res.get("result") or {}).get("message_id")
+
+
+def _reply_html(message_id, text):
+    chat = telegram_chat_id()
+    if not chat:
+        return None
+    lines = text.split("\n")
+    html = "\n".join([f"<b>{_esc(lines[0])}</b>", *map(_esc, lines[1:])])
+    res = _tg("sendMessage", chat_id=chat, text=html[:4000], parse_mode="HTML", disable_web_page_preview=True,
+              reply_parameters={"message_id": int(message_id), "allow_sending_without_reply": True})
+    if not res.get("ok"):
+        log("Telegram cevap hatası:", res.get("description"))
+        _tg_alarm(res.get("description"))
+        return None
+    return (res.get("result") or {}).get("message_id")
+
+
+def telegram_send(title: str, message: str, on_sent=None):
+    if not TG_TOKEN or title.startswith(TG_SKIP):
+        return None
+    if OUTBOX:  # sıra bozulmasın: önce kuyruk
+        flush_outbox()
+        if OUTBOX:
+            OUTBOX.append(("send", title, message, on_sent))
             return None
-        return (res.get("result") or {}).get("message_id")
-    except Exception as e:
-        log("Telegram hatası:", e)
-    return None
+    try:
+        return _send_html(title, message)
+    except requests.RequestException as e:
+        log("Telegram'a ulaşılamadı, kuyruğa alındı:", e)
+        OUTBOX.append(("send", title, message, on_sent))
+        return None
 
 
 _tg_alarm_sent = False
@@ -239,20 +301,16 @@ def telegram_reply(message_id, text: str):
     """Önceki bir mesajı alıntılayarak cevap yazar (sinyal sonucu için)."""
     if not TG_TOKEN or not message_id:
         return
-    chat = telegram_chat_id()
-    if not chat:
-        return
+    if OUTBOX:
+        flush_outbox()
+        if OUTBOX:
+            OUTBOX.append(("reply", message_id, text, None))
+            return
     try:
-        esc = lambda t: t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-        lines = text.split("\n")
-        html = "\n".join([f"<b>{esc(lines[0])}</b>", *map(esc, lines[1:])])
-        res = _tg("sendMessage", chat_id=chat, text=html[:4000], parse_mode="HTML", disable_web_page_preview=True,
-                  reply_parameters={"message_id": int(message_id), "allow_sending_without_reply": True})
-        if not res.get("ok"):
-            log("Telegram cevap hatası:", res.get("description"))
-            _tg_alarm(res.get("description"))
-    except Exception as e:
-        log("Telegram cevap hatası:", e)
+        _reply_html(message_id, text)
+    except requests.RequestException as e:
+        log("Telegram'a ulaşılamadı, cevap kuyruğa alındı:", e)
+        OUTBOX.append(("reply", message_id, text, None))
 
 
 # ---------------------------------------------------------------- Claude

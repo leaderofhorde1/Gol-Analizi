@@ -416,6 +416,8 @@ class ProEngine:
                 m.status = "FT"
 
     def tick(self):
+        from main import flush_outbox
+        flush_outbox()
         cost = 0
         live = self.api.get("fixtures", live="all")
         cost += 1
@@ -780,6 +782,7 @@ class ProEngine:
         body = [tahmin, LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}", "",
                 *lines, "", *prob_lines(p, p_mkt, conf), LINE, "ℹ️ Bahis tavsiyesi değildir."]
         row["tg_mesaj"] = notify(f"{icon} {label}: {m.name}", "\n".join(body), priority=4,
+                                 on_tg=lambda mid, r=row: r.__setitem__("tg_mesaj", mid),
                                  tags=[{"korner": "triangular_flag_on_post", "kart": "yellow_square", "alt": "ice_cube",
                                         "iy": "stopwatch", "kg": "handshake", "baski": "fire"}[tur]]) or ""
 
@@ -830,6 +833,7 @@ class ProEngine:
             lines += ["", f"🤖 {ai['yorum']}"]
         lines += [LINE, "ℹ️ Bahis tavsiyesi değildir."]
         row["tg_mesaj"] = notify(f"⚽ GOL SİNYALİ: {m.name}", "\n".join(lines),
+                                 on_tg=lambda mid, r=row: r.__setitem__("tg_mesaj", mid),
                                  priority=5 if conf == "yüksek" else 4, tags=["soccer"]) or ""
 
     # --- sonuçlar
