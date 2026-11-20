@@ -1,0 +1,38 @@
+name: Gece Eğitimi
+
+on:
+  schedule:
+    # Her gece 03:05 (TR) = 00:05 UTC: günün canlı örnekleriyle modeli yeniden eğitir.
+    - cron: "5 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gece-egitimi
+  cancel-in-progress: false
+
+jobs:
+  egitim:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Eğit
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: cd src && python egitim.py
+      - name: Sonuçları kaydet
+        run: |
+          git config user.name "gol-sinyali-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A data
+          if ! git diff --cached --quiet; then
+            git commit -m "Gece eğitimi: $(date -u +%F)"
+            for i in 1 2 3; do git pull --rebase -X theirs && git push && break; git rebase --abort 2>/dev/null; sleep 5; done
+          fi

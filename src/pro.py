@@ -16,6 +16,7 @@ import io
 import json
 import math
 import os
+import re
 import time
 
 from main import (
@@ -53,6 +54,16 @@ for _key in ("gol_egrisi", "kart_egrisi"):
         PARAMS[_key] = list(PARAMS[_key])
         PARAMS[_key][8] *= 5 / 7.5
         PARAMS[_key][17] *= 5 / 10
+
+TRAINED_PATH = DATA / "model" / "canli.json"
+try:
+    TRAINED = json.loads(TRAINED_PATH.read_text()) if TRAINED_PATH.exists() else {}
+except Exception:
+    TRAINED = {}
+REQUIRE_MARKET = os.environ.get("REQUIRE_MARKET", "1") == "1"
+NO_XG_EXTRA_EDGE = 0.02
+LOW_QUALITY = re.compile(r"\bU-?(1[5-9]|2[0-3])\b|youth|women|\bW\b|reserve|friendl|\bII\b|\bJong\b|primavera|juvenil",
+                         re.IGNORECASE)
 
 SAMPLES_DIR = DATA / "ornekler"
 REFEREE_JSON = DATA / "hakemler.json"          # geçmiş veri (analiz yazar)
@@ -376,10 +387,12 @@ class ProEngine:
             base_rate = 0.6 * base_rate + 0.4 * corners / m.minute
         if abs(m.gh - m.ga) == 1 and m.minute >= 70:
             f *= 1.15
-        p_model = 1 - math.exp(-base_rate * f * min(10.0, remaining_minutes(m.minute)))
+        # hedef: 10 dakikada en az 2 korner
+        T = min(10.0, remaining_minutes(m.minute))
+        p_model = poisson_over(base_rate * f * T, 2)
         odds = self.meta.get(m.id, {}).get("odds")
         q = count_market_rate(odds, ("Total Corners", "Asian Corners"), corners, m.minute) if odds else None
-        p_mkt = 1 - math.exp(-q * min(10.0, remaining_minutes(m.minute))) if q else None
+        p_mkt = poisson_over(q * T, 2) if q else None
         return p_model, p_mkt, f, corners, q
 
     def referee_avg(self, m: Match) -> tuple[float, str]:
@@ -440,15 +453,28 @@ class ProEngine:
             })
         if m.minute >= 88:
             return
+        # Kalite filtresi: gençlik/kadın/yedek/hazırlık maçlarında sinyal yok
+        if LOW_QUALITY.search(f"{m.league} {m.home} {m.away}"):
+            return
+        # Eğitilmiş model piyasadan iyiyse onun olasılığı kullanılır
+        sample_like = {"baski_ev": pr["home"], "baski_dep": pr["away"], "dakika": m.minute,
+                           "skor_farki": m.gh - m.ga, "kirmizi_farki": pr["cur"]["stats"]["home"]["red"] - pr["cur"]["stats"]["away"]["red"],
+                           "faul_10": fouls10, "p_model": pg, "p_piyasa": pg_m, "p_korner": pc,
+                       "p_korner_piyasa": pc_m, "p_kart": pk, "p_kart_piyasa": pk_m}
+        pg = self.trained_prob("gol", sample_like, pg)
+        pc = self.trained_prob("korner", sample_like, pc)
+        pk = self.trained_prob("kart", sample_like, pk)
+        has_xg = pr["cur"]["stats"].get("has_xg")
         # ⚽ gol
-        if "gol" in SIGNALS_ON and m.minute - m.last_signal_min >= 12:
+        if "gol" in SIGNALS_ON and m.minute - m.last_signal_min >= 12 and not (REQUIRE_MARKET and pg_m is None):
             side = signal_side(pr)
-            if side and (pg_m is None or pg - pg_m >= EDGE):
+            need = EDGE + (0 if has_xg else NO_XG_EXTRA_EDGE)
+            if side and (pg_m is None or pg - pg_m >= need):
                 m.last_signal_min = m.minute
                 self.goal_signal(m, pr, side, pg, pg_m, qg)
         # 🚩 korner
-        if "korner" in SIGNALS_ON and m.minute - meta.get("son_korner", -99) >= 10 and fc >= 1.5:
-            if (pc_m is not None and pc - pc_m >= EDGE_CORNER) or (pc_m is None and pc >= 0.85):
+        if "korner" in SIGNALS_ON and m.minute - meta.get("son_korner", -99) >= 10 and fc >= 1.4:
+            if (pc_m is not None and pc - pc_m >= EDGE_CORNER) or (not REQUIRE_MARKET and pc_m is None and pc >= 0.6):
                 meta["son_korner"] = m.minute
                 d = {k: pr["d_home"][k] + pr["d_away"][k] for k in pr["d_home"]}
                 self.simple_signal(m, "korner", pc, pc_m, corners, qc, [
@@ -456,11 +482,21 @@ class ProEngine:
                     f"Maçtaki korner: {corners}"])
         # 🟨 kart
         if "kart" in SIGNALS_ON and m.minute - meta.get("son_kart", -99) >= 12 and fk >= 1.5:
-            if (pk_m is not None and pk - pk_m >= EDGE_CARD) or (pk_m is None and pk >= 0.55):
+            if (pk_m is not None and pk - pk_m >= EDGE_CARD) or (not REQUIRE_MARKET and pk_m is None and pk >= 0.55):
                 meta["son_kart"] = m.minute
                 self.simple_signal(m, "kart", pk, pk_m, cards, qk, [
                     f"Son {int(pr['span'])} dk faul temposu: 10 dk'da {fouls10:.1f} (normali ~{TYPICAL_FOULS_10})",
                     f"Maçtaki kart: {cards}", f"Hakem verisi: {ref_src}"])
+
+    def trained_prob(self, tur, s, default):
+        t = TRAINED.get(tur) or {}
+        if not t.get("kullan"):
+            return default
+        from egitim import features, sigmoid
+        x = features(tur, s)
+        if x is None:
+            return default
+        return sigmoid(sum(a * b for a, b in zip(t["agirliklar"], x)))
 
     def _row(self, m, tur, side, p, p_mkt, conf, extra=None):
         row = {"tarih": self.today, "fixture_id": m.id, "lig": m.league, "mac": m.name,
@@ -478,9 +514,10 @@ class ProEngine:
         row = self._row(m, tur, "", p, p_mkt, conf, {"baski": count, "q_once": "" if q is None else round(q, 5)})
         self.rows_today.append(row)
         icon, label = ("🚩", "Korner") if tur == "korner" else ("🟨", "Kart")
+        what = "2+ korner" if tur == "korner" else "kart"
         log(f"SİNYAL[{tur}] {m.name} {m.minute}' model={p:.2f} piyasa={p_mkt}")
         body = [m.league, f"{m.minute}'  Skor {m.gh}-{m.ga}", *lines,
-                f"10 dk {label.lower()} olasılığı → model %{round(p * 100)}"
+                f"10 dk'da {what} olasılığı → model %{round(p * 100)}"
                 + (f" | piyasa %{round(p_mkt * 100)}" if p_mkt is not None else " | piyasa: yok"),
                 f"Güven: {conf}"]
         row["tg_mesaj"] = notify(f"{icon} {label} sinyali: {m.name}", "\n".join(body), priority=4,
@@ -561,7 +598,7 @@ class ProEngine:
                     r["sonuc"] = "ıska"
             elif tur == "korner":
                 last = self.count_after(m, "corners", smin)
-                if last is not None and r.get("baski") not in ("", None) and last > int(float(r["baski"])):
+                if last is not None and r.get("baski") not in ("", None) and last >= int(float(r["baski"])) + 2:
                     r["sonuc"] = "isabet"
                 elif over:
                     # pencere içinde hiç anlık veri yoksa (oturum değişimi) sonuç bilinemez
@@ -586,7 +623,7 @@ class ProEngine:
             return
         r["duyuruldu"] = "evet"
         tur = r.get("tur") or "gol"
-        olay = {"gol": "gol", "korner": "korner", "kart": "kart"}[tur]
+        olay = {"gol": "gol", "korner": "2+ korner", "kart": "kart"}[tur]
         if r["sonuc"] == "isabet":
             when = f"{r['gol_dakikasi']}' " if r.get("gol_dakikasi") not in ("", None) else ""
             text = f"✅ TUTTU — {when}{olay} geldi (sinyal {r['dakika']}'). Skor: {m.gh}-{m.ga}"
@@ -608,7 +645,7 @@ class ProEngine:
                 continue
             s["gol_10dk"] = int(any(smin < g["minute"] <= smin + 10 for g in m.goals))
             last_c = self.count_after(m, "corners", smin)
-            s["korner_10dk"] = "" if last_c is None else int(last_c > s["korner"])
+            s["korner_10dk"] = "" if last_c is None else max(0, last_c - int(s["korner"]))
             s["kart_10dk"] = int(any(smin < t <= smin + 10 for t in cards_t))
             self.done_samples.append(s)
         self.pending_samples = keep
@@ -635,7 +672,7 @@ class ProEngine:
         if not self.done_samples:
             return
         SAMPLES_DIR.mkdir(parents=True, exist_ok=True)
-        path = SAMPLES_DIR / f"{self.today}.csv.gz"
+        path = SAMPLES_DIR / f"{self.today}-v2.csv.gz"
         buf = io.StringIO()
         w = csv.DictWriter(buf, fieldnames=SAMPLE_FIELDS)
         if not path.exists():

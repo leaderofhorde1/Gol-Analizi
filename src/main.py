@@ -130,9 +130,9 @@ class Api:
 
 
 # ---------------------------------------------------------------- ntfy
-def notify(title: str, message: str, priority: int = 4, tags=None, click=None):
-    """Bildirimi ntfy'ye ve Telegram'a gönderir; Telegram mesaj numarasını döndürür."""
-    tg_id = telegram_send(title, message)
+def notify(title: str, message: str, priority: int = 4, tags=None, click=None, telegram: bool = True):
+    """Bildirimi ntfy'ye ve (istenirse) Telegram grubuna gönderir; Telegram mesaj numarasını döndürür."""
+    tg_id = telegram_send(title, message) if telegram else None
     if not NTFY_TOPIC:
         log("[ntfy kapalı]", title, "|", message)
         return
