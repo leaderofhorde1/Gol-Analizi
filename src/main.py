@@ -965,6 +965,15 @@ def run_diag():
 def main():
     if MODE == "diag":
         return run_diag()
+    if MODE == "mac":  # tek maçın son durumunu yazdır (sure alanı = maç numarası)
+        it = Api(API_KEY).get("fixtures", id=os.environ.get("RUN_MINUTES"))[0]
+        st = parse_stats(it)
+        print("MAÇ:", it["teams"]["home"]["name"], "-", it["teams"]["away"]["name"], it["fixture"]["status"],
+              "skor", it["goals"], "korner", st["home"]["corners"], st["away"]["corners"],
+              "kart", st["home"]["yellow"] + st["home"]["red"], st["away"]["yellow"] + st["away"]["red"])
+        for ev in it.get("events") or []:
+            print("OLAY:", (ev.get("time") or {}).get("elapsed"), ev.get("type"), ev.get("detail"), (ev.get("team") or {}).get("name"))
+        return 0
     if MODE == "kurtar":
         import kurtar
         kurtar.run()
