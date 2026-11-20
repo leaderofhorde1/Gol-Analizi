@@ -1,9 +1,9 @@
-tarih,fixture_id,saat,lig,mac,secim,model,api,piyasa,oran,sonuc,skor
-2026-11-20,1633936,15:15,Vietnam - V.League 1,Viettel - Song Lam Nghe An,Deplasman,0.337,0.45,0.257,3.5,bekliyor,
-2026-11-20,1603483,14:30,Singapore - Premier League,Albirex Niigata S - Balestier Khalsa,Alt 2.5,0.406,,0.327,2.88,bekliyor,
-2026-11-20,1633565,15:00,Romania - Liga III - Serie 6,Unirea Bascov - Minerul Lupeni,Alt 2.5,0.494,,0.419,2.25,bekliyor,
-2026-11-20,1633696,15:00,Romania - Liga III - Serie 7,Timişul Şag - Metalurgistul Cugir,Alt 2.5,0.477,,0.41,2.3,bekliyor,
-2026-11-20,1607341,15:00,Hong-Kong - Premier League,Warriors - North District,Alt 2.5,0.397,,0.337,2.75,bekliyor,
-2026-11-20,1602736,15:00,Thailand - Thai League 2,Police Tero - Chanthaburi,Ev sahibi,0.311,0.35,0.258,3.5,bekliyor,
-2026-11-20,1633936,15:15,Vietnam - V.League 1,Viettel - Song Lam Nghe An,KG Var,0.537,,0.485,1.91,bekliyor,
-2026-11-20,1604166,14:30,Poland - III Liga - Group 3,Rakow II - Górnik Polkowice,Alt 2.5,0.452,,0.401,2.35,bekliyor,
+tarih,fixture_id,saat,lig,mac,secim,model,api,piyasa,oran,sonuc,skor,kar
+2026-11-20,1633936,15:15,Vietnam - V.League 1,Viettel - Song Lam Nghe An,Deplasman,0.337,0.45,0.257,3.5,bekliyor,,
+2026-11-20,1603483,14:30,Singapore - Premier League,Albirex Niigata S - Balestier Khalsa,Alt 2.5,0.406,,0.327,2.88,ıska,3-2,-100
+2026-11-20,1633565,15:00,Romania - Liga III - Serie 6,Unirea Bascov - Minerul Lupeni,Alt 2.5,0.494,,0.419,2.25,bekliyor,,
+2026-11-20,1633696,15:00,Romania - Liga III - Serie 7,Timişul Şag - Metalurgistul Cugir,Alt 2.5,0.477,,0.41,2.3,bekliyor,,
+2026-11-20,1607341,15:00,Hong-Kong - Premier League,Warriors - North District,Alt 2.5,0.397,,0.337,2.75,bekliyor,,
+2026-11-20,1602736,15:00,Thailand - Thai League 2,Police Tero - Chanthaburi,Ev sahibi,0.311,0.35,0.258,3.5,bekliyor,,
+2026-11-20,1633936,15:15,Vietnam - V.League 1,Viettel - Song Lam Nghe An,KG Var,0.537,,0.485,1.91,bekliyor,,
+2026-11-20,1604166,14:30,Poland - III Liga - Group 3,Rakow II - Górnik Polkowice,Alt 2.5,0.452,,0.401,2.35,isabet,0-2,135
