@@ -1,12 +1,18 @@
-tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yorum,gonderildi,sonuc,gol_dakikasi,p_model,p_piyasa,tur,q_once,q_sonra,adil_oran,kar,tg_mesaj,duyuruldu
-2026-11-20,1546153,World - World Cup - U17,Mali U17 - New Zealand U17,39,1-0,ev,24.7,3.3,orta,evet,"Ev sahibi 68% topla oynuyor, son 10 dk'da 2 isabetli, 8 şut; baskı gerçek, ancak xG verisi sıfır.",evet,ıska,,0.352,,gol,,,,,,
-2026-11-20,1546153,World - World Cup - U17,Mali U17 - New Zealand U17,39,1-0,,8,,düşük,,,evet,ıska,,0.928,,korner,,,,,,
-2026-11-20,1597965,Qatar - Stars League,Al Sadd - Lusail City,55,3-2,deplasman,13.9,0.6,düşük,evet,"Deplasman son 10 dakikada 3 şut, 2 ceza sahası içi, 0.39 xG üretti; skor açık, yüksek tempolu maç ama sinyal orta düzeyde.",evet,ıska,,0.371,0.324,gol,0.03919,0.03925,2.93,-100,,
-2026-11-20,1597965,Qatar - Stars League,Al Sadd - Lusail City,59,3-2,,4,,düşük,,,evet,isabet,66,0.574,,kart,,,,,,
-2026-11-20,1597963,Qatar - Stars League,Al-Duhail SC - Qatar SC,59,0-1,ev,16.0,0.9,orta,evet,"Ev sahibi geride, 10 kişilik rakibe karşı %70 topa sahip; ancak son pencere xG çok düşük.",evet,isabet,60,0.357,,gol,,,,,,
-2026-11-20,1597963,Qatar - Stars League,Al-Duhail SC - Qatar SC,68,0-1,,10,,düşük,,,evet,isabet,,0.868,0.782,korner,0.1521,,1.21,21,,
-2026-11-20,1546153,World - World Cup - U17,Mali U17 - New Zealand U17,46,1-0,,2,,düşük,,,evet,ıska,,0.565,,kart,,,,,,
-2026-11-20,1597965,Qatar - Stars League,Al Sadd - Lusail City,81,3-2,,5,,düşük,,,evet,ıska,,0.746,,kart,,,,,,
-2026-11-20,1597963,Qatar - Stars League,Al-Duhail SC - Qatar SC,82,1-1,,4,,düşük,,,evet,isabet,84,0.731,,kart,,,,,,
-2026-11-20,1556144,Japan - J1 League,Kashiwa Reysol - JEF United Chiba,24,0-0,ev,15.3,2.2,düşük,hayır,"Baskı var ama tek isabetli şut, xG 0.31 düşük; model olasılığı piyasanın üzerinde, sinyal zayıf.",hayır,bekliyor,,0.321,0.248,gol,,,,,,
-2026-11-20,1546153,World - World Cup - U17,Mali U17 - New Zealand U17,64,3-0,ev,16.2,1.2,orta,hayır,"3-0 önde, xG ve tehlike verisi sıfır; baskı sürüyor ama skor rahat, tempo düşebilir. Sinyal zayıf.",hayır,bekliyor,,0.317,,gol,,,,,,
+tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yorum,gonderildi,sonuc,gol_dakikasi,p_model,p_piyasa,tur,q_once,q_sonra,adil_oran,kar,tg_mesaj,duyuruldu,cizgi
+2026-11-20,1546153,World - World Cup - U17,Mali U17 - New Zealand U17,39,1-0,ev,24.7,3.3,orta,evet,"Ev sahibi 68% topla oynuyor, son 10 dk'da 2 isabetli, 8 şut; baskı gerçek, ancak xG verisi sıfır.",evet,ıska,,0.352,,gol,,,,,,,
+2026-11-20,1546153,World - World Cup - U17,Mali U17 - New Zealand U17,39,1-0,,8,,düşük,,,evet,ıska,,0.928,,korner,,,,,,,
+2026-11-20,1597965,Qatar - Stars League,Al Sadd - Lusail City,55,3-2,deplasman,13.9,0.6,düşük,evet,"Deplasman son 10 dakikada 3 şut, 2 ceza sahası içi, 0.39 xG üretti; skor açık, yüksek tempolu maç ama sinyal orta düzeyde.",evet,ıska,,0.371,0.324,gol,0.03919,0.03925,2.93,-100,,,
+2026-11-20,1597965,Qatar - Stars League,Al Sadd - Lusail City,59,3-2,,4,,düşük,,,evet,isabet,66,0.574,,kart,,,,,,,
+2026-11-20,1597963,Qatar - Stars League,Al-Duhail SC - Qatar SC,59,0-1,ev,16.0,0.9,orta,evet,"Ev sahibi geride, 10 kişilik rakibe karşı %70 topa sahip; ancak son pencere xG çok düşük.",evet,isabet,60,0.357,,gol,,,,,,,
+2026-11-20,1597963,Qatar - Stars League,Al-Duhail SC - Qatar SC,68,0-1,,10,,düşük,,,evet,isabet,,0.868,0.782,korner,0.1521,,1.21,21,,,
+2026-11-20,1546153,World - World Cup - U17,Mali U17 - New Zealand U17,46,1-0,,2,,düşük,,,evet,ıska,,0.565,,kart,,,,,,,
+2026-11-20,1597965,Qatar - Stars League,Al Sadd - Lusail City,81,3-2,,5,,düşük,,,evet,ıska,,0.746,,kart,,,,,,,
+2026-11-20,1597963,Qatar - Stars League,Al-Duhail SC - Qatar SC,82,1-1,,4,,düşük,,,evet,isabet,84,0.731,,kart,,,,,,,
+2026-11-20,1556144,Japan - J1 League,Kashiwa Reysol - JEF United Chiba,24,0-0,ev,15.3,2.2,düşük,hayır,"Baskı var ama tek isabetli şut, xG 0.31 düşük; model olasılığı piyasanın üzerinde, sinyal zayıf.",hayır,isabet,76,0.321,0.248,gol,,,3.83,283,,,
+2026-11-20,1546153,World - World Cup - U17,Mali U17 - New Zealand U17,64,3-0,ev,16.2,1.2,orta,hayır,"3-0 önde, xG ve tehlike verisi sıfır; baskı sürüyor ama skor rahat, tempo düşebilir. Sinyal zayıf.",hayır,ıska,,0.317,,gol,,,,,,,
+2026-11-20,1590097,Albania - Superliga,Skenderbeu Korce - Egnatia Rrogozhinë,78,1-0,,,,yüksek,,,evet,bekliyor,,0.738,0.553,alt,,,,,3,,1.5
+2026-11-20,1649991,Egypt - Cup,Kahraba Ismailia - Ceramica Cleopatra,71,1-2,,,,orta,,,evet,bekliyor,,0.616,0.493,alt,,,,,4,,3.5
+2026-11-20,1581567,Armenia - Premier League,Shirak - Gandzasar,73,3-0,,,,orta,,,evet,bekliyor,,0.577,0.474,alt,,,,,5,,3.5
+2026-11-20,1601938,Azerbaijan - Premyer Liqa,Sumqayıt - Sabah FA,81,1-5,,,,yüksek,,,evet,bekliyor,,0.71,0.5,alt,,,,,6,,6.5
+2026-11-20,1600821,Tanzania - Ligi kuu Bara,Namungo - Mbeya City,54,0-0,,,,orta,,,evet,bekliyor,,0.464,0.392,alt,,,,,7,,0.5
+2026-11-20,1628043,Iraq - Iraqi League,Al Zawra'a - Al Talaba,54,1-1,,,,yüksek,,,evet,bekliyor,,0.475,0.327,alt,,,,,8,,2.5
