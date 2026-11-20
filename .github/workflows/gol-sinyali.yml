@@ -46,6 +46,7 @@ jobs:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           WINDOW_END: "23:45"     # takibin biteceği saat (TR)
+          MAX_TRACK: "3"          # günde takip edilecek maç sayısı (ücretsiz kota için 3)
           THRESHOLD: "13"         # baskı eşiği: büyütürsen daha az ama daha güçlü sinyal
           CLAUDE_MODEL: "sonnet"
           MAX_CLAUDE_CALLS: "40"

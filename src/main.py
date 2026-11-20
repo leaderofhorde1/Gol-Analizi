@@ -36,7 +36,9 @@ WINDOW_END = os.environ.get("WINDOW_END", "23:45")  # TR saati
 REQUEST_RESERVE = 2           # günlük kotadan dokunulmayan istek
 MIN_INTERVAL = 60             # iki sorgu arası en az (sn)
 MAX_INTERVAL = 420            # iki sorgu arası en çok (sn)
-MAX_IDS = 20                  # tek istekte en fazla maç (API sınırı)
+MAX_TRACK = int(os.environ.get("MAX_TRACK", "3"))  # günde takip edilecek en fazla maç
+REQ_PER_MATCH = 30           # bir maçın tahmini istek maliyeti (ücretsiz plan)
+MATCH_LEN = 115              # devre arası dahil maç süresi (dk)
 
 THRESHOLD = float(os.environ.get("THRESHOLD", "13"))      # tek takım baskı eşiği
 COMBINED_THRESHOLD = THRESHOLD * 1.55                      # iki takım toplamı
@@ -393,7 +395,14 @@ class Engine:
             if m.kickoff < now - dt.timedelta(minutes=130) or m.kickoff > end - dt.timedelta(minutes=20):
                 continue
             self.matches[m.id] = m
-        log(f"Bugün {len(fxs)} maç var, takip penceresine giren: {len(self.matches)}")
+        pool = sorted(self.matches.values(), key=lambda m: (-m.priority, m.kickoff))
+        budget = (self.api.remaining if self.api.remaining is not None else 99) - REQUEST_RESERVE
+        n = max(1, min(MAX_TRACK, budget // REQ_PER_MATCH))
+        chosen = pool[:n]
+        self.matches = {m.id: m for m in chosen}
+        log(f"Bugün {len(fxs)} maç var, pencerede {len(pool)}, takip edilecek {len(chosen)}:")
+        for m in chosen:
+            log(f"  {m.kickoff:%H:%M} {m.name} ({m.league})")
 
     def live_candidates(self) -> list[Match]:
         now = dt.datetime.now(TZ)
@@ -401,7 +410,18 @@ class Engine:
              if m.status not in FINISHED and m.kickoff <= now + dt.timedelta(minutes=1)
              and now - m.kickoff < dt.timedelta(minutes=150)]
         c.sort(key=lambda m: (-m.priority, m.kickoff))
-        return c[:MAX_IDS]
+        return c
+
+    def remaining_match_minutes(self) -> float:
+        now = dt.datetime.now(TZ)
+        tot = 0.0
+        for m in self.matches.values():
+            if m.status in FINISHED:
+                continue
+            end = m.kickoff + dt.timedelta(minutes=MATCH_LEN)
+            start = max(now, m.kickoff)
+            tot += max(0.0, (end - start).total_seconds() / 60)
+        return tot
 
     def next_kickoff(self) -> dt.datetime | None:
         now = dt.datetime.now(TZ)
@@ -415,7 +435,12 @@ class Engine:
         if not cands:
             return 0
         if items is None:
-            items = self.api.get("fixtures", ids="-".join(str(m.id) for m in cands))
+            items = []
+            for m in cands:
+                try:
+                    items.extend(self.api.get("fixtures", id=m.id)[:1])
+                except Exception as e:
+                    log(f"{m.name} sorgu hatası:", e)
         stamp = dt.datetime.now(TZ).strftime("%H:%M")
         for it in items:
             m = self.matches.get(it["fixture"]["id"])
@@ -561,9 +586,9 @@ class Engine:
                     log(f"{n} maç güncellendi, kalan istek: {self.api.remaining}")
                 except Exception as e:
                     log("Sorgu hatası:", e)
-                left = (end - dt.datetime.now(TZ)).total_seconds()
                 budget = max(1, (self.api.remaining or 50) - REQUEST_RESERVE)
-                interval = min(MAX_INTERVAL, max(MIN_INTERVAL, left / budget))
+                interval = min(MAX_INTERVAL, max(MIN_INTERVAL,
+                                                 self.remaining_match_minutes() * 60 / budget))
                 if time.time() - last_save > 900:
                     save_signals(self.all_rows + self.rows_today)
                     last_save = time.time()
@@ -595,7 +620,7 @@ def run_test():
             report.append(f"Şu an canlı maç: {len(live)}")
             if live:
                 live.sort(key=lambda f: -PRIORITY.get(f["league"]["id"], 10))
-                it = api.get("fixtures", ids=str(live[0]["fixture"]["id"]))[0]
+                it = api.get("fixtures", id=live[0]["fixture"]["id"])[0]
                 stats = parse_stats(it)
                 has = any(v for v in stats["home"].values())
                 report.append(f"İstatistik erişimi ({it['teams']['home']['name']}): "

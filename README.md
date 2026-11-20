@@ -6,7 +6,7 @@ Canlı maçların istatistiklerini takip eder. Son dakikalarda bir takımın bas
 
 1. Her gün **18:00**'de (TR) GitHub Actions başlar ve **23:45**'e kadar çalışır.
 2. Başlangıçta bugünün fikstürünü çeker. Süper Lig ve büyük Avrupa ligleri önceliklidir.
-3. Canlı maçlardan en önemli 20 tanesinin istatistiklerini **tek istekle** çeker. Sorgu aralığını günlük 100 isteklik ücretsiz kotaya göre kendisi ayarlar (yaklaşık 3-4 dakikada bir).
+3. Ücretsiz planın günlük 100 isteğine sığması için pencere içindeki **en önemli 3 maçı** seçer (`MAX_TRACK`). Her sorguda maç başına 1 istek harcar ve sorgu aralığını kalan kotaya göre kendisi ayarlar (yaklaşık 3-4 dakikada bir).
 4. Her takım için son ~10 dakikanın **baskı puanını** hesaplar:
    - şut ×1, ceza sahası içi şut ×1,5, isabetli şut ×3, korner ×1,2, xG ×8
    - geride olan takım, rakibi 10 kişi kalan takım ve 75. dakikadan sonrası için puan artırılır
@@ -38,6 +38,7 @@ Canlı takibi hemen başlatmak için aynı yerden `mod: run` seç.
 
 - `cron`: başlangıç saati (UTC; TR saati = UTC+3)
 - `WINDOW_END`: takibin bitiş saati
+- `MAX_TRACK`: günde takip edilecek maç sayısı. Artırırsan sorgu aralığı uzar.
 - `THRESHOLD`: baskı eşiği. Daha az ama daha güçlü sinyal için büyüt, daha çok sinyal için küçült.
 
 ## Uyarı
