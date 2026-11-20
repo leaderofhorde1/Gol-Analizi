@@ -36,7 +36,7 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -4 TL • Piy
 |  | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
 | Onayladı (gönderildi) | 19 | %74 | %68 | +1 TL |
-| Reddetti (gönderilmedi) | 12 | %25 | %52 | -377 TL |
+| Reddetti (gönderilmedi) | 13 | %31 | %53 | -322 TL |
 
 ### 📋 Son 5 maç formu
 
@@ -87,7 +87,7 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -4 TL • Piy
 |  | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
 | Onayladı (gönderildi) | 19 | %74 | %68 | +1 TL |
-| Reddetti (gönderilmedi) | 12 | %25 | %52 | -377 TL |
+| Reddetti (gönderilmedi) | 13 | %31 | %53 | -322 TL |
 
 ### 📋 Son 5 maç formu
 
