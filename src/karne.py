@@ -111,7 +111,9 @@ def section(title, rows):
     L = [f"## {title}", ""]
     if not s["n"]:
         return L + ["Sonuçlanmış sinyal yok.", ""]
-    L += [f"**{s['n']} sinyal sonuçlandı: ✅ {s['hit']} tuttu, ❌ {s['n'] - s['hit']} tutmadı ({pct(s['rate'])})**", "",
+    maclar = len({r.get("fixture_id") for r in sent if r.get("sonuc") in ("isabet", "ıska")})
+    L += [f"**{s['n']} sinyal sonuçlandı ({maclar} farklı maç): ✅ {s['hit']} tuttu, ❌ {s['n'] - s['hit']} tutmadı ({pct(s['rate'])})**", "",
+          "_Aynı maçtaki sinyaller birbirinden bağımsız değildir; gerçek kanıt gücü maç sayısına yakındır._", "",
           f"Piyasanın beklediği isabet: {pct(s['exp'])} → fark {fark(s)} • Sanal kâr: {kar_s(s)}"
           f" • Piyasa bizim yönümüze döndü: {yon_s(s)}", ""]
     # tür

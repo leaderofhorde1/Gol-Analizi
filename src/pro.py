@@ -1218,6 +1218,7 @@ class ProEngine:
                                         "iy": "stopwatch", "kg": "handshake", "baski": "fire"}[tur]])
 
     def goal_signal(self, m, pr, side, p_model, p_mkt, q=None, line=None, form=None):
+        t_start = time.time()
         drop = self.book.over_drop(m.id)
         ratio = p_model / p_mkt if p_mkt else None
         conf = "yüksek" if (ratio and ratio >= 1.4) else "orta" if (ratio and ratio >= 1.2) else "düşük"
@@ -1232,12 +1233,27 @@ class ProEngine:
                    "piyasa_mac_sonu_gol_olasiligi": None if p_mkt is None else round(p_mkt, 3),
                    "model_taraf": side,
                    "son5_benzer_sonuc": f"{form['hits']}/{form['n']} maçta" if form and "hits" in form else None,
-                   "piyasa_akisi_5dk": f"{(form['akis'] - 1) * 100:+.0f}%" if form and form.get("akis") else None}
+                   "piyasa_akisi_5dk": f"{(form['akis'] - 1) * 100:+.0f}%" if form and form.get("akis") else None,
+                   "baglam": self.squad_lines(m) or None}
             try:
                 ai = self.claude.judge(ctx)
             except Exception as e:
                 log("Claude hatası:", e)
         send = True if ai is None else bool(ai.get("onay"))
+        # Karar anı fiyat kontrolü: Claude düşünürken oran kaçtıysa sinyal gönderilmez
+        p_now, karar_sn = None, round(time.time() - t_start)
+        if ai is not None and send and line is not None:
+            try:
+                fresh = self.api.get("odds/live", fixture=m.id)
+                if fresh:
+                    self.meta.setdefault(m.id, {})["odds"] = fresh[0]
+                    p_now = goal_line_prob(fresh[0], float(line))
+            except Exception as e:
+                log("Karar anı oranı alınamadı:", e)
+            if p_now is not None and p_model - p_now < EDGE_UST / 2:
+                send = False
+                ai["yorum"] = (ai.get("yorum") or "") + " | karar anında oran kaçtı"
+                log(f"  [fiyat] {m.name}: oran kaçtı (piyasa {p_mkt} → {p_now:.3f}), gönderilmedi")
         if ai:
             conf = ai.get("guven", conf)
             side = ai.get("taraf", side)
@@ -1246,6 +1262,7 @@ class ProEngine:
             "ai_onay": "" if ai is None else ("evet" if ai.get("onay") else "hayır"),
             "ai_yorum": "" if ai is None else ai.get("yorum", ""),
             "gonderildi": "evet" if send else "hayır", "q_once": "" if q is None else round(q, 5),
+            "p_piyasa_karar": "" if p_now is None else round(p_now, 3), "karar_sn": karar_sn,
             "cizgi": line if line is not None else "",
             "form": f"{form['hits']}/{form['n']}" if form and "hits" in form else "",
             "oran_akisi": f"{(form['akis'] - 1) * 100:+.0f}%" if form and form.get("akis") else "",

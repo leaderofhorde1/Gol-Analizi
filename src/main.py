@@ -88,7 +88,7 @@ CSV_FIELDS = [
     "tarih", "fixture_id", "lig", "mac", "dakika", "skor", "taraf", "baski",
     "baski_rakip", "guven", "ai_onay", "ai_yorum", "gonderildi", "sonuc",
     "gol_dakikasi", "p_model", "p_piyasa", "tur", "q_once", "q_sonra", "adil_oran", "kar",
-    "tg_mesaj", "duyuruldu", "cizgi", "form", "piyasa_yon", "oran_akisi", "baglam",
+    "tg_mesaj", "duyuruldu", "cizgi", "form", "piyasa_yon", "oran_akisi", "baglam", "p_piyasa_karar", "karar_sn",
 ]
 
 
@@ -407,13 +407,16 @@ class Claude:
 
     def judge(self, ctx: dict) -> dict | None:
         prompt = (
-            "Sen canlı futbol analistisin. Aşağıda bir maçın anlık durumu ve son "
-            "dakikalardaki istatistik artışları var. Bir istatistik modeli bu maçta "
-            "yakın zamanda gol olabileceğine dair sinyal üretti. Görevin: bu sinyalin "
-            f"önümüzdeki {EVAL_WINDOW} dakika için anlamlı olup olmadığını değerlendirmek. "
-            "Baskının gerçekçi olup olmadığına (isabetli şut, ceza sahası içi şut, xG), "
-            "skor durumuna, dakikaya ve kırmızı kartlara bak. Şüpheci ol; zayıf "
-            "sinyalleri ele.\n\n"
+            "Sen canlı futbol analistisin. Aşağıda bir maçın anlık durumu, son "
+            "dakikalardaki istatistik artışları ve bağlam bilgileri var. Bir istatistik modeli "
+            "'tahmin' alanındaki sonucun (maç sonuna kadar en az bir gol daha) piyasanın "
+            "sandığından daha olası olduğunu hesapladı. Görevin bu tahmini denetlemek. Şunları kontrol et:\n"
+            "1) Baskı gerçek mi: isabetli şut, ceza sahası içi şut ve xG mi, yoksa uzaktan şut ve kornerden mi şişmiş?\n"
+            "2) Bağlam çelişkisi: skor avantajı olan takım tempoyu düşürür mü, kırmızı kart, "
+            "savunmacı değişiklik, rövanş toplam skoru, kalan süre.\n"
+            "3) Piyasa uyumu: 'piyasa_akisi_5dk' tahminin tersine ise tuzak olabilir.\n"
+            "4) Form ve profil bilgisi destekliyor mu?\n"
+            "Şüpheci ol; zayıf ya da çelişkili sinyalleri ele.\n\n"
             f"VERİ:\n{json.dumps(ctx, ensure_ascii=False, indent=1)}\n\n"
             "SADECE şu JSON ile cevap ver, başka hiçbir şey yazma:\n"
             '{"onay": true/false, "guven": "düşük"|"orta"|"yüksek", '
