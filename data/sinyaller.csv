@@ -41,12 +41,18 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,21,0-1,,1,,düşük,,,evet,isabet,32,0.659,0.608,iy,,,1.56,56,42,evet,1.5
 2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,44,1-0,ev,23.4,22.8,orta,evet,"Ev sahibi xG üstün, ceza sahası şutları fazla; ilk yarı sonu ve 1.5 üst piyasa olasılığı yüksek.",evet,isabet,59,0.903,0.828,gol,0.03521,0.03301,1.15,15,39,evet,1.5
 2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,44,1-0,,1-0,,düşük,,,evet,bekliyor,,0.669,0.608,kg,,,,,40,,
-2026-11-20,1650523,Kuwait - Crown Prince Cup,Al Tadhamon - Al Jazira,61,1-1,,,,yüksek,,,evet,bekliyor,,0.485,0.329,alt,,,,,43,,2.5
+2026-11-20,1650523,Kuwait - Crown Prince Cup,Al Tadhamon - Al Jazira,61,1-1,,,,yüksek,,,evet,isabet,,0.485,0.329,alt,,,2.89,189,43,evet,2.5
 2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,28,0-1,,2,,orta,,,evet,bekliyor,,0.644,0.537,korner,,,,,49,,7.5
 2026-11-20,1648806,Malta - Premier League,Zabbar St. Patrick - Gzira United,64,0-0,,,,yüksek,,,evet,ıska,64,0.538,0.392,alt,,,2.42,-100,54,evet,0.5
-2026-11-20,1558275,Poland - I Liga,Chrobry Głogów - Puszcza Niepołomice,62,0-1,,,,orta,,,evet,bekliyor,,0.477,0.386,alt,,,,,55,,1.5
+2026-11-20,1558275,Poland - I Liga,Chrobry Głogów - Puszcza Niepołomice,62,0-1,,,,orta,,,evet,ıska,74,0.477,0.386,alt,,,2.46,-100,55,evet,1.5
 2026-11-20,1639806,Ecuador - Liga Pro,Independiente del Valle - Macara,56,0-1,,10,,yüksek,,,evet,bekliyor,,0.864,0.537,korner,,,,,57,,13.5
 2026-11-20,1568397,Poland - III Liga - Group 4,Wisłoka Dębica - Busko-Zdroj,62,1-1,,,,yüksek,,,evet,bekliyor,,0.425,0.301,alt,,,,,59,,2.5
 2026-11-20,1494808,Norway - Eliteserien,Molde - Bodo/Glimt,22,0-2,,2,,düşük,,,evet,bekliyor,,0.732,0.663,iy,,,,,60,,2.5
 2026-11-20,1609558,Cyprus - 2. Division,PAEEK - Halkanoras,65,1-0,,,,yüksek,,,evet,bekliyor,,0.441,0.337,alt,,,,,61,,1.5
-2026-11-20,1639806,Ecuador - Liga Pro,Independiente del Valle - Macara,62,0-1,iki taraf,14.9,9.6,orta,evet,"Maç açık, iki takım da isabetli şut üretiyor; 0-1 skor, 62. dakika, 10 dakikalık pencerede xG düşük ama gol olasılığı makul.",evet,bekliyor,,0.737,0.686,gol,0.03617,,,,62,,1.5
+2026-11-20,1639806,Ecuador - Liga Pro,Independiente del Valle - Macara,62,0-1,iki taraf,14.9,9.6,orta,evet,"Maç açık, iki takım da isabetli şut üretiyor; 0-1 skor, 62. dakika, 10 dakikalık pencerede xG düşük ama gol olasılığı makul.",evet,bekliyor,,0.737,0.686,gol,0.03617,0.03991,,,62,,1.5
+2026-11-20,1559835,Czech-Republic - FNL,Příbram - Ústí nad Labem,69,1-0,,,,orta,,,evet,bekliyor,,0.52,0.419,alt,,,,,63,,1.5
+2026-11-20,1585833,Turkey - 1. Lig,Iğdır FK - Ümraniyespor,71,1-2,ev,22.3,1.2,orta,evet,"Ev sahibi geride, son 10 dakikada 6 şut, 3 ceza sahası içi, 3 korner; baskı gerçekçi, xG makul.",evet,bekliyor,,0.604,0.553,gol,0.03497,0.03692,,,64,,3.5
+2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,68,2-0,iki taraf,11.3,8.9,orta,hayır,"Son pencerede xG çok düşük (0.21), tehlikeli pozisyon yok; 2-0 skor ve 68. dakikada tempo düşük, sinyal zayıf.",hayır,bekliyor,,0.719,0.608,gol,0.03599,0.04087,,,,,2.5
+2026-11-20,1585833,Turkey - 1. Lig,Iğdır FK - Ümraniyespor,73,1-2,,6,,yüksek,,,evet,bekliyor,,0.604,0.447,korner,,,,,65,,8.5
+2026-11-20,1549058,Denmark - Superliga,Aarhus - Lyngby,32,2-1,,3,,orta,,,evet,bekliyor,,0.559,0.463,iy,,,,,67,,3.5
+2026-11-20,1639806,Ecuador - Liga Pro,Independiente del Valle - Macara,69,0-1,,0-1,,orta,,,evet,bekliyor,,0.577,0.515,kg,,,,,69,,
