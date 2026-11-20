@@ -138,4 +138,5 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-20,1570025,Spain - Segunda División,FC Andorra - Leganes,50,1-2,,5,,orta,,,evet,ıska,8,0.693,0.558,korner,,,1.7,-100,176,evet,9.5,,
 2026-11-21,1558682,Belgium - Jupiler Pro League,Cercle Brugge - KVC Westerlo,86,1-0,ev,23.0,17.7,orta,hayır,"86. dakikada kalan süre kısa; son pencerede baskı zayıf, xG düşük, ev lider zaman geçirebilir. Piyasa daha düşük.",hayır,ıska,,0.451,0.329,gol,0.04995,0.0533,2.89,-100,,,1.5,,
 2026-11-21,1505563,Chile - Primera División,Cobresal - A. Italiano,30,2-0,,2,,orta,,,evet,isabet,33,0.569,0.5,iy,,,1.9,90,232,evet,2.5,,
-2026-11-21,1632063,Paraguay - Division Profesional - Clausura,Sportivo Ameliano - Sportivo Luqueno,68,1-0,,7,,orta,,,evet,bekliyor,,0.667,0.539,korner,0.10868,,,,236,,9.5,1/9,
+2026-11-21,1632063,Paraguay - Division Profesional - Clausura,Sportivo Ameliano - Sportivo Luqueno,68,1-0,,7,,orta,,,evet,isabet,11,0.667,0.539,korner,0.10868,,1.76,76,236,evet,9.5,1/9,
+2026-11-21,1505563,Chile - Primera División,Cobresal - A. Italiano,60,2-1,,,,orta,,,evet,bekliyor,,0.356,0.291,alt,0.03632,,,,237,,3.5,9/10,
