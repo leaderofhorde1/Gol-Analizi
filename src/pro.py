@@ -19,6 +19,8 @@ import os
 import re
 import time
 
+from form import FormBook, check as form_check
+
 from main import (
     COMBINED_THRESHOLD, DATA, FINISHED, LIVE, PRIORITY, REQUEST_RESERVE, THRESHOLD, TZ,
     Api, Claude, Match, evaluate_pressure, goal_events, fmt_delta, load_signals, log, notify,
@@ -68,6 +70,11 @@ except Exception:
     TRAINED = {}
 REQUIRE_MARKET = os.environ.get("REQUIRE_MARKET", "1") == "1"
 NO_XG_EXTRA_EDGE = 0.02
+FORM_ON = os.environ.get("FORM", "1") == "1"
+FORM_WEAK = float(os.environ.get("FORM_WEAK", "0.2"))      # bu oranın altı "form ters"
+FORM_STRONG = float(os.environ.get("FORM_STRONG", "0.6"))  # bu oranın üstü "form destekliyor"
+FORM_EXTRA = float(os.environ.get("FORM_EXTRA", "0.03"))   # form tersse istenen ek fark
+
 LOW_QUALITY = re.compile(r"\bU-?(1[5-9]|2[0-3])\b|youth|women|\bW\b|reserve|friendl|\bII\b|\bJong\b|primavera|juvenil",
                          re.IGNORECASE)
 
@@ -383,6 +390,7 @@ class ProEngine:
             if r.get("cizgi") not in ("", None):
                 meta.setdefault("cizgiler", set()).add(f"{tur}:{float(r['cizgi'])}")
         self.odds_live_ok = True
+        self.form = FormBook(self.api, self.today)
         self.tick_cost = 0
         self.alerted: set = set()
         self.referees = json.loads(REFEREE_JSON.read_text()) if REFEREE_JSON.exists() else {}
@@ -726,9 +734,11 @@ class ProEngine:
                 and f"gol:{float(ust_line)}" not in sent):
             side = signal_side(pr)
             if side and pu - pu_m >= EDGE_UST + extra:
-                m.last_signal_min = m.minute
-                sent.add(f"gol:{float(ust_line)}")
-                self.goal_signal(m, pr, side, pu, pu_m, qg, ust_line)
+                ok, fi = self.form_gate(m, "gol", ust_line, pu - pu_m, EDGE_UST + extra)
+                if ok:
+                    m.last_signal_min = m.minute
+                    sent.add(f"gol:{float(ust_line)}")
+                    self.goal_signal(m, pr, side, pu, pu_m, qg, ust_line, form=fi)
         # 🧊 maç sonu Alt: son 15 dakikada iki takımın da baskısı çok düşükse
         # (Alt riskli bir tercih: sadece xG verisi olan maçlarda; uzun sessizlik ve isabetli şut/xG şartı)
         if ("alt" in SIGNALS_ON and has_xg and not gol_acik() and not meta.get("alt_gonderildi") and pu_m is not None
@@ -739,26 +749,30 @@ class ProEngine:
                 p_alt, p_alt_m = 1 - self.rest_goal(m, pr15)[0], 1 - pu_m
                 quiet = (pr15["home"] + pr15["away"] <= COMBINED_THRESHOLD * 0.35
                          and d["sot"] <= 1 and d["xg"] <= 0.25 and d["inbox"] <= 2)
-                if quiet and p_alt - p_alt_m >= EDGE_ALT:
+                ok, fi = (self.form_gate(m, "alt", ust_line, p_alt - p_alt_m, EDGE_ALT)
+                          if quiet and p_alt - p_alt_m >= EDGE_ALT else (False, None))
+                if ok:
                     meta["alt_gonderildi"] = True
                     self.simple_signal(m, "alt", p_alt, p_alt_m, None, None, [
                         f"🧊 Son {int(pr15['span'])} dk iki takım toplam:", *stat_bullets(d),
-                        f"   • ceza sahası içi şut: {int(d['inbox'])}"], cizgi=ust_line)
+                        f"   • ceza sahası içi şut: {int(d['inbox'])}"], cizgi=ust_line, form=fi)
         # 🚩 maç sonu korner Üst
         pcu, pcu_m, c_line, fcu, corners_now = self.corner_total(m, pr)
         if ("korner" in SIGNALS_ON and pcu is not None and m.minute - meta.get("son_korner", -99) >= 15
-                and f"korner:{float(c_line)}" not in sent and fcu >= 1.4 and pcu - pcu_m >= EDGE_CORNER):
+                and f"korner:{float(c_line)}" not in sent and fcu >= 1.4 and pcu - pcu_m >= EDGE_CORNER
+                and (fk_ := self.form_gate(m, "korner", c_line, pcu - pcu_m, EDGE_CORNER))[0]):
             meta["son_korner"] = m.minute
             sent.add(f"korner:{float(c_line)}")
             d = {k: pr["d_home"][k] + pr["d_away"][k] for k in pr["d_home"]}
             self.simple_signal(m, "korner", pcu, pcu_m, corners_now, None, [
                 f"🚩 Şu an: {corners_now} korner",
-                f"📈 Son {int(pr['span'])} dk (iki takım):", *stat_bullets(d)], cizgi=c_line)
+                f"📈 Son {int(pr['span'])} dk (iki takım):", *stat_bullets(d)], cizgi=c_line, form=fk_[1])
         # ⏱ ilk yarı golü
         if ("iy" in SIGNALS_ON and not alt_acik() and piy is not None and piy_m is not None and 15 <= m.minute <= 40
                 and not meta.get("iy_gonderildi") and not pr.get("goal_in_window")
                 and (signal_side(pr) or pr["home"] + pr["away"] >= COMBINED_THRESHOLD * 0.8)
-                and piy - piy_m >= EDGE_IY + extra):
+                and piy - piy_m >= EDGE_IY + extra
+                and (fi_ := self.form_gate(m, "iy", m.gh + m.ga + 0.5, piy - piy_m, EDGE_IY + extra))[0]):
             meta["iy_gonderildi"] = True
             meta["son_gol_turu"] = m.minute
             side = signal_side(pr)
@@ -766,12 +780,13 @@ class ProEngine:
             dd = pr["d_home"] if side == "ev" else pr["d_away"] if side == "deplasman" else {
                 k: pr["d_home"][k] + pr["d_away"][k] for k in pr["d_home"]}
             self.simple_signal(m, "iy", piy, piy_m, m.gh + m.ga, None, [
-                f"📈 Son {int(pr['span'])} dk ({team}):", *stat_bullets(dd)], cizgi=m.gh + m.ga + 0.5)
+                f"📈 Son {int(pr['span'])} dk ({team}):", *stat_bullets(dd)], cizgi=m.gh + m.ga + 0.5, form=fi_[1])
         # 🤝 karşılıklı gol
         if ("kg" in SIGNALS_ON and not alt_acik() and pkg is not None and pkg_m is not None and 25 <= m.minute <= 80
                 and not meta.get("kg_gonderildi")
                 and any(pr[sd] >= THRESHOLD * 0.8 for sd in kg_need)
-                and pkg - pkg_m >= EDGE_KG + extra):
+                and pkg - pkg_m >= EDGE_KG + extra
+                and (fg_ := self.form_gate(m, "kg", None, pkg - pkg_m, EDGE_KG + extra))[0]):
             meta["kg_gonderildi"] = True
             meta["son_gol_turu"] = m.minute
             names = [m.home if sd == "home" else m.away for sd in kg_need]
@@ -779,12 +794,13 @@ class ProEngine:
             self.simple_signal(m, "kg", pkg, pkg_m, f"{m.gh}-{m.ga}", None, [
                 f"👉 Gol atması gereken: {' ve '.join(names)}",
                 f"📈 Son {int(pr['span'])} dk ({m.home if sd0 == 'home' else m.away}):",
-                *stat_bullets(pr["d_home"] if sd0 == "home" else pr["d_away"])])
+                *stat_bullets(pr["d_home"] if sd0 == "home" else pr["d_away"])], form=fg_[1])
         # 🔥 baskı alarmı: piyasa şartı olmadan, çok yüksek baskıda bilgi amaçlı
         # (aynı maçta son 12 dakikada gol sinyali gittiyse alarm tekrar etmez)
         if ("baski" in SIGNALS_ON and not alt_acik() and not meta.get("alarm_gonderildi") and 10 <= m.minute <= 85
                 and m.minute - m.last_signal_min >= 12 and m.minute - meta.get("son_gol_turu", -99) >= 12
-                and not pr.get("goal_in_window") and max(pr["home"], pr["away"]) >= THRESHOLD * ALARM_MULT):
+                and not pr.get("goal_in_window") and max(pr["home"], pr["away"]) >= THRESHOLD * ALARM_MULT
+                and (fb_ := self.form_gate(m, "baski", None, only="home" if pr["home"] >= pr["away"] else "away"))[0]):
             meta["alarm_gonderildi"] = True
             sd = "home" if pr["home"] >= pr["away"] else "away"
             team = m.home if sd == "home" else m.away
@@ -792,17 +808,18 @@ class ProEngine:
             if pg_m is not None and pg - pg_m < EDGE:
                 lines.append("⚠️ Piyasa da bu baskıyı fiyatlıyor, oranlar düşük")
             end = min(m.minute + ALARM_WINDOW, 45 if m.status == "1H" else 90)  # ilk yarıda devre sonunu geçmez
-            self.simple_signal(m, "baski", pg, pg_m, team, qg, lines, cizgi=end)
+            self.simple_signal(m, "baski", pg, pg_m, team, qg, lines, cizgi=end, form=fb_[1])
         # 🟨 maç sonu kart Üst
         pku, pku_m, k_line, fku, cards_now, fouls_now, ref_now = self.card_total(m, pr)
         if ("kart" in SIGNALS_ON and pku is not None and m.minute - meta.get("son_kart", -99) >= 15
-                and f"kart:{float(k_line)}" not in sent and fku >= 1.5 and pku - pku_m >= EDGE_CARD):
+                and f"kart:{float(k_line)}" not in sent and fku >= 1.5 and pku - pku_m >= EDGE_CARD
+                and (fkk_ := self.form_gate(m, "kart", k_line, pku - pku_m, EDGE_CARD))[0]):
             meta["son_kart"] = m.minute
             sent.add(f"kart:{float(k_line)}")
             self.simple_signal(m, "kart", pku, pku_m, cards_now, None, [
                 f"🟨 Şu an: {cards_now} kart",
                 f"🦵 Faul temposu: 10 dk'da {fouls_now:.1f} (normali ~{TYPICAL_FOULS_10})",
-                f"👨‍⚖️ Hakem: {ref_now}"], cizgi=k_line)
+                f"👨‍⚖️ Hakem: {ref_now}"], cizgi=k_line, form=fkk_[1])
 
     def trained_prob(self, tur, s, default):
         t = TRAINED.get(tur) or {}
@@ -826,17 +843,44 @@ class ProEngine:
 
     GOL_YONLU = ("gol", "iy", "kg", "baski")
 
+    def form_gate(self, m, tur, line, edge=None, need=None, only=None):
+        """İki takımın son 5 maçı tahmine ters düşüyorsa daha güçlü kanıt ister.
+        Dönüş: (gönderilsin_mi, form_bilgisi)."""
+        if not FORM_ON:
+            return True, None
+        try:
+            info = form_check(self.form, tur, line, (getattr(m, "home_id", None), m.home),
+                              (getattr(m, "away_id", None), m.away), only=only)
+        except Exception as e:
+            log("Form hatası:", e)
+            return True, None
+        if not info:
+            return True, None
+        r = info["ratio"]
+        info["etki"] = "ters" if r <= FORM_WEAK else "destek" if r >= FORM_STRONG else "nötr"
+        info["text"] += {"ters": "  ⚠️", "destek": "  ✅", "nötr": ""}[info["etki"]]
+        if info["etki"] == "ters":
+            if edge is None or need is None or edge < need + FORM_EXTRA:
+                key = f"{tur}:{line}"
+                red = self.meta.setdefault(m.id, {}).setdefault("form_red", set())
+                if key not in red:
+                    red.add(key)
+                    log(f"  [form] {m.name} {tur} {line}: form ters ({info['hits']}/{info['n']}), sinyal yok")
+                return False, info
+        return True, info
+
     def pending_types(self, mid) -> set:
         """Bu maçta sonucu hâlâ bekleyen sinyal türleri (zıt yönlü sinyal gitmesin diye)."""
         return {r.get("tur") or "gol" for r in self.rows_today
                 if str(r.get("fixture_id")) == str(mid) and r.get("sonuc") == "bekliyor"}
 
-    def simple_signal(self, m, tur, p, p_mkt, count, q, lines, cizgi=None):
+    def simple_signal(self, m, tur, p, p_mkt, count, q, lines, cizgi=None, form=None):
         ratio = p / p_mkt if p_mkt else None
         conf = "yüksek" if (ratio and ratio >= 1.25) else "orta" if (ratio and ratio >= 1.12) else "düşük"
         row = self._row(m, tur, "", p, p_mkt, conf, {"baski": "" if count is None else count,
                                                        "q_once": "" if q is None else round(q, 5),
-                                                       "cizgi": "" if cizgi is None else cizgi})
+                                                       "cizgi": "" if cizgi is None else cizgi,
+                                                       "form": f"{form['hits']}/{form['n']}" if form else ""})
         self.rows_today.append(row)
         icon, label = {"korner": ("🚩", "KORNER SİNYALİ"), "kart": ("🟨", "KART SİNYALİ"),
                        "iy": ("⏱", "İLK YARI GOL SİNYALİ"), "kg": ("🤝", "KG SİNYALİ"),
@@ -851,13 +895,14 @@ class ProEngine:
                   "baski": (f"🎯 DİKKAT: {count} yoğun baskıda, devre bitmeden gol bekleniyor" if cizgi == 45 else
                             f"🎯 DİKKAT: {count} yoğun baskıda, {m.minute}'-{int(cizgi or m.minute + ALARM_WINDOW)}' arası gol bekleniyor")}[tur]
         body = [tahmin, LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}", "",
-                *lines, "", *prob_lines(p, p_mkt, conf), LINE, "ℹ️ Bahis tavsiyesi değildir."]
+                *lines, *([form["text"]] if form else []), "", *prob_lines(p, p_mkt, conf), LINE,
+                "ℹ️ Bahis tavsiyesi değildir."]
         row["tg_mesaj"] = notify(f"{icon} {label}: {m.name}", "\n".join(body), priority=4,
                                  on_tg=lambda mid, r=row: r.__setitem__("tg_mesaj", mid),
                                  tags=[{"korner": "triangular_flag_on_post", "kart": "yellow_square", "alt": "ice_cube",
                                         "iy": "stopwatch", "kg": "handshake", "baski": "fire"}[tur]]) or ""
 
-    def goal_signal(self, m, pr, side, p_model, p_mkt, q=None, line=None):
+    def goal_signal(self, m, pr, side, p_model, p_mkt, q=None, line=None, form=None):
         drop = self.book.over_drop(m.id)
         ratio = p_model / p_mkt if p_mkt else None
         conf = "yüksek" if (ratio and ratio >= 1.4) else "orta" if (ratio and ratio >= 1.2) else "düşük"
@@ -870,7 +915,8 @@ class ProEngine:
                    "tahmin": f"maç sonu {line} üst (en az bir gol daha)",
                    "model_mac_sonu_gol_olasiligi": round(p_model, 3),
                    "piyasa_mac_sonu_gol_olasiligi": None if p_mkt is None else round(p_mkt, 3),
-                   "model_taraf": side}
+                   "model_taraf": side,
+                   "son5_benzer_sonuc": None if not form else f"{form['hits']}/{form['n']} maçta"}
             try:
                 ai = self.claude.judge(ctx)
             except Exception as e:
@@ -884,7 +930,8 @@ class ProEngine:
             "ai_onay": "" if ai is None else ("evet" if ai.get("onay") else "hayır"),
             "ai_yorum": "" if ai is None else ai.get("yorum", ""),
             "gonderildi": "evet" if send else "hayır", "q_once": "" if q is None else round(q, 5),
-            "cizgi": line if line is not None else ""})
+            "cizgi": line if line is not None else "",
+            "form": f"{form['hits']}/{form['n']}" if form else ""})
         self.rows_today.append(row)
         log(f"SİNYAL[gol] {m.name} {m.minute}' {side} model={p_model:.2f} piyasa={p_mkt} gönder={send}")
         if not send:
@@ -896,7 +943,8 @@ class ProEngine:
         if side in ("ev", "deplasman"):
             lines.append(f"👉 Baskıyı kuran: {team}")
         lines += [LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}", "",
-                  f"📈 Son {int(pr['span'])} dk ({team}):", *stat_bullets(d), "",
+                  f"📈 Son {int(pr['span'])} dk ({team}):", *stat_bullets(d),
+                  *([form["text"]] if form else []), "",
                   *prob_lines(p_model, p_mkt, conf)]
         if drop >= DROP_PCT:
             lines.append(f"📉 Maç öncesi Üst 2.5 oranı %{round(drop * 100)} düşmüştü")

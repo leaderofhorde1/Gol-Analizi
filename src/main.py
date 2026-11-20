@@ -88,7 +88,7 @@ CSV_FIELDS = [
     "tarih", "fixture_id", "lig", "mac", "dakika", "skor", "taraf", "baski",
     "baski_rakip", "guven", "ai_onay", "ai_yorum", "gonderildi", "sonuc",
     "gol_dakikasi", "p_model", "p_piyasa", "tur", "q_once", "q_sonra", "adil_oran", "kar",
-    "tg_mesaj", "duyuruldu", "cizgi",
+    "tg_mesaj", "duyuruldu", "cizgi", "form",
 ]
 
 
@@ -456,6 +456,8 @@ class Match:
         self.league = f'{fx["league"]["country"]} - {fx["league"]["name"]}'
         self.home = fx["teams"]["home"]["name"]
         self.away = fx["teams"]["away"]["name"]
+        self.home_id = fx["teams"]["home"].get("id")
+        self.away_id = fx["teams"]["away"].get("id")
         self.kickoff = dt.datetime.fromtimestamp(fx["fixture"]["timestamp"], TZ)
         self.status = fx["fixture"]["status"]["short"]
         self.priority = PRIORITY.get(self.league_id, 10)
