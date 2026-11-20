@@ -516,7 +516,10 @@ class ProEngine:
         icon, label = ("🚩", "Korner") if tur == "korner" else ("🟨", "Kart")
         what = "2+ korner" if tur == "korner" else "kart"
         log(f"SİNYAL[{tur}] {m.name} {m.minute}' model={p:.2f} piyasa={p_mkt}")
-        body = [m.league, f"{m.minute}'  Skor {m.gh}-{m.ga}", *lines,
+        until = min(m.minute + 10, 90)
+        tahmin = (f"🎯 TAHMİN: {m.minute}-{until}. dakikalar arasında en az 2 korner" if tur == "korner"
+                  else f"🎯 TAHMİN: {m.minute}-{until}. dakikalar arasında kart çıkacak")
+        body = [tahmin, m.league, f"{m.minute}'  Skor {m.gh}-{m.ga}", *lines,
                 f"10 dk'da {what} olasılığı → model %{round(p * 100)}"
                 + (f" | piyasa %{round(p_mkt * 100)}" if p_mkt is not None else " | piyasa: yok"),
                 f"Güven: {conf}"]
@@ -556,7 +559,10 @@ class ProEngine:
         d = pr["d_home"] if side == "ev" else pr["d_away"] if side == "deplasman" else {
             k: pr["d_home"][k] + pr["d_away"][k] for k in pr["d_home"]}
         team = m.home if side == "ev" else m.away if side == "deplasman" else "İki takım"
-        lines = [m.league, f"{m.minute}'  Skor {m.gh}-{m.ga}",
+        until = min(m.minute + 10, 90)
+        kim = f" (golü atması en olası: {team})" if side in ("ev", "deplasman") else ""
+        lines = [f"🎯 TAHMİN: {m.minute}-{until}. dakikalar arasında gol olacak{kim}",
+                 m.league, f"{m.minute}'  Skor {m.gh}-{m.ga}",
                  f"{team}: son {int(pr['span'])} dk {fmt_delta(d)}",
                  f"10 dk gol olasılığı → model %{round(p_model * 100)}"
                  + (f" | piyasa %{round(p_mkt * 100)}" if p_mkt is not None else " | piyasa: yok"),
