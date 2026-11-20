@@ -37,9 +37,9 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-20,1628044,Iraq - Iraqi League,Duhok - Erbil,60,1-0,,,,yüksek,,,evet,ıska,65,0.455,0.362,alt,,,2.62,-100,,evet,1.5
 2026-11-20,1576235,Germany - 2. Bundesliga,SV Darmstadt 98 - 1. FC Heidenheim,12,0-1,,1. FC Heidenheim,,orta,,,evet,isabet,22,0.354,0.295,baski,0.03496,,3.22,222,37,evet,
 2026-11-20,1576235,Germany - 2. Bundesliga,SV Darmstadt 98 - 1. FC Heidenheim,15,0-1,,1,,düşük,,,evet,isabet,22,0.715,0.663,iy,,,1.43,43,38,evet,1.5
-2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,44,1-0,ev,23.4,22.8,orta,evet,"Ev sahibi xG üstün, ceza sahası şutları fazla; ilk yarı sonu ve 1.5 üst piyasa olasılığı yüksek.",evet,bekliyor,,0.903,0.828,gol,0.03521,,,,39,,1.5
-2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,44,1-0,,1-0,,düşük,,,evet,bekliyor,,0.669,0.608,kg,,,,,40,,
 2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,21,0-1,,Al-Nassr,,yüksek,,,evet,ıska,,0.363,0.284,baski,0.03343,,3.35,-100,41,evet,
 2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,21,0-1,,1,,düşük,,,evet,isabet,32,0.659,0.608,iy,,,1.56,56,42,evet,1.5
+2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,44,1-0,ev,23.4,22.8,orta,evet,"Ev sahibi xG üstün, ceza sahası şutları fazla; ilk yarı sonu ve 1.5 üst piyasa olasılığı yüksek.",evet,bekliyor,,0.903,0.828,gol,0.03521,0.03301,,,39,,1.5
+2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,44,1-0,,1-0,,düşük,,,evet,bekliyor,,0.669,0.608,kg,,,,,40,,
 2026-11-20,1650523,Kuwait - Crown Prince Cup,Al Tadhamon - Al Jazira,61,1-1,,,,yüksek,,,evet,bekliyor,,0.485,0.329,alt,,,,,43,,2.5
 2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,28,0-1,,2,,orta,,,evet,bekliyor,,0.644,0.537,korner,,,,,49,,7.5
