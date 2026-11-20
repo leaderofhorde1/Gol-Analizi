@@ -724,7 +724,29 @@ def run_sim():
     return 0
 
 
+def run_diag():
+    """Canlı oran ve istatistik biçimini loglara yazar (anahtar yazılmaz)."""
+    api = Api(API_KEY)
+    od = api.get("odds/live")
+    print("odds/live maç sayısı:", len(od))
+    for it in od[:2]:
+        print("ÜST ALANLAR:", list(it.keys()), "status:", it.get("status"))
+        for mk in (it.get("odds") or [])[:40]:
+            vals = mk.get("values") or []
+            print(f"  pazar id={mk.get('id')} ad={mk.get('name')!r} örnek={vals[:3]}")
+    live = api.get("fixtures", live="all")
+    if live:
+        it = api.get("fixtures", ids=str(live[0]["fixture"]["id"]))[0]
+        for b in it.get("statistics") or []:
+            print("istatistik türleri:", [x.get("type") for x in b.get("statistics") or []])
+            break
+        print("olay örneği:", (it.get("events") or [])[:2])
+    return 0
+
+
 def main():
+    if MODE == "diag":
+        return run_diag()
     if MODE == "test":
         return run_test()
     if MODE == "sim":
