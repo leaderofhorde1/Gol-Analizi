@@ -30,7 +30,7 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-20,1554228,Serbia - Prva Liga,Naftagas - Borac Cacak,68,1-1,,,,yüksek,,,evet,ıska,74,0.625,0.45,alt,,,2.11,-100,,evet,2.5
 2026-11-20,1551149,Bulgaria - First League,Septemvri Sofia - Lokomotiv Plovdiv,67,0-0,,,,yüksek,,,evet,isabet,,0.61,0.485,alt,,,1.96,96,,evet,0.5
 2026-11-20,1650542,Mali - Première Division,ASKO - Onze Créateurs,68,0-0,,,,yüksek,,,evet,ıska,78,0.682,0.537,alt,,,1.77,-100,,evet,0.5
-2026-11-20,1645699,Syria - Premier League,Al Ittihad - Jaish,61,1-0,,,,yüksek,,,evet,bekliyor,,0.442,0.337,alt,,,,,,,1.5
+2026-11-20,1645699,Syria - Premier League,Al Ittihad - Jaish,61,1-0,,,,yüksek,,,evet,isabet,,0.442,0.337,alt,,,2.82,182,,evet,1.5
 2026-11-20,1611453,Algeria - Ligue 1,ES Setif - US Biskra,69,1-1,,,,yüksek,,,evet,isabet,,0.67,0.485,alt,,,1.96,96,,evet,2.5
 2026-11-20,1559008,Slovenia - 2. SNL,Dravinja - Ilirija,73,2-1,,,,yüksek,,,evet,ıska,76,0.61,0.421,alt,,,2.26,-100,,evet,3.5
 2026-11-20,1559014,Slovenia - 2. SNL,Triglav - Dren Vrhnika,76,1-2,,,,yüksek,,,evet,ıska,83,0.639,0.373,alt,,,2.55,-100,,evet,3.5
@@ -39,6 +39,7 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-20,1576235,Germany - 2. Bundesliga,SV Darmstadt 98 - 1. FC Heidenheim,15,0-1,,1,,düşük,,,evet,isabet,22,0.715,0.663,iy,,,1.43,43,38,evet,1.5
 2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,44,1-0,ev,23.4,22.8,orta,evet,"Ev sahibi xG üstün, ceza sahası şutları fazla; ilk yarı sonu ve 1.5 üst piyasa olasılığı yüksek.",evet,bekliyor,,0.903,0.828,gol,0.03521,,,,39,,1.5
 2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,44,1-0,,1-0,,düşük,,,evet,bekliyor,,0.669,0.608,kg,,,,,40,,
-2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,21,0-1,,Al-Nassr,,yüksek,,,evet,bekliyor,,0.363,0.284,baski,0.03343,,,,41,,
-2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,21,0-1,,1,,düşük,,,evet,bekliyor,,0.659,0.608,iy,,,,,42,,1.5
+2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,21,0-1,,Al-Nassr,,yüksek,,,evet,ıska,,0.363,0.284,baski,0.03343,,3.35,-100,41,evet,
+2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,21,0-1,,1,,düşük,,,evet,isabet,32,0.659,0.608,iy,,,1.56,56,42,evet,1.5
 2026-11-20,1650523,Kuwait - Crown Prince Cup,Al Tadhamon - Al Jazira,61,1-1,,,,yüksek,,,evet,bekliyor,,0.485,0.329,alt,,,,,43,,2.5
+2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,28,0-1,,2,,orta,,,evet,bekliyor,,0.644,0.537,korner,,,,,49,,7.5
