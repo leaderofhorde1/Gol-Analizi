@@ -1,4 +1,4 @@
-# Model analizi – 2026-11-20T14:35+03:00
+# Model analizi – 2026-11-20T14:37+03:00
 
 Geçmiş maç sayısı: **37868**, hakem: **2609**
 
