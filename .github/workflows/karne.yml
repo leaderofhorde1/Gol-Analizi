@@ -1,0 +1,38 @@
+name: Haftalık Karne
+
+on:
+  schedule:
+    # Her pazartesi 09:07 (TR) = 06:07 UTC: son 7 günün karnesi + telefona özet
+    - cron: "7 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: karne
+  cancel-in-progress: false
+
+jobs:
+  karne:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Karne
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: cd src && python karne.py 7 --bildir
+      - name: Kaydet
+        run: |
+          git config user.name "gol-sinyali-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A data
+          if ! git diff --cached --quiet; then
+            git commit -m "Karne: $(date -u +%F)"
+            for i in 1 2 3; do git pull --rebase -X theirs && git push && break; git rebase --abort 2>/dev/null; sleep 5; done
+          fi

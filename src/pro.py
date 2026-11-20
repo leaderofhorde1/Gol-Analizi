@@ -271,6 +271,75 @@ def parse_live_goal_market(item: dict, total_goals: int) -> float | None:
     return best
 
 
+# ---- piyasa hareketi (CLV): sinyalden CLV_AFTER dk sonra aynı çizginin piyasa hızı
+CLV_AFTER = int(os.environ.get("CLV_AFTER", "5"))
+CLV_TOL = 1.03  # %3'ten küçük değişim "nötr"
+OVER_DIR = {"gol": 1, "baski": 1, "iy": 1, "korner": 1, "kart": 1, "kg": 1, "alt": -1}
+
+
+def goal_line_prob(item: dict | None, line: float) -> float | None:
+    """Maç sonu gol Üst-Alt pazarında verilen çizginin Üst olasılığı."""
+    for mk in (item or {}).get("odds") or []:
+        name = (mk.get("name") or "").lower()
+        if "over/under" not in name and "match goals" not in name:
+            continue
+        if any(w in name for w in ("1st", "2nd", "half", "corner", "card", "home", "away", "team", "asian")):
+            continue
+        over = under = None
+        for v in mk.get("values") or []:
+            try:
+                if v.get("suspended") or abs(float(v.get("handicap")) - line) > 1e-6:
+                    continue
+                odd = float(v.get("odd"))
+            except (TypeError, ValueError):
+                continue
+            lab = (v.get("value") or "").lower()
+            if lab.startswith("over"):
+                over = odd
+            elif lab.startswith("under"):
+                under = odd
+        if over and under:
+            return fair_prob(over, under)
+    return None
+
+
+def market_rate(m, odds, tur: str, line) -> tuple[float, int] | None:
+    """Piyasanın bu sinyal için ima ettiği dakika başı olay hızı ve o anki sayı.
+    Zaman geçtikçe olasılığın doğal düşüşünü ayıklamak için olasılık yerine hız kullanılır."""
+    if not odds:
+        return None
+    if tur in ("gol", "alt", "baski"):
+        count = m.gh + m.ga
+        p, rem = goal_line_prob(odds, line), remaining_minutes(m.minute)
+    elif tur == "iy":
+        count = m.gh + m.ga
+        p, rem = ou_line_prob(odds, "Over/Under (1st Half)", line), max(2.0, 47.5 - m.minute)
+    elif tur in ("korner", "kart"):
+        snap = m.snaps[-1]["stats"] if m.snaps else None
+        if not snap:
+            return None
+        keys = ("corners",) if tur == "korner" else ("yellow", "red")
+        count = int(sum(snap[s][k] for s in ("home", "away") for k in keys))
+        names = ("Total Corners", "Asian Corners") if tur == "korner" else ("Total Cards",)
+        p = next((x for x in (ou_line_prob(odds, nm, line) for nm in names) if x is not None), None)
+        rem = remaining_minutes(m.minute)
+    elif tur == "kg":
+        count = int(m.gh > 0) + int(m.ga > 0)
+        p, rem = two_way_prob(odds, "Both Teams to Score"), remaining_minutes(m.minute)
+        if p is None or count == 2 or not (0.01 < p < 0.99):
+            return None
+        per = p if count == 1 else math.sqrt(p)  # gol atması gereken takım başına olasılık
+        return -math.log(1 - per) / rem, count
+    else:
+        return None
+    if p is None or not (0.01 < p < 0.99):
+        return None
+    k = int(line - count + 0.5)
+    if k < 1 or k > 8:
+        return None
+    return solve_lambda(p, k) / rem, count
+
+
 LINE = "━━━━━━━━━━━━━━"
 CONF_ICON = {"yüksek": "●●● Yüksek", "orta": "●●○ Orta", "düşük": "●○○ Düşük"}
 
@@ -843,6 +912,52 @@ class ProEngine:
 
     GOL_YONLU = ("gol", "iy", "kg", "baski")
 
+    def clv_start(self, m, row, tur, line):
+        """Sinyal anındaki piyasa hızını kaydeder (sonra lehte/aleyhte dönüşü ölçmek için)."""
+        if tur == "baski" or line is None:
+            line = m.gh + m.ga + 0.5
+            tur_m = "baski"
+        else:
+            tur_m = tur
+        # son dakikalarda kalan süre çok kısa, hız ölçümü yanıltıcı olur
+        late = m.minute + CLV_AFTER > (40 if tur_m == "iy" else 84)
+        try:
+            r = None if late else market_rate(m, self.meta.get(m.id, {}).get("odds"), tur_m, float(line))
+        except Exception:
+            r = None
+        row["q_once"] = round(r[0], 5) if r else ""
+        row["q_sonra"] = ""
+        row["_clv"] = (tur_m, float(line), r[1] if r else None)
+
+    def clv_check(self, m, r):
+        """Sinyalden CLV_AFTER dk sonra piyasa bizim yönümüze döndü mü?"""
+        if r.get("piyasa_yon") or r.get("q_once") in ("", None) or "_clv" not in r:
+            return
+        if m.minute < int(r["dakika"]) + CLV_AFTER:
+            return
+        tur_m, line, count0 = r["_clv"]
+        try:
+            now = market_rate(m, self.meta.get(m.id, {}).get("odds"), tur_m, line)
+        except Exception:
+            now = None
+        if now is None:
+            if m.minute >= int(r["dakika"]) + CLV_AFTER + 5:
+                r["piyasa_yon"] = "veri yok"
+            return
+        rate, count = now
+        if count0 is not None and count != count0:  # arada olay oldu: hız karşılaştırılamaz
+            r["piyasa_yon"] = "olay"
+            return
+        q0 = float(r["q_once"])
+        r["q_sonra"] = round(rate, 5)
+        d = OVER_DIR.get(r.get("tur") or "gol", 1)
+        if (rate > q0 * CLV_TOL and d > 0) or (rate < q0 / CLV_TOL and d < 0):
+            r["piyasa_yon"] = "lehte"
+        elif (rate < q0 / CLV_TOL and d > 0) or (rate > q0 * CLV_TOL and d < 0):
+            r["piyasa_yon"] = "aleyhte"
+        else:
+            r["piyasa_yon"] = "nötr"
+
     def form_gate(self, m, tur, line, edge=None, need=None, only=None):
         """İki takımın son 5 maçı tahmine ters düşüyorsa daha güçlü kanıt ister.
         Dönüş: (gönderilsin_mi, form_bilgisi)."""
@@ -881,6 +996,7 @@ class ProEngine:
                                                        "q_once": "" if q is None else round(q, 5),
                                                        "cizgi": "" if cizgi is None else cizgi,
                                                        "form": f"{form['hits']}/{form['n']}" if form else ""})
+        self.clv_start(m, row, tur, cizgi)
         self.rows_today.append(row)
         icon, label = {"korner": ("🚩", "KORNER SİNYALİ"), "kart": ("🟨", "KART SİNYALİ"),
                        "iy": ("⏱", "İLK YARI GOL SİNYALİ"), "kg": ("🤝", "KG SİNYALİ"),
@@ -932,6 +1048,7 @@ class ProEngine:
             "gonderildi": "evet" if send else "hayır", "q_once": "" if q is None else round(q, 5),
             "cizgi": line if line is not None else "",
             "form": f"{form['hits']}/{form['n']}" if form else ""})
+        self.clv_start(m, row, "gol", line)
         self.rows_today.append(row)
         log(f"SİNYAL[gol] {m.name} {m.minute}' {side} model={p_model:.2f} piyasa={p_mkt} gönder={send}")
         if not send:
@@ -1045,11 +1162,8 @@ class ProEngine:
             if int(r["fixture_id"]) != m.id or r["sonuc"] != "bekliyor":
                 continue
             smin, tur = int(r["dakika"]), r.get("tur") or "gol"
-            # piyasa hareketi: sinyalden 3+ dk sonra, olay olmadan önceki piyasa hızı
-            if r.get("q_once") not in ("", None) and r.get("q_sonra") in ("", None) and m.minute >= smin + 3:
-                q_now = (self.meta.get(m.id, {}).get("q") or {}).get(tur)
-                if q_now:
-                    r["q_sonra"] = round(q_now, 5)
+            # piyasa hareketi: sinyalden CLV_AFTER dk sonra aynı çizgide piyasa bizim yönümüze döndü mü
+            self.clv_check(m, r)
             over = m.minute > smin + 10 or m.status in FINISHED
             done = m.status in FINISHED
             sh, sa = (int(x) for x in r["skor"].split("-"))
@@ -1250,6 +1364,11 @@ class ProEngine:
             msg.append("Panel: https://leaderofhorde1.github.io/Gol-Analizi/")
         except Exception as e:
             log("Panel hatası:", e)
+        try:
+            import karne
+            karne.build()
+        except Exception as e:
+            log("Karne hatası:", e)
         if not getattr(self, "stopping", False):  # güncelleme için kapanışta gruba özet gönderme
             notify("📊 OTURUM ÖZETİ", "\n".join(msg), priority=2, tags=["bar_chart"])
 

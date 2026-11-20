@@ -37,14 +37,13 @@ def stats(rows):
     pm = [_f(r.get("p_model")) for r in done if _f(r.get("p_model")) is not None]
     pk = [_f(r.get("p_piyasa")) for r in done if _f(r.get("p_piyasa")) is not None]
     kar = [_f(r.get("kar")) for r in done if _f(r.get("kar")) is not None]
-    mv = [(_f(r.get("q_sonra")), _f(r.get("q_once"))) for r in done]
-    mv = [(a, b) for a, b in mv if a and b]
+    yon = [r.get("piyasa_yon") for r in rows if r.get("piyasa_yon") in ("lehte", "aleyhte", "nötr")]
     return {
         "n": n, "hit": hit, "rate": hit / n if n else None,
         "pm": sum(pm) / len(pm) if pm else None, "pk": sum(pk) / len(pk) if pk else None,
         "kar": sum(kar) if kar else None, "kar_n": len(kar),
         "roi": sum(kar) / (100 * len(kar)) if kar else None,
-        "mv": sum(a > b * 1.03 for a, b in mv) / len(mv) if mv else None, "mv_n": len(mv),
+        "mv": yon.count("lehte") / len(yon) if yon else None, "mv_n": len(yon),
         "pending": len(rows) - n,
     }
 
@@ -102,6 +101,20 @@ def build():
         parts.append(f"""<section class="card"><h2>🤖 Claude filtresi</h2>
 <p>Onayladıkları: {a['n']} sinyal, isabet {pct(a['rate'])} · Eledikleri: {b['n']} sinyal, isabet {pct(b['rate'])}</p>
 <p class="note">Elenenlerin isabeti onaylananlardan düşükse Claude işe yarıyor demektir.</p></section>""")
+    # son 5 maç formu
+    from karne import form_cat
+    fc = defaultdict(list)
+    for r in sent:
+        c = form_cat(r)
+        if c:
+            fc[c].append(r)
+    if fc:
+        rows = [[{"destek": "✅ destekliyor", "nötr": "nötr", "ters": "⚠️ ters"}[c], s["n"], pct(s["rate"]), pct(s["pk"]),
+                 "-" if s["roi"] is None else f"{s['roi'] * 100:+.0f}%"]
+                for c in ("destek", "nötr", "ters") if c in fc for s in [stats(fc[c])]]
+        parts.append('<section class="card"><h2>📋 Son 5 maç formuna göre</h2>'
+                     + table(["Form", "Sinyal", "İsabet", "Piyasa", "ROI"], rows)
+                     + '<p class="note">Form destekleyen sinyaller daha çok tutuyorsa form kuralı işe yarıyor demektir.</p></section>')
     # güven düzeyine göre
     rows = []
     for tur in ("gol", "alt", "korner", "kart", "iy", "kg", "baski"):
@@ -173,7 +186,8 @@ main {{ padding:8px 12px 40px; max-width:900px; margin:auto }}
 .tw {{ overflow-x:auto }} table {{ border-collapse:collapse; width:100%; font-size:13px }}
 th,td {{ text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); white-space:nowrap }} th {{ color:var(--mut); font-weight:600 }}
 </style></head><body>
-<header><h1>Gol Sinyali Paneli</h1><p>Son güncelleme: {now} · her oturum sonunda yenilenir</p></header>
+<header><h1>Gol Sinyali Paneli</h1><p>Son güncelleme: {now} · her oturum sonunda yenilenir ·
+<a href="https://github.com/leaderofhorde1/Gol-Analizi/blob/main/data/rapor/karne.md">📊 Ayrıntılı karne</a></p></header>
 <main>{''.join(parts) if parts else '<p>Henüz veri yok.</p>'}</main></body></html>"""
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(page, encoding="utf-8")
