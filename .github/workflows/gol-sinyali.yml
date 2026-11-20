@@ -15,6 +15,10 @@ on:
         type: choice
         options: [test, run, kisa, diag]
         default: test
+      sure:
+        description: "İsteğe bağlı: oturum süresi (dakika). Boş = varsayılan"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -51,7 +55,7 @@ jobs:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           WINDOW_END: "23:45"     # ücretsiz planda takibin biteceği saat (TR)
-          RUN_MINUTES: ${{ github.event.inputs.mod == 'kisa' && '6' || '350' }}  # bir oturumun süresi (dk)
+          RUN_MINUTES: ${{ github.event.inputs.sure || (github.event.inputs.mod == 'kisa' && '6') || '350' }}  # bir oturumun süresi (dk)
           INTERVAL: "30"          # Pro/Ultra: tur aralığı (sn)
           SIGNALS: "gol,korner,kart"  # açık sinyal türleri
           EDGE: "0.04"            # gol: model olasılığı piyasadan en az bu kadar yüksekse sinyal
