@@ -458,6 +458,8 @@ class Match:
         self.away = fx["teams"]["away"]["name"]
         self.home_id = fx["teams"]["home"].get("id")
         self.away_id = fx["teams"]["away"].get("id")
+        self.season = fx["league"].get("season")
+        self.lineups: list = []
         self.kickoff = dt.datetime.fromtimestamp(fx["fixture"]["timestamp"], TZ)
         self.status = fx["fixture"]["status"]["short"]
         self.priority = PRIORITY.get(self.league_id, 10)
@@ -475,6 +477,7 @@ class Match:
         st = item["fixture"]["status"]
         self.referee = item["fixture"].get("referee") or getattr(self, "referee", None)
         self.events = item.get("events") or getattr(self, "events", [])
+        self.lineups = item.get("lineups") or getattr(self, "lineups", [])
         self.status = st["short"]
         self.minute = st.get("elapsed") or self.minute
         self.gh = item["goals"]["home"] or 0
@@ -534,13 +537,6 @@ def evaluate_pressure(m: Match, lookback: int = None, min_span: int = None) -> d
         if own < opp:
             mult *= 1.15 if opp - own == 1 else 1.05
         elif own > opp:
-            mult *= 0.9
-        st = cur["stats"]
-        red_own = st[side]["red"]
-        red_opp = st["away" if side == "home" else "home"]["red"]
-        if red_opp > red_own:
-            mult *= 1.15
-        elif red_own > red_opp:
             mult *= 0.9
         if m.minute >= 75:
             mult *= 1.1
@@ -1002,7 +998,19 @@ def main():
               "skor", it["goals"], "korner", st["home"]["corners"], st["away"]["corners"],
               "kart", st["home"]["yellow"] + st["home"]["red"], st["away"]["yellow"] + st["away"]["red"])
         for ev in it.get("events") or []:
-            print("OLAY:", (ev.get("time") or {}).get("elapsed"), ev.get("type"), ev.get("detail"), (ev.get("team") or {}).get("name"))
+            print("OLAY:", (ev.get("time") or {}).get("elapsed"), ev.get("type"), ev.get("detail"), (ev.get("team") or {}).get("name"),
+                  "| oyuncu:", (ev.get("player") or {}).get("name"), "| asist:", (ev.get("assist") or {}).get("name"))
+        import kadro
+        api = Api(API_KEY)
+        m = Match(it)
+        m.update(it)
+        print("KADRO:", [(lu.get("team") or {}).get("name") + " " + str(lu.get("formation")) for lu in m.lineups])
+        for sb in kadro.substitutions(m):
+            print("DEĞİŞİKLİK:", sb)
+        print("NET HÜCUM:", kadro.sub_shift(m), "KIRMIZI:", kadro.red_counts(m), "ÇARPAN:", kadro.goal_mults(m))
+        inj = kadro.InjuryBook(api).get(m)
+        print("EKSİK:", json.dumps(inj, ensure_ascii=False)[:1500])
+        print("MESAJ SATIRLARI:", kadro.info_lines(m, inj))
         return 0
     if MODE == "kurtar":
         import kurtar

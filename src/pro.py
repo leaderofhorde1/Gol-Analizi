@@ -20,6 +20,7 @@ import re
 import time
 
 from form import FormBook, check as form_check
+import kadro
 
 from main import (
     COMBINED_THRESHOLD, DATA, FINISHED, LIVE, PRIORITY, REQUEST_RESERVE, THRESHOLD, TZ,
@@ -136,7 +137,7 @@ SAMPLE_FIELDS = ["tarih", "fixture_id", "lig_id", "dakika", "skor_farki", "topla
                  "baski_ev", "baski_dep", "kirmizi_farki", "mu", "dusus", "p_model",
                  "p_piyasa", "gol_10dk", "korner", "p_korner", "p_korner_piyasa", "korner_10dk",
                  "kart", "faul_10", "p_kart", "p_kart_piyasa", "kart_10dk",
-                 "durum", "p_iy", "p_iy_piyasa", "p_kg", "p_kg_piyasa"]
+                 "durum", "p_iy", "p_iy_piyasa", "p_kg", "p_kg_piyasa", "hucum_ev", "hucum_dep", "kirmizi_ev", "kirmizi_dep"]
 
 
 # ---------------------------------------------------------------- olasılık yardımcıları
@@ -460,6 +461,7 @@ class ProEngine:
                 meta.setdefault("cizgiler", set()).add(f"{tur}:{float(r['cizgi'])}")
         self.odds_live_ok = True
         self.form = FormBook(self.api, self.today)
+        self.injuries = kadro.InjuryBook(self.api)
         self.tick_cost = 0
         self.alerted: set = set()
         self.referees = json.loads(REFEREE_JSON.read_text()) if REFEREE_JSON.exists() else {}
@@ -609,7 +611,7 @@ class ProEngine:
             time_mult *= (PARAMS.get("gol_durum") or {}).get(goal_state(m.gh, m.ga), 1.0)
         else:
             time_mult = 1.15 if m.minute >= 75 else 1.0
-        p_model = 1 - math.exp(-rate * min(10.0, remaining_minutes(m.minute)) * f * time_mult)
+        p_model = 1 - math.exp(-rate * min(10.0, remaining_minutes(m.minute)) * f * time_mult * self.squad_total(m))
         odds = self.meta.get(m.id, {}).get("odds")
         p_rest = parse_live_goal_market(odds, m.gh + m.ga) if odds else None
         p_mkt = p_next10_from_rest(p_rest, m.minute) if p_rest else None
@@ -635,6 +637,32 @@ class ProEngine:
         p_mkt = poisson_over(q * T, 2) if q else None
         return p_model, p_mkt, f, corners, q
 
+    @staticmethod
+    def squad_sample(m) -> dict:
+        try:
+            net = kadro.sub_shift(m)
+            rh, ra = kadro.red_counts(m)
+            return {"hucum_ev": net["home"], "hucum_dep": net["away"], "kirmizi_ev": rh, "kirmizi_dep": ra}
+        except Exception:
+            return {}
+
+    def squad_lines(self, m) -> list[str]:
+        """Mesaj için kırmızı kart, değişiklik ve eksik oyuncu satırları."""
+        try:
+            return kadro.info_lines(m, self.injuries.get(m))
+        except Exception as e:
+            log("Kadro bilgisi hatası:", e)
+            return []
+
+    @staticmethod
+    def squad_total(m) -> float:
+        """Kırmızı kart ve oyuncu değişikliklerinin toplam gol hızına etkisi."""
+        try:
+            h, a = kadro.goal_mults(m)
+            return (h + a) / 2
+        except Exception:
+            return 1.0
+
     def time_mult(self, m: Match, minute: int, span: int) -> float:
         if PARAMS.get("gol_egrisi"):
             tm = curve_avg(PARAMS["gol_egrisi"], minute, max(1, span))
@@ -645,7 +673,7 @@ class ProEngine:
         """Maç sonuna kadar en az bir gol daha (Üst toplam+0.5)."""
         rem = remaining_minutes(m.minute)
         f = min(3.0, max(0.55, 0.55 + 0.45 * (pr["home"] + pr["away"]) / TYPICAL_TOTAL_PRESSURE))
-        rate = self.mu(m.id) / 94.0 * self.time_mult(m, m.minute, int(rem))
+        rate = self.mu(m.id) / 94.0 * self.time_mult(m, m.minute, int(rem)) * self.squad_total(m)
         p_model = 1 - math.exp(-rate * rem * damp(f, rem))
         odds = self.meta.get(m.id, {}).get("odds")
         p_mkt = parse_live_goal_market(odds, m.gh + m.ga) if odds else None
@@ -692,7 +720,7 @@ class ProEngine:
         """Devre arasına kadar en az bir gol."""
         rem = max(2.0, 47.5 - m.minute)
         f = min(3.0, max(0.55, 0.55 + 0.45 * (pr["home"] + pr["away"]) / TYPICAL_TOTAL_PRESSURE))
-        rate = self.mu(m.id) / 94.0 * self.time_mult(m, m.minute, int(rem))
+        rate = self.mu(m.id) / 94.0 * self.time_mult(m, m.minute, int(rem)) * self.squad_total(m)
         p_model = 1 - math.exp(-rate * rem * damp(f, rem))
         p_mkt = ou_line_prob(self.meta.get(m.id, {}).get("odds"), "Over/Under (1st Half)", m.gh + m.ga + 0.5)
         return p_model, p_mkt
@@ -703,9 +731,13 @@ class ProEngine:
         need = [s for s, g in (("home", m.gh), ("away", m.ga)) if g == 0]
         tm = self.time_mult(m, m.minute, int(min(rem, 40)))
         p = 1.0
+        try:
+            gm = dict(zip(("home", "away"), kadro.goal_mults(m)))
+        except Exception:
+            gm = {"home": 1.0, "away": 1.0}
         for side in need:
             f = min(3.0, max(0.55, 0.55 + 0.45 * pr[side] / (TYPICAL_TOTAL_PRESSURE / 2)))
-            rate = self.mu(m.id) / 2 / 94.0 * tm
+            rate = self.mu(m.id) / 2 / 94.0 * tm * gm[side]
             p *= 1 - math.exp(-rate * rem * damp(f, rem))
         p_mkt = two_way_prob(self.meta.get(m.id, {}).get("odds"), "Both Teams to Score")
         return p, p_mkt, need
@@ -769,6 +801,7 @@ class ProEngine:
                 "p_kart_piyasa": r3(pk_m), "kart_10dk": "",
                 "durum": m.status, "p_iy": r3(piy), "p_iy_piyasa": r3(piy_m),
                 "p_kg": r3(pkg), "p_kg_piyasa": r3(pkg_m),
+                **self.squad_sample(m),
             })
         if m.minute >= 88:
             return
@@ -1011,7 +1044,7 @@ class ProEngine:
                   "baski": (f"🎯 DİKKAT: {count} yoğun baskıda, devre bitmeden gol bekleniyor" if cizgi == 45 else
                             f"🎯 DİKKAT: {count} yoğun baskıda, {m.minute}'-{int(cizgi or m.minute + ALARM_WINDOW)}' arası gol bekleniyor")}[tur]
         body = [tahmin, LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}", "",
-                *lines, *([form["text"]] if form else []), "", *prob_lines(p, p_mkt, conf), LINE,
+                *lines, *([form["text"]] if form else []), *self.squad_lines(m), "", *prob_lines(p, p_mkt, conf), LINE,
                 "ℹ️ Bahis tavsiyesi değildir."]
         row["tg_mesaj"] = notify(f"{icon} {label}: {m.name}", "\n".join(body), priority=4,
                                  on_tg=lambda mid, r=row: r.__setitem__("tg_mesaj", mid),
@@ -1061,7 +1094,7 @@ class ProEngine:
             lines.append(f"👉 Baskıyı kuran: {team}")
         lines += [LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}", "",
                   f"📈 Son {int(pr['span'])} dk ({team}):", *stat_bullets(d),
-                  *([form["text"]] if form else []), "",
+                  *([form["text"]] if form else []), *self.squad_lines(m), "",
                   *prob_lines(p_model, p_mkt, conf)]
         if drop >= DROP_PCT:
             lines.append(f"📉 Maç öncesi Üst 2.5 oranı %{round(drop * 100)} düşmüştü")
@@ -1316,7 +1349,7 @@ class ProEngine:
         if not self.done_samples:
             return
         SAMPLES_DIR.mkdir(parents=True, exist_ok=True)
-        path = SAMPLES_DIR / f"{self.today}-v3.csv.gz"
+        path = SAMPLES_DIR / f"{self.today}-v4.csv.gz"
         buf = io.StringIO()
         w = csv.DictWriter(buf, fieldnames=SAMPLE_FIELDS)
         if not path.exists():

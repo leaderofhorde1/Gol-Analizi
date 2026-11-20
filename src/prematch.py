@@ -354,6 +354,9 @@ def morning_report(api, book: OddsBook):
     cands.sort(key=lambda c: (-PRIORITY.get(c[1]["lig_id"], 10), c[1]["ts"]))
     cands = cands[:MAX_REPORT_MATCHES]
     cache, rows, picks = {}, [], []
+    import types
+    import kadro
+    inj_book = kadro.InjuryBook(api)
     for fid, fx, rec in cands:
         rl = rating_lambdas(fx)
         lh, la, src = rl if rl else team_lambdas(api, fx, cache)
@@ -378,8 +381,13 @@ def morning_report(api, book: OddsBook):
         t = dt.datetime.fromtimestamp(fx["ts"], TZ).strftime("%H:%M")
         name = f'{fx["ev"]} - {fx["dep"]}'
         mu = book.mu(fid)
+        mobj = types.SimpleNamespace(id=int(fid), league_id=fx["lig_id"], season=fx.get("sezon"),
+                                     home_id=fx.get("ev_id"), away_id=fx.get("dep_id"),
+                                     home=fx["ev"], away=fx["dep"])
+        inj = inj_book.get(mobj) if fx.get("ev_id") else None
         rows.append({"saat": t, "mac": name, "lig": fx["lig"], "lh": lh, "la": la, "kaynak": src,
-                     "mp": mp, "api": api_p, "piyasa": market, "mu": mu, "drops": book.drops(fid)})
+                     "mp": mp, "api": api_p, "piyasa": market, "mu": mu, "drops": book.drops(fid),
+                     "eksik": (kadro.injuries_text(inj, mobj) or "").replace("🚑 Eksik: ", "") if inj else ""})
         if src == "varsayılan" or MODEL_WEIGHT <= 0:
             continue
         for key, p_mkt in market.items():
@@ -425,6 +433,10 @@ def morning_report(api, book: OddsBook):
     if drops:
         msg.append("\n📉 Üst 2.5 oranı düşenler:")
         msg += [f"{r['saat']} {r['mac']} (%{round(d * 100)})" for r, d in drops]
+    star_out = [r for r in rows if "⭐" in (r.get("eksik") or "")][:5]
+    if star_out:
+        msg.append("\n🚑 Önemli eksikler:")
+        msg += [f"{r['saat']} {r['mac']}: {r['eksik']}" for r in star_out]
     hist = [r for r in load_picks() if r["sonuc"] in ("isabet", "ıska")]
     if hist:
         w = sum(r["sonuc"] == "isabet" for r in hist)
@@ -451,8 +463,8 @@ def write_report_md(day, rows, picks):
                 f"{pc(p['piyasa'])} | {pc(p['api']) if p['api'] != '' else '-'} |" for p in picks]
         out.append("")
     out += ["## Tüm maçlar", "",
-            "| Saat | Lig | Maç | Beklenen gol (model) | 1 / X / 2 (model) | 1 / X / 2 (piyasa) | Üst 2.5 model / piyasa | KG Var model / piyasa | Olası skorlar | Oran düşüşü |",
-            "|---|---|---|---|---|---|---|---|---|---|"]
+            "| Saat | Lig | Maç | Beklenen gol (model) | 1 / X / 2 (model) | 1 / X / 2 (piyasa) | Üst 2.5 model / piyasa | KG Var model / piyasa | Olası skorlar | Oran düşüşü | Eksikler |",
+            "|---|---|---|---|---|---|---|---|---|---|---|"]
     for r in sorted(rows, key=lambda r: r["saat"]):
         mp, mk = r["mp"], r["piyasa"]
         dr = ", ".join(f"{LABELS[k]} %{round(v * 100)}" for k, v in r["drops"].items() if v >= DROP_PCT) or "-"
@@ -462,5 +474,5 @@ def write_report_md(day, rows, picks):
             f"{pc(mp['1x2:ev'])} / {pc(mp['1x2:x'])} / {pc(mp['1x2:dep'])} | "
             f"{pc(mk.get('1x2:ev'))} / {pc(mk.get('1x2:x'))} / {pc(mk.get('1x2:dep'))} | "
             f"{pc(mp['ou:ust'])} / {pc(mk.get('ou:ust'))} | {pc(mp['kg:var'])} / {pc(mk.get('kg:var'))} | "
-            f"{', '.join(s for _, s in mp['skorlar'])} | {dr} |")
+            f"{', '.join(s for _, s in mp['skorlar'])} | {dr} | {r.get('eksik') or '-'} |")
     (REPORT_DIR / f"{day}.md").write_text("\n".join(out) + "\n", encoding="utf-8")
