@@ -373,7 +373,7 @@
  "kart_gec_yakin": 1.323,
  "on_mac": {
   "shrink": 15,
-  "model_agirligi": 0.5,
+  "model_agirligi": 0.0,
   "piyasa_orneklem": 43
  }
 }

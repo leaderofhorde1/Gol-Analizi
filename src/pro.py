@@ -46,6 +46,13 @@ try:
     PARAMS = json.loads(PARAMS_PATH.read_text()) if PARAMS_PATH.exists() else {}
 except Exception:
     PARAMS = {}
+# Uzatma dakikaları 41-45 ve 86-90 dilimlerine yazıldığı için bu dilimlerin dakika başı
+# hızı şişik görünür; maruz kalınan süreye göre düzelt (ilk yarı ~2,5, ikinci yarı ~5 dk uzatma).
+for _key in ("gol_egrisi", "kart_egrisi"):
+    if PARAMS.get(_key) and len(PARAMS[_key]) == 18:
+        PARAMS[_key] = list(PARAMS[_key])
+        PARAMS[_key][8] *= 5 / 7.5
+        PARAMS[_key][17] *= 5 / 10
 
 SAMPLES_DIR = DATA / "ornekler"
 REFEREE_JSON = DATA / "hakemler.json"

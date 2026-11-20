@@ -404,6 +404,9 @@ def morning_report(api, book: OddsBook):
     if hi_mu:
         msg.append("⚽ Gol beklentisi en yüksek:")
         msg += [f"{r['saat']} {r['mac']} (beklenen {r['mu']:.1f} gol)" for r in hi_mu]
+    if MODEL_WEIGHT <= 0:
+        msg.append("\nℹ️ Geri testte maç öncesi model bahis piyasasını geçemedi; bu yüzden 'değerli seçim' "
+                   "önerilmiyor. Oranlar esas alınıyor.")
     if picks:
         msg.append("\n💡 Modelin piyasadan yüksek gördükleri:")
         msg += [f"{p['saat']} {p['mac']}: {p['secim']} @{p['oran']} "

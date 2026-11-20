@@ -460,8 +460,8 @@ def run():
         "lig": leagues, "gol_egrisi": goals_curve, "kart_egrisi": cards_curve,
         "gol_durum": state_mult, "kart_gec_yakin": late_close,
         "on_mac": {"shrink": best_k,
-                   # Piyasa örneklemi küçükse ağırlığa güvenme, varsayılan 0.5 kalsın.
-                   "model_agirligi": (mkt or {}).get("en_iyi_agirlik", 0.5) if (mkt or {}).get("mac", 0) >= 300 else 0.5,
+                   # Piyasa örneklemi küçükse modele güvenme: kanıtlanana kadar piyasa esas (0.0).
+                   "model_agirligi": (mkt or {}).get("en_iyi_agirlik", 0.0) if (mkt or {}).get("mac", 0) >= 300 else 0.0,
                    "piyasa_orneklem": (mkt or {}).get("mac", 0)},
     }
     (MODEL_DIR / "params.json").write_text(json.dumps(params, ensure_ascii=False, indent=1))
