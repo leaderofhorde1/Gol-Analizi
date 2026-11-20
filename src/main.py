@@ -801,7 +801,10 @@ def run_test():
 
     if TG_TOKEN:
         try:
-            me = _tg("getMe").get("result") or {}
+            me_res = _tg("getMe")
+            me = me_res.get("result") or {}
+            if not me_res.get("ok"):
+                report.append(f"Telegram getMe hatası: {me_res.get('error_code')} {me_res.get('description')}")
             chat = telegram_chat_id()
             report.append(f"Telegram: bot @{me.get('username')} " + (f"grup bağlı ({chat})" if chat else
                           "— grup bulunamadı, botu gruba ekleyip grupta bir mesaj yazın"))
