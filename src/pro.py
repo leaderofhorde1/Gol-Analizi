@@ -74,6 +74,8 @@ SAMPLES_DIR = DATA / "ornekler"
 REFEREE_JSON = DATA / "hakemler.json"          # geçmiş veri (analiz yazar)
 REFEREE_LIVE = DATA / "hakemler_canli.json"    # canlı oturumların eklediği maçlar
 CHAIN_FLAG = "/tmp/zincir"
+CHECKPOINT_EVERY = 600   # sn: açık sinyaller ve veriler depoya yazılır (yeniden başlatmada kaybolmaz)
+STOP_CHECK_EVERY = 120   # sn: depoda "dur" isteği var mı
 SAMPLE_FIELDS = ["tarih", "fixture_id", "lig_id", "dakika", "skor_farki", "toplam_gol",
                  "baski_ev", "baski_dep", "kirmizi_farki", "mu", "dusus", "p_model",
                  "p_piyasa", "gol_10dk", "korner", "p_korner", "p_korner_piyasa", "korner_10dk",
@@ -654,14 +656,21 @@ class ProEngine:
                 m.last_signal_min = m.minute
                 sent.add(f"gol:{ust_line}")
                 self.goal_signal(m, pr, side, pu, pu_m, qg, ust_line)
-        # 🧊 maç sonu Alt: maçın son bölümünde iki takımın da baskısı çok düşükse
+        # 🧊 maç sonu Alt: son 15 dakikada iki takımın da baskısı çok düşükse
+        # (Alt riskli bir tercih: daha uzun sessizlik ve isabetli şut/xG şartı aranır)
         if ("alt" in SIGNALS_ON and not meta.get("alt_gonderildi") and pu_m is not None
-                and remaining_minutes(m.minute) <= 40 and not pr.get("goal_in_window")
-                and pr["home"] + pr["away"] <= COMBINED_THRESHOLD * 0.35 and pu_m - pu >= EDGE_ALT):
-            meta["alt_gonderildi"] = True
-            d = {k: pr["d_home"][k] + pr["d_away"][k] for k in pr["d_home"]}
-            self.simple_signal(m, "alt", 1 - pu, 1 - pu_m, None, None, [
-                f"🧊 Son {int(pr['span'])} dk iki takımın da baskısı düşük:", *stat_bullets(d)], cizgi=ust_line)
+                and remaining_minutes(m.minute) <= 40):
+            pr15 = evaluate_pressure(m, lookback=15, min_span=14)
+            if pr15 and not pr15.get("goal_in_window"):
+                d = {k: pr15["d_home"][k] + pr15["d_away"][k] for k in pr15["d_home"]}
+                p_alt, p_alt_m = 1 - self.rest_goal(m, pr15)[0], 1 - pu_m
+                quiet = (pr15["home"] + pr15["away"] <= COMBINED_THRESHOLD * 0.35
+                         and d["sot"] <= 1 and d["xg"] <= 0.25 and d["inbox"] <= 2)
+                if quiet and p_alt - p_alt_m >= EDGE_ALT:
+                    meta["alt_gonderildi"] = True
+                    self.simple_signal(m, "alt", p_alt, p_alt_m, None, None, [
+                        f"🧊 Son {int(pr15['span'])} dk iki takım toplam:", *stat_bullets(d),
+                        f"   • ceza sahası içi şut: {int(d['inbox'])}"], cizgi=ust_line)
         # 🚩 maç sonu korner Üst
         pcu, pcu_m, c_line, fcu, corners_now = self.corner_total(m, pr)
         if ("korner" in SIGNALS_ON and pcu is not None and m.minute - meta.get("son_korner", -99) >= 15
@@ -946,7 +955,7 @@ class ProEngine:
 
     def announce(self, r: dict, m: Match):
         """Sinyalin sonucunu Telegram'da sinyal mesajını alıntılayarak bildirir."""
-        if r.get("duyuruldu") or not r.get("tg_mesaj") or r.get("gonderildi") != "evet":
+        if r.get("duyuruldu") or r.get("gonderildi") != "evet":
             return
         r["duyuruldu"] = "evet"
         tur = r.get("tur") or "gol"
@@ -976,8 +985,14 @@ class ProEngine:
         else:  # baskı alarmı
             text = (f"✅ TUTTU!\n🔥 {dk}' gol geldi\n{skor}" if ok else
                     f"❌ TUTMADI\n🔥 {smin}'-{min(smin + 10, 90)}' arası gol olmadı\n{skor}")
-        from main import telegram_reply
-        telegram_reply(r["tg_mesaj"], text)
+        from main import telegram_reply, telegram_send
+        if r.get("tg_mesaj"):
+            telegram_reply(r["tg_mesaj"], text)
+        else:  # sinyal mesajının numarası yoksa (oturum değişimi) sonucu ayrı mesaj olarak yaz
+            names = {"gol": "MAÇ SONU ÜST", "alt": "MAÇ SONU ALT", "korner": "KORNER ÜST", "kart": "KART ÜST",
+                     "iy": "İLK YARI GOL", "kg": "KG VAR", "baski": "BASKI ALARMI"}
+            head, rest = text.split("\n", 1) if "\n" in text else (text, "")
+            telegram_send(f"{head} | {r['mac']}", f"↪️ {r['dakika']}' {names.get(tur, tur)} {ln} sinyali\n{rest}".strip())
 
     def label_samples(self, m: Match):
         keep = []
@@ -1067,7 +1082,43 @@ class ProEngine:
             msg.append("Panel: https://leaderofhorde1.github.io/Gol-Analizi/")
         except Exception as e:
             log("Panel hatası:", e)
-        notify("📊 OTURUM ÖZETİ", "\n".join(msg), priority=2, tags=["bar_chart"])
+        if not getattr(self, "stopping", False):  # güncelleme için kapanışta gruba özet gönderme
+            notify("📊 OTURUM ÖZETİ", "\n".join(msg), priority=2, tags=["bar_chart"])
+
+    # --- ara kayıt ve nazik durdurma
+    def _git(self, *args, check=False):
+        import subprocess
+        return subprocess.run(["git", *args], capture_output=True, text=True, cwd=str(DATA.parent), timeout=60)
+
+    def checkpoint(self):
+        """Açık sinyalleri (Telegram mesaj numaralarıyla) ve verileri depoya yazar."""
+        self.save()
+        try:
+            self._git("config", "user.name", "gol-sinyali-bot")
+            self._git("config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com")
+            self._git("add", "-A", "data")
+            if self._git("diff", "--cached", "--quiet").returncode != 0:
+                self._git("commit", "-q", "-m", f"Ara kayıt: {dt.datetime.now(TZ):%Y-%m-%d %H:%M}")
+                for _ in range(3):
+                    self._git("pull", "-q", "--rebase", "-X", "theirs")
+                    if self._git("push", "-q").returncode == 0:
+                        break
+                    self._git("rebase", "--abort")
+            log("Ara kayıt depoya yazıldı")
+        except Exception as e:
+            log("Ara kayıt hatası:", e)
+
+    def stop_requested(self) -> bool:
+        """Depoda bu oturumdan sonra yazılmış bir data/kontrol/dur dosyası varsa oturum nazikçe biter."""
+        try:
+            self._git("fetch", "-q", "origin", "main")
+            r = self._git("show", "origin/main:data/kontrol/dur")
+            if r.returncode == 0:
+                ts = dt.datetime.fromisoformat(r.stdout.strip())
+                return ts > self.now0
+        except Exception:
+            pass
+        return False
 
     # --- ana döngü
     def run(self):
@@ -1083,7 +1134,7 @@ class ProEngine:
             log("Devralınan sinyaller işlenemedi:", e)
         notify("✅ Takip başladı", f"Pro mod ({', '.join(sorted(SIGNALS_ON))}), bitiş {end:%H:%M}.",
                priority=2, tags=["white_check_mark"])
-        last_save = last_odds = time.time()
+        last_save = last_odds = last_stop = time.time()
         idle = 0
         try:
             while dt.datetime.now(TZ) < end:
@@ -1104,9 +1155,16 @@ class ProEngine:
                         self.send_drop_alerts()
                     except Exception as e:
                         log("Oran yenileme hatası:", e)
-                if time.time() - last_save > 900:
-                    self.save()
+                if time.time() - last_save > CHECKPOINT_EVERY:
+                    self.checkpoint()
                     last_save = time.time()
+                if time.time() - last_stop > STOP_CHECK_EVERY:
+                    last_stop = time.time()
+                    if self.stop_requested():
+                        log("Durdurma isteği alındı, oturum kayıtla kapanıyor.")
+                        self.stopping = True
+                        notify("🔄 Güncelleme", "Oturum yeni sürüm için kapanıyor.", priority=1, telegram=False)
+                        break
                 idle = idle + 1 if n_live == 0 else 0
                 wait = TARGET_INTERVAL if n_live else min(600, 120 * idle)
                 pmb = self.per_minute_budget()

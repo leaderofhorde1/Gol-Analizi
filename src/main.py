@@ -364,7 +364,7 @@ class Match:
         if self.status in LIVE and self.status != "HT":
             self.snaps.append({"min": self.minute, "stats": stats,
                                "gh": self.gh, "ga": self.ga})
-            self.snaps = self.snaps[-40:]
+            self.snaps = self.snaps[-80:]
         return stats
 
 
@@ -378,13 +378,15 @@ def team_pressure(now: dict, then: dict, has_xg: bool, span: float) -> tuple[flo
     return p, d
 
 
-def evaluate_pressure(m: Match) -> dict | None:
+def evaluate_pressure(m: Match, lookback: int = None, min_span: int = None) -> dict | None:
+    lookback = lookback or LOOKBACK_MIN
+    min_span = min_span or MIN_SPAN
     if len(m.snaps) < 2 or m.status not in LIVE or m.status == "HT":
         return None
     cur = m.snaps[-1]
     base = None
     for s in reversed(m.snaps[:-1]):
-        if cur["min"] - s["min"] >= LOOKBACK_MIN:
+        if cur["min"] - s["min"] >= lookback:
             base = s
             break
     if base is None:
@@ -394,12 +396,12 @@ def evaluate_pressure(m: Match) -> dict | None:
     goal_in_window = False
     if (cur["gh"], cur["ga"]) != (base["gh"], base["ga"]):
         after = [s for s in m.snaps if (s["gh"], s["ga"]) == (cur["gh"], cur["ga"])]
-        if after and cur["min"] - after[0]["min"] >= MIN_SPAN:
+        if after and cur["min"] - after[0]["min"] >= min_span:
             base = after[0]
         else:
             goal_in_window = True
     span = cur["min"] - base["min"]
-    if span < MIN_SPAN and not goal_in_window:
+    if span < min_span and not goal_in_window:
         return None
     span = max(span, 1)
     has_xg = cur["stats"]["has_xg"]
