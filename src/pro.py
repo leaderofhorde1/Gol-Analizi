@@ -719,7 +719,10 @@ class ProEngine:
         pu, pu_m, ust_line = self.rest_goal(m, pr)
         # ⚽ maç sonu Üst (toplam + 0.5): anlık baskı tetikler, tahmin maç sonunu kapsar
         sent = meta.setdefault("cizgiler", set())  # her tür ve çizgi için maç başına bir sinyal
-        if ("gol" in SIGNALS_ON and m.minute - m.last_signal_min >= 12 and pu_m is not None
+        # Zıt yön kilidi: bekleyen Alt varken gol yönlü sinyal, bekleyen gol yönlü sinyal varken Alt gitmez
+        alt_acik = lambda: "alt" in self.pending_types(m.id)
+        gol_acik = lambda: bool(self.pending_types(m.id) & set(self.GOL_YONLU))
+        if ("gol" in SIGNALS_ON and not alt_acik() and m.minute - m.last_signal_min >= 12 and pu_m is not None
                 and f"gol:{float(ust_line)}" not in sent):
             side = signal_side(pr)
             if side and pu - pu_m >= EDGE_UST + extra:
@@ -728,7 +731,7 @@ class ProEngine:
                 self.goal_signal(m, pr, side, pu, pu_m, qg, ust_line)
         # 🧊 maç sonu Alt: son 15 dakikada iki takımın da baskısı çok düşükse
         # (Alt riskli bir tercih: sadece xG verisi olan maçlarda; uzun sessizlik ve isabetli şut/xG şartı)
-        if ("alt" in SIGNALS_ON and has_xg and not meta.get("alt_gonderildi") and pu_m is not None
+        if ("alt" in SIGNALS_ON and has_xg and not gol_acik() and not meta.get("alt_gonderildi") and pu_m is not None
                 and remaining_minutes(m.minute) <= 40):
             pr15 = evaluate_pressure(m, lookback=15, min_span=14)
             if pr15 and not pr15.get("goal_in_window"):
@@ -752,7 +755,7 @@ class ProEngine:
                 f"🚩 Şu an: {corners_now} korner",
                 f"📈 Son {int(pr['span'])} dk (iki takım):", *stat_bullets(d)], cizgi=c_line)
         # ⏱ ilk yarı golü
-        if ("iy" in SIGNALS_ON and piy is not None and piy_m is not None and 15 <= m.minute <= 40
+        if ("iy" in SIGNALS_ON and not alt_acik() and piy is not None and piy_m is not None and 15 <= m.minute <= 40
                 and not meta.get("iy_gonderildi") and not pr.get("goal_in_window")
                 and (signal_side(pr) or pr["home"] + pr["away"] >= COMBINED_THRESHOLD * 0.8)
                 and piy - piy_m >= EDGE_IY + extra):
@@ -765,7 +768,7 @@ class ProEngine:
             self.simple_signal(m, "iy", piy, piy_m, m.gh + m.ga, None, [
                 f"📈 Son {int(pr['span'])} dk ({team}):", *stat_bullets(dd)], cizgi=m.gh + m.ga + 0.5)
         # 🤝 karşılıklı gol
-        if ("kg" in SIGNALS_ON and pkg is not None and pkg_m is not None and 25 <= m.minute <= 80
+        if ("kg" in SIGNALS_ON and not alt_acik() and pkg is not None and pkg_m is not None and 25 <= m.minute <= 80
                 and not meta.get("kg_gonderildi")
                 and any(pr[sd] >= THRESHOLD * 0.8 for sd in kg_need)
                 and pkg - pkg_m >= EDGE_KG + extra):
@@ -779,7 +782,7 @@ class ProEngine:
                 *stat_bullets(pr["d_home"] if sd0 == "home" else pr["d_away"])])
         # 🔥 baskı alarmı: piyasa şartı olmadan, çok yüksek baskıda bilgi amaçlı
         # (aynı maçta son 12 dakikada gol sinyali gittiyse alarm tekrar etmez)
-        if ("baski" in SIGNALS_ON and not meta.get("alarm_gonderildi") and 10 <= m.minute <= 85
+        if ("baski" in SIGNALS_ON and not alt_acik() and not meta.get("alarm_gonderildi") and 10 <= m.minute <= 85
                 and m.minute - m.last_signal_min >= 12 and m.minute - meta.get("son_gol_turu", -99) >= 12
                 and not pr.get("goal_in_window") and max(pr["home"], pr["away"]) >= THRESHOLD * ALARM_MULT):
             meta["alarm_gonderildi"] = True
@@ -820,6 +823,13 @@ class ProEngine:
         if extra:
             row.update(extra)
         return row
+
+    GOL_YONLU = ("gol", "iy", "kg", "baski")
+
+    def pending_types(self, mid) -> set:
+        """Bu maçta sonucu hâlâ bekleyen sinyal türleri (zıt yönlü sinyal gitmesin diye)."""
+        return {r.get("tur") or "gol" for r in self.rows_today
+                if str(r.get("fixture_id")) == str(mid) and r.get("sonuc") == "bekliyor"}
 
     def simple_signal(self, m, tur, p, p_mkt, count, q, lines, cizgi=None):
         ratio = p / p_mkt if p_mkt else None
