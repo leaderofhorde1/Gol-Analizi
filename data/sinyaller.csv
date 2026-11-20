@@ -1,140 +1,140 @@
-tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yorum,gonderildi,sonuc,gol_dakikasi,p_model,p_piyasa,tur,q_once,q_sonra,adil_oran,kar,tg_mesaj,duyuruldu,cizgi
-2026-11-20,1546153,World - World Cup - U17,Mali U17 - New Zealand U17,39,1-0,ev,24.7,3.3,orta,evet,"Ev sahibi 68% topla oynuyor, son 10 dk'da 2 isabetli, 8 şut; baskı gerçek, ancak xG verisi sıfır.",evet,ıska,,0.352,,gol,,,,,,,
-2026-11-20,1546153,World - World Cup - U17,Mali U17 - New Zealand U17,39,1-0,,8,,düşük,,,evet,ıska,,0.928,,korner,,,,,,,
-2026-11-20,1597965,Qatar - Stars League,Al Sadd - Lusail City,55,3-2,deplasman,13.9,0.6,düşük,evet,"Deplasman son 10 dakikada 3 şut, 2 ceza sahası içi, 0.39 xG üretti; skor açık, yüksek tempolu maç ama sinyal orta düzeyde.",evet,ıska,,0.371,0.324,gol,0.03919,0.03925,2.93,-100,,,
-2026-11-20,1597965,Qatar - Stars League,Al Sadd - Lusail City,59,3-2,,4,,düşük,,,evet,isabet,66,0.574,,kart,,,,,,,
-2026-11-20,1597963,Qatar - Stars League,Al-Duhail SC - Qatar SC,59,0-1,ev,16.0,0.9,orta,evet,"Ev sahibi geride, 10 kişilik rakibe karşı %70 topa sahip; ancak son pencere xG çok düşük.",evet,isabet,60,0.357,,gol,,,,,,,
-2026-11-20,1597963,Qatar - Stars League,Al-Duhail SC - Qatar SC,68,0-1,,10,,düşük,,,evet,isabet,,0.868,0.782,korner,0.1521,,1.21,21,,,
-2026-11-20,1546153,World - World Cup - U17,Mali U17 - New Zealand U17,46,1-0,,2,,düşük,,,evet,ıska,,0.565,,kart,,,,,,,
-2026-11-20,1597965,Qatar - Stars League,Al Sadd - Lusail City,81,3-2,,5,,düşük,,,evet,ıska,,0.746,,kart,,,,,,,
-2026-11-20,1597963,Qatar - Stars League,Al-Duhail SC - Qatar SC,82,1-1,,4,,düşük,,,evet,isabet,84,0.731,,kart,,,,,,,
-2026-11-20,1556144,Japan - J1 League,Kashiwa Reysol - JEF United Chiba,24,0-0,ev,15.3,2.2,düşük,hayır,"Baskı var ama tek isabetli şut, xG 0.31 düşük; model olasılığı piyasanın üzerinde, sinyal zayıf.",hayır,isabet,76,0.321,0.248,gol,,,3.83,283,,,
-2026-11-20,1546153,World - World Cup - U17,Mali U17 - New Zealand U17,64,3-0,ev,16.2,1.2,orta,hayır,"3-0 önde, xG ve tehlike verisi sıfır; baskı sürüyor ama skor rahat, tempo düşebilir. Sinyal zayıf.",hayır,ıska,,0.317,,gol,,,,,,,
-2026-11-20,1590097,Albania - Superliga,Skenderbeu Korce - Egnatia Rrogozhinë,78,1-0,,,,yüksek,,,evet,isabet,,0.738,0.553,alt,,,1.72,72,3,evet,1.5
-2026-11-20,1649991,Egypt - Cup,Kahraba Ismailia - Ceramica Cleopatra,71,1-2,,,,orta,,,evet,ıska,90,0.616,0.493,alt,,,1.93,-100,4,evet,3.5
-2026-11-20,1581567,Armenia - Premier League,Shirak - Gandzasar,73,3-0,,,,orta,,,evet,isabet,,0.577,0.474,alt,,,2.0,100,5,evet,3.5
-2026-11-20,1601938,Azerbaijan - Premyer Liqa,Sumqayıt - Sabah FA,81,1-5,,,,yüksek,,,evet,isabet,,0.71,0.5,alt,,,1.9,90,6,evet,6.5
-2026-11-20,1600821,Tanzania - Ligi kuu Bara,Namungo - Mbeya City,54,0-0,,,,orta,,,evet,ıska,73,0.464,0.392,alt,,,2.42,-100,7,evet,0.5
-2026-11-20,1628043,Iraq - Iraqi League,Al Zawra'a - Al Talaba,54,1-1,,,,yüksek,,,evet,ıska,69,0.475,0.327,alt,,,2.91,-100,8,evet,2.5
-2026-11-20,1565308,Romania - Liga I,FC Botosani - FC Voluntari,55,3-0,,,,yüksek,,,evet,isabet,65,0.6,0.46,kg,,,2.07,107,,evet,
-2026-11-20,1648522,Burkina-Faso - Ligue 1,Salitas - SONABEL,60,1-0,,,,orta,,,evet,ıska,73,0.44,0.37,alt,,,2.57,-100,,evet,1.5
-2026-11-20,1565308,Romania - Liga I,FC Botosani - FC Voluntari,71,3-1,iki taraf,21.1,19.0,orta,evet,"Açık oyun, iki takım da isabetli şut buluyor; 3-1'de dakika 71 için 4.5 üst makul, xG verisi yok.",evet,isabet,71,0.809,0.625,gol,0.04264,,1.52,52,23,evet,4.5
-2026-11-20,1597964,Qatar - Stars League,Al-Gharafa - Al-Arabi SC,59,1-2,,,,orta,evet,"Ev sahibi 2 isabetli şut ve 3 ceza sahası şutuyla baskılı, geride; ancak xG düşük (0.4), 3.5 üst için bir gol yeterli.",evet,isabet,90,0.81,0.75,gol,,,1.27,27,,evet,3.5
-2026-11-20,1597964,Qatar - Stars League,Al-Gharafa - Al-Arabi SC,61,1-2,,7,,orta,,,evet,ıska,7,0.64,0.56,korner,,,1.7,-100,,evet,10.5
-2026-11-20,1565308,Romania - Liga I,FC Botosani - FC Voluntari,71,3-1,,5,,orta,,,evet,isabet,8,0.496,0.423,korner,,,2.25,125,24,evet,7.5
-2026-11-20,1600821,Tanzania - Ligi kuu Bara,Namungo - Mbeya City,80,0-0,,,,yüksek,,,evet,isabet,,0.822,0.589,alt,,,1.61,61,26,evet,0.5
-2026-11-20,1628043,Iraq - Iraqi League,Al Zawra'a - Al Talaba,78,1-1,,,,yüksek,,,evet,ıska,81,0.799,0.558,alt,,,1.7,-100,27,evet,2.5
-2026-11-20,1565308,Romania - Liga I,FC Botosani - FC Voluntari,86,3-3,deplasman,52.4,0.0,orta,evet,"Deplasman son 7 dakikada 4 isabetli, 8 şut, 6 ceza sahası içi; 3-3'te açık oyun, gol olasılığı yüksek.",evet,ıska,,0.508,0.375,gol,0.05875,0.05728,2.53,-100,,evet,6.5
-2026-11-20,1648184,Jordan - Cup,Al Wihdat - Al Arabi,65,1-0,,,,yüksek,,,evet,isabet,,0.519,0.41,alt,,,2.32,132,,evet,1.5
-2026-11-20,1611451,Algeria - Ligue 1,ASO Chlef - Khenchela,65,0-0,,,,yüksek,,,evet,ıska,76,0.637,0.442,alt,,,2.15,-100,,evet,0.5
-2026-11-20,1554228,Serbia - Prva Liga,Naftagas - Borac Cacak,68,1-1,,,,yüksek,,,evet,ıska,74,0.625,0.45,alt,,,2.11,-100,,evet,2.5
-2026-11-20,1551149,Bulgaria - First League,Septemvri Sofia - Lokomotiv Plovdiv,67,0-0,,,,yüksek,,,evet,isabet,,0.61,0.485,alt,,,1.96,96,,evet,0.5
-2026-11-20,1650542,Mali - Première Division,ASKO - Onze Créateurs,68,0-0,,,,yüksek,,,evet,ıska,78,0.682,0.537,alt,,,1.77,-100,,evet,0.5
-2026-11-20,1645699,Syria - Premier League,Al Ittihad - Jaish,61,1-0,,,,yüksek,,,evet,isabet,,0.442,0.337,alt,,,2.82,182,,evet,1.5
-2026-11-20,1611453,Algeria - Ligue 1,ES Setif - US Biskra,69,1-1,,,,yüksek,,,evet,isabet,,0.67,0.485,alt,,,1.96,96,,evet,2.5
-2026-11-20,1559008,Slovenia - 2. SNL,Dravinja - Ilirija,73,2-1,,,,yüksek,,,evet,ıska,76,0.61,0.421,alt,,,2.26,-100,,evet,3.5
-2026-11-20,1559014,Slovenia - 2. SNL,Triglav - Dren Vrhnika,76,1-2,,,,yüksek,,,evet,ıska,83,0.639,0.373,alt,,,2.55,-100,,evet,3.5
-2026-11-20,1628044,Iraq - Iraqi League,Duhok - Erbil,60,1-0,,,,yüksek,,,evet,ıska,65,0.455,0.362,alt,,,2.62,-100,,evet,1.5
-2026-11-20,1576235,Germany - 2. Bundesliga,SV Darmstadt 98 - 1. FC Heidenheim,12,0-1,,1. FC Heidenheim,,orta,,,evet,isabet,22,0.354,0.295,baski,0.03496,,3.22,222,37,evet,
-2026-11-20,1576235,Germany - 2. Bundesliga,SV Darmstadt 98 - 1. FC Heidenheim,15,0-1,,1,,düşük,,,evet,isabet,22,0.715,0.663,iy,,,1.43,43,38,evet,1.5
-2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,21,0-1,,Al-Nassr,,yüksek,,,evet,ıska,,0.363,0.284,baski,0.03343,,3.35,-100,41,evet,
-2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,21,0-1,,1,,düşük,,,evet,isabet,32,0.659,0.608,iy,,,1.56,56,42,evet,1.5
-2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,44,1-0,ev,23.4,22.8,orta,evet,"Ev sahibi xG üstün, ceza sahası şutları fazla; ilk yarı sonu ve 1.5 üst piyasa olasılığı yüksek.",evet,isabet,59,0.903,0.828,gol,0.03521,0.03301,1.15,15,39,evet,1.5
-2026-11-20,1650523,Kuwait - Crown Prince Cup,Al Tadhamon - Al Jazira,61,1-1,,,,yüksek,,,evet,isabet,,0.485,0.329,alt,,,2.89,189,43,evet,2.5
-2026-11-20,1648806,Malta - Premier League,Zabbar St. Patrick - Gzira United,64,0-0,,,,yüksek,,,evet,ıska,64,0.538,0.392,alt,,,2.42,-100,54,evet,0.5
-2026-11-20,1558275,Poland - I Liga,Chrobry Głogów - Puszcza Niepołomice,62,0-1,,,,orta,,,evet,ıska,74,0.477,0.386,alt,,,2.46,-100,55,evet,1.5
-2026-11-20,1568397,Poland - III Liga - Group 4,Wisłoka Dębica - Busko-Zdroj,62,1-1,,,,yüksek,,,evet,ıska,85,0.425,0.301,alt,,,3.16,-100,59,evet,2.5
-2026-11-20,1609558,Cyprus - 2. Division,PAEEK - Halkanoras,65,1-0,,,,yüksek,,,evet,ıska,80,0.441,0.337,alt,,,2.82,-100,61,evet,1.5
-2026-11-20,1585833,Turkey - 1. Lig,Iğdır FK - Ümraniyespor,73,1-2,,6,,yüksek,,,evet,isabet,9,0.604,0.447,korner,,,2.13,113,65,evet,8.5
-2026-11-20,1638220,Latvia - Cup,Auda - Riga,54,1-0,,,,yüksek,,,evet,ıska,59,0.277,0.217,alt,,,4.38,-100,73,evet,1.5
-2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,44,1-0,,1-0,,düşük,,,evet,ıska,,0.669,0.608,kg,,,1.56,-100,40,evet,
-2026-11-20,1494808,Norway - Eliteserien,Molde - Bodo/Glimt,22,0-2,,2,,düşük,,,evet,ıska,,0.732,0.663,iy,,,1.43,-100,60,evet,2.5
-2026-11-20,1559835,Czech-Republic - FNL,Příbram - Ústí nad Labem,69,1-0,,,,orta,,,evet,isabet,,0.52,0.419,alt,,,2.27,127,63,evet,1.5
-2026-11-20,1585833,Turkey - 1. Lig,Iğdır FK - Ümraniyespor,71,1-2,ev,22.3,1.2,orta,evet,"Ev sahibi geride, son 10 dakikada 6 şut, 3 ceza sahası içi, 3 korner; baskı gerçekçi, xG makul.",evet,isabet,90,0.604,0.553,gol,0.03497,0.03692,1.72,72,64,evet,3.5
-2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,68,2-0,iki taraf,11.3,8.9,orta,hayır,"Son pencerede xG çok düşük (0.21), tehlikeli pozisyon yok; 2-0 skor ve 68. dakikada tempo düşük, sinyal zayıf.",hayır,ıska,,0.719,0.608,gol,0.03599,0.04087,1.56,-100,,,2.5
-2026-11-20,1549058,Denmark - Superliga,Aarhus - Lyngby,32,2-1,,3,,orta,,,evet,ıska,,0.559,0.463,iy,,,2.05,-100,67,evet,3.5
-2026-11-20,1576233,Germany - 2. Bundesliga,Arminia Bielefeld - 1. FC Magdeburg,52,0-2,deplasman,14.0,5.8,orta,evet,"Deplasman 0-2 önde, son pencerede xG 0.36 ve isabetli şut var; ev baskılı ama kalitesiz. Bir gol daha makul.",evet,isabet,62,0.833,0.766,gol,0.03458,0.03466,1.24,24,71,evet,2.5
-2026-11-20,1567958,Austria - 2. Liga,Floridsdorfer AC - Austria Vienna (Am),56,1-0,,,,orta,,,evet,ıska,69,0.372,0.303,alt,,,3.14,-100,72,evet,1.5
-2026-11-20,1567959,Austria - 2. Liga,SV Kapfenberg - WSPG Wels,54,0-0,,,,yüksek,,,evet,ıska,59,0.395,0.25,alt,,,3.8,-100,76,evet,0.5
-2026-11-20,1567962,Austria - 2. Liga,SKN ST. Polten - Voitsberg,59,0-1,,,,yüksek,,,evet,ıska,66,0.391,0.269,alt,,,3.53,-100,77,evet,1.5
-2026-11-20,1590095,Albania - Superliga,AF Elbasani - Dinamo Tirana,54,0-0,,,,yüksek,,,evet,ıska,61,0.455,0.291,alt,,,3.26,-100,79,evet,0.5
-2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,28,0-1,,2,,orta,,,evet,isabet,8,0.644,0.537,korner,,,1.77,77,49,evet,7.5
-2026-11-20,1639806,Ecuador - Liga Pro,Independiente del Valle - Macara,56,0-1,,10,,yüksek,,,evet,ıska,12,0.864,0.537,korner,,,1.77,-100,57,evet,13.5
-2026-11-20,1639806,Ecuador - Liga Pro,Independiente del Valle - Macara,62,0-1,iki taraf,14.9,9.6,orta,evet,"Maç açık, iki takım da isabetli şut üretiyor; 0-1 skor, 62. dakika, 10 dakikalık pencerede xG düşük ama gol olasılığı makul.",evet,ıska,,0.737,0.686,gol,0.03617,0.03991,1.38,-100,62,evet,1.5
-2026-11-20,1639806,Ecuador - Liga Pro,Independiente del Valle - Macara,69,0-1,,0-1,,orta,,,evet,ıska,,0.577,0.515,kg,,,1.84,-100,69,evet,
-2026-11-20,1576235,Germany - 2. Bundesliga,SV Darmstadt 98 - 1. FC Heidenheim,75,3-1,deplasman,14.4,2.7,orta,hayır,"Son 8 dakikada baskı zayıf: xG 0.10, tek isabetli şut. 3-1'de 75. dakikada 10 dakikalık gol sinyali güvenilir değil.",hayır,ıska,,0.621,0.553,gol,0.04234,0.04732,1.72,-100,,,4.5
-2026-11-20,1576233,Germany - 2. Bundesliga,Arminia Bielefeld - 1. FC Magdeburg,82,1-2,,,,yüksek,,,evet,isabet,,0.724,0.52,alt,,,1.83,83,85,evet,3.5
-2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,82,3-1,ev,25.4,11.4,orta,hayır,"Skor 3-1, 82. dakika; ev xG'si tek şuta bağlı, baskı sürekli değil. Model olasılığı şişkin, piyasa daha gerçekçi.",hayır,ıska,,0.675,0.513,gol,0.05998,0.06931,1.85,-100,,,4.5
-2026-11-20,1552532,France - Ligue 2,Guingamp - Rodez,18,0-1,,Rodez,,orta,,,evet,isabet,24,0.361,0.29,baski,0.03425,,3.28,228,86,evet,33
-2026-11-20,1552532,France - Ligue 2,Guingamp - Rodez,18,0-1,,1,,orta,,,evet,isabet,24,0.718,0.625,iy,,,1.52,52,88,evet,1.5
-2026-11-20,1494808,Norway - Eliteserien,Molde - Bodo/Glimt,57,0-3,deplasman,16.7,3.1,orta,evet,"Son pencerede deplasman baskısı var (1 isabetli, xG 0.43), 0-3 skorda açık oyun; piyasa da yüksek.",evet,isabet,74,0.898,0.828,gol,0.04758,0.04488,1.15,15,89,evet,3.5
-2026-11-20,1551889,Netherlands - Eerste Divisie,Den Bosch - VVV Venlo,29,1-0,,1,,düşük,,,evet,ıska,,0.619,0.558,iy,,,1.7,-100,99,evet,1.5
-2026-11-20,1494808,Norway - Eliteserien,Molde - Bodo/Glimt,68,0-3,,0-3,,yüksek,,,evet,isabet,74,0.586,0.442,kg,,,2.15,115,100,evet,
-2026-11-20,1494808,Norway - Eliteserien,Molde - Bodo/Glimt,70,0-3,,8,,yüksek,,,evet,isabet,11,0.671,0.537,korner,,,1.77,77,101,evet,10.5
-2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,33,0-1,,1,,orta,,,evet,isabet,43,0.425,0.375,iy,,,2.53,153,102,evet,1.5
-2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,33,3-0,,3,,orta,,,evet,ıska,,0.493,0.423,iy,,,2.25,-100,106,evet,3.5
-2026-11-20,1549058,Denmark - Superliga,Aarhus - Lyngby,53,2-1,iki taraf,11.0,10.7,orta,hayır,"Son pencerede baskı zayıf, xG çok düşük, ceza sahası şutu yok; model olasılığı piyasadan şişkin, avantaj yok.",hayır,ıska,,0.818,0.75,gol,0.03381,0.03555,1.27,-100,,,3.5
-2026-11-20,1549058,Denmark - Superliga,Aarhus - Lyngby,55,2-1,,6,,yüksek,,,evet,ıska,6,0.565,0.411,korner,,,2.31,-100,87,evet,10.5
-2026-11-20,1552532,France - Ligue 2,Guingamp - Rodez,20,0-1,,6,,yüksek,,,evet,ıska,11,0.973,0.537,korner,,,1.77,-100,90,evet,14.5
-2026-11-20,1552531,France - Ligue 2,Annecy - Clermont Foot,27,2-0,ev,17.7,8.9,orta,evet,"Ev sahibi 2-0 önde, 0.79 xG'lik son pencere; 2.5 üst için bir gol daha yeterli, 63 dakika var.",evet,isabet,54,0.914,0.864,gol,0.0298,0.03072,1.1,10,96,evet,2.5
-2026-11-20,1552531,France - Ligue 2,Annecy - Clermont Foot,27,2-0,,2,,orta,,,evet,ıska,,0.573,0.485,iy,,,1.96,-100,97,evet,2.5
-2026-11-20,1552537,France - Ligue 2,RED Star FC 93 - PAU,34,1-0,,1-0,,düşük,,,evet,isabet,68,0.598,0.537,kg,,,1.77,77,103,evet,
-2026-11-20,1549058,Denmark - Superliga,Aarhus - Lyngby,72,2-1,,,,orta,,,evet,isabet,,0.519,0.447,alt,,,2.13,113,104,evet,3.5
-2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,33,3-0,ev,19.0,0.0,orta,evet,"Ev baskısı gerçek: son 6 dakikada 2 isabetli şut, xG 0.27. Ancak 3-0 skorda tempo düşebilir; model fazla iyimser.",evet,isabet,78,0.929,0.864,gol,0.03273,0.03384,1.1,10,105,evet,3.5
-2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,35,0-1,,6,,yüksek,,,evet,isabet,13,0.729,0.526,korner,,,1.81,81,107,evet,12.5
-2026-11-20,1601612,Italy - Serie B,Hellas Verona - Cesena,14,0-1,,0,,orta,,,evet,isabet,7,0.607,0.5,kart,,,1.9,90,110,evet,4.5
-2026-11-20,1549058,Denmark - Superliga,Aarhus - Lyngby,85,2-1,,6,,orta,,,evet,ıska,6,0.713,0.625,korner,,,1.52,-100,111,evet,6.5
-2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,20,0-0,,Pogon Szczecin,,orta,,,evet,ıska,,0.281,0.236,baski,0.02698,,4.03,-100,115,evet,35
-2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,24,0-0,,0,,orta,,,evet,ıska,,0.57,0.5,iy,,,1.9,-100,117,evet,0.5
-2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,46,3-0,,3-0,,düşük,,,evet,isabet,78,0.692,0.625,kg,,,1.52,52,122,evet,
-2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,46,3-0,,4,,orta,,,evet,ıska,8,0.659,0.558,korner,,,1.7,-100,123,evet,8.5
-2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,49,1-1,,Metz,,yüksek,,,evet,ıska,,0.361,0.276,baski,0.03228,,3.44,-100,124,evet,64
-2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,50,1-1,,9,,yüksek,,,evet,ıska,13,0.818,0.577,korner,,,1.65,-100,125,evet,13.5
-2026-11-20,1551889,Netherlands - Eerste Divisie,Den Bosch - VVV Venlo,50,1-0,,1-0,,düşük,,,evet,ıska,,0.655,0.589,kg,,,1.61,-100,126,evet,
-2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,49,0-0,,6,,yüksek,,,evet,ıska,7,0.727,0.461,korner,,,2.06,-100,127,evet,11.5
-2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,49,0-0,,De Graafschap,,yüksek,,,evet,isabet,50,0.457,0.309,baski,0.03701,,3.07,207,128,evet,64
-2026-11-20,1552537,France - Ligue 2,RED Star FC 93 - PAU,50,1-0,,6,,yüksek,,,evet,isabet,11,0.644,0.463,korner,,,2.05,105,130,evet,10.5
-2026-11-20,1565306,Romania - Liga I,Farul Constanta - Universitatea Cluj,76,2-1,iki taraf,22.3,12.3,orta,hayır,"xG ve tehlikeli atak sıfır; pencere baskısı zayıf. Model-piyasa farkı büyük, şüpheli. Skor açık ama sinyal yetersiz.",hayır,isabet,79,0.63,0.48,gol,0.03636,0.03389,1.98,98,,,3.5
-2026-11-20,1565306,Romania - Liga I,Farul Constanta - Universitatea Cluj,76,2-1,,5,,orta,,,evet,ıska,7,0.463,0.375,korner,,,2.53,-100,131,evet,7.5
-2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,50,1-0,,1-0,,yüksek,,,evet,ıska,,0.61,0.485,kg,,,1.96,-100,133,evet,
-2026-11-20,1552827,France - Ligue 1,Estac Troyes - Le Havre,25,1-1,,Estac Troyes,,yüksek,,,evet,ıska,,0.316,0.243,baski,0.02789,,3.91,-100,134,evet,40
-2026-11-20,1559201,Belgium - Challenger Pro League,K. Lierse S.K. - Lokeren-Temse,46,1-0,,10,,yüksek,,,evet,isabet,16,0.841,0.577,korner,,,1.65,65,135,evet,15.5
-2026-11-20,1552827,France - Ligue 1,Estac Troyes - Le Havre,26,1-1,,2,,düşük,,,evet,ıska,,0.515,0.463,iy,,,2.05,-100,136,evet,2.5
-2026-11-20,1551887,Netherlands - Eerste Divisie,Almere City FC - NAC Breda,51,0-3,deplasman,15.1,3.6,orta,evet,"Deplasman 0-3 önde, son pencerede ceza sahası şutları ve xG 0.38; toplam baskı gerçekçi, ancak skor düşürücü olabilir.",evet,isabet,57,0.866,0.792,gol,0.03653,0.03831,1.2,20,137,evet,3.5
-2026-11-20,1551894,Netherlands - Eerste Divisie,FC OSS - Roda,54,1-0,,,,yüksek,,,evet,isabet,,0.301,0.234,alt,,,4.06,306,138,evet,1.5
-2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,62,1-1,,,,yüksek,,,evet,ıska,89,0.525,0.341,alt,,,2.79,-100,141,evet,2.5
-2026-11-20,1552531,France - Ligue 2,Annecy - Clermont Foot,61,3-0,iki taraf,13.1,11.4,orta,hayır,"3-0 skorda tempo düşük; son pencerede sadece bir isabetli şut, xG çok düşük. Sinyal zayıf, model olasılığı şişkin.",hayır,isabet,67,0.746,0.671,gol,0.03365,0.03468,1.42,42,,,3.5
-2026-11-20,1552531,France - Ligue 2,Annecy - Clermont Foot,61,3-0,,3-0,,orta,,,evet,isabet,66,0.487,0.392,kg,,,2.42,142,145,evet,
-2026-11-20,1552535,France - Ligue 2,Nancy - Dijon,67,1-0,,,,orta,,,evet,isabet,,0.452,0.375,alt,,,2.53,153,146,evet,1.5
-2026-11-20,1551889,Netherlands - Eerste Divisie,Den Bosch - VVV Venlo,66,1-0,,,,yüksek,,,evet,isabet,,0.357,0.269,alt,,,3.53,253,147,evet,1.5
-2026-11-20,1551887,Netherlands - Eerste Divisie,Almere City FC - NAC Breda,63,0-4,deplasman,18.6,0.0,orta,evet,"Deplasman üstün (xG 2.24, 5 isabetli şut), son pencerede 0.71 xG; ancak 0-4 skorda tempo düşebilir.",evet,isabet,87,0.776,0.697,gol,0.03848,0.03991,1.36,36,148,evet,4.5
-2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,67,2-0,ev,23.7,0.0,orta,evet,"Ev baskısı sürüyor, son 6 dakikada 2 isabetli şut; 2-0 önde, 3. gol için makul ihtimal.",evet,isabet,79,0.774,0.659,gol,0.03981,0.04065,1.44,44,150,evet,2.5
-2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,68,2-0,,7,,yüksek,,,evet,ıska,7,0.882,0.589,korner,,,1.61,-100,152,evet,8.5
-2026-11-20,1552532,France - Ligue 2,Guingamp - Rodez,70,1-2,,10,,yüksek,,,evet,ıska,11,0.903,0.553,korner,,,1.72,-100,153,evet,11.5
-2026-11-20,1559201,Belgium - Challenger Pro League,K. Lierse S.K. - Lokeren-Temse,67,1-0,iki taraf,11.3,11.2,orta,hayır,"Son 10 dakikada baskı zayıf: toplam xG 0.33, tehlikeli atak yok. Pre-match beklenti yüksek ama canlı sinyal sınırlı.",hayır,ıska,,0.728,0.671,gol,0.04113,0.04442,1.42,-100,,,1.5
-2026-11-20,1551889,Netherlands - Eerste Divisie,Den Bosch - VVV Venlo,73,1-0,,14,,yüksek,,,evet,isabet,16,0.925,0.553,korner,,,1.72,72,156,evet,15.5
-2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,75,3-0,,8,,orta,,,evet,ıska,8,0.765,0.625,korner,,,1.52,-100,159,evet,9.5
-2026-11-20,1551894,Netherlands - Eerste Divisie,FC OSS - Roda,74,1-0,,6,,orta,,,evet,ıska,8,0.562,0.48,korner,,,1.98,-100,160,evet,8.5
-2026-11-20,1552531,France - Ligue 2,Annecy - Clermont Foot,73,4-0,,12,,yüksek,,,evet,isabet,14,0.866,0.423,korner,,,2.25,125,161,evet,13.5
-2026-11-20,1559201,Belgium - Challenger Pro League,K. Lierse S.K. - Lokeren-Temse,70,1-0,,15,,yüksek,,,evet,isabet,19,0.665,0.423,korner,,,2.25,125,162,evet,18.5
-2026-11-20,1551887,Netherlands - Eerste Divisie,Almere City FC - NAC Breda,72,0-4,,0-4,,yüksek,,,evet,isabet,87,0.48,0.375,kg,,,2.53,153,163,evet,
-2026-11-20,1551889,Netherlands - Eerste Divisie,Den Bosch - VVV Venlo,76,1-0,ev,16.8,5.2,orta,evet,"Ev sahibi son 10 dakikada 3 ceza sahası içi şut ve 0.36 xG ile baskılı; 1-0 skor açık, ancak toplam xG düşük.",evet,ıska,,0.669,0.614,gol,0.05287,0.05296,1.55,-100,164,evet,1.5
-2026-11-20,1551894,Netherlands - Eerste Divisie,FC OSS - Roda,78,1-0,deplasman,19.6,4.1,orta,hayır,"Deplasman 4 şut ama toplam xG 0.12 düşük; 78. dakikada 10 dakikalık gol olasılığı zayıf, sinyal ele.",hayır,ıska,,0.575,0.52,gol,0.04584,0.04496,1.83,-100,,,1.5
-2026-11-20,1601612,Italy - Serie B,Hellas Verona - Cesena,50,0-1,,3,,orta,,,evet,isabet,7,0.549,0.463,kart,,,2.05,105,168,evet,6.5
-2026-11-20,1551894,Netherlands - Eerste Divisie,FC OSS - Roda,79,1-0,,1-0,,orta,,,evet,ıska,,0.44,0.375,kg,,,2.53,-100,169,evet,
-2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,85,3-0,ev,17.3,0.0,orta,hayır,"85. dakikada 3-0 önde, son pencerede tek şut var; kalan süre kısa, baskı zayıf, model olasılığı şişirilmiş.",hayır,ıska,,0.431,0.375,gol,0.05222,0.04822,2.53,-100,,,3.5
-2026-11-20,1552537,France - Ligue 2,RED Star FC 93 - PAU,86,1-1,,,,orta,,,evet,isabet,,0.832,0.688,alt,,,1.38,38,174,evet,2.5
-2026-11-20,1559201,Belgium - Challenger Pro League,K. Lierse S.K. - Lokeren-Temse,85,1-0,,16,,yüksek,,,evet,isabet,18,0.583,0.411,korner,,,2.31,131,177,evet,17.5
-2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,65,1-0,ev,30.8,4.8,orta,evet,"Ev sahibi son 6 dakikada 3 isabetli şut, 0.5 xG ile gerçek baskı kuruyor; 1-0'da açık oyun.",evet,isabet,67,0.754,0.625,gol,0.03382,,1.52,52,194,evet,1.5
-2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,23,0-0,,3,,orta,,,evet,bilinmiyor,6,0.686,0.558,korner,,,,,116,,10.5
-2026-11-20,1552827,France - Ligue 1,Estac Troyes - Le Havre,35,1-1,,1,,yüksek,,,evet,isabet,5,0.56,0.442,kart,,,2.15,115,143,evet,3.5
-2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,48,0-0,,5,,orta,,,evet,bilinmiyor,6,0.648,0.577,korner,,,,,170,,9.5
-2026-11-20,1570025,Spain - Segunda División,FC Andorra - Leganes,50,1-2,deplasman,50.2,10.1,orta,evet,"Deplasman son pencerede 3 isabetli, 1.14 xG; ev sahibi 10 kişi, skor açık. Model olasılığı biraz yüksek.",evet,isabet,83,0.905,0.766,gol,0.03301,0.03301,1.24,24,175,evet,3.5
-2026-11-20,1570025,Spain - Segunda División,FC Andorra - Leganes,50,1-2,,5,,orta,,,evet,bekliyor,,0.693,0.558,korner,,,,,176,,9.5
-2026-11-20,1570025,Spain - Segunda División,FC Andorra - Leganes,62,1-2,,,,yüksek,,,evet,ıska,83,0.4,0.303,alt,,,3.14,-100,202,evet,3.5
-2026-11-20,1552827,France - Ligue 1,Estac Troyes - Le Havre,60,1-1,,,,yüksek,,,evet,ıska,69,0.474,0.364,alt,,,2.61,-100,204,evet,2.5
-2026-11-20,1558682,Belgium - Jupiler Pro League,Cercle Brugge - KVC Westerlo,61,0-0,,,,yüksek,,,evet,ıska,71,0.411,0.303,alt,,,3.14,-100,205,evet,0.5
-2026-11-20,1575221,Germany - Bundesliga,Bayern München - 1. FC Köln,74,1-1,,,,orta,,,evet,isabet,,0.465,0.398,alt,,,2.39,139,207,evet,2.5
-2026-11-21,1552827,France - Ligue 1,Estac Troyes - Le Havre,86,2-1,,5,,yüksek,,,evet,isabet,6,0.782,0.577,kart,,,1.65,65,231,evet,5.5
-2026-11-21,1558682,Belgium - Jupiler Pro League,Cercle Brugge - KVC Westerlo,86,1-0,ev,23.0,17.7,orta,hayır,"86. dakikada kalan süre kısa; son pencerede baskı zayıf, xG düşük, ev lider zaman geçirebilir. Piyasa daha düşük.",hayır,bekliyor,,0.451,0.329,gol,0.04995,0.0533,,,,,1.5
-2026-11-21,1505563,Chile - Primera División,Cobresal - A. Italiano,30,2-0,,2,,orta,,,evet,bekliyor,,0.569,0.5,iy,,,,,232,,2.5
+tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yorum,gonderildi,sonuc,gol_dakikasi,p_model,p_piyasa,tur,q_once,q_sonra,adil_oran,kar,tg_mesaj,duyuruldu,cizgi,form
+2026-11-20,1546153,World - World Cup - U17,Mali U17 - New Zealand U17,39,1-0,ev,24.7,3.3,orta,evet,"Ev sahibi 68% topla oynuyor, son 10 dk'da 2 isabetli, 8 şut; baskı gerçek, ancak xG verisi sıfır.",evet,ıska,,0.352,,gol,,,,,,,,
+2026-11-20,1546153,World - World Cup - U17,Mali U17 - New Zealand U17,39,1-0,,8,,düşük,,,evet,ıska,,0.928,,korner,,,,,,,,
+2026-11-20,1597965,Qatar - Stars League,Al Sadd - Lusail City,55,3-2,deplasman,13.9,0.6,düşük,evet,"Deplasman son 10 dakikada 3 şut, 2 ceza sahası içi, 0.39 xG üretti; skor açık, yüksek tempolu maç ama sinyal orta düzeyde.",evet,ıska,,0.371,0.324,gol,0.03919,0.03925,2.93,-100,,,,
+2026-11-20,1597965,Qatar - Stars League,Al Sadd - Lusail City,59,3-2,,4,,düşük,,,evet,isabet,66,0.574,,kart,,,,,,,,
+2026-11-20,1597963,Qatar - Stars League,Al-Duhail SC - Qatar SC,59,0-1,ev,16.0,0.9,orta,evet,"Ev sahibi geride, 10 kişilik rakibe karşı %70 topa sahip; ancak son pencere xG çok düşük.",evet,isabet,60,0.357,,gol,,,,,,,,
+2026-11-20,1597963,Qatar - Stars League,Al-Duhail SC - Qatar SC,68,0-1,,10,,düşük,,,evet,isabet,,0.868,0.782,korner,0.1521,,1.21,21,,,,
+2026-11-20,1546153,World - World Cup - U17,Mali U17 - New Zealand U17,46,1-0,,2,,düşük,,,evet,ıska,,0.565,,kart,,,,,,,,
+2026-11-20,1597965,Qatar - Stars League,Al Sadd - Lusail City,81,3-2,,5,,düşük,,,evet,ıska,,0.746,,kart,,,,,,,,
+2026-11-20,1597963,Qatar - Stars League,Al-Duhail SC - Qatar SC,82,1-1,,4,,düşük,,,evet,isabet,84,0.731,,kart,,,,,,,,
+2026-11-20,1556144,Japan - J1 League,Kashiwa Reysol - JEF United Chiba,24,0-0,ev,15.3,2.2,düşük,hayır,"Baskı var ama tek isabetli şut, xG 0.31 düşük; model olasılığı piyasanın üzerinde, sinyal zayıf.",hayır,isabet,76,0.321,0.248,gol,,,3.83,283,,,,
+2026-11-20,1546153,World - World Cup - U17,Mali U17 - New Zealand U17,64,3-0,ev,16.2,1.2,orta,hayır,"3-0 önde, xG ve tehlike verisi sıfır; baskı sürüyor ama skor rahat, tempo düşebilir. Sinyal zayıf.",hayır,ıska,,0.317,,gol,,,,,,,,
+2026-11-20,1590097,Albania - Superliga,Skenderbeu Korce - Egnatia Rrogozhinë,78,1-0,,,,yüksek,,,evet,isabet,,0.738,0.553,alt,,,1.72,72,3,evet,1.5,
+2026-11-20,1649991,Egypt - Cup,Kahraba Ismailia - Ceramica Cleopatra,71,1-2,,,,orta,,,evet,ıska,90,0.616,0.493,alt,,,1.93,-100,4,evet,3.5,
+2026-11-20,1581567,Armenia - Premier League,Shirak - Gandzasar,73,3-0,,,,orta,,,evet,isabet,,0.577,0.474,alt,,,2.0,100,5,evet,3.5,
+2026-11-20,1601938,Azerbaijan - Premyer Liqa,Sumqayıt - Sabah FA,81,1-5,,,,yüksek,,,evet,isabet,,0.71,0.5,alt,,,1.9,90,6,evet,6.5,
+2026-11-20,1600821,Tanzania - Ligi kuu Bara,Namungo - Mbeya City,54,0-0,,,,orta,,,evet,ıska,73,0.464,0.392,alt,,,2.42,-100,7,evet,0.5,
+2026-11-20,1628043,Iraq - Iraqi League,Al Zawra'a - Al Talaba,54,1-1,,,,yüksek,,,evet,ıska,69,0.475,0.327,alt,,,2.91,-100,8,evet,2.5,
+2026-11-20,1565308,Romania - Liga I,FC Botosani - FC Voluntari,55,3-0,,,,yüksek,,,evet,isabet,65,0.6,0.46,kg,,,2.07,107,,evet,,
+2026-11-20,1648522,Burkina-Faso - Ligue 1,Salitas - SONABEL,60,1-0,,,,orta,,,evet,ıska,73,0.44,0.37,alt,,,2.57,-100,,evet,1.5,
+2026-11-20,1565308,Romania - Liga I,FC Botosani - FC Voluntari,71,3-1,iki taraf,21.1,19.0,orta,evet,"Açık oyun, iki takım da isabetli şut buluyor; 3-1'de dakika 71 için 4.5 üst makul, xG verisi yok.",evet,isabet,71,0.809,0.625,gol,0.04264,,1.52,52,23,evet,4.5,
+2026-11-20,1597964,Qatar - Stars League,Al-Gharafa - Al-Arabi SC,59,1-2,,,,orta,evet,"Ev sahibi 2 isabetli şut ve 3 ceza sahası şutuyla baskılı, geride; ancak xG düşük (0.4), 3.5 üst için bir gol yeterli.",evet,isabet,90,0.81,0.75,gol,,,1.27,27,,evet,3.5,
+2026-11-20,1597964,Qatar - Stars League,Al-Gharafa - Al-Arabi SC,61,1-2,,7,,orta,,,evet,ıska,7,0.64,0.56,korner,,,1.7,-100,,evet,10.5,
+2026-11-20,1565308,Romania - Liga I,FC Botosani - FC Voluntari,71,3-1,,5,,orta,,,evet,isabet,8,0.496,0.423,korner,,,2.25,125,24,evet,7.5,
+2026-11-20,1600821,Tanzania - Ligi kuu Bara,Namungo - Mbeya City,80,0-0,,,,yüksek,,,evet,isabet,,0.822,0.589,alt,,,1.61,61,26,evet,0.5,
+2026-11-20,1628043,Iraq - Iraqi League,Al Zawra'a - Al Talaba,78,1-1,,,,yüksek,,,evet,ıska,81,0.799,0.558,alt,,,1.7,-100,27,evet,2.5,
+2026-11-20,1565308,Romania - Liga I,FC Botosani - FC Voluntari,86,3-3,deplasman,52.4,0.0,orta,evet,"Deplasman son 7 dakikada 4 isabetli, 8 şut, 6 ceza sahası içi; 3-3'te açık oyun, gol olasılığı yüksek.",evet,ıska,,0.508,0.375,gol,0.05875,0.05728,2.53,-100,,evet,6.5,
+2026-11-20,1648184,Jordan - Cup,Al Wihdat - Al Arabi,65,1-0,,,,yüksek,,,evet,isabet,,0.519,0.41,alt,,,2.32,132,,evet,1.5,
+2026-11-20,1611451,Algeria - Ligue 1,ASO Chlef - Khenchela,65,0-0,,,,yüksek,,,evet,ıska,76,0.637,0.442,alt,,,2.15,-100,,evet,0.5,
+2026-11-20,1554228,Serbia - Prva Liga,Naftagas - Borac Cacak,68,1-1,,,,yüksek,,,evet,ıska,74,0.625,0.45,alt,,,2.11,-100,,evet,2.5,
+2026-11-20,1551149,Bulgaria - First League,Septemvri Sofia - Lokomotiv Plovdiv,67,0-0,,,,yüksek,,,evet,isabet,,0.61,0.485,alt,,,1.96,96,,evet,0.5,
+2026-11-20,1650542,Mali - Première Division,ASKO - Onze Créateurs,68,0-0,,,,yüksek,,,evet,ıska,78,0.682,0.537,alt,,,1.77,-100,,evet,0.5,
+2026-11-20,1645699,Syria - Premier League,Al Ittihad - Jaish,61,1-0,,,,yüksek,,,evet,isabet,,0.442,0.337,alt,,,2.82,182,,evet,1.5,
+2026-11-20,1611453,Algeria - Ligue 1,ES Setif - US Biskra,69,1-1,,,,yüksek,,,evet,isabet,,0.67,0.485,alt,,,1.96,96,,evet,2.5,
+2026-11-20,1559008,Slovenia - 2. SNL,Dravinja - Ilirija,73,2-1,,,,yüksek,,,evet,ıska,76,0.61,0.421,alt,,,2.26,-100,,evet,3.5,
+2026-11-20,1559014,Slovenia - 2. SNL,Triglav - Dren Vrhnika,76,1-2,,,,yüksek,,,evet,ıska,83,0.639,0.373,alt,,,2.55,-100,,evet,3.5,
+2026-11-20,1628044,Iraq - Iraqi League,Duhok - Erbil,60,1-0,,,,yüksek,,,evet,ıska,65,0.455,0.362,alt,,,2.62,-100,,evet,1.5,
+2026-11-20,1576235,Germany - 2. Bundesliga,SV Darmstadt 98 - 1. FC Heidenheim,12,0-1,,1. FC Heidenheim,,orta,,,evet,isabet,22,0.354,0.295,baski,0.03496,,3.22,222,37,evet,,
+2026-11-20,1576235,Germany - 2. Bundesliga,SV Darmstadt 98 - 1. FC Heidenheim,15,0-1,,1,,düşük,,,evet,isabet,22,0.715,0.663,iy,,,1.43,43,38,evet,1.5,
+2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,21,0-1,,Al-Nassr,,yüksek,,,evet,ıska,,0.363,0.284,baski,0.03343,,3.35,-100,41,evet,,
+2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,21,0-1,,1,,düşük,,,evet,isabet,32,0.659,0.608,iy,,,1.56,56,42,evet,1.5,
+2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,44,1-0,ev,23.4,22.8,orta,evet,"Ev sahibi xG üstün, ceza sahası şutları fazla; ilk yarı sonu ve 1.5 üst piyasa olasılığı yüksek.",evet,isabet,59,0.903,0.828,gol,0.03521,0.03301,1.15,15,39,evet,1.5,
+2026-11-20,1650523,Kuwait - Crown Prince Cup,Al Tadhamon - Al Jazira,61,1-1,,,,yüksek,,,evet,isabet,,0.485,0.329,alt,,,2.89,189,43,evet,2.5,
+2026-11-20,1648806,Malta - Premier League,Zabbar St. Patrick - Gzira United,64,0-0,,,,yüksek,,,evet,ıska,64,0.538,0.392,alt,,,2.42,-100,54,evet,0.5,
+2026-11-20,1558275,Poland - I Liga,Chrobry Głogów - Puszcza Niepołomice,62,0-1,,,,orta,,,evet,ıska,74,0.477,0.386,alt,,,2.46,-100,55,evet,1.5,
+2026-11-20,1568397,Poland - III Liga - Group 4,Wisłoka Dębica - Busko-Zdroj,62,1-1,,,,yüksek,,,evet,ıska,85,0.425,0.301,alt,,,3.16,-100,59,evet,2.5,
+2026-11-20,1609558,Cyprus - 2. Division,PAEEK - Halkanoras,65,1-0,,,,yüksek,,,evet,ıska,80,0.441,0.337,alt,,,2.82,-100,61,evet,1.5,
+2026-11-20,1585833,Turkey - 1. Lig,Iğdır FK - Ümraniyespor,73,1-2,,6,,yüksek,,,evet,isabet,9,0.604,0.447,korner,,,2.13,113,65,evet,8.5,
+2026-11-20,1638220,Latvia - Cup,Auda - Riga,54,1-0,,,,yüksek,,,evet,ıska,59,0.277,0.217,alt,,,4.38,-100,73,evet,1.5,
+2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,44,1-0,,1-0,,düşük,,,evet,ıska,,0.669,0.608,kg,,,1.56,-100,40,evet,,
+2026-11-20,1494808,Norway - Eliteserien,Molde - Bodo/Glimt,22,0-2,,2,,düşük,,,evet,ıska,,0.732,0.663,iy,,,1.43,-100,60,evet,2.5,
+2026-11-20,1559835,Czech-Republic - FNL,Příbram - Ústí nad Labem,69,1-0,,,,orta,,,evet,isabet,,0.52,0.419,alt,,,2.27,127,63,evet,1.5,
+2026-11-20,1585833,Turkey - 1. Lig,Iğdır FK - Ümraniyespor,71,1-2,ev,22.3,1.2,orta,evet,"Ev sahibi geride, son 10 dakikada 6 şut, 3 ceza sahası içi, 3 korner; baskı gerçekçi, xG makul.",evet,isabet,90,0.604,0.553,gol,0.03497,0.03692,1.72,72,64,evet,3.5,
+2026-11-20,1553229,Poland - Ekstraklasa,Piast Gliwice - Korona Kielce,68,2-0,iki taraf,11.3,8.9,orta,hayır,"Son pencerede xG çok düşük (0.21), tehlikeli pozisyon yok; 2-0 skor ve 68. dakikada tempo düşük, sinyal zayıf.",hayır,ıska,,0.719,0.608,gol,0.03599,0.04087,1.56,-100,,,2.5,
+2026-11-20,1549058,Denmark - Superliga,Aarhus - Lyngby,32,2-1,,3,,orta,,,evet,ıska,,0.559,0.463,iy,,,2.05,-100,67,evet,3.5,
+2026-11-20,1576233,Germany - 2. Bundesliga,Arminia Bielefeld - 1. FC Magdeburg,52,0-2,deplasman,14.0,5.8,orta,evet,"Deplasman 0-2 önde, son pencerede xG 0.36 ve isabetli şut var; ev baskılı ama kalitesiz. Bir gol daha makul.",evet,isabet,62,0.833,0.766,gol,0.03458,0.03466,1.24,24,71,evet,2.5,
+2026-11-20,1567958,Austria - 2. Liga,Floridsdorfer AC - Austria Vienna (Am),56,1-0,,,,orta,,,evet,ıska,69,0.372,0.303,alt,,,3.14,-100,72,evet,1.5,
+2026-11-20,1567959,Austria - 2. Liga,SV Kapfenberg - WSPG Wels,54,0-0,,,,yüksek,,,evet,ıska,59,0.395,0.25,alt,,,3.8,-100,76,evet,0.5,
+2026-11-20,1567962,Austria - 2. Liga,SKN ST. Polten - Voitsberg,59,0-1,,,,yüksek,,,evet,ıska,66,0.391,0.269,alt,,,3.53,-100,77,evet,1.5,
+2026-11-20,1590095,Albania - Superliga,AF Elbasani - Dinamo Tirana,54,0-0,,,,yüksek,,,evet,ıska,61,0.455,0.291,alt,,,3.26,-100,79,evet,0.5,
+2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,28,0-1,,2,,orta,,,evet,isabet,8,0.644,0.537,korner,,,1.77,77,49,evet,7.5,
+2026-11-20,1639806,Ecuador - Liga Pro,Independiente del Valle - Macara,56,0-1,,10,,yüksek,,,evet,ıska,12,0.864,0.537,korner,,,1.77,-100,57,evet,13.5,
+2026-11-20,1639806,Ecuador - Liga Pro,Independiente del Valle - Macara,62,0-1,iki taraf,14.9,9.6,orta,evet,"Maç açık, iki takım da isabetli şut üretiyor; 0-1 skor, 62. dakika, 10 dakikalık pencerede xG düşük ama gol olasılığı makul.",evet,ıska,,0.737,0.686,gol,0.03617,0.03991,1.38,-100,62,evet,1.5,
+2026-11-20,1639806,Ecuador - Liga Pro,Independiente del Valle - Macara,69,0-1,,0-1,,orta,,,evet,ıska,,0.577,0.515,kg,,,1.84,-100,69,evet,,
+2026-11-20,1576235,Germany - 2. Bundesliga,SV Darmstadt 98 - 1. FC Heidenheim,75,3-1,deplasman,14.4,2.7,orta,hayır,"Son 8 dakikada baskı zayıf: xG 0.10, tek isabetli şut. 3-1'de 75. dakikada 10 dakikalık gol sinyali güvenilir değil.",hayır,ıska,,0.621,0.553,gol,0.04234,0.04732,1.72,-100,,,4.5,
+2026-11-20,1576233,Germany - 2. Bundesliga,Arminia Bielefeld - 1. FC Magdeburg,82,1-2,,,,yüksek,,,evet,isabet,,0.724,0.52,alt,,,1.83,83,85,evet,3.5,
+2026-11-20,1603044,Saudi-Arabia - Pro League,Al-Ahli Jeddah - Al-Nassr,82,3-1,ev,25.4,11.4,orta,hayır,"Skor 3-1, 82. dakika; ev xG'si tek şuta bağlı, baskı sürekli değil. Model olasılığı şişkin, piyasa daha gerçekçi.",hayır,ıska,,0.675,0.513,gol,0.05998,0.06931,1.85,-100,,,4.5,
+2026-11-20,1552532,France - Ligue 2,Guingamp - Rodez,18,0-1,,Rodez,,orta,,,evet,isabet,24,0.361,0.29,baski,0.03425,,3.28,228,86,evet,33,
+2026-11-20,1552532,France - Ligue 2,Guingamp - Rodez,18,0-1,,1,,orta,,,evet,isabet,24,0.718,0.625,iy,,,1.52,52,88,evet,1.5,
+2026-11-20,1494808,Norway - Eliteserien,Molde - Bodo/Glimt,57,0-3,deplasman,16.7,3.1,orta,evet,"Son pencerede deplasman baskısı var (1 isabetli, xG 0.43), 0-3 skorda açık oyun; piyasa da yüksek.",evet,isabet,74,0.898,0.828,gol,0.04758,0.04488,1.15,15,89,evet,3.5,
+2026-11-20,1551889,Netherlands - Eerste Divisie,Den Bosch - VVV Venlo,29,1-0,,1,,düşük,,,evet,ıska,,0.619,0.558,iy,,,1.7,-100,99,evet,1.5,
+2026-11-20,1494808,Norway - Eliteserien,Molde - Bodo/Glimt,68,0-3,,0-3,,yüksek,,,evet,isabet,74,0.586,0.442,kg,,,2.15,115,100,evet,,
+2026-11-20,1494808,Norway - Eliteserien,Molde - Bodo/Glimt,70,0-3,,8,,yüksek,,,evet,isabet,11,0.671,0.537,korner,,,1.77,77,101,evet,10.5,
+2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,33,0-1,,1,,orta,,,evet,isabet,43,0.425,0.375,iy,,,2.53,153,102,evet,1.5,
+2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,33,3-0,,3,,orta,,,evet,ıska,,0.493,0.423,iy,,,2.25,-100,106,evet,3.5,
+2026-11-20,1549058,Denmark - Superliga,Aarhus - Lyngby,53,2-1,iki taraf,11.0,10.7,orta,hayır,"Son pencerede baskı zayıf, xG çok düşük, ceza sahası şutu yok; model olasılığı piyasadan şişkin, avantaj yok.",hayır,ıska,,0.818,0.75,gol,0.03381,0.03555,1.27,-100,,,3.5,
+2026-11-20,1549058,Denmark - Superliga,Aarhus - Lyngby,55,2-1,,6,,yüksek,,,evet,ıska,6,0.565,0.411,korner,,,2.31,-100,87,evet,10.5,
+2026-11-20,1552532,France - Ligue 2,Guingamp - Rodez,20,0-1,,6,,yüksek,,,evet,ıska,11,0.973,0.537,korner,,,1.77,-100,90,evet,14.5,
+2026-11-20,1552531,France - Ligue 2,Annecy - Clermont Foot,27,2-0,ev,17.7,8.9,orta,evet,"Ev sahibi 2-0 önde, 0.79 xG'lik son pencere; 2.5 üst için bir gol daha yeterli, 63 dakika var.",evet,isabet,54,0.914,0.864,gol,0.0298,0.03072,1.1,10,96,evet,2.5,
+2026-11-20,1552531,France - Ligue 2,Annecy - Clermont Foot,27,2-0,,2,,orta,,,evet,ıska,,0.573,0.485,iy,,,1.96,-100,97,evet,2.5,
+2026-11-20,1552537,France - Ligue 2,RED Star FC 93 - PAU,34,1-0,,1-0,,düşük,,,evet,isabet,68,0.598,0.537,kg,,,1.77,77,103,evet,,
+2026-11-20,1549058,Denmark - Superliga,Aarhus - Lyngby,72,2-1,,,,orta,,,evet,isabet,,0.519,0.447,alt,,,2.13,113,104,evet,3.5,
+2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,33,3-0,ev,19.0,0.0,orta,evet,"Ev baskısı gerçek: son 6 dakikada 2 isabetli şut, xG 0.27. Ancak 3-0 skorda tempo düşebilir; model fazla iyimser.",evet,isabet,78,0.929,0.864,gol,0.03273,0.03384,1.1,10,105,evet,3.5,
+2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,35,0-1,,6,,yüksek,,,evet,isabet,13,0.729,0.526,korner,,,1.81,81,107,evet,12.5,
+2026-11-20,1601612,Italy - Serie B,Hellas Verona - Cesena,14,0-1,,0,,orta,,,evet,isabet,7,0.607,0.5,kart,,,1.9,90,110,evet,4.5,
+2026-11-20,1549058,Denmark - Superliga,Aarhus - Lyngby,85,2-1,,6,,orta,,,evet,ıska,6,0.713,0.625,korner,,,1.52,-100,111,evet,6.5,
+2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,20,0-0,,Pogon Szczecin,,orta,,,evet,ıska,,0.281,0.236,baski,0.02698,,4.03,-100,115,evet,35,
+2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,24,0-0,,0,,orta,,,evet,ıska,,0.57,0.5,iy,,,1.9,-100,117,evet,0.5,
+2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,46,3-0,,3-0,,düşük,,,evet,isabet,78,0.692,0.625,kg,,,1.52,52,122,evet,,
+2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,46,3-0,,4,,orta,,,evet,ıska,8,0.659,0.558,korner,,,1.7,-100,123,evet,8.5,
+2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,49,1-1,,Metz,,yüksek,,,evet,ıska,,0.361,0.276,baski,0.03228,,3.44,-100,124,evet,64,
+2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,50,1-1,,9,,yüksek,,,evet,ıska,13,0.818,0.577,korner,,,1.65,-100,125,evet,13.5,
+2026-11-20,1551889,Netherlands - Eerste Divisie,Den Bosch - VVV Venlo,50,1-0,,1-0,,düşük,,,evet,ıska,,0.655,0.589,kg,,,1.61,-100,126,evet,,
+2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,49,0-0,,6,,yüksek,,,evet,ıska,7,0.727,0.461,korner,,,2.06,-100,127,evet,11.5,
+2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,49,0-0,,De Graafschap,,yüksek,,,evet,isabet,50,0.457,0.309,baski,0.03701,,3.07,207,128,evet,64,
+2026-11-20,1552537,France - Ligue 2,RED Star FC 93 - PAU,50,1-0,,6,,yüksek,,,evet,isabet,11,0.644,0.463,korner,,,2.05,105,130,evet,10.5,
+2026-11-20,1565306,Romania - Liga I,Farul Constanta - Universitatea Cluj,76,2-1,iki taraf,22.3,12.3,orta,hayır,"xG ve tehlikeli atak sıfır; pencere baskısı zayıf. Model-piyasa farkı büyük, şüpheli. Skor açık ama sinyal yetersiz.",hayır,isabet,79,0.63,0.48,gol,0.03636,0.03389,1.98,98,,,3.5,
+2026-11-20,1565306,Romania - Liga I,Farul Constanta - Universitatea Cluj,76,2-1,,5,,orta,,,evet,ıska,7,0.463,0.375,korner,,,2.53,-100,131,evet,7.5,
+2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,50,1-0,,1-0,,yüksek,,,evet,ıska,,0.61,0.485,kg,,,1.96,-100,133,evet,,
+2026-11-20,1552827,France - Ligue 1,Estac Troyes - Le Havre,25,1-1,,Estac Troyes,,yüksek,,,evet,ıska,,0.316,0.243,baski,0.02789,,3.91,-100,134,evet,40,
+2026-11-20,1559201,Belgium - Challenger Pro League,K. Lierse S.K. - Lokeren-Temse,46,1-0,,10,,yüksek,,,evet,isabet,16,0.841,0.577,korner,,,1.65,65,135,evet,15.5,
+2026-11-20,1552827,France - Ligue 1,Estac Troyes - Le Havre,26,1-1,,2,,düşük,,,evet,ıska,,0.515,0.463,iy,,,2.05,-100,136,evet,2.5,
+2026-11-20,1551887,Netherlands - Eerste Divisie,Almere City FC - NAC Breda,51,0-3,deplasman,15.1,3.6,orta,evet,"Deplasman 0-3 önde, son pencerede ceza sahası şutları ve xG 0.38; toplam baskı gerçekçi, ancak skor düşürücü olabilir.",evet,isabet,57,0.866,0.792,gol,0.03653,0.03831,1.2,20,137,evet,3.5,
+2026-11-20,1551894,Netherlands - Eerste Divisie,FC OSS - Roda,54,1-0,,,,yüksek,,,evet,isabet,,0.301,0.234,alt,,,4.06,306,138,evet,1.5,
+2026-11-20,1552534,France - Ligue 2,Metz - Boulogne,62,1-1,,,,yüksek,,,evet,ıska,89,0.525,0.341,alt,,,2.79,-100,141,evet,2.5,
+2026-11-20,1552531,France - Ligue 2,Annecy - Clermont Foot,61,3-0,iki taraf,13.1,11.4,orta,hayır,"3-0 skorda tempo düşük; son pencerede sadece bir isabetli şut, xG çok düşük. Sinyal zayıf, model olasılığı şişkin.",hayır,isabet,67,0.746,0.671,gol,0.03365,0.03468,1.42,42,,,3.5,
+2026-11-20,1552531,France - Ligue 2,Annecy - Clermont Foot,61,3-0,,3-0,,orta,,,evet,isabet,66,0.487,0.392,kg,,,2.42,142,145,evet,,
+2026-11-20,1552535,France - Ligue 2,Nancy - Dijon,67,1-0,,,,orta,,,evet,isabet,,0.452,0.375,alt,,,2.53,153,146,evet,1.5,
+2026-11-20,1551889,Netherlands - Eerste Divisie,Den Bosch - VVV Venlo,66,1-0,,,,yüksek,,,evet,isabet,,0.357,0.269,alt,,,3.53,253,147,evet,1.5,
+2026-11-20,1551887,Netherlands - Eerste Divisie,Almere City FC - NAC Breda,63,0-4,deplasman,18.6,0.0,orta,evet,"Deplasman üstün (xG 2.24, 5 isabetli şut), son pencerede 0.71 xG; ancak 0-4 skorda tempo düşebilir.",evet,isabet,87,0.776,0.697,gol,0.03848,0.03991,1.36,36,148,evet,4.5,
+2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,67,2-0,ev,23.7,0.0,orta,evet,"Ev baskısı sürüyor, son 6 dakikada 2 isabetli şut; 2-0 önde, 3. gol için makul ihtimal.",evet,isabet,79,0.774,0.659,gol,0.03981,0.04065,1.44,44,150,evet,2.5,
+2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,68,2-0,,7,,yüksek,,,evet,ıska,7,0.882,0.589,korner,,,1.61,-100,152,evet,8.5,
+2026-11-20,1552532,France - Ligue 2,Guingamp - Rodez,70,1-2,,10,,yüksek,,,evet,ıska,11,0.903,0.553,korner,,,1.72,-100,153,evet,11.5,
+2026-11-20,1559201,Belgium - Challenger Pro League,K. Lierse S.K. - Lokeren-Temse,67,1-0,iki taraf,11.3,11.2,orta,hayır,"Son 10 dakikada baskı zayıf: toplam xG 0.33, tehlikeli atak yok. Pre-match beklenti yüksek ama canlı sinyal sınırlı.",hayır,ıska,,0.728,0.671,gol,0.04113,0.04442,1.42,-100,,,1.5,
+2026-11-20,1551889,Netherlands - Eerste Divisie,Den Bosch - VVV Venlo,73,1-0,,14,,yüksek,,,evet,isabet,16,0.925,0.553,korner,,,1.72,72,156,evet,15.5,
+2026-11-20,1551891,Netherlands - Eerste Divisie,Helmond Sport - Dordrecht,75,3-0,,8,,orta,,,evet,ıska,8,0.765,0.625,korner,,,1.52,-100,159,evet,9.5,
+2026-11-20,1551894,Netherlands - Eerste Divisie,FC OSS - Roda,74,1-0,,6,,orta,,,evet,ıska,8,0.562,0.48,korner,,,1.98,-100,160,evet,8.5,
+2026-11-20,1552531,France - Ligue 2,Annecy - Clermont Foot,73,4-0,,12,,yüksek,,,evet,isabet,14,0.866,0.423,korner,,,2.25,125,161,evet,13.5,
+2026-11-20,1559201,Belgium - Challenger Pro League,K. Lierse S.K. - Lokeren-Temse,70,1-0,,15,,yüksek,,,evet,isabet,19,0.665,0.423,korner,,,2.25,125,162,evet,18.5,
+2026-11-20,1551887,Netherlands - Eerste Divisie,Almere City FC - NAC Breda,72,0-4,,0-4,,yüksek,,,evet,isabet,87,0.48,0.375,kg,,,2.53,153,163,evet,,
+2026-11-20,1551889,Netherlands - Eerste Divisie,Den Bosch - VVV Venlo,76,1-0,ev,16.8,5.2,orta,evet,"Ev sahibi son 10 dakikada 3 ceza sahası içi şut ve 0.36 xG ile baskılı; 1-0 skor açık, ancak toplam xG düşük.",evet,ıska,,0.669,0.614,gol,0.05287,0.05296,1.55,-100,164,evet,1.5,
+2026-11-20,1551894,Netherlands - Eerste Divisie,FC OSS - Roda,78,1-0,deplasman,19.6,4.1,orta,hayır,"Deplasman 4 şut ama toplam xG 0.12 düşük; 78. dakikada 10 dakikalık gol olasılığı zayıf, sinyal ele.",hayır,ıska,,0.575,0.52,gol,0.04584,0.04496,1.83,-100,,,1.5,
+2026-11-20,1601612,Italy - Serie B,Hellas Verona - Cesena,50,0-1,,3,,orta,,,evet,isabet,7,0.549,0.463,kart,,,2.05,105,168,evet,6.5,
+2026-11-20,1551894,Netherlands - Eerste Divisie,FC OSS - Roda,79,1-0,,1-0,,orta,,,evet,ıska,,0.44,0.375,kg,,,2.53,-100,169,evet,,
+2026-11-20,1551888,Netherlands - Eerste Divisie,De Graafschap - MVV,85,3-0,ev,17.3,0.0,orta,hayır,"85. dakikada 3-0 önde, son pencerede tek şut var; kalan süre kısa, baskı zayıf, model olasılığı şişirilmiş.",hayır,ıska,,0.431,0.375,gol,0.05222,0.04822,2.53,-100,,,3.5,
+2026-11-20,1552537,France - Ligue 2,RED Star FC 93 - PAU,86,1-1,,,,orta,,,evet,isabet,,0.832,0.688,alt,,,1.38,38,174,evet,2.5,
+2026-11-20,1559201,Belgium - Challenger Pro League,K. Lierse S.K. - Lokeren-Temse,85,1-0,,16,,yüksek,,,evet,isabet,18,0.583,0.411,korner,,,2.31,131,177,evet,17.5,
+2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,65,1-0,ev,30.8,4.8,orta,evet,"Ev sahibi son 6 dakikada 3 isabetli şut, 0.5 xG ile gerçek baskı kuruyor; 1-0'da açık oyun.",evet,isabet,67,0.754,0.625,gol,0.03382,,1.52,52,194,evet,1.5,
+2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,23,0-0,,3,,orta,,,evet,bilinmiyor,6,0.686,0.558,korner,,,,,116,,10.5,
+2026-11-20,1552827,France - Ligue 1,Estac Troyes - Le Havre,35,1-1,,1,,yüksek,,,evet,isabet,5,0.56,0.442,kart,,,2.15,115,143,evet,3.5,
+2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,48,0-0,,5,,orta,,,evet,bilinmiyor,6,0.648,0.577,korner,,,,,170,,9.5,
+2026-11-20,1570025,Spain - Segunda División,FC Andorra - Leganes,50,1-2,deplasman,50.2,10.1,orta,evet,"Deplasman son pencerede 3 isabetli, 1.14 xG; ev sahibi 10 kişi, skor açık. Model olasılığı biraz yüksek.",evet,isabet,83,0.905,0.766,gol,0.03301,0.03301,1.24,24,175,evet,3.5,
+2026-11-20,1570025,Spain - Segunda División,FC Andorra - Leganes,62,1-2,,,,yüksek,,,evet,ıska,83,0.4,0.303,alt,,,3.14,-100,202,evet,3.5,
+2026-11-20,1552827,France - Ligue 1,Estac Troyes - Le Havre,60,1-1,,,,yüksek,,,evet,ıska,69,0.474,0.364,alt,,,2.61,-100,204,evet,2.5,
+2026-11-20,1558682,Belgium - Jupiler Pro League,Cercle Brugge - KVC Westerlo,61,0-0,,,,yüksek,,,evet,ıska,71,0.411,0.303,alt,,,3.14,-100,205,evet,0.5,
+2026-11-20,1575221,Germany - Bundesliga,Bayern München - 1. FC Köln,74,1-1,,,,orta,,,evet,isabet,,0.465,0.398,alt,,,2.39,139,207,evet,2.5,
+2026-11-21,1552827,France - Ligue 1,Estac Troyes - Le Havre,86,2-1,,5,,yüksek,,,evet,isabet,6,0.782,0.577,kart,,,1.65,65,231,evet,5.5,
+2026-11-20,1570025,Spain - Segunda División,FC Andorra - Leganes,50,1-2,,5,,orta,,,evet,ıska,8,0.693,0.558,korner,,,1.7,-100,176,evet,9.5,
+2026-11-21,1558682,Belgium - Jupiler Pro League,Cercle Brugge - KVC Westerlo,86,1-0,ev,23.0,17.7,orta,hayır,"86. dakikada kalan süre kısa; son pencerede baskı zayıf, xG düşük, ev lider zaman geçirebilir. Piyasa daha düşük.",hayır,ıska,,0.451,0.329,gol,0.04995,0.0533,2.89,-100,,,1.5,
+2026-11-21,1505563,Chile - Primera División,Cobresal - A. Italiano,30,2-0,,2,,orta,,,evet,isabet,33,0.569,0.5,iy,,,1.9,90,232,evet,2.5,
