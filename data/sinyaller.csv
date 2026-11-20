@@ -20,8 +20,18 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-20,1648522,Burkina-Faso - Ligue 1,Salitas - SONABEL,60,1-0,,,,orta,,,evet,ıska,73,0.44,0.37,alt,,,2.57,-100,,evet,1.5
 2026-11-20,1565308,Romania - Liga I,FC Botosani - FC Voluntari,71,3-1,iki taraf,21.1,19.0,orta,evet,"Açık oyun, iki takım da isabetli şut buluyor; 3-1'de dakika 71 için 4.5 üst makul, xG verisi yok.",evet,isabet,71,0.809,0.625,gol,0.04264,,1.52,52,23,evet,4.5
 2026-11-20,1597964,Qatar - Stars League,Al-Gharafa - Al-Arabi SC,59,1-2,,,,orta,evet,"Ev sahibi 2 isabetli şut ve 3 ceza sahası şutuyla baskılı, geride; ancak xG düşük (0.4), 3.5 üst için bir gol yeterli.",evet,isabet,90,0.81,0.75,gol,,,1.27,27,,evet,3.5
-2026-11-20,1597964,Qatar - Stars League,Al-Gharafa - Al-Arabi SC,61,1-2,,7,,orta,,,evet,bekliyor,,0.64,0.56,korner,,,,,,,10.5
-2026-11-20,1565308,Romania - Liga I,FC Botosani - FC Voluntari,71,3-1,,5,,orta,,,evet,bekliyor,,0.496,0.423,korner,,,,,24,,7.5
-2026-11-20,1600821,Tanzania - Ligi kuu Bara,Namungo - Mbeya City,80,0-0,,,,yüksek,,,evet,bekliyor,,0.822,0.589,alt,,,,,26,,0.5
+2026-11-20,1597964,Qatar - Stars League,Al-Gharafa - Al-Arabi SC,61,1-2,,7,,orta,,,evet,ıska,7,0.64,0.56,korner,,,1.7,-100,,evet,10.5
+2026-11-20,1565308,Romania - Liga I,FC Botosani - FC Voluntari,71,3-1,,5,,orta,,,evet,isabet,8,0.496,0.423,korner,,,2.25,125,24,evet,7.5
+2026-11-20,1600821,Tanzania - Ligi kuu Bara,Namungo - Mbeya City,80,0-0,,,,yüksek,,,evet,isabet,,0.822,0.589,alt,,,1.61,61,26,evet,0.5
 2026-11-20,1628043,Iraq - Iraqi League,Al Zawra'a - Al Talaba,78,1-1,,,,yüksek,,,evet,ıska,81,0.799,0.558,alt,,,1.7,-100,27,evet,2.5
-2026-11-20,1565308,Romania - Liga I,FC Botosani - FC Voluntari,86,3-3,deplasman,52.4,0.0,orta,evet,"Deplasman son 7 dakikada 4 isabetli, 8 şut, 6 ceza sahası içi; 3-3'te açık oyun, gol olasılığı yüksek.",evet,bekliyor,,0.508,0.375,gol,0.05875,0.05728,,,,,6.5
+2026-11-20,1565308,Romania - Liga I,FC Botosani - FC Voluntari,86,3-3,deplasman,52.4,0.0,orta,evet,"Deplasman son 7 dakikada 4 isabetli, 8 şut, 6 ceza sahası içi; 3-3'te açık oyun, gol olasılığı yüksek.",evet,ıska,,0.508,0.375,gol,0.05875,0.05728,2.53,-100,,evet,6.5
+2026-11-20,1648184,Jordan - Cup,Al Wihdat - Al Arabi,65,1-0,,,,yüksek,,,evet,bekliyor,,0.519,0.41,alt,,,,,,,1.5
+2026-11-20,1611451,Algeria - Ligue 1,ASO Chlef - Khenchela,65,0-0,,,,yüksek,,,evet,bekliyor,,0.637,0.442,alt,,,,,,,0.5
+2026-11-20,1554228,Serbia - Prva Liga,Naftagas - Borac Cacak,68,1-1,,,,yüksek,,,evet,bekliyor,,0.625,0.45,alt,,,,,,,2.5
+2026-11-20,1551149,Bulgaria - First League,Septemvri Sofia - Lokomotiv Plovdiv,67,0-0,,,,yüksek,,,evet,bekliyor,,0.61,0.485,alt,,,,,,,0.5
+2026-11-20,1650542,Mali - Première Division,ASKO - Onze Créateurs,68,0-0,,,,yüksek,,,evet,bekliyor,,0.682,0.537,alt,,,,,,,0.5
+2026-11-20,1645699,Syria - Premier League,Al Ittihad - Jaish,61,1-0,,,,yüksek,,,evet,bekliyor,,0.442,0.337,alt,,,,,,,1.5
+2026-11-20,1611453,Algeria - Ligue 1,ES Setif - US Biskra,69,1-1,,,,yüksek,,,evet,bekliyor,,0.67,0.485,alt,,,,,,,2.5
+2026-11-20,1559008,Slovenia - 2. SNL,Dravinja - Ilirija,73,2-1,,,,yüksek,,,evet,bekliyor,,0.61,0.421,alt,,,,,,,3.5
+2026-11-20,1559014,Slovenia - 2. SNL,Triglav - Dren Vrhnika,76,1-2,,,,yüksek,,,evet,bekliyor,,0.639,0.373,alt,,,,,,,3.5
+2026-11-20,1628044,Iraq - Iraqi League,Duhok - Erbil,60,1-0,,,,yüksek,,,evet,bekliyor,,0.455,0.362,alt,,,,,,,1.5
