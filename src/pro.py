@@ -215,7 +215,11 @@ class ProEngine:
         self.pending_samples: list[dict] = []
         self.done_samples: list[dict] = []
         self.all_rows = load_signals()
-        self.rows_today: list[dict] = []
+        # Önceki oturumdan sonucu bekleyen bugünkü sinyaller bu oturumda takip edilmeye devam eder
+        carry = [r for r in self.all_rows if r.get("sonuc") == "bekliyor"
+                 and r.get("tarih") in (self.today, (self.now0 - dt.timedelta(days=1)).date().isoformat())]
+        self.all_rows = [r for r in self.all_rows if r not in carry]
+        self.rows_today: list[dict] = carry
         self.odds_live_ok = True
         self.tick_cost = 0
         self.alerted: set = set()
@@ -479,8 +483,8 @@ class ProEngine:
                 f"10 dk {label.lower()} olasılığı → model %{round(p * 100)}"
                 + (f" | piyasa %{round(p_mkt * 100)}" if p_mkt is not None else " | piyasa: yok"),
                 f"Güven: {conf}"]
-        notify(f"{icon} {label} sinyali: {m.name}", "\n".join(body), priority=4,
-               tags=["triangular_flag_on_post" if tur == "korner" else "yellow_square"])
+        row["tg_mesaj"] = notify(f"{icon} {label} sinyali: {m.name}", "\n".join(body), priority=4,
+                                 tags=["triangular_flag_on_post" if tur == "korner" else "yellow_square"]) or ""
 
     def goal_signal(self, m, pr, side, p_model, p_mkt, q=None):
         drop = self.book.over_drop(m.id)
@@ -524,8 +528,8 @@ class ProEngine:
             lines.append(f"📉 Maç öncesi Üst 2.5 oranı %{round(drop * 100)} düşmüştü")
         if ai and ai.get("yorum"):
             lines.append(f"🤖 {ai['yorum']}")
-        notify(f"⚽ Gol sinyali: {m.name}", "\n".join(lines),
-               priority=5 if conf == "yüksek" else 4, tags=["soccer"])
+        row["tg_mesaj"] = notify(f"⚽ Gol sinyali: {m.name}", "\n".join(lines),
+                                 priority=5 if conf == "yüksek" else 4, tags=["soccer"]) or ""
 
     # --- sonuçlar
     def count_after(self, m: Match, key: str, smin: int) -> int | None:
@@ -567,11 +571,28 @@ class ProEngine:
                     r["sonuc"], r["gol_dakikasi"] = "isabet", hits[0]
                 elif over:
                     r["sonuc"] = "ıska"
+            if r["sonuc"] != "bekliyor":
+                self.announce(r, m)
             # sanal kâr-zarar: piyasanın 10 dk olasılığından, %5 marjla adil oran
             if r["sonuc"] != "bekliyor" and r.get("p_piyasa") not in ("", None) and r.get("kar") in ("", None):
                 odd = 0.95 / max(float(r["p_piyasa"]), 0.02)
                 r["adil_oran"] = round(odd, 2)
                 r["kar"] = round(100 * (odd - 1)) if r["sonuc"] == "isabet" else -100
+
+    def announce(self, r: dict, m: Match):
+        """Sinyalin sonucunu Telegram'da sinyal mesajını alıntılayarak bildirir."""
+        if r.get("duyuruldu") or not r.get("tg_mesaj") or r.get("gonderildi") != "evet":
+            return
+        r["duyuruldu"] = "evet"
+        tur = r.get("tur") or "gol"
+        olay = {"gol": "gol", "korner": "korner", "kart": "kart"}[tur]
+        if r["sonuc"] == "isabet":
+            when = f"{r['gol_dakikasi']}' " if r.get("gol_dakikasi") not in ("", None) else ""
+            text = f"✅ TUTTU — {when}{olay} geldi (sinyal {r['dakika']}'). Skor: {m.gh}-{m.ga}"
+        else:
+            text = f"❌ Tutmadı — sinyalden sonraki 10 dakikada {olay} olmadı. Skor: {m.gh}-{m.ga}"
+        from main import telegram_reply
+        telegram_reply(r["tg_mesaj"], text)
 
     def label_samples(self, m: Match):
         keep = []

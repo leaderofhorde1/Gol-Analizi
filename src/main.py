@@ -88,6 +88,7 @@ CSV_FIELDS = [
     "tarih", "fixture_id", "lig", "mac", "dakika", "skor", "taraf", "baski",
     "baski_rakip", "guven", "ai_onay", "ai_yorum", "gonderildi", "sonuc",
     "gol_dakikasi", "p_model", "p_piyasa", "tur", "q_once", "q_sonra", "adil_oran", "kar",
+    "tg_mesaj", "duyuruldu",
 ]
 
 
@@ -130,7 +131,8 @@ class Api:
 
 # ---------------------------------------------------------------- ntfy
 def notify(title: str, message: str, priority: int = 4, tags=None, click=None):
-    telegram_send(title, message)
+    """Bildirimi ntfy'ye ve Telegram'a gönderir; Telegram mesaj numarasını döndürür."""
+    tg_id = telegram_send(title, message)
     if not NTFY_TOPIC:
         log("[ntfy kapalı]", title, "|", message)
         return
@@ -142,6 +144,7 @@ def notify(title: str, message: str, priority: int = 4, tags=None, click=None):
         requests.post("https://ntfy.sh/", json=payload, timeout=15).raise_for_status()
     except Exception as e:  # bildirim hatası takibi durdurmasın
         log("ntfy hatası:", e)
+    return tg_id
 
 
 # ---------------------------------------------------------------- Telegram
@@ -204,8 +207,27 @@ def telegram_send(title: str, message: str):
             res = _tg("sendMessage", chat_id=_tg_chat, text=text, parse_mode="HTML", disable_web_page_preview=True)
         if not res.get("ok"):
             log("Telegram hatası:", res.get("description"))
+            return None
+        return (res.get("result") or {}).get("message_id")
     except Exception as e:
         log("Telegram hatası:", e)
+    return None
+
+
+def telegram_reply(message_id, text: str):
+    """Önceki bir mesajı alıntılayarak cevap yazar (sinyal sonucu için)."""
+    if not TG_TOKEN or not message_id:
+        return
+    chat = telegram_chat_id()
+    if not chat:
+        return
+    try:
+        res = _tg("sendMessage", chat_id=chat, text=text[:4000], disable_web_page_preview=True,
+                  reply_parameters={"message_id": int(message_id), "allow_sending_without_reply": True})
+        if not res.get("ok"):
+            log("Telegram cevap hatası:", res.get("description"))
+    except Exception as e:
+        log("Telegram cevap hatası:", e)
 
 
 # ---------------------------------------------------------------- Claude
