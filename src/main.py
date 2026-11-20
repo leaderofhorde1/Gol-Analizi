@@ -87,7 +87,7 @@ PRIORITY = {
 CSV_FIELDS = [
     "tarih", "fixture_id", "lig", "mac", "dakika", "skor", "taraf", "baski",
     "baski_rakip", "guven", "ai_onay", "ai_yorum", "gonderildi", "sonuc",
-    "gol_dakikasi",
+    "gol_dakikasi", "p_model", "p_piyasa",
 ]
 
 
@@ -553,6 +553,7 @@ class Engine:
         now = dt.datetime.now(TZ)
         hh, mm = (int(x) for x in WINDOW_END.split(":"))
         end = now.replace(hour=hh, minute=mm, second=0, microsecond=0)
+        end = min(end, now + dt.timedelta(minutes=int(os.environ.get("RUN_MINUTES", "350"))))
         if end <= now:
             log("Takip penceresi bitmiş, çıkılıyor.")
             return
@@ -618,6 +619,20 @@ def run_test():
                           f"bugün {req.get('current')}/{req.get('limit_day')} istek")
             live = api.get("fixtures", live="all")
             report.append(f"Şu an canlı maç: {len(live)}")
+            if (sub.get("plan") or "Free").lower() != "free":
+                if len(live) >= 2:
+                    try:
+                        its = api.get("fixtures", ids="-".join(str(f["fixture"]["id"]) for f in live[:20]))
+                        n_st = sum(1 for it in its if any(parse_stats(it)["home"].values()))
+                        n_xg = sum(1 for it in its if parse_stats(it)["has_xg"])
+                        report.append(f"Toplu istatistik: {len(its)} maç çekildi, {n_st} maçta istatistik, {n_xg} maçta xG var")
+                    except Exception as e:
+                        report.append(f"Toplu istatistik HATA: {e}")
+                try:
+                    od = api.get("odds/live")
+                    report.append(f"Canlı oran: {len(od)} maçta var")
+                except Exception as e:
+                    report.append(f"Canlı oran HATA: {e}")
             if live:
                 live.sort(key=lambda f: -PRIORITY.get(f["league"]["id"], 10))
                 it = api.get("fixtures", id=live[0]["fixture"]["id"])[0]
@@ -718,7 +733,22 @@ def main():
         log("API_FOOTBALL_KEY eksik.")
         notify("⚠️ Gol Sinyali", "API_FOOTBALL_KEY gizli ayarı eksik, takip başlamadı.")
         return 1
-    Engine(Api(API_KEY), Claude()).run()
+    api = Api(API_KEY)
+    try:
+        plan = (api.status().get("subscription") or {}).get("plan", "Free")
+    except Exception as e:
+        log("Plan okunamadı:", e)
+        plan = "Free"
+    log("API planı:", plan)
+    if plan and plan.lower() != "free":
+        from pro import ProEngine
+        ProEngine(api, Claude()).run()
+        return 0
+    # Ücretsiz plan: kota küçük, sadece akşam oturumu çalışır.
+    if dt.datetime.now(TZ).hour < 15 and os.environ.get("FORCE") != "1":
+        log("Ücretsiz planda yalnızca akşam oturumu çalışır, çıkılıyor.")
+        return 0
+    Engine(api, Claude()).run()
     return 0
 
 

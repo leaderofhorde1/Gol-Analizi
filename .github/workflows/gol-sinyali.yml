@@ -2,8 +2,12 @@ name: Gol Sinyali
 
 on:
   schedule:
-    # Her gün 18:00 (Türkiye saati) = 15:00 UTC. GitHub birkaç dakika geç başlatabilir.
-    - cron: "0 15 * * *"
+    # Pro planda gün üç oturuma bölünür (TR saati): 10:00, 16:00, 22:00.
+    # Ücretsiz planda sabah oturumları kendiliğinden atlanır, sadece akşam çalışır.
+    # GitHub zamanlayıcısı birkaç dakika geç başlatabilir.
+    - cron: "0 7 * * *"
+    - cron: "0 13 * * *"
+    - cron: "0 19 * * *"
   workflow_dispatch:
     inputs:
       mod:
@@ -45,11 +49,14 @@ jobs:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          WINDOW_END: "23:45"     # takibin biteceği saat (TR)
+          WINDOW_END: "23:45"     # ücretsiz planda takibin biteceği saat (TR)
+          RUN_MINUTES: "350"      # Pro planda bir oturumun süresi (dk)
+          INTERVAL: "30"          # Pro/Ultra: tur aralığı (sn)
+          EDGE: "0.04"            # Pro: model olasılığı piyasadan en az bu kadar yüksekse sinyal
           MAX_TRACK: "3"          # günde takip edilecek maç sayısı (ücretsiz kota için 3)
           THRESHOLD: "13"         # baskı eşiği: büyütürsen daha az ama daha güçlü sinyal
           CLAUDE_MODEL: "sonnet"
-          MAX_CLAUDE_CALLS: "40"
+          MAX_CLAUDE_CALLS: "25"  # oturum başına en fazla Claude çağrısı
         run: python src/main.py
 
       - name: Sinyal kayıtlarını depoya kaydet
