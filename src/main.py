@@ -1023,7 +1023,8 @@ def run_diag():
         if any(w in str(n).lower() for w in ("card", "corner", "booking", "both", "half", "1st", "score")):
             print("PAZAR:", repr(n), v)
     for it in od[:2]:
-        print("ÜST ALANLAR:", list(it.keys()), "status:", it.get("status"))
+        print("ÜST ALANLAR:", list(it.keys()), "status:", it.get("status"), "update:", it.get("update"),
+              "fixture:", it.get("fixture"))
         for mk in (it.get("odds") or [])[:40]:
             vals = mk.get("values") or []
             print(f"  pazar id={mk.get('id')} ad={mk.get('name')!r} örnek={vals[:3]}")
