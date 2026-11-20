@@ -844,6 +844,10 @@ def main():
         log("API_FOOTBALL_KEY eksik.")
         notify("⚠️ Gol Sinyali", "API_FOOTBALL_KEY gizli ayarı eksik, takip başlamadı.")
         return 1
+    now = dt.datetime.now(TZ)
+    if os.environ.get("GITHUB_EVENT_NAME") == "schedule" and 2 * 60 + 40 <= now.hour * 60 + now.minute < 9 * 60 + 40:
+        log("Gece arası (02:40-09:40), oturum başlatılmadı.")
+        return 0
     api = Api(API_KEY)
     try:
         plan = (api.status().get("subscription") or {}).get("plan", "Free")

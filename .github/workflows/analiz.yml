@@ -42,5 +42,5 @@ jobs:
           git add -A data; [ -d docs ] && git add -A docs || true
           if ! git diff --cached --quiet; then
             git commit -m "Model analizi: $(date -u +%F)"
-            for i in 1 2 3; do git pull --rebase && git push && break; sleep 5; done
+            for i in 1 2 3; do git pull --rebase -X theirs && git push && break; git rebase --abort 2>/dev/null; sleep 5; done
           fi

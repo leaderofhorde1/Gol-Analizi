@@ -55,7 +55,9 @@ for _key in ("gol_egrisi", "kart_egrisi"):
         PARAMS[_key][17] *= 5 / 10
 
 SAMPLES_DIR = DATA / "ornekler"
-REFEREE_JSON = DATA / "hakemler.json"
+REFEREE_JSON = DATA / "hakemler.json"          # geçmiş veri (analiz yazar)
+REFEREE_LIVE = DATA / "hakemler_canli.json"    # canlı oturumların eklediği maçlar
+CHAIN_FLAG = "/tmp/zincir"
 SAMPLE_FIELDS = ["tarih", "fixture_id", "lig_id", "dakika", "skor_farki", "toplam_gol",
                  "baski_ev", "baski_dep", "kirmizi_farki", "mu", "dusus", "p_model",
                  "p_piyasa", "gol_10dk", "korner", "p_korner", "p_korner_piyasa", "korner_10dk",
@@ -218,6 +220,13 @@ class ProEngine:
         self.tick_cost = 0
         self.alerted: set = set()
         self.referees = json.loads(REFEREE_JSON.read_text()) if REFEREE_JSON.exists() else {}
+        self.ref_live = json.loads(REFEREE_LIVE.read_text()) if REFEREE_LIVE.exists() else {}
+        for key, recs in self.ref_live.items():  # canlı eklemeleri geçmiş veriyle birleştir
+            if isinstance(recs, dict):
+                for name, v in recs.items():
+                    r = self.referees.setdefault(key, {}).setdefault(name, {"mac": 0, "kart": 0})
+                    r["mac"] += v["mac"]
+                    r["kart"] += v["kart"]
         self.ref_done: set = set()
 
     # --- zaman ve bütçe
@@ -594,9 +603,10 @@ class ProEngine:
         for key, name in (("lig", str(m.league_id)), ("hakem", ref)):
             if not name:
                 continue
-            rec = self.referees.setdefault(key, {}).setdefault(name, {"mac": 0, "kart": 0})
-            rec["mac"] += 1
-            rec["kart"] += cards
+            for db in (self.referees, self.ref_live):
+                rec = db.setdefault(key, {}).setdefault(name, {"mac": 0, "kart": 0})
+                rec["mac"] += 1
+                rec["kart"] += cards
 
     # --- kayıt
     def flush_samples(self):
@@ -618,7 +628,7 @@ class ProEngine:
         save_signals(self.all_rows + self.rows_today)
         self.flush_samples()
         DATA.mkdir(exist_ok=True)
-        REFEREE_JSON.write_text(json.dumps(self.referees, ensure_ascii=False))
+        REFEREE_LIVE.write_text(json.dumps(self.ref_live, ensure_ascii=False))
 
     def finish(self):
         for m in self.matches.values():
@@ -688,5 +698,9 @@ class ProEngine:
                 if pmb > 0 and self.tick_cost / pmb * 60 > wait:
                     wait = min(300, self.tick_cost / pmb * 60)
                 time.sleep(max(5, wait - (time.time() - t0)))
+            # Süre dolduysa ve gün bitmediyse bir sonraki oturumu iş akışı başlatsın
+            now = dt.datetime.now(TZ)
+            if now >= end and not (2 * 60 + 30 <= now.hour * 60 + now.minute < 9 * 60 + 40):
+                open(CHAIN_FLAG, "w").write(now.isoformat())
         finally:
             self.finish()
