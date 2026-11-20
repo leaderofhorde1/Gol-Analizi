@@ -843,7 +843,7 @@ def run_diag():
         for mk in it.get("odds") or []:
             names.setdefault(mk.get("name"), mk.get("values", [])[:4])
     for n, v in sorted(names.items(), key=lambda x: str(x[0])):
-        if any(w in str(n).lower() for w in ("card", "corner", "booking")):
+        if any(w in str(n).lower() for w in ("card", "corner", "booking", "both", "half", "1st", "score")):
             print("PAZAR:", repr(n), v)
     for it in od[:2]:
         print("ÜST ALANLAR:", list(it.keys()), "status:", it.get("status"))
