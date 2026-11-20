@@ -18,7 +18,7 @@ from main import (API_KEY, FINISHED, NTFY_TOPIC, TZ, Api, goal_events, load_sign
 
 TYPES = {"⚽ Gol sinyali: ": "gol", "🚩 Korner sinyali: ": "korner", "🟨 Kart sinyali: ": "kart",
          "⚽ GOL SİNYALİ: ": "gol", "🚩 KORNER SİNYALİ: ": "korner", "🟨 KART SİNYALİ: ": "kart",
-         "⏱ İLK YARI GOL SİNYALİ: ": "iy", "🤝 KG SİNYALİ: ": "kg"}
+         "⏱ İLK YARI GOL SİNYALİ: ": "iy", "🤝 KG SİNYALİ: ": "kg", "🔥 BASKI ALARMI: ": "baski"}
 
 
 def parse(msg: dict) -> dict | None:
@@ -78,7 +78,7 @@ def run():
         minute = it["fixture"]["status"].get("elapsed") or 0
         smin = s["dakika"]
         done = status in FINISHED or minute > smin + 10
-        if s["tur"] == "gol":
+        if s["tur"] in ("gol", "baski"):
             hits = [g["minute"] for g in goal_events(it) if smin < g["minute"] <= smin + 10]
         elif s["tur"] == "kart":
             hits = [(e.get("time") or {}).get("elapsed") or 0 for e in it.get("events") or []
