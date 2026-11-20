@@ -86,3 +86,5 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-20,1549058,Denmark - Superliga,Aarhus - Lyngby,85,2-1,,6,,orta,,,evet,ıska,6,0.713,0.625,korner,,,1.52,-100,111,evet,6.5
 2026-11-21,1558682,Belgium - Jupiler Pro League,Cercle Brugge - KVC Westerlo,71,0-0,ev,59.7,13.4,orta,evet,"Ev sahibi son 6 dakikada 4 isabetli şut, 1.35 xG ile gerçek baskı kuruyor; 0-0 skor ve geç dakika gol ihtimalini artırıyor.",evet,isabet,71,0.742,0.577,gol,0.03737,,1.65,65,219,evet,0.5
 2026-11-21,1558682,Belgium - Jupiler Pro League,Cercle Brugge - KVC Westerlo,71,0-0,,3,,orta,,,evet,bekliyor,,0.649,0.558,korner,,,,,220,,5.5
+2026-11-21,1552827,France - Ligue 1,Estac Troyes - Le Havre,77,2-1,,5,,yüksek,,,evet,bekliyor,,0.911,0.463,kart,,,,,222,,5.5
+2026-11-21,1564415,England - League One,Barnsley - Sheffield Wednesday,66,1-2,,,,yüksek,,,evet,bekliyor,,0.489,0.314,alt,,,,,223,,3.5
