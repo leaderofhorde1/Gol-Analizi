@@ -4,9 +4,9 @@ Sadece gruba gönderilen sinyaller sayılır (Claude bölümü hariç). Sanal k�
 
 ## Son 7 gün
 
-**125 sinyal sonuçlandı: ✅ 63 tuttu, ❌ 62 tutmadı (%50)**
+**126 sinyal sonuçlandı: ✅ 64 tuttu, ❌ 62 tutmadı (%51)**
 
-Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: +20 TL • Piyasa bizim yönümüze döndü: -
+Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: +96 TL • Piyasa bizim yönümüze döndü: -
 
 ### Tür bazında
 
@@ -14,7 +14,7 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: +20 TL • Pi
 |---|---|---|---|---|---|---|---|
 | ⚽ Üst (gol) | 19 | %74 | %68 | +5 puan | +1 TL | - | ⏳ veri az (19/30) |
 | 🧊 Alt | 41 | %41 | %40 | +2 puan | -170 TL | - | 🟡 piyasa kadar |
-| 🚩 Korner | 27 | %44 | %52 | -8 puan | -283 TL | - | ⏳ veri az (27/30) |
+| 🚩 Korner | 28 | %46 | %52 | -6 puan | -207 TL | - | ⏳ veri az (28/30) |
 | 🟨 Kart | 8 | %75 | %50 | +25 puan | +375 TL | - | ⏳ veri az (8/30) |
 | ⏱ İlk yarı | 12 | %42 | %53 | -11 puan | -306 TL | - | ⏳ veri az (12/30) |
 | 🤝 KG | 11 | %55 | %49 | +5 puan | +146 TL | - | ⏳ veri az (11/30) |
@@ -42,21 +42,22 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: +20 TL • Pi
 
 | Form | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| ⚠️ ters | 0 | - | - | - |
+| ✅ destekliyor | 0 | - | - | - |
+| ⚠️ ters | 1 | %100 | %54 | +76 TL |
 
 ### 📶 Güven seviyesine göre
 
 | Güven | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
 | yüksek | 56 | %46 | %42 | +216 TL |
-| orta | 53 | %57 | %53 | +155 TL |
+| orta | 54 | %57 | %53 | +231 TL |
 | düşük | 16 | %44 | %58 | -351 TL |
 
 ## Tüm zamanlar
 
-**125 sinyal sonuçlandı: ✅ 63 tuttu, ❌ 62 tutmadı (%50)**
+**126 sinyal sonuçlandı: ✅ 64 tuttu, ❌ 62 tutmadı (%51)**
 
-Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: +20 TL • Piyasa bizim yönümüze döndü: -
+Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: +96 TL • Piyasa bizim yönümüze döndü: -
 
 ### Tür bazında
 
@@ -64,7 +65,7 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: +20 TL • Pi
 |---|---|---|---|---|---|---|---|
 | ⚽ Üst (gol) | 19 | %74 | %68 | +5 puan | +1 TL | - | ⏳ veri az (19/30) |
 | 🧊 Alt | 41 | %41 | %40 | +2 puan | -170 TL | - | 🟡 piyasa kadar |
-| 🚩 Korner | 27 | %44 | %52 | -8 puan | -283 TL | - | ⏳ veri az (27/30) |
+| 🚩 Korner | 28 | %46 | %52 | -6 puan | -207 TL | - | ⏳ veri az (28/30) |
 | 🟨 Kart | 8 | %75 | %50 | +25 puan | +375 TL | - | ⏳ veri az (8/30) |
 | ⏱ İlk yarı | 12 | %42 | %53 | -11 puan | -306 TL | - | ⏳ veri az (12/30) |
 | 🤝 KG | 11 | %55 | %49 | +5 puan | +146 TL | - | ⏳ veri az (11/30) |
@@ -92,12 +93,13 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: +20 TL • Pi
 
 | Form | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| ⚠️ ters | 0 | - | - | - |
+| ✅ destekliyor | 0 | - | - | - |
+| ⚠️ ters | 1 | %100 | %54 | +76 TL |
 
 ### 📶 Güven seviyesine göre
 
 | Güven | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
 | yüksek | 56 | %46 | %42 | +216 TL |
-| orta | 53 | %57 | %53 | +155 TL |
+| orta | 54 | %57 | %53 | +231 TL |
 | düşük | 16 | %44 | %58 | -351 TL |
