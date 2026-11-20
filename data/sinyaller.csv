@@ -1,1 +1,2 @@
 tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yorum,gonderildi,sonuc,gol_dakikasi,p_model,p_piyasa,tur
+2026-11-20,1556144,Japan - J1 League,Kashiwa Reysol - JEF United Chiba,24,0-0,ev,15.3,2.2,düşük,hayır,"Baskı var ama tek isabetli şut, xG 0.31 düşük; model olasılığı piyasanın üzerinde, sinyal zayıf.",hayır,bekliyor,,0.321,0.248,gol
