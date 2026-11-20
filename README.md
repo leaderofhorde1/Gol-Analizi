@@ -1,46 +1,62 @@
 # Gol Analizi – Gol Sinyali
 
-Canlı maçların istatistiklerini takip eder. Son dakikalarda bir takımın baskısı belirgin şekilde artınca Claude'a onaylatır ve telefona **ntfy** bildirimi gönderir. Sonra her sinyali **gol geldi mi** diye kendisi kontrol edip kaydeder.
+Canlı maçları takip eder. Son dakikalarda baskı belirgin şekilde artınca ve modelin gol olasılığı bahis piyasasının fiyatladığından yüksekse Claude'a onaylatır, sonra telefona **ntfy** bildirimi gönderir. Her sinyalin sonucunu (gol geldi mi) kendisi kaydeder.
 
-## Nasıl çalışır
+## Çalışma takvimi
 
-1. Her gün **18:00**'de (TR) GitHub Actions başlar ve **23:45**'e kadar çalışır.
-2. Başlangıçta bugünün fikstürünü çeker. Süper Lig ve büyük Avrupa ligleri önceliklidir.
-3. Ücretsiz planın günlük 100 isteğine sığması için pencere içindeki **en önemli 3 maçı** seçer (`MAX_TRACK`). Her sorguda maç başına 1 istek harcar ve sorgu aralığını kalan kotaya göre kendisi ayarlar (yaklaşık 3-4 dakikada bir).
-4. Her takım için son ~10 dakikanın **baskı puanını** hesaplar:
-   - şut ×1, ceza sahası içi şut ×1,5, isabetli şut ×3, korner ×1,2, xG ×8
-   - geride olan takım, rakibi 10 kişi kalan takım ve 75. dakikadan sonrası için puan artırılır
-5. Puan eşiği (varsayılan **13**) geçerse Claude maçı değerlendirir ve sinyali onaylar ya da eler.
-6. Onaylanan sinyal telefona gelir. Sinyalden sonraki **10 dakika** içinde gol olursa `isabet`, olmazsa `ıska` olarak kaydedilir.
-7. Gün sonunda bir **özet bildirimi** gelir: kaç sinyal gönderildi, kaçı isabetli oldu.
+Gün üç oturuma bölünür (TR saati): **10:00-15:50**, **16:00-21:50**, **22:00-03:00**. Her oturum GitHub Actions'ta otomatik başlar. GitHub bazen birkaç dakika geç başlatabilir.
 
-Kayıtlar: `data/sinyaller.csv` (tüm sinyaller ve sonuçları), `data/anlik/` (ham anlık veriler; ileride eşikleri ayarlamak için).
+API planı otomatik algılanır:
+- **Pro / Ultra:** aşağıdaki tam sistem çalışır.
+- **Ücretsiz:** sadece akşam en önemli 3 maç takip edilir (yedek mod).
 
-## Kurulum: gizli anahtarlar
+## Tam sistem (Pro / Ultra)
 
-Depoda **Settings → Secrets and variables → Actions → New repository secret** yoluna gir ve şu üçünü ekle:
+1. **Maç öncesi oranlar:** Her oturum başında günün Üst/Alt 2.5 oranları (Bet365) çekilir.
+   - Oranlardan her maçın **beklenen gol sayısı** hesaplanır.
+   - Gün içinde Üst 2.5 oranı **%7 veya daha fazla düşen** maçlar işaretlenir ("akıllı para" izi). Bu maçlar takipte öne alınır.
+2. **Canlı takip (30 saniyede bir):**
+   - Tüm canlı maçlar tek istekle taranır.
+   - İstatistikler 20'şer maçlık gruplar halinde çekilir. Kota yetmezse en değerli maçlar önceliklidir.
+   - Canlı oranlar çekilir.
+3. **Baskı puanı:** Her takım için son ~10 dakikada şut ×1, ceza sahası içi şut ×1,5, isabetli şut ×3, korner ×1,2, xG ×8 puanlanır. Skor durumu, kırmızı kart ve 75. dakika sonrası için düzeltme yapılır.
+4. **Model ve piyasa karşılaştırması:**
+   - **Model:** maç öncesi beklenen gol × baskı × dakika üzerinden "10 dakika içinde gol" olasılığı.
+   - **Piyasa:** canlı Üst/Alt oranından marjı temizlenmiş "10 dakika içinde gol" olasılığı.
+5. **Sinyal:** Baskı eşiği geçilmeli **ve** model olasılığı piyasadan en az **4 puan** yüksek olmalı. Sonra Claude değerlendirip onaylar ya da eler.
+6. **Kayıt:**
+   - `data/sinyaller.csv`: her sinyal ve sonucu (`isabet` = 10 dakika içinde gol, `ıska` = gol yok)
+   - `data/ornekler/`: her canlı maçtan 5 dakikada bir örnek ve 10 dakika sonrası etiketi. Model kalibrasyonu için.
+   - `data/oranlar/`: günlük maç öncesi oran geçmişi
+7. Her oturum sonunda bir **özet bildirimi** gelir.
+
+## Gizli anahtarlar
+
+**Settings → Secrets and variables → Actions** altında:
 
 | Ad | Değer |
 |---|---|
 | `API_FOOTBALL_KEY` | dashboard.api-football.com → Account → My Access |
-| `NTFY_TOPIC` | ntfy uygulamasında abone olduğun konu adı |
-| `CLAUDE_CODE_OAUTH_TOKEN` | `claude setup-token` çıktısı |
+| `NTFY_TOPIC` | ntfy konu adı |
+| `CLAUDE_CODE_OAUTH_TOKEN` | Claude abonelik token'ı |
 
 ## Test
 
-**Actions → Gol Sinyali → Run workflow** yoluna gir, `mod: test` seçili olarak çalıştır. Telefona iki bildirim gelmeli: bir test bildirimi ve test sonucu.
+**Actions → Gol Sinyali → Run workflow** yoluna gir ve `test` seç. Bağlantıları, toplu istatistiği, xG'yi ve canlı oranları kontrol edip sonucu bildirim olarak gönderir.
 
-Canlı takibi hemen başlatmak için aynı yerden `mod: run` seç.
+Canlı takibi hemen başlatmak için `run` seç.
 
 ## Ayarlar
 
 `.github/workflows/gol-sinyali.yml` içinde:
 
-- `cron`: başlangıç saati (UTC; TR saati = UTC+3)
-- `WINDOW_END`: takibin bitiş saati
-- `MAX_TRACK`: günde takip edilecek maç sayısı. Artırırsan sorgu aralığı uzar.
-- `THRESHOLD`: baskı eşiği. Daha az ama daha güçlü sinyal için büyüt, daha çok sinyal için küçült.
+| Ayar | Anlamı |
+|---|---|
+| `INTERVAL` | Tur aralığı (sn). Ultra için 30. |
+| `EDGE` | Model ile piyasa arasında aranan en az fark. Büyütürsen daha az ama daha seçici sinyal gelir. |
+| `THRESHOLD` | Baskı eşiği. |
+| `MAX_CLAUDE_CALLS` | Bir oturumda en fazla Claude çağrısı. |
 
 ## Uyarı
 
-Sinyaller istatistiksel bir tahmindir, garanti değildir. İlk 2-3 haftayı sadece izleyerek ve isabet oranına bakarak geçir.
+Sinyaller istatistiksel bir tahmindir, garanti değildir. İlk haftaları sadece izleyerek ve isabet oranına bakarak geçir. Model 2-3 haftalık veriyle yeniden ayarlanacak.
