@@ -58,6 +58,7 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-20,1639806,Ecuador - Liga Pro,Independiente del Valle - Macara,69,0-1,,0-1,,orta,,,evet,bekliyor,,0.577,0.515,kg,,,,,69,,
 2026-11-20,1576233,Germany - 2. Bundesliga,Arminia Bielefeld - 1. FC Magdeburg,52,0-2,deplasman,14.0,5.8,orta,evet,"Deplasman 0-2 önde, son pencerede xG 0.36 ve isabetli şut var; ev baskılı ama kalitesiz. Bir gol daha makul.",evet,bekliyor,,0.833,0.766,gol,0.03458,0.03466,,,71,,2.5
 2026-11-20,1567958,Austria - 2. Liga,Floridsdorfer AC - Austria Vienna (Am),56,1-0,,,,orta,,,evet,bekliyor,,0.372,0.303,alt,,,,,72,,1.5
-2026-11-20,1638220,Latvia - Cup,Auda - Riga,54,1-0,,,,yüksek,,,evet,bekliyor,,0.277,0.217,alt,,,,,73,,1.5
+2026-11-20,1638220,Latvia - Cup,Auda - Riga,54,1-0,,,,yüksek,,,evet,ıska,59,0.277,0.217,alt,,,4.38,-100,73,evet,1.5
 2026-11-20,1567959,Austria - 2. Liga,SV Kapfenberg - WSPG Wels,54,0-0,,,,yüksek,,,evet,bekliyor,,0.395,0.25,alt,,,,,76,,0.5
 2026-11-20,1567962,Austria - 2. Liga,SKN ST. Polten - Voitsberg,59,0-1,,,,yüksek,,,evet,bekliyor,,0.391,0.269,alt,,,,,77,,1.5
+2026-11-20,1590095,Albania - Superliga,AF Elbasani - Dinamo Tirana,54,0-0,,,,yüksek,,,evet,bekliyor,,0.455,0.291,alt,,,,,79,,0.5
