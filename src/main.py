@@ -205,12 +205,19 @@ def telegram_chat_id():
     except Exception:
         _tg_chat = None
     try:  # bot yeni bir gruba eklendiyse onu kullan
-        found = None
+        found, migrated = None, set()
         for u in _tg("getUpdates", allowed_updates=["message", "my_chat_member", "channel_post"]).get("result", []):
             obj = u.get("my_chat_member") or u.get("message") or u.get("channel_post") or {}
             chat = obj.get("chat") or {}
-            if chat.get("type") in ("group", "supergroup", "channel"):
+            if obj.get("migrate_to_chat_id"):  # grup süper gruba dönüştü
+                migrated.add(str(chat.get("id")))
+                found = {"id": obj["migrate_to_chat_id"], "title": chat.get("title"), "type": "supergroup"}
+                continue
+            if chat.get("type") in ("group", "supergroup", "channel") and str(chat.get("id")) not in migrated:
                 found = chat
+        # kayıtlı süper grup varken eski (normal) grup kimliğine geri dönülmez
+        if found and found.get("type") == "group" and str(_tg_chat or "").startswith("-100"):
+            found = None
         if found and str(found["id"]) != str(_tg_chat):
             _tg_chat = str(found["id"])
             TG_FILE.parent.mkdir(exist_ok=True)
@@ -225,6 +232,20 @@ def _esc(t):
     return t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
+def _tg_send(chat, **params):
+    """sendMessage; grup süper gruba dönüştüyse yeni kimliği kaydedip tekrar dener."""
+    global _tg_chat
+    res = _tg("sendMessage", chat_id=chat, **params)
+    new_id = (res.get("parameters") or {}).get("migrate_to_chat_id")
+    if new_id:
+        _tg_chat = str(new_id)
+        TG_FILE.parent.mkdir(exist_ok=True)
+        TG_FILE.write_text(json.dumps({"chat_id": _tg_chat}, ensure_ascii=False))
+        log("Telegram grubu süper gruba geçti, yeni kimlik:", _tg_chat)
+        res = _tg("sendMessage", chat_id=_tg_chat, **params)
+    return res
+
+
 def _send_html(title, message):
     """HTML biçimli mesajı gönderir; mesaj numarasını döndürür. Ağ hatasında istisna fırlatır."""
     global _tg_chat
@@ -235,12 +256,7 @@ def _send_html(title, message):
     body = "\n".join(f"<b>{_esc(l)}</b>" if l.startswith(("🎯", "✅", "❌", "⚠️")) else
                      f"<i>{_esc(l)}</i>" if l.startswith(("🤖", "ℹ️")) else _esc(l) for l in message.split("\n"))
     text = f"<b>{_esc(title)}</b>\n{body}"[:4000]
-    res = _tg("sendMessage", chat_id=chat, text=text, parse_mode="HTML", disable_web_page_preview=True)
-    new_id = (res.get("parameters") or {}).get("migrate_to_chat_id")
-    if new_id:  # grup süper gruba dönüştüyse yeni kimlikle tekrar dene
-        _tg_chat = str(new_id)
-        TG_FILE.write_text(json.dumps({"chat_id": _tg_chat}, ensure_ascii=False))
-        res = _tg("sendMessage", chat_id=_tg_chat, text=text, parse_mode="HTML", disable_web_page_preview=True)
+    res = _tg_send(chat, text=text, parse_mode="HTML", disable_web_page_preview=True)
     if not res.get("ok"):
         log("Telegram hatası:", res.get("description"))
         _tg_alarm(res.get("description"))
@@ -254,8 +270,8 @@ def _reply_html(message_id, text):
         return None
     lines = text.split("\n")
     html = "\n".join([f"<b>{_esc(lines[0])}</b>", *map(_esc, lines[1:])])
-    res = _tg("sendMessage", chat_id=chat, text=html[:4000], parse_mode="HTML", disable_web_page_preview=True,
-              reply_parameters={"message_id": int(message_id), "allow_sending_without_reply": True})
+    res = _tg_send(chat, text=html[:4000], parse_mode="HTML", disable_web_page_preview=True,
+                   reply_parameters={"message_id": int(message_id), "allow_sending_without_reply": True})
     if not res.get("ok"):
         log("Telegram cevap hatası:", res.get("description"))
         _tg_alarm(res.get("description"))
@@ -282,6 +298,17 @@ def telegram_send(title: str, message: str, on_sent=None):
 _tg_alarm_sent = False
 
 
+def _tg_hint(desc) -> str:
+    d = (desc or "").lower()
+    if "unauthorized" in d or "not found" in d and "chat" not in d:
+        return "Bot token'ı geçersiz: BotFather'dan token'ı alıp GitHub'daki TELEGRAM_TOKEN'ı güncelleyin."
+    if "kicked" in d or "not a member" in d or "chat not found" in d:
+        return "Bot gruptan çıkarılmış olabilir: botu gruba tekrar ekleyip grupta bir mesaj yazın."
+    if "not enough rights" in d or "forbidden" in d:
+        return "Botun grupta mesaj yazma izni yok: grup ayarlarından izin verin."
+    return "Sistem bir sonraki mesajda otomatik olarak tekrar deneyecek."
+
+
 def _tg_alarm(desc):
     """Telegram'a gönderim başarısızsa bir kez ntfy ile uyar."""
     global _tg_alarm_sent
@@ -291,7 +318,7 @@ def _tg_alarm(desc):
     try:
         requests.post("https://ntfy.sh/", json={
             "topic": NTFY_TOPIC, "title": "⚠️ Telegram'a mesaj gönderilemiyor", "priority": 4,
-            "message": f"Hata: {desc}\nGenelde token değişmiştir: BotFather'dan token'ı alıp GitHub'daki TELEGRAM_TOKEN'ı güncelleyin."},
+            "message": f"Hata: {desc}\n" + _tg_hint(desc)},
             timeout=15)
     except Exception:
         pass
