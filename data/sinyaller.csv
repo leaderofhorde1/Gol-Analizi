@@ -22,3 +22,5 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-20,1597964,Qatar - Stars League,Al-Gharafa - Al-Arabi SC,61,1-2,,7,,orta,,,evet,bekliyor,,0.64,0.56,korner,,,,,,,10.5
 2026-11-20,1565308,Romania - Liga I,FC Botosani - FC Voluntari,71,3-1,iki taraf,21.1,19.0,orta,evet,"Açık oyun, iki takım da isabetli şut buluyor; 3-1'de dakika 71 için 4.5 üst makul, xG verisi yok.",evet,isabet,71,0.809,0.625,gol,0.04264,,1.52,52,23,evet,4.5
 2026-11-20,1565308,Romania - Liga I,FC Botosani - FC Voluntari,71,3-1,,5,,orta,,,evet,bekliyor,,0.496,0.423,korner,,,,,24,,7.5
+2026-11-20,1600821,Tanzania - Ligi kuu Bara,Namungo - Mbeya City,80,0-0,,,,yüksek,,,evet,bekliyor,,0.822,0.589,alt,,,,,26,,0.5
+2026-11-20,1628043,Iraq - Iraqi League,Al Zawra'a - Al Talaba,78,1-1,,,,yüksek,,,evet,bekliyor,,0.799,0.558,alt,,,,,27,,2.5
