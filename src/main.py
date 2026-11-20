@@ -389,12 +389,19 @@ def evaluate_pressure(m: Match) -> dict | None:
             break
     if base is None:
         base = m.snaps[0]
+    # Pencerede gol olduysa golden önceki baskı "harcanmış" sayılır: ölçüm golden sonraki
+    # ilk anlık görüntüden başlar. Golden sonra en az MIN_SPAN dakikalık veri varsa sinyal verilebilir.
+    goal_in_window = False
+    if (cur["gh"], cur["ga"]) != (base["gh"], base["ga"]):
+        after = [s for s in m.snaps if (s["gh"], s["ga"]) == (cur["gh"], cur["ga"])]
+        if after and cur["min"] - after[0]["min"] >= MIN_SPAN:
+            base = after[0]
+        else:
+            goal_in_window = True
     span = cur["min"] - base["min"]
-    if span < MIN_SPAN:
+    if span < MIN_SPAN and not goal_in_window:
         return None
-    # Pencerede gol olduysa baskı "harcanmış" sayılır: gol sinyali verilmez
-    # (korner/kart modelleri yine çalışır).
-    goal_in_window = (cur["gh"], cur["ga"]) != (base["gh"], base["ga"])
+    span = max(span, 1)
     has_xg = cur["stats"]["has_xg"]
     ph, dh = team_pressure(cur["stats"]["home"], base["stats"]["home"], has_xg, span)
     pa, da = team_pressure(cur["stats"]["away"], base["stats"]["away"], has_xg, span)
