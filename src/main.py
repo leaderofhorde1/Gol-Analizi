@@ -1066,6 +1066,22 @@ def main():
                 if any(v for sd in ("home", "away") for v in st[sd].values()):
                     withst += 1
         print("ŞU AN CANLI:", len(live), "| İSTATİSTİĞİ OLAN:", withst)
+        import datetime as _dt
+        od = api0.get("odds/live")
+        ages, blocked = [], 0
+        for it in od:
+            st = it.get("status") or {}
+            if st.get("blocked") or st.get("stopped"):
+                blocked += 1
+            try:
+                ages.append((_dt.datetime.now(_dt.timezone.utc) - _dt.datetime.fromisoformat(it["update"])).total_seconds())
+            except Exception:
+                pass
+        ages.sort()
+        if ages:
+            q = lambda f: int(ages[min(len(ages) - 1, int(f * len(ages)))])
+            print("CANLI ORAN:", len(od), "| askıda:", blocked, "| güncellenme yaşı sn (medyan/%75/%90/maks):",
+                  q(0.5), q(0.75), q(0.9), int(ages[-1]), "| 90 sn'den eski:", sum(a > 90 for a in ages))
         return 0
     if MODE == "soru":  # soru-cevap denemesi: sure alanındaki metni sorar, cevabı loga yazar
         import soru
