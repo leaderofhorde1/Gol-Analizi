@@ -32,7 +32,7 @@ def parse(msg: dict) -> dict | None:
     m = re.search(r"(\d+)'[^\n]*?Skor (\d+)-(\d+)", body)
     pm = re.search(r"model %(\d+)", body, re.I)
     pk = re.search(r"piyasa %(\d+)", body, re.I)
-    gv = re.search(r"Güven: (?:[●○]+ )?(\S+)", body)
+    gv = re.search(r"(?:Güven|Sinyal gücü[^:]*): (?:[●○]+ )?(\S+)", body)
     ai = re.search(r"🤖 (.+)", body)
     cnt = re.search(r"(?:Maçtaki (?:korner|kart)|Şu an): (\d+)", body)
     line = re.search(r"(\d+\.5) (?:ÜST|ALT)", body)
@@ -43,7 +43,7 @@ def parse(msg: dict) -> dict | None:
         "lig": next((l[2:].strip() for l in lines if l.startswith("🏆")), lines[0] if lines else ""), "mac": name, "dakika": int(m.group(1)),
         "skor": f"{m.group(2)}-{m.group(3)}", "tur": tur,
         "p_model": int(pm.group(1)) / 100 if pm else "", "p_piyasa": int(pk.group(1)) / 100 if pk else "",
-        "guven": (gv.group(1).lower() if gv else ""), "ai_onay": "evet" if ai else "", "ai_yorum": ai.group(1) if ai else "",
+        "guven": ({"güçlü": "yüksek", "zayıf": "düşük"}.get(gv.group(1).lower(), gv.group(1).lower()) if gv else ""), "ai_onay": "evet" if ai else "", "ai_yorum": ai.group(1) if ai else "",
         "baski": cnt.group(1) if cnt else "", "cizgi": float(line.group(1)) if line else "", "gonderildi": "evet", "sonuc": "bekliyor", "gol_dakikasi": "",
         "_zaman": msg["time"],
     }

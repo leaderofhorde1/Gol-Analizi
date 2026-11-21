@@ -48,6 +48,7 @@ DROP_PCT = float(os.environ.get("DROP_PCT", "0.07"))
 MAX_CLAUDE = int(os.environ.get("MAX_CLAUDE_CALLS", "25"))
 SIGNALS_ON = set(os.environ.get("SIGNALS", "gol,alt,korner,kart,iy,kg,baski").split(","))
 ALARM_MULT = float(os.environ.get("ALARM_MULT", "1.8"))  # baskı alarmı: tek takım baskısı eşiğin bu katı
+ALARM_MIN_WINDOW = 8   # dk: devre sonuna bundan az kaldıysa alarm verilmez
 ALARM_WINDOW = 15  # dk: alarmın "gol yakın" iddiasının ölçüldüğü süre (baskının etkisi ~15 dk)
 TYPICAL_TOTAL_PRESSURE = 12.0
 DEFAULT_MU = 2.6
@@ -466,7 +467,7 @@ def market_rate(m, odds, tur: str, line) -> tuple[float, int] | None:
 
 
 LINE = "━━━━━━━━━━━━━━"
-CONF_ICON = {"yüksek": "●●● Yüksek", "orta": "●●○ Orta", "düşük": "●○○ Düşük"}
+CONF_ICON = {"yüksek": "●●● Güçlü", "orta": "●●○ Orta", "düşük": "●○○ Zayıf"}
 
 
 def stat_bullets(d: dict) -> list[str]:
@@ -478,7 +479,7 @@ def stat_bullets(d: dict) -> list[str]:
 
 def prob_lines(p, p_mkt, conf) -> list[str]:
     mk = f"%{round(p_mkt * 100)}" if p_mkt is not None else "yok"
-    return [f"🔢 Model %{round(p * 100)}  •  Piyasa {mk}", f"📶 Güven: {CONF_ICON.get(conf, conf)}"]
+    return [f"🔢 Model %{round(p * 100)}  •  Piyasa {mk}", f"📶 Sinyal gücü (piyasaya göre fark): {CONF_ICON.get(conf, conf)}"]
 
 
 def two_way_prob(item: dict | None, name: str, yes="Yes", no="No") -> float | None:
@@ -1088,7 +1089,9 @@ class ProEngine:
                 *stat_bullets(pr["d_home"] if sd0 == "home" else pr["d_away"])], form=fg_[1])
         # 🔥 baskı alarmı: piyasa şartı olmadan, çok yüksek baskıda bilgi amaçlı
         # (aynı maçta son 12 dakikada gol sinyali gittiyse alarm tekrar etmez)
-        if ("baski" in SIGNALS_ON and not alt_acik() and not meta.get("alarm_gonderildi") and 10 <= m.minute <= 85
+        half_end = 45 if m.status == "1H" else 90
+        if ("baski" in SIGNALS_ON and not alt_acik() and not meta.get("alarm_gonderildi") and 10 <= m.minute
+                and m.status in ("1H", "2H") and half_end - m.minute >= ALARM_MIN_WINDOW
                 and m.minute - m.last_signal_min >= 12 and m.minute - meta.get("son_gol_turu", -99) >= 12
                 and not pr.get("goal_in_window") and max(pr["home"], pr["away"]) >= THRESHOLD * ALARM_MULT
                 and (fb_ := self.form_gate(m, "baski", None, only="home" if pr["home"] >= pr["away"] else "away"))[0]):
@@ -1098,8 +1101,11 @@ class ProEngine:
             lines = [f"📈 Son {int(pr['span'])} dk ({team}):", *stat_bullets(pr["d_home"] if sd == "home" else pr["d_away"])]
             if pg_m is not None and pg - pg_m < EDGE:
                 lines.append("⚠️ Piyasa da bu baskıyı fiyatlıyor, oranlar düşük")
-            end = min(m.minute + ALARM_WINDOW, 45 if m.status == "1H" else 90)  # ilk yarıda devre sonunu geçmez
-            self.simple_signal(m, "baski", pg, pg_m, team, qg, lines, cizgi=end, form=fb_[1])
+            end = min(m.minute + ALARM_WINDOW, half_end)  # ilk yarıda devre sonunu geçmez
+            # Olasılıklar alarmın gerçek süresine göre (10 dk'lık modelden dönüştürülür; devre sonunda ~2 dk uzatma)
+            w = end - m.minute + (2 if end == half_end else 0)
+            to_w = lambda p10: None if p10 is None else 1 - (1 - min(p10, 0.999)) ** (w / 10)
+            self.simple_signal(m, "baski", to_w(pg), to_w(pg_m), team, qg, lines, cizgi=end, form=fb_[1])
         # 🟨 maç sonu kart Üst
         pku, pku_m, k_line, fku, cards_now, fouls_now, ref_now = self.card_total(m, pr)
         pku = calibrate("kart", pku, pku_m)
@@ -1275,7 +1281,8 @@ class ProEngine:
 
     def simple_signal(self, m, tur, p, p_mkt, count, q, lines, cizgi=None, form=None):
         ratio = p / p_mkt if p_mkt else None
-        conf = "yüksek" if (ratio and ratio >= 1.25) else "orta" if (ratio and ratio >= 1.12) else "düşük"
+        gap = (p - p_mkt) if p_mkt is not None else None
+        conf = "yüksek" if (gap and gap >= 0.10) else "orta" if (gap and gap >= 0.06) else "düşük"
         row = self._row(m, tur, "", p, p_mkt, conf, {"baski": "" if count is None else count,
                                                        "q_once": "" if q is None else round(q, 5),
                                                        "cizgi": "" if cizgi is None else cizgi,
@@ -1313,7 +1320,8 @@ class ProEngine:
         t_start = time.time()
         drop = self.book.over_drop(m.id)
         ratio = p_model / p_mkt if p_mkt else None
-        conf = "yüksek" if (ratio and ratio >= 1.4) else "orta" if (ratio and ratio >= 1.2) else "düşük"
+        gap = (p_model - p_mkt) if p_mkt is not None else None
+        conf = "yüksek" if (gap and gap >= 0.10) else "orta" if (gap and gap >= 0.06) else "düşük"
         ai = None
         if self.claude.available() and self.claude.calls < MAX_CLAUDE:
             ctx = {"lig": m.league, "mac": m.name, "dakika": m.minute, "skor": f"{m.gh}-{m.ga}",
