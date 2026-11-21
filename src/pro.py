@@ -97,6 +97,9 @@ STEAM_UP, STEAM_DOWN = 1.15, 0.87  # gol hızında %15 artış / %13 düşüş "
 STEAM_EXTRA = float(os.environ.get("STEAM_EXTRA", "0.03"))
 STEAM_DIR = {"gol": 1, "iy": 1, "kg": 1, "baski": 1, "alt": -1}  # +1: gol yönlü tahmin
 
+# Kullanıcı tercihi: istatistik ve oran olan her maçta sinyal (gençlik, kadın, yedek, hazırlık dahil).
+# Eski filtreyi açmak için ELE_DUSUK_KALITE=1.
+FILTER_LOW_QUALITY = os.environ.get("ELE_DUSUK_KALITE", "0") == "1"
 # Lig adında aranır: gençlik, kadın, hazırlık (lig adındaki "II" ikinci lig demektir, yedek takım değil: "Liga II")
 LOW_QUALITY = re.compile(r"\bU-?(1[5-9]|2[0-3])\b|youth|women|\bW\b|reserve|friendl|primavera|juvenil",
                          re.IGNORECASE)
@@ -1010,7 +1013,8 @@ class ProEngine:
         if m.minute >= 88:
             return
         # Kalite filtresi: gençlik/kadın/yedek/hazırlık maçlarında sinyal yok
-        if LOW_QUALITY.search(m.league) or LOW_QUALITY_TEAM.search(m.home) or LOW_QUALITY_TEAM.search(m.away):
+        if FILTER_LOW_QUALITY and (LOW_QUALITY.search(m.league) or LOW_QUALITY_TEAM.search(m.home)
+                                   or LOW_QUALITY_TEAM.search(m.away)):
             return
         # Olay soğuması: gol, VAR/penaltı ya da kırmızı karttan sonraki 2 dk oranlar ve istatistik eski kalabilir
         olay = recent_event(m)
