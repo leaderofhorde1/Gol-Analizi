@@ -1,0 +1,113 @@
+tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,sonuc,skor,kar
+2026-11-20,1551889,22:00,Netherlands - Eerste Divisie,Den Bosch - VVV Venlo,1x2:dep,Deplasman,3.1,2.7,0.129,0.304,0.348,ıska,1-0,-100
+2026-11-20,1567961,20:30,Austria - 2. Liga,Rapid Wien II - FC BW Linz,ou:alt,Alt 2.5,3.0,2.62,0.127,0.312,0.355,ıska,1-6,-100
+2026-11-20,1568397,20:00,Poland - III Liga - Group 4,Wisłoka Dębica - Busko-Zdroj,1x2:dep,Deplasman,4.1,2.9,0.293,0.219,0.311,isabet,1-2,190
+2026-11-20,1576017,22:45,Wales - Premier League,Llandudno - Barry Town,1x2:ev,Ev sahibi,2.7,2.35,0.13,0.333,0.386,ıska,1-1,-100
+2026-11-20,1576019,22:45,Wales - Premier League,The New Saints - Trefelin,1x2:dep,Deplasman,51.0,41.0,0.196,0.019,0.023,ıska,3-0,-100
+2026-11-20,1611453,19:00,Algeria - Ligue 1,ES Setif - US Biskra,1x2:dep,Deplasman,7.0,5.5,0.214,0.127,0.162,ıska,1-1,-100
+2026-11-20,1611655,22:00,Belgium - Reserve Pro League,K. Beerschot V.A. Reserve U21 - Francs Borains U21,1x2:ev,Ev sahibi,1.95,1.62,0.169,0.462,0.556,ıska,1-3,-100
+2026-11-20,1623287,22:00,World - Premier League International Cup,Fulham U21 - Sporting CP B,1x2:ev,Ev sahibi,6.0,5.25,0.125,0.15,0.172,ıska,1-2,-100
+2026-11-20,1627119,22:00,England - Premier League Cup,Bristol City U21 - Norwich City U21,1x2:ev,Ev sahibi,3.3,2.5,0.242,0.272,0.359,ıska,2-3,-100
+2026-11-20,1627166,22:00,England - Premier League Cup,Cardiff City U21 - Plymouth U21,1x2:ev,Ev sahibi,1.48,1.22,0.176,0.607,0.742,isabet,3-1,22
+2026-11-20,1641840,22:00,World - Premier League International Cup,Ipswich Town U21 - FC Porto U21,1x2:ev,Ev sahibi,5.5,2.8,0.491,0.164,0.319,isabet,2-1,180
+2026-11-20,1641840,22:00,World - Premier League International Cup,Ipswich Town U21 - FC Porto U21,1x2:x,Beraberlik,4.2,3.5,0.167,0.215,0.255,ıska,2-1,-100
+2026-11-20,1647583,23:45,Portugal - Taça de Portugal,FC Porto - Paredes,1x2:dep,Deplasman,23.0,17.0,0.261,0.041,0.055,ıska,1-1,-100
+2026-11-20,1648184,19:00,Jordan - Cup,Al Wihdat - Al Arabi,kg:var,KG Var,3.5,3.0,0.143,0.268,0.312,ıska,1-0,-100
+2026-11-20,1648184,19:00,Jordan - Cup,Al Wihdat - Al Arabi,ou:ust,Üst 2.5,2.5,2.05,0.18,0.375,0.461,ıska,1-0,-100
+2026-11-20,1648806,20:00,Malta - Premier League,Zabbar St. Patrick - Gzira United,1x2:dep,Deplasman,3.6,3.0,0.167,0.25,0.299,ıska,2-0,-100
+2026-11-21,1492468,22:30,Brazil - Serie A,Palmeiras - Flamengo,1x2:ev,Ev sahibi,4.2,3.4,0.19,0.227,0.28,ıska,1-1,-100
+2026-11-21,1494339,19:30,Sweden - Allsvenskan,Gais - Vasteras SK FK,1x2:dep,Deplasman,3.8,2.8,0.263,0.248,0.332,ıska,3-1,-100
+2026-11-21,1494810,16:00,Norway - Eliteserien,Tromso - Viking,1x2:ev,Ev sahibi,3.9,3.4,0.128,0.237,0.27,isabet,3-2,240
+2026-11-21,1507258,17:00,Georgia - Erovnuli Liga 2,Shturmi - Aragvi Dusheti,1x2:dep,Deplasman,4.1,3.5,0.146,0.22,0.257,ıska,5-0,-100
+2026-11-21,1509221,13:00,Georgia - Erovnuli Liga,Samgurali - FC Iberia 1999,1x2:dep,Deplasman,1.95,1.7,0.128,0.462,0.528,isabet,0-1,70
+2026-11-21,1538726,16:00,Malawi - Super League,Chitipa United - Moyale Barracks,1x2:ev,Ev sahibi,2.38,2.0,0.16,0.377,0.448,isabet,1-0,100
+2026-11-21,1549555,23:30,Peru - Primera División,Alianza Lima - FC Cajamarca,1x2:dep,Deplasman,10.0,6.5,0.35,0.093,0.144,ıska,5-0,-100
+2026-11-21,1549555,23:30,Peru - Primera División,Alianza Lima - FC Cajamarca,1x2:x,Beraberlik,6.5,4.75,0.269,0.143,0.197,ıska,5-0,-100
+2026-11-21,1550202,17:00,Italy - Serie A,Lazio - Lecce,1x2:dep,Deplasman,7.0,7.0,0.0,0.136,0.135,ıska,3-0,-100
+2026-11-21,1551491,14:00,Macedonia - First League,Skopje - Aresimi,ou:alt,Alt 2.5,1.95,1.7,0.128,0.487,0.553,ıska,2-1,-100
+2026-11-21,1551494,15:00,Macedonia - First League,Vardar Skopje - Tikveš,1x2:dep,Deplasman,4.75,3.4,0.284,0.19,0.269,isabet,0-3,240
+2026-11-21,1552819,22:45,France - Ligue 1,Lens - Toulouse,1x2:dep,Deplasman,3.7,3.25,0.122,0.256,0.293,ıska,1-1,-100
+2026-11-21,1552819,22:45,France - Ligue 1,Lens - Toulouse,ou:alt,Alt 2.5,2.3,2.0,0.13,0.413,0.474,isabet,1-1,100
+2026-11-21,1552823,22:45,France - Ligue 1,Monaco - Auxerre,ou:alt,Alt 2.5,2.62,2.3,0.122,0.364,0.413,isabet,1-1,130
+2026-11-21,1552826,22:45,France - Ligue 1,Strasbourg - Stade Brestois 29,ou:alt,Alt 2.5,2.2,1.91,0.132,0.432,0.5,isabet,0-1,91
+2026-11-21,1553231,22:15,Poland - Ekstraklasa,Radomiak Radom - Wisla Krakow,1x2:ev,Ev sahibi,3.2,3.2,0.0,0.287,0.288,ıska,0-0,-100
+2026-11-21,1556706,18:00,Scotland - Premiership,Celtic - ST Mirren,ou:alt,Alt 2.5,3.75,3.2,0.147,0.254,0.298,ıska,4-1,-100
+2026-11-21,1556707,20:45,Scotland - Premiership,Dundee - Heart Of Midlothian,ou:alt,Alt 2.5,2.3,1.91,0.17,0.413,0.5,ıska,0-8,-100
+2026-11-21,1556904,18:00,Scotland - Championship,Queen's Park - Livingston,1x2:ev,Ev sahibi,5.5,4.5,0.182,0.166,0.201,ıska,1-4,-100
+2026-11-21,1557083,18:00,Scotland - League One,Peterhead - East Kilbride,kg:yok,KG Yok,2.38,2.0,0.16,0.391,0.464,isabet,1-0,100
+2026-11-21,1557083,18:00,Scotland - League One,Peterhead - East Kilbride,ou:alt,Alt 2.5,2.38,2.0,0.16,0.391,0.474,isabet,1-0,100
+2026-11-21,1558683,18:00,Belgium - Jupiler Pro League,Charleroi - St. Truiden,ou:alt,Alt 2.5,2.4,2.1,0.125,0.389,0.447,ıska,2-2,-100
+2026-11-21,1559010,19:00,Slovenia - 2. SNL,Primorje - Krško,1x2:dep,Deplasman,8.0,6.5,0.188,0.111,0.136,isabet,0-1,550
+2026-11-21,1559012,16:00,Slovenia - 2. SNL,Slovan Ljubljana - Dekani,1x2:dep,Deplasman,2.55,2.1,0.176,0.353,0.431,ıska,3-1,-100
+2026-11-21,1559714,22:00,Guatemala - Liga Nacional,Xelajú - Suchitepéquez,1x2:dep,Deplasman,15.0,11.0,0.267,0.061,0.083,ıska,3-1,-100
+2026-11-21,1561969,19:00,Austria - Bundesliga,Lask Linz - TSV Hartberg,1x2:dep,Deplasman,8.0,7.0,0.125,0.116,0.134,ıska,2-1,-100
+2026-11-21,1562122,18:00,Northern-Ireland - Premiership,Carrick Rangers - Coleraine FC,1x2:ev,Ev sahibi,4.33,3.7,0.145,0.208,0.243,ıska,1-3,-100
+2026-11-21,1563273,18:00,England - Championship,West Ham - Preston,1x2:dep,Deplasman,11.0,9.5,0.136,0.086,0.099,ıska,1-1,-100
+2026-11-21,1563273,18:00,England - Championship,West Ham - Preston,1x2:x,Beraberlik,7.0,6.0,0.143,0.136,0.157,isabet,1-1,500
+2026-11-21,1564420,18:00,England - League One,Huddersfield - Leicester,kg:yok,KG Yok,2.5,2.1,0.16,0.375,0.443,isabet,0-1,110
+2026-11-21,1564423,18:00,England - League One,Notts County - Stevenage,1x2:ev,Ev sahibi,2.25,1.95,0.133,0.415,0.479,ıska,0-1,-100
+2026-11-21,1565129,12:00,Czech-Republic - 1. Liga U19,Baník Ostrava U19 - Viktoria Plzeň U19,1x2:dep,Deplasman,2.2,1.8,0.182,0.409,0.502,isabet,0-5,80
+2026-11-21,1565158,15:00,Czech-Republic - 1. Liga U19,Slovácko U19 - České Budějovice U19,1x2:ev,Ev sahibi,3.5,3.0,0.143,0.256,0.298,ıska,1-3,-100
+2026-11-21,1568250,14:00,Poland - III Liga - Group 4,Siarka Tarnobrzeg - Hetman Zamosc,1x2:ev,Ev sahibi,2.7,2.1,0.222,0.333,0.426,isabet,1-0,110
+2026-11-21,1570033,18:15,Spain - Segunda División,Real Sociedad II - Cadiz,1x2:ev,Ev sahibi,2.1,1.8,0.143,0.447,0.522,ıska,0-3,-100
+2026-11-21,1571225,18:30,Spain - Primera División RFEF - Group 2,Zaragoza - Rayo Majadahonda,1x2:dep,Deplasman,7.0,6.0,0.143,0.129,0.15,ıska,2-0,-100
+2026-11-21,1571635,15:30,Bulgaria - Second League,Spartak Pleven - Nesebar,1x2:ev,Ev sahibi,1.9,1.57,0.174,0.47,0.571,ıska,1-1,-100
+2026-11-21,1576236,15:00,Germany - 2. Bundesliga,Hannover 96 - SpVgg Greuther Fürth,kg:yok,KG Yok,2.5,2.2,0.12,0.375,0.424,ıska,2-1,-100
+2026-11-21,1579539,17:00,Netherlands - Tweede Divisie,Almere City II - Ijsselmeervogels,1x2:ev,Ev sahibi,3.3,2.75,0.167,0.269,0.326,isabet,3-1,175
+2026-11-21,1579543,17:00,Netherlands - Tweede Divisie,Spakenburg - ROHDA Raalte,1x2:dep,Deplasman,10.0,8.5,0.15,0.09,0.106,ıska,3-0,-100
+2026-11-21,1580806,17:00,Wales - FAW Championship,Ynyshir Albions - Llantwit Major,1x2:dep,Deplasman,3.5,2.5,0.286,0.257,0.36,isabet,2-3,150
+2026-11-21,1585835,19:00,Turkey - 1. Lig,Fatih Karagümrük - Boluspor,1x2:dep,Deplasman,21.0,17.0,0.19,0.044,0.053,ıska,0-0,-100
+2026-11-21,1585836,16:00,Turkey - 1. Lig,Kayserispor - Sarıyer,1x2:dep,Deplasman,8.0,6.5,0.188,0.112,0.139,ıska,3-1,-100
+2026-11-21,1588450,18:00,England - National League - South,Billericay Town - Slough Town,1x2:dep,Deplasman,5.75,4.75,0.174,0.155,0.186,ıska,4-1,-100
+2026-11-21,1588460,18:00,England - National League - South,Walton & Hersham - Chelmsford City,ou:alt,Alt 2.5,2.5,2.1,0.16,0.375,0.447,ıska,2-2,-100
+2026-11-21,1592064,21:00,Portugal - Júniores U19,Alverca U19 - Mafra U19,1x2:dep,Deplasman,3.3,2.9,0.121,0.272,0.306,ıska,5-0,-100
+2026-11-21,1592068,18:00,Portugal - Júniores U19,Torreense U19 - Benfica U19,1x2:ev,Ev sahibi,5.5,4.33,0.213,0.163,0.208,isabet,2-1,333
+2026-11-21,1592136,18:00,Portugal - Júniores U19,Oriental U19 - Sporting CP U19,1x2:ev,Ev sahibi,4.75,4.0,0.158,0.189,0.226,ıska,1-1,-100
+2026-11-21,1592928,18:15,Mexico - Liga MX U21,Pachuca U21 - Toluca U21,1x2:ev,Ev sahibi,2.62,2.3,0.122,0.341,0.39,isabet,2-1,130
+2026-11-21,1597483,18:00,England - Non League Premier - Southern South,Uxbridge - Gloucester City,1x2:dep,Deplasman,3.2,2.8,0.125,0.28,0.317,ıska,2-1,-100
+2026-11-21,1597860,19:00,Portugal - Liga 3,SC Covilha - Lusitano Évora 1911,1x2:ev,Ev sahibi,3.1,2.7,0.129,0.291,0.334,ıska,1-2,-100
+2026-11-21,1599288,18:00,Poland - Central Youth League,Escola Varsovia U19 - Raków Częstochowa U19,1x2:ev,Ev sahibi,2.1,1.83,0.129,0.429,0.494,isabet,1-0,83
+2026-11-21,1601607,19:15,Italy - Serie B,Catanzaro - Palermo,1x2:ev,Ev sahibi,4.33,3.7,0.145,0.212,0.246,isabet,3-1,270
+2026-11-21,1607738,20:15,England - FA WSL,London City Lionesses W - Crystal Palace W,1x2:dep,Deplasman,19.0,15.0,0.211,0.049,0.062,ıska,6-2,-100
+2026-11-21,1607738,20:15,England - FA WSL,London City Lionesses W - Crystal Palace W,1x2:x,Beraberlik,8.0,6.5,0.188,0.117,0.143,ıska,6-2,-100
+2026-11-21,1607738,20:15,England - FA WSL,London City Lionesses W - Crystal Palace W,ou:alt,Alt 2.5,3.25,2.75,0.154,0.29,0.337,ıska,6-2,-100
+2026-11-21,1610664,14:00,Cambodia - C-League,NagaWorld - Dangkor Senchey,1x2:dep,Deplasman,3.6,2.45,0.319,0.25,0.364,ıska,0-0,-100
+2026-11-21,1610664,14:00,Cambodia - C-League,NagaWorld - Dangkor Senchey,1x2:x,Beraberlik,4.1,3.6,0.122,0.22,0.248,isabet,0-0,260
+2026-11-21,1618474,16:30,Netherlands - Derde Divisie,SC Genemuiden - ACV,1x2:dep,Deplasman,2.5,2.1,0.16,0.357,0.427,ıska,1-0,-100
+2026-11-21,1618481,21:30,Netherlands - Derde Divisie,EVV - Zwaluwen,ou:alt,Alt 2.5,3.5,3.0,0.143,0.268,0.312,bekliyor,,
+2026-11-21,1623167,16:00,Andorra - 1a Divisió,Inter Club d'Escaldes - Casa de Portugal,1x2:dep,Deplasman,8.5,6.5,0.235,0.105,0.139,ıska,4-3,-100
+2026-11-21,1623675,13:00,Italy - Campionato Primavera - 2,Udinese U19 - Sudtirol U19,1x2:ev,Ev sahibi,2.0,1.75,0.125,0.447,0.508,ıska,0-2,-100
+2026-11-21,1627327,18:00,Angola - Girabola,Interclube - Petro de Luanda,1x2:ev,Ev sahibi,5.0,4.33,0.134,0.179,0.208,ıska,0-1,-100
+2026-11-21,1628047,19:30,Iraq - Iraqi League,Newroz - Al-Karma,ou:ust,Üst 2.5,2.35,2.05,0.128,0.401,0.461,isabet,3-2,105
+2026-11-21,1628601,18:00,Nigeria - NPFL,Ikorodu City - Kano Pillars,1x2:dep,Deplasman,6.5,4.75,0.269,0.138,0.189,isabet,0-1,375
+2026-11-21,1630263,14:00,Moldova - Super Liga,Politehnica UTM - Zimbru,1x2:ev,Ev sahibi,5.75,5.0,0.13,0.155,0.179,isabet,2-1,400
+2026-11-21,1630641,16:00,Zambia - Super League,Power Dynamos - Zanaco,1x2:dep,Deplasman,5.0,4.33,0.134,0.179,0.206,ıska,2-1,-100
+2026-11-21,1630641,16:00,Zambia - Super League,Power Dynamos - Zanaco,1x2:x,Beraberlik,3.4,2.9,0.147,0.263,0.307,ıska,2-1,-100
+2026-11-21,1630641,16:00,Zambia - Super League,Power Dynamos - Zanaco,ou:alt,Alt 2.5,1.57,1.36,0.134,0.599,0.688,ıska,2-1,-100
+2026-11-21,1633938,14:00,Vietnam - V.League 1,Bình Phước - Ha Noi,ou:ust,Üst 2.5,1.85,1.62,0.124,0.513,0.581,isabet,1-3,62
+2026-11-21,1635012,11:30,Vietnam - V.League 2,Lam Dong - Dong Thap,1x2:x,Beraberlik,3.75,3.3,0.12,0.24,0.274,ıska,0-2,-100
+2026-11-21,1637716,15:00,Indonesia - Liga 2,Deltras - Persela Lamongan,1x2:dep,Deplasman,3.0,2.25,0.25,0.299,0.397,isabet,0-3,125
+2026-11-21,1637719,16:30,Indonesia - Liga 2,Persiraja Banda Aceh - PSPS,1x2:ev,Ev sahibi,2.88,2.5,0.132,0.311,0.357,ıska,2-2,-100
+2026-11-21,1640884,13:00,South-Africa - Diski Challenge,Orlando Pirates U23 - Durban City U23,1x2:dep,Deplasman,8.0,6.5,0.188,0.112,0.136,ıska,2-1,-100
+2026-11-21,1640884,13:00,South-Africa - Diski Challenge,Orlando Pirates U23 - Durban City U23,1x2:x,Beraberlik,5.25,4.5,0.143,0.171,0.197,ıska,2-1,-100
+2026-11-21,1640884,13:00,South-Africa - Diski Challenge,Orlando Pirates U23 - Durban City U23,ou:alt,Alt 2.5,2.75,2.38,0.135,0.337,0.391,ıska,2-1,-100
+2026-11-21,1641223,20:00,Morocco - Botola 2,Olympique Safi - Wydad Fès,1x2:ev,Ev sahibi,2.1,1.83,0.129,0.427,0.486,ıska,0-0,-100
+2026-11-21,1642070,22:30,Lebanon - Premier League,Safa - Al Ansar,1x2:ev,Ev sahibi,4.1,3.5,0.146,0.218,0.256,ıska,1-1,-100
+2026-11-21,1642071,15:15,Lebanon - Premier League,Al Akhaa Al Ahli - Al Ahed,ou:ust,Üst 2.5,2.1,1.8,0.143,0.447,0.526,ıska,0-1,-100
+2026-11-21,1643066,15:45,United-Arab-Emirates - Pro League,Baniyas SC - Al Nasr,kg:yok,KG Yok,2.5,2.2,0.12,0.375,0.424,ıska,2-1,-100
+2026-11-21,1643067,15:45,United-Arab-Emirates - Pro League,Khorfakkan - Al-Jazira,1x2:ev,Ev sahibi,7.0,6.25,0.107,0.128,0.143,ıska,1-1,-100
+2026-11-21,1647580,14:00,Portugal - Taça de Portugal,Atlético CP - Casa Pia,ou:ust,Üst 2.5,1.95,1.67,0.144,0.487,0.563,ıska,1-0,-100
+2026-11-21,1647591,21:00,Portugal - Taça de Portugal,Sporting CP - UD da Serra,1x2:dep,Deplasman,67.0,41.0,0.388,0.014,0.023,ıska,4-0,-100
+2026-11-21,1648111,17:00,San-Marino - Campionato,Domagnano - Fiorentino,1x2:ev,Ev sahibi,1.91,1.67,0.126,0.471,0.537,ıska,1-2,-100
+2026-11-21,1648179,19:00,Jordan - Cup,Al Faisaly - Al Ahli,1x2:dep,Deplasman,11.0,8.5,0.227,0.083,0.108,ıska,3-1,-100
+2026-11-21,1648179,19:00,Jordan - Cup,Al Faisaly - Al Ahli,1x2:x,Beraberlik,7.5,6.5,0.133,0.121,0.141,ıska,3-1,-100
+2026-11-21,1648179,19:00,Jordan - Cup,Al Faisaly - Al Ahli,kg:var,KG Var,4.5,3.25,0.278,0.206,0.29,isabet,3-1,225
+2026-11-21,1648526,18:30,Burkina-Faso - Ligue 1,Rahimo - ASFA-Yennenga,1x2:dep,Deplasman,6.0,4.33,0.278,0.149,0.206,ıska,1-1,-100
+2026-11-21,1648527,18:30,Burkina-Faso - Ligue 1,Sporting Cascades - Majestic,1x2:dep,Deplasman,3.9,3.25,0.167,0.23,0.277,isabet,0-1,225
+2026-11-21,1649507,15:00,Sweden - Superettan,Enköping - Orebro SK,1x2:ev,Ev sahibi,3.6,2.75,0.236,0.248,0.326,ıska,2-4,-100
+2026-11-21,1649531,16:30,South-Africa - League Cup,Stellenbosch - Orlando Pirates,1x2:ev,Ev sahibi,5.25,4.33,0.175,0.17,0.207,ıska,0-2,-100
+2026-11-21,1649564,23:00,Argentina - Liga Profesional Argentina,Argentinos JRS - Independiente,1x2:dep,Deplasman,4.33,3.8,0.122,0.219,0.25,isabet,1-2,280
+2026-11-21,1650147,16:00,Algeria - Ligue 2,USM Annaba - MO Constantine,1x2:dep,Deplasman,15.0,8.0,0.467,0.059,0.113,ıska,2-1,-100
+2026-11-21,1650147,16:00,Algeria - Ligue 2,USM Annaba - MO Constantine,1x2:x,Beraberlik,4.5,3.6,0.2,0.198,0.251,ıska,2-1,-100
+2026-11-21,1650150,16:00,Algeria - Ligue 2,NC Magra - MSP Batna,1x2:ev,Ev sahibi,2.1,1.83,0.129,0.429,0.493,isabet,4-1,83
+2026-11-21,1650152,16:00,Algeria - Ligue 2,Teleghma - JS Jijel,1x2:ev,Ev sahibi,2.15,1.83,0.149,0.418,0.497,isabet,1-0,83
