@@ -8,7 +8,7 @@ Sadece gruba gönderilen sinyaller sayılır (Claude bölümü hariç). Sanal k�
 
 _Aynı maçtaki sinyaller birbirinden bağımsız değildir; gerçek kanıt gücü maç sayısına yakındır._
 
-%90 güven aralığı (maç bazlı): piyasaya göre fark -3 ile +6 puan, sanal kâr -2888 ile +2379 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
+%90 güven aralığı (maç bazlı): piyasaya göre fark -4 ile +6 puan, sanal kâr -2892 ile +2363 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
 
 Piyasanın beklediği isabet: %49 → fark +1 puan • Sanal kâr: -386 TL • Piyasa bizim yönümüze döndü: %59 (95)
 
@@ -39,7 +39,9 @@ Piyasanın beklediği isabet: %49 → fark +1 puan • Sanal kâr: -386 TL • P
 | England - Premier League | 14 | %57 | %48 | +125 TL |
 | Spain - La Liga | 5 | %60 | %50 | +117 TL |
 | Netherlands - Eerste Divisie | 21 | %48 | %53 | +53 TL |
-| Romania - Liga I | 6 | %50 | %43 | -16 TL |
+| Germany - Bundesliga | 11 | %55 | %50 | +44 TL |
+| Czech-Republic - Czech Liga | 6 | %50 | %54 | -75 TL |
+| Romania - Liga I | 7 | %43 | %45 | -116 TL |
 | France - Ligue 1 | 5 | %40 | %42 | -120 TL |
 | England - Championship | 20 | %50 | %52 | -147 TL |
 | Scotland - Premiership | 10 | %40 | %52 | -192 TL |
@@ -90,7 +92,7 @@ Piyasanın beklediği isabet: %49 → fark +1 puan • Sanal kâr: -386 TL • P
 
 | Bağlam | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| 🏆 yarıştaki takım | 1 | %0 | - | - |
+| 🏆 yarıştaki takım | 2 | %50 | %31 | +200 TL |
 
 ### 📈 Piyasa hareketi ve sonuç
 
@@ -132,7 +134,7 @@ EV = model olasılığı × gerçek oran − 1. Negatif EV'li sinyal, model piya
 
 _Aynı maçtaki sinyaller birbirinden bağımsız değildir; gerçek kanıt gücü maç sayısına yakındır._
 
-%90 güven aralığı (maç bazlı): piyasaya göre fark -3 ile +6 puan, sanal kâr -2888 ile +2379 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
+%90 güven aralığı (maç bazlı): piyasaya göre fark -4 ile +6 puan, sanal kâr -2892 ile +2363 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
 
 Piyasanın beklediği isabet: %49 → fark +1 puan • Sanal kâr: -386 TL • Piyasa bizim yönümüze döndü: %59 (95)
 
@@ -163,7 +165,9 @@ Piyasanın beklediği isabet: %49 → fark +1 puan • Sanal kâr: -386 TL • P
 | England - Premier League | 14 | %57 | %48 | +125 TL |
 | Spain - La Liga | 5 | %60 | %50 | +117 TL |
 | Netherlands - Eerste Divisie | 21 | %48 | %53 | +53 TL |
-| Romania - Liga I | 6 | %50 | %43 | -16 TL |
+| Germany - Bundesliga | 11 | %55 | %50 | +44 TL |
+| Czech-Republic - Czech Liga | 6 | %50 | %54 | -75 TL |
+| Romania - Liga I | 7 | %43 | %45 | -116 TL |
 | France - Ligue 1 | 5 | %40 | %42 | -120 TL |
 | England - Championship | 20 | %50 | %52 | -147 TL |
 | Scotland - Premiership | 10 | %40 | %52 | -192 TL |
@@ -214,7 +218,7 @@ Piyasanın beklediği isabet: %49 → fark +1 puan • Sanal kâr: -386 TL • P
 
 | Bağlam | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| 🏆 yarıştaki takım | 1 | %0 | - | - |
+| 🏆 yarıştaki takım | 2 | %50 | %31 | +200 TL |
 
 ### 📈 Piyasa hareketi ve sonuç
 
