@@ -128,10 +128,10 @@ def build(api, book, fb) -> list[dict]:
             # sıralama: form piyasadan ne kadar iyimser + piyasanın kendi güveni
             score = (sup["oran_form"] - leg["p"]) + 0.5 * leg["p"]
             t = dt.datetime.fromtimestamp(fx["ts"], TZ).strftime("%H:%M")
-            pool.append({**leg, **sup, "skor": round(score, 4), "fixture_id": fid, "saat": t, "ts": fx["ts"],
+            pool.append({**leg, **sup, "sira_puan": round(score, 4), "fixture_id": fid, "saat": t, "ts": fx["ts"],
                          "mac": f'{fx["ev"]} - {fx["dep"]}', "ev": fx["ev"], "dep": fx["dep"], "lig": fx["lig"],
                          "etiket": BACAKLAR[leg["tur"]][0].format(line=leg["cizgi"]), "sonuc": "bekliyor"})
-    pool.sort(key=lambda x: -x["skor"])
+    pool.sort(key=lambda x: -x["sira_puan"])
     used, coupons = set(), []
     for kid, title, types in KUPONLAR:
         legs = []
@@ -228,6 +228,73 @@ def _leg_result(leg: dict, it: dict):
     return ("isabet" if won else "ıska"), skor
 
 
+def _stats(it: dict) -> dict:
+    """Maç istatistikleri: {'ev': {...}, 'dep': {...}}"""
+    out = {}
+    for side, b in zip(("ev", "dep"), it.get("statistics") or []):
+        out[side] = {s.get("type"): formmod._num(s.get("value")) for s in b.get("statistics") or []}
+    return out
+
+
+def _goal_minutes(it: dict) -> list[str]:
+    L = []
+    for e in it.get("events") or []:
+        if e.get("type") == "Goal" and "Missed" not in (e.get("detail") or ""):
+            t = e.get("time") or {}
+            m = f"{t.get('elapsed')}'" + (f"+{t['extra']}" if t.get("extra") else "")
+            L.append(f"{m} {(e.get('team') or {}).get('name', '')}".strip())
+    return L
+
+
+def explain(leg: dict, it: dict) -> str:
+    """Tutmayan bir bahsin neden tutmadığını kısa ve somut anlatır."""
+    ft = (it.get("score") or {}).get("fulltime") or it.get("goals") or {}
+    gh, ga = ft.get("home") or 0, ft.get("away") or 0
+    tot = gh + ga
+    st = _stats(it)
+    goals = _goal_minutes(it)
+    def shots():
+        if not st:
+            return ""
+        e, d = st.get("ev", {}), st.get("dep", {})
+        x = ""
+        if e.get("expected_goals") or d.get("expected_goals"):
+            x = f", xG {e.get('expected_goals', 0):.1f}-{d.get('expected_goals', 0):.1f}"
+        return (f" Şutlar {int(e.get('Total Shots', 0))}-{int(d.get('Total Shots', 0))}, isabetli "
+                f"{int(e.get('Shots on Goal', 0))}-{int(d.get('Shots on Goal', 0))}{x}.")
+    t = leg["tur"]
+    if t in ("ust15", "ust25"):
+        need = 2 if t == "ust15" else 3
+        why = f"{need} gol gerekiyordu, maçta {tot} gol oldu ({gh}-{ga})."
+        return why + shots() + (" Takımlar pozisyona girdi ama golü bulamadı." if st and
+                                (st.get('ev', {}).get('Shots on Goal', 0) + st.get('dep', {}).get('Shots on Goal', 0)) >= 8 else "")
+    if t in ("alt25", "alt35"):
+        mx = 2 if t == "alt25" else 3
+        why = f"En fazla {mx} gol olmalıydı, maçta {tot} gol oldu ({gh}-{ga})."
+        if goals:
+            why += f" Gol dakikaları: {', '.join(goals)}."
+            if len(goals) > mx:
+                why += f" Bahsi kaybettiren {mx + 1}. gol {goals[mx].split()[0].rstrip(chr(39))}. dakikada geldi."
+        return why
+    if t == "kg":
+        miss = [n for n, g in ((leg["ev"], gh), (leg["dep"], ga)) if g == 0]
+        who = "İki takım da" if len(miss) == 2 else miss[0]
+        return f"{who} gol atamadı ({gh}-{ga})." + shots()
+    if t == "korner":
+        e, d = st.get("ev", {}), st.get("dep", {})
+        ce, cd = int(e.get("Corner Kicks", 0)), int(d.get("Corner Kicks", 0))
+        need = int(leg["cizgi"] + 0.5)
+        return f"En az {need} korner gerekiyordu, {ce + cd} korner oldu ({leg['ev']} {ce}, {leg['dep']} {cd})."
+    return ""
+
+
+ICON = {"isabet": "✅", "ıska": "❌", "bilinmiyor": "❔", "iptal": "➖", "bekliyor": "⏳"}
+
+
+def _line(l: dict) -> str:
+    return f"{ICON.get(l['sonuc'], '❔')} {l['mac']}: {l['etiket']} ({l.get('skor') or ('oynanıyor/başlamadı' if l['sonuc'] == 'bekliyor' else 'sonuç yok')})"
+
+
 def resolve(api):
     rows = load()
     open_ = [c for c in rows if c.get("sonuc") == "bekliyor"]
@@ -245,11 +312,28 @@ def resolve(api):
     for c in open_:
         for l in c["bacaklar"]:
             if l["sonuc"] == "bekliyor" and l["fixture_id"] in res:
-                r, skor = _leg_result(l, res[l["fixture_id"]])
+                it = res[l["fixture_id"]]
+                r, skor = _leg_result(l, it)
                 if r:
                     l["sonuc"], l["skor"] = r, skor
+                    if r == "ıska":
+                        try:
+                            l["neden"] = explain(l, it)
+                        except Exception as e:
+                            l["neden"] = ""
+                            log("Kupon açıklaması:", e)
                     changed = True
-        if any(l["sonuc"] == "bekliyor" for l in c["bacaklar"]):
+        pending = [l for l in c["bacaklar"] if l["sonuc"] == "bekliyor"]
+        lost = [l for l in c["bacaklar"] if l["sonuc"] == "ıska"]
+        if pending:
+            if lost and not c.get("yatti"):  # kupon yattı: diğer maçlar beklenmeden hemen duyur
+                c["yatti"] = True
+                changed = True
+                body = "\n".join(["❌ Kupon yattı", *[_line(l) for l in c["bacaklar"]], "",
+                                  *[f"📉 {l['mac']}: {l['neden']}" for l in lost if l.get("neden")],
+                                  "", f"⏳ Kalan {len(pending)} maç bitince tam özet gelecek."])
+                telegram_reply(c.get("tg"), body, fallback=(f"🧪 {c['baslik']}: kupon yattı", body))
+                notify(f"🧪 {c['baslik']}: kupon yattı", body, priority=3, telegram=False)
             continue
         live = [l for l in c["bacaklar"] if l["sonuc"] in ("isabet", "ıska")]
         if not live:
@@ -258,21 +342,30 @@ def resolve(api):
             odd = 1.0
             for l in live:
                 odd *= l["oran"]
-            ok = all(l["sonuc"] == "isabet" for l in live)
+            ok = not lost
             c["sonuc"] = "isabet" if ok else "ıska"
             c["oran_gercek"] = round(odd, 2)
             c["kar"] = round(100 * (odd - 1)) if ok else -100
         changed = True
-        icon = {"isabet": "✅", "ıska": "❌", "bilinmiyor": "❔", "iptal": "➖"}
-        lines = [f"{icon.get(l['sonuc'], '❔')} {l['mac']}: {l['etiket']} ({l.get('skor') or 'sonuç yok'})"
-                 for l in c["bacaklar"]]
+        n_hit = sum(l["sonuc"] == "isabet" for l in live)
         head = {"isabet": f"✅ KUPON TUTTU! Oran {c.get('oran_gercek', c['oran']):.2f}",
-                "ıska": "❌ Kupon tutmadı", "iptal": "➖ Kupon iptal (maçlar oynanmadı)"}[c["sonuc"]]
+                "ıska": (f"📋 Kupon özeti: {len(live)} maçtan {n_hit} tanesi tuttu, kupon kaybetti" if n_hit
+                        else f"📋 Kupon özeti: {len(live)} maçın hiçbiri tutmadı"),
+                "iptal": "➖ Kupon iptal (maçlar oynanmadı)"}[c["sonuc"]]
+        L = [head, *[_line(l) for l in c["bacaklar"]]]
         if any(l["sonuc"] in ("iptal", "bilinmiyor") for l in c["bacaklar"]) and c["sonuc"] != "iptal":
-            head += " (oynanmayan/sonucu bilinmeyen maç düşüldü)"
-        body = "\n".join([head, *lines])
-        telegram_reply(c.get("tg"), body, fallback=(f"🧪 {c['baslik']} sonucu", body))
-        notify(f"🧪 {c['baslik']} sonucu", body, priority=3, telegram=False)
+            L.append("➖ Oynanmayan/sonucu bilinmeyen maç kupondan düşüldü.")
+        if lost:
+            L += ["", "🔎 Neden kaybetti?"]
+            L += [f"• {l['mac']} ({l['etiket']}): {l.get('neden') or 'tutmadı.'}" for l in lost]
+            L.append(f"• Seçimde piyasa bu maç(lar)a %{', %'.join(str(round(l['p'] * 100)) for l in lost)} "
+                     "ihtimal veriyordu; son 5 maç formu da destekliyordu ama bu sefer tutmadı.")
+        body = "\n".join(L)
+        if c.get("yatti"):  # yattı mesajı zaten alıntıladı: özet yeni mesaj olarak
+            notify(f"🧪 {c['baslik']}: tam özet", body, priority=3)
+        else:
+            telegram_reply(c.get("tg"), body, fallback=(f"🧪 {c['baslik']} sonucu", body))
+            notify(f"🧪 {c['baslik']} sonucu", body, priority=3, telegram=False)
     if changed:
         save(rows)
 
