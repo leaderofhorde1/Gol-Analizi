@@ -182,6 +182,20 @@ def section(title, rows):
                      "➡️ Filtre fark yaratmıyor; kaldırılması düşünülebilir.")
             L.append("")
     # form
+    # Üst/Alt: form şimdilik sadece kaydediliyor; işe yarıyorsa "zayıf" formda verilen sinyaller daha kötü tutmalı
+    for tur, ad in (("gol", "⚽ Üst (dakikadan sonra gol oldu mu)"), ("alt", "🧊 Alt (dakikadan sonra gol olmadı mı)")):
+        fx = defaultdict(list)
+        for r in sent:
+            if (r.get("tur") or "gol") == tur and r.get("tarih", "") >= "2026-11-21":
+                c = form_cat(r)
+                if c:
+                    fx[c].append(r)
+        if fx:
+            L += [f"### 📋 Form ölçütü – {ad} (sadece kayıt, sinyali etkilemiyor)", "",
+                  table(["Form", "Sonuç", "İsabet", "Piyasa", "Sanal kâr"],
+                        [[{"destek": "güçlü (≥%60)", "nötr": "orta", "ters": "zayıf (≤%20)"}[c], t["n"], pct(t["rate"]),
+                          pct(t["exp"]), kar_s(t)] for c in ("destek", "nötr", "ters") if c in fx
+                         for t in [summ(fx[c])]]), ""]
     fc = defaultdict(list)
     for r in sent:
         c = form_cat(r)

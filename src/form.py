@@ -43,7 +43,11 @@ def summarize(fx: dict, team_id: int) -> dict | None:
                 elif t in ("Yellow Cards", "Red Cards"):
                     k += _num(st.get("value"))
         corners, cards = (c if c > 0 else None), k
-    return {"id": fx["fixture"]["id"], "gf": gf, "ga": ga, "toplam": gf + ga, "iy": ht_total,
+    gol_dk = sorted(((e.get("time") or {}).get("elapsed") or 0) for e in fx.get("events") or []
+                    if (e.get("type") or "").lower() == "goal" and "missed" not in (e.get("detail") or "").lower())
+    if len(gol_dk) != gf + ga:  # olay listesi eksik/tutarsızsa dakika ölçütü kullanılmaz
+        gol_dk = None
+    return {"id": fx["fixture"]["id"], "gf": gf, "ga": ga, "toplam": gf + ga, "iy": ht_total, "gol_dk": gol_dk,
             "iy_gf": iy_gf, "iy_ga": iy_ga,
             "kg": gf > 0 and ga > 0, "korner": corners, "kart": cards}
 
@@ -51,13 +55,13 @@ def summarize(fx: dict, team_id: int) -> dict | None:
 class FormBook:
     def __init__(self, api, day: str):
         self.api = api
-        self.path = FORM_DIR / f"{day}-v2.json"
+        self.path = FORM_DIR / f"{day}-v3.json"
         try:
             self.data = json.loads(self.path.read_text())
         except Exception:
             self.data = {}
         for old in FORM_DIR.glob("*.json"):  # eski günleri temizle
-            if old.name < f"{day}-v2.json" or not old.name.endswith("-v2.json"):
+            if old.name < f"{day}-v3.json" or not old.name.endswith("-v3.json"):
                 try:
                     old.unlink()
                 except OSError:
@@ -103,6 +107,12 @@ def hit(tur: str, line, s: dict) -> bool | None:
         return None if s["korner"] is None else s["korner"] > line
     if tur == "kart":
         return None if s["kart"] is None else s["kart"] > line
+    if tur == "gol_sonra":  # bu dakikadan sonra (herhangi bir takımdan) gol olmuş mu
+        return None if s.get("gol_dk") is None else any(g > line for g in s["gol_dk"])
+    if tur == "alt_sonra":  # bu dakikadan sonra hiç gol olmamış mı
+        return None if s.get("gol_dk") is None else not any(g > line for g in s["gol_dk"])
+    if tur == "kg_atar":  # gol atması gereken takım gol atmış mı
+        return s["gf"] > 0
     if tur == "baski":  # baskıyı kuran takım alarmın verildiği yarıda gol atmış mı
         if s.get("iy_gf") is None:
             return None
@@ -113,7 +123,9 @@ def hit(tur: str, line, s: dict) -> bool | None:
 
 
 TUR_ETIKET = {"gol": "{l} üst", "alt": "{l} alt", "iy": "ilk yarı {l} üst", "kg": "KG var",
-              "korner": "korner {l} üst", "kart": "kart {l} üst", "baski": "{l} gol attı"}
+              "korner": "korner {l} üst", "kart": "kart {l} üst", "baski": "{l} gol attı",
+              "gol_sonra": "{l}. dakikadan sonra gol oldu", "alt_sonra": "{l}. dakikadan sonra gol olmadı",
+              "kg_atar": "gol attı"}
 
 
 def fmt_l(x) -> str:
@@ -139,7 +151,7 @@ def check(book: FormBook, tur: str, line, home: tuple, away: tuple, only=None) -
         n += len(res)
         teams.append((name, h, len(res)))
         part = f"{name} {h}/{len(res)}"
-        if tur in ("baski", "kg", "iy"):
+        if tur in ("baski", "kg", "kg_atar", "iy"):
             ms = [s for s in book.team(tid) if s.get("iy_gf") is not None]
             if ms:
                 g = sum(s["gf"] for s in ms)
@@ -150,6 +162,8 @@ def check(book: FormBook, tur: str, line, home: tuple, away: tuple, only=None) -
         return None
     if tur == "baski":
         label = TUR_ETIKET[tur].format(l="ilk yarıda" if line == "1H" else "ikinci yarıda")
+    elif tur in ("gol_sonra", "alt_sonra"):
+        label = TUR_ETIKET[tur].format(l=int(line))
     else:
         label = TUR_ETIKET[tur].format(l=fmt_l(line) if line is not None else "")
     return {"hits": hits, "n": n, "ratio": hits / n, "teams": teams,

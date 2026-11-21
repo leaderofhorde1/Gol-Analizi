@@ -85,7 +85,10 @@ FORM_ON = os.environ.get("FORM", "1") == "1"
 FORM_WEAK = float(os.environ.get("FORM_WEAK", "0.2"))      # bu oranın altı "form ters"
 FORM_STRONG = float(os.environ.get("FORM_STRONG", "0.6"))  # bu oranın üstü "form destekliyor"
 FORM_EXTRA = float(os.environ.get("FORM_EXTRA", "0.03"))   # form tersse istenen ek fark
-FORM_MIN_TEAM = {t.strip() for t in os.environ.get("FORM_TAKIM_SART", "korner").split(",") if t.strip()}
+FORM_MIN_TEAM = {t.strip() for t in os.environ.get("FORM_TAKIM_SART", "korner,iy,kg").split(",") if t.strip()}
+# Üst/Alt için form ölçütü (dakikadan sonra gol oldu mu/olmadı mı) şimdilik sadece gösterilir ve kaydedilir,
+# sinyali etkilemez: 1-2 hafta sonra karnede işe yarayıp yaramadığına bakılacak.
+FORM_SADECE_KAYIT = {"gol", "alt"}
 FORM_MIN_HITS = int(os.environ.get("FORM_TAKIM_EN_AZ", "2"))  # her takımın son 5 maçından en az kaçı çizgiyi geçmeli
 GOLGE = {t.strip() for t in os.environ.get("GOLGE", "").split(",") if t.strip()}  # gruba gitmez, ölçülür
 STEAM_MIN = 5            # dk: oran akışı bu kadar öncesiyle karşılaştırılır
@@ -1219,9 +1222,24 @@ class ProEngine:
         Dönüş: (gönderilsin_mi, bilgi) — bilgi: {'lines': [...], 'hits','n' (form), 'akis' (oran akışı)}."""
         info, extra, why = {"lines": []}, 0.0, []
         if FORM_ON:
+            H, A = (getattr(m, "home_id", None), m.home), (getattr(m, "away_id", None), m.away)
             try:
-                fi = form_check(self.form, tur, line, (getattr(m, "home_id", None), m.home),
-                                (getattr(m, "away_id", None), m.away), only=only)
+                if tur in ("gol", "alt"):
+                    # Doğru ölçüt: çizgi değil, "bu dakikadan sonra gol oldu mu"
+                    fi = form_check(self.form, f"{tur}_sonra", m.minute, H, A)
+                elif tur == "kg":
+                    # Sadece henüz gol atmamış (atması gereken) takım(lar)ın gol atma formu önemli
+                    need = [sd for sd, g in (("home", m.gh), ("away", m.ga)) if g == 0]
+                    parts = [form_check(self.form, "kg_atar", None, H, A, only=sd) for sd in need]
+                    parts = [x for x in parts if x]
+                    fi = None
+                    if parts:
+                        fi = {"hits": sum(x["hits"] for x in parts), "n": sum(x["n"] for x in parts),
+                              "teams": [t for x in parts for t in x["teams"]],
+                              "text": "📋 Son 5 maç (gol attı): " + " • ".join(x["text"].split("): ", 1)[1] for x in parts)}
+                        fi["ratio"] = fi["hits"] / fi["n"]
+                else:
+                    fi = form_check(self.form, tur, line, H, A, only=only)
             except Exception as e:
                 log("Form hatası:", e)
                 fi = None
@@ -1233,14 +1251,15 @@ class ProEngine:
                     red = self.meta.setdefault(m.id, {}).setdefault("form_red", set())
                     if key not in red:
                         red.add(key)
-                        log(f"  [form] {m.name} {tur} {line}: son 5 maçta çizgiye yeterince ulaşmamış ({', '.join(weak)}) → sinyal yok")
+                        log(f"  [form] {m.name} {tur} {line}: son 5 maç şartı sağlanmadı ({', '.join(weak)}) → sinyal yok")
                     return False, {"lines": [fi["text"]], "hits": fi["hits"], "n": fi["n"]}
             if fi:
                 r = fi["ratio"]
                 etki = "ters" if r <= FORM_WEAK else "destek" if r >= FORM_STRONG else "nötr"
                 info.update(hits=fi["hits"], n=fi["n"], etki=etki)
-                info["lines"].append(fi["text"] + {"ters": "  ⚠️", "destek": "  ✅", "nötr": ""}[etki])
-                if etki == "ters":
+                info["lines"].append(fi["text"] + ("" if tur in FORM_SADECE_KAYIT else
+                                                   {"ters": "  ⚠️", "destek": "  ✅", "nötr": ""}[etki]))
+                if etki == "ters" and tur not in FORM_SADECE_KAYIT:
                     extra += FORM_EXTRA
                     why.append(f"form ters ({fi['hits']}/{fi['n']})")
         st = self.steam(m)
