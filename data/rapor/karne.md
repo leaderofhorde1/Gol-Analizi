@@ -42,6 +42,13 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -104 TL • P
 | Onayladı (gönderildi) | 19 | %74 | %68 | +1 TL |
 | Reddetti (gönderilmedi) | 13 | %31 | %53 | -322 TL |
 
+### 📋 Form ölçütü – 🧊 Alt (dakikadan sonra gol olmadı mı) (sadece kayıt, sinyali etkilemiyor)
+
+| Form | Sonuç | İsabet | Piyasa | Sanal kâr |
+|---|---|---|---|---|
+| güçlü (≥%60) | 1 | %0 | %29 | -100 TL |
+| orta | 2 | %50 | %44 | +0 TL |
+
 ### 📋 Son 5 maç formu
 
 | Form | Sonuç | İsabet | Piyasa | Sanal kâr |
@@ -127,6 +134,13 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -104 TL • P
 |---|---|---|---|---|
 | Onayladı (gönderildi) | 19 | %74 | %68 | +1 TL |
 | Reddetti (gönderilmedi) | 13 | %31 | %53 | -322 TL |
+
+### 📋 Form ölçütü – 🧊 Alt (dakikadan sonra gol olmadı mı) (sadece kayıt, sinyali etkilemiyor)
+
+| Form | Sonuç | İsabet | Piyasa | Sanal kâr |
+|---|---|---|---|---|
+| güçlü (≥%60) | 1 | %0 | %29 | -100 TL |
+| orta | 2 | %50 | %44 | +0 TL |
 
 ### 📋 Son 5 maç formu
 
