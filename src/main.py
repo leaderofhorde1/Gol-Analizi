@@ -159,11 +159,11 @@ _tg_chat = None
 OUTBOX: list = []          # ulaşılamayan Telegram mesajları (sırayla tekrar denenir)
 
 
-def _tg(method: str, **params):
+def _tg(method: str, _timeout: float = 12, **params):
     last = None
     for attempt in range(2):
         try:
-            r = requests.post(f"https://api.telegram.org/bot{TG_TOKEN}/{method}", json=params, timeout=12)
+            r = requests.post(f"https://api.telegram.org/bot{TG_TOKEN}/{method}", json=params, timeout=_timeout)
             return r.json()
         except requests.RequestException as e:
             last = e
@@ -1041,6 +1041,14 @@ def run_diag():
 def main():
     if MODE == "diag":
         return run_diag()
+    if MODE == "soru":  # soru-cevap denemesi: sure alanındaki metni sorar, cevabı loga yazar
+        import soru
+        qa = soru.QA(Api(API_KEY))
+        q = os.environ.get("SORU_METNI", "").strip()
+        print("SORU:", q)
+        print("YAPI:", qa.parse(q, None))
+        print("CEVAP:\n" + qa.answer(q, None))
+        return 0
     if MODE == "mac":  # tek maçın son durumunu yazdır (sure alanı = maç numarası)
         it = Api(API_KEY).get("fixtures", id=os.environ.get("RUN_MINUTES"))[0]
         st = parse_stats(it)

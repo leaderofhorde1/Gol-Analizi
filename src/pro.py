@@ -1790,6 +1790,13 @@ class ProEngine:
     def run(self):
         end = self.end_time()
         log(f"Pro motor başladı, bitiş {end:%H:%M}")
+        if os.environ.get("TELEGRAM_TOKEN") and os.environ.get("SORU", "1") == "1":
+            try:  # Telegram soru-cevap (arka planda)
+                import soru
+                soru.QA(self.api, self).start()
+                log("Soru-cevap açık")
+            except Exception as e:
+                log("Soru-cevap başlatılamadı:", e)
         try:
             self.prematch_phase()
         except Exception as e:

@@ -17,7 +17,7 @@ on:
       mod:
         description: "test = bağlantıları dene, run = canlı takibi başlat, kisa = 6 dk deneme + sabah raporu, diag = teşhis"
         type: choice
-        options: [test, run, kisa, diag, kurtar, mac]
+        options: [test, run, kisa, diag, kurtar, mac, soru]
         default: test
       sure:
         description: "İsteğe bağlı: oturum süresi (dakika). Boş = varsayılan"
@@ -30,7 +30,7 @@ permissions:
 
 concurrency:
   # test ve teşhis, süren canlı oturumu beklemesin
-  group: gol-sinyali-${{ (github.event.inputs.mod == 'test' || github.event.inputs.mod == 'diag' || github.event.inputs.mod == 'kurtar' || github.event.inputs.mod == 'mac') && 'kontrol' || 'canli' }}
+  group: gol-sinyali-${{ (github.event.inputs.mod == 'test' || github.event.inputs.mod == 'diag' || github.event.inputs.mod == 'kurtar' || github.event.inputs.mod == 'mac' || github.event.inputs.mod == 'soru') && 'kontrol' || 'canli' }}
   cancel-in-progress: false
 
 jobs:
@@ -62,7 +62,8 @@ jobs:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           WINDOW_END: "23:45"     # ücretsiz planda takibin biteceği saat (TR)
-          RUN_MINUTES: ${{ github.event.inputs.sure || (github.event.inputs.mod == 'kisa' && '6') || '350' }}  # bir oturumun süresi (dk)
+          RUN_MINUTES: ${{ (github.event.inputs.mod != 'soru' && github.event.inputs.sure) || (github.event.inputs.mod == 'kisa' && '6') || '350' }}  # bir oturumun süresi (dk)
+          SORU_METNI: ${{ github.event.inputs.sure }}  # soru modunda sorulacak metin
           INTERVAL: "30"          # Pro/Ultra: tur aralığı (sn)
           SIGNALS: "gol,alt,korner,kart,iy,kg,baski"  # gol = maç sonu Üst, alt = maç sonu Alt, iy = ilk yarı gol, kg = karşılıklı gol, baski = baskı alarmı
           EDGE_IY: "0.05"         # ilk yarı gol için model-piyasa farkı
