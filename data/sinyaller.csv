@@ -126,9 +126,7 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-20,1552537,France - Ligue 2,RED Star FC 93 - PAU,86,1-1,,,,orta,,,evet,isabet,,0.832,0.688,alt,,,1.38,38,174,evet,2.5,,,,,,,,,,,
 2026-11-20,1559201,Belgium - Challenger Pro League,K. Lierse S.K. - Lokeren-Temse,85,1-0,,16,,yüksek,,,evet,isabet,18,0.583,0.411,korner,,,2.31,131,177,evet,17.5,,,,,,,,,,,
 2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,65,1-0,ev,30.8,4.8,orta,evet,"Ev sahibi son 6 dakikada 3 isabetli şut, 0.5 xG ile gerçek baskı kuruyor; 1-0'da açık oyun.",evet,isabet,67,0.754,0.625,gol,0.03382,,1.52,52,194,evet,1.5,,,,,,,,,,,
-2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,23,0-0,,3,,orta,,,evet,bilinmiyor,6,0.686,0.558,korner,,,,,116,,10.5,,,,,,,,,,,
 2026-11-20,1552827,France - Ligue 1,Estac Troyes - Le Havre,35,1-1,,1,,yüksek,,,evet,isabet,5,0.56,0.442,kart,,,2.15,115,143,evet,3.5,,,,,,,,,,,
-2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,48,0-0,,5,,orta,,,evet,bilinmiyor,6,0.648,0.577,korner,,,,,170,,9.5,,,,,,,,,,,
 2026-11-20,1570025,Spain - Segunda División,FC Andorra - Leganes,50,1-2,deplasman,50.2,10.1,orta,evet,"Deplasman son pencerede 3 isabetli, 1.14 xG; ev sahibi 10 kişi, skor açık. Model olasılığı biraz yüksek.",evet,isabet,83,0.905,0.766,gol,0.03301,0.03301,1.24,24,175,evet,3.5,,,,,,,,,,,
 2026-11-20,1570025,Spain - Segunda División,FC Andorra - Leganes,62,1-2,,,,yüksek,,,evet,ıska,83,0.4,0.303,alt,,,3.14,-100,202,evet,3.5,,,,,,,,,,,
 2026-11-20,1552827,France - Ligue 1,Estac Troyes - Le Havre,60,1-1,,,,yüksek,,,evet,ıska,69,0.474,0.364,alt,,,2.61,-100,204,evet,2.5,,,,,,,,,,,
@@ -144,12 +142,14 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-21,1556147,Japan - J1 League,Machida Zelvia - V-varen Nagasaki,45,0-0,,Machida Zelvia,,yüksek,,,evet,ıska,,0.361,0.268,baski,0.03119,,3.54,-100,241,evet,45,3/5,,,,,,,,,,
 2026-11-21,1556147,Japan - J1 League,Machida Zelvia - V-varen Nagasaki,45,0-0,,4,,yüksek,,,gölge,isabet,9,0.729,0.546,korner,0.10182,,1.67,67,,,8.5,3/8,,,,,,1.666,0.214,,,
 2026-11-21,1556146,Japan - J1 League,Kyoto Sanga - Urawa,75,0-1,,,,orta,,,evet,ıska,76,0.494,0.41,alt,0.04689,,2.3,-100,250,evet,1.5,3/10,,+11%,,,,2.3,0.137,,,
-2026-11-21,1556147,Japan - J1 League,Machida Zelvia - V-varen Nagasaki,52,0-0,,7,,yüksek,,,evet,bilinmiyor,11,0.554,0.423,korner,0.10161,,,,246,,11.5,0/8,,,,,,2.2,0.219,,,
-2026-11-21,1556147,Japan - J1 League,Machida Zelvia - V-varen Nagasaki,63,0-0,,9,,yüksek,,,evet,bilinmiyor,11,0.55,0.423,korner,0.10699,veri yok,,,248,,12.5,0/8,veri yok,,,,,2.2,0.21,0.11247,olay,olay
 2026-11-21,1556147,Japan - J1 League,Machida Zelvia - V-varen Nagasaki,77,0-0,,,,yüksek,,,evet,isabet,,0.573,0.463,alt,0.04525,0.04867,2.0,100,249,evet,0.5,3/10,aleyhte,+16%,,,,2.0,0.147,0.0482,,
-2026-11-21,1593706,Australia - A-League,Central Coast Mariners - Perth Glory,21,0-0,,4,,yüksek,,,evet,bilinmiyor,10,0.71,0.537,korner,0.10857,0.11278,,,247,,11.5,0/10,lehte,,,,,1.727,0.227,0.10946,0.11402,0.13665
 2026-11-21,1593706,Australia - A-League,Central Coast Mariners - Perth Glory,67,0-0,,Perth Glory,,yüksek,,,evet,ıska,,0.598,0.42,baski,0.03633,,2.26,-100,,evet,82,4/5,,,,,,,,,,
 2026-11-21,1556145,Japan - J1 League,Kawasaki Frontale - Avispa Fukuoka,76,1-0,deplasman,35.8,0.0,orta,evet,"Deplasman son 6 dakikada 4 ceza sahası içi şut, 0.35 xG üretti; Kawasaki tek farkla savunmada kırılgan, Fukuoka hücumda.",evet,ıska,,0.6,0.52,gol,0.03924,0.04562,1.88,-100,259,evet,1.5,6/10,lehte,,,0.507,3,1.875,0.125,0.0417,0.04995,
 2026-11-21,1556145,Japan - J1 League,Kawasaki Frontale - Avispa Fukuoka,76,1-0,,1-0,,yüksek,,,evet,ıska,,0.437,0.277,kg,0.03924,0.04562,3.5,-100,260,evet,,3/5,lehte,,,,,3.5,0.528,0.0417,0.04995,
 2026-11-21,1593706,Australia - A-League,Central Coast Mariners - Perth Glory,74,0-0,deplasman,28.8,14.8,düşük,hayır,"xG ve tehlikeli atak sıfır, baskı sığ; 0-0'da iki takım savunmaya çekildi, piyasa verisi yok, avantaj marjinal.",hayır,ıska,,0.579,0.5,gol,0.03466,0.0367,1.91,-100,,,0.5,5/10,lehte,,,,2,1.909,0.105,0.03492,0.04383,0.06254
 2026-11-21,1556142,Japan - J1 League,Gamba Osaka - Fagiano Okayama,59,0-1,iki taraf,12.3,12.0,orta,evet,"Ev sahibi 10 kişi ama topa hakim, geride; piyasa akışı +6% destekliyor, son pencere baskısı zayıf.",evet,ıska,,0.729,0.659,gol,0.03071,0.03387,1.43,-100,264,evet,1.5,6/10,lehte,+6%,,0.659,2,1.425,0.038,0.03365,0.03564,0.03599
+2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,23,0-0,,3,,orta,,,evet,ıska,6,0.686,0.558,korner,,,1.7,-100,116,evet,10.5,,,,,,,,,,,
+2026-11-20,1553230,Poland - Ekstraklasa,Pogon Szczecin - Slask Wroclaw,48,0-0,,5,,orta,,,evet,ıska,6,0.648,0.577,korner,,,1.65,-100,170,evet,9.5,,,,,,,,,,,
+2026-11-21,1556147,Japan - J1 League,Machida Zelvia - V-varen Nagasaki,52,0-0,,7,,yüksek,,,evet,ıska,11,0.554,0.423,korner,0.10161,,2.2,-100,246,evet,11.5,0/8,,,,,,2.2,0.219,,,
+2026-11-21,1556147,Japan - J1 League,Machida Zelvia - V-varen Nagasaki,63,0-0,,9,,yüksek,,,evet,ıska,11,0.55,0.423,korner,0.10699,veri yok,2.2,-100,248,evet,12.5,0/8,veri yok,,,,,2.2,0.21,0.11247,olay,olay
+2026-11-21,1593706,Australia - A-League,Central Coast Mariners - Perth Glory,21,0-0,,4,,yüksek,,,evet,ıska,10,0.71,0.537,korner,0.10857,0.11278,1.73,-100,247,evet,11.5,0/10,lehte,,,,,1.727,0.227,0.10946,0.11402,0.13665
