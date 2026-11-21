@@ -80,7 +80,7 @@ FORM_ON = os.environ.get("FORM", "1") == "1"
 FORM_WEAK = float(os.environ.get("FORM_WEAK", "0.2"))      # bu oranın altı "form ters"
 FORM_STRONG = float(os.environ.get("FORM_STRONG", "0.6"))  # bu oranın üstü "form destekliyor"
 FORM_EXTRA = float(os.environ.get("FORM_EXTRA", "0.03"))   # form tersse istenen ek fark
-GOLGE = {t.strip() for t in os.environ.get("GOLGE", "iy,korner").split(",") if t.strip()}  # gruba gitmez, ölçülür
+GOLGE = {t.strip() for t in os.environ.get("GOLGE", "").split(",") if t.strip()}  # gruba gitmez, ölçülür
 STEAM_MIN = 5            # dk: oran akışı bu kadar öncesiyle karşılaştırılır
 STEAM_UP, STEAM_DOWN = 1.15, 0.87  # gol hızında %15 artış / %13 düşüş "akış" sayılır
 STEAM_EXTRA = float(os.environ.get("STEAM_EXTRA", "0.03"))
@@ -236,11 +236,18 @@ except Exception:
     CALIB = {}
 
 
+SHRINK = float(os.environ.get("IHTIYAT", "0.5"))
+
+
 def calibrate(tur: str, p, p_mkt):
     """Gece eğitimiyle öğrenilen kalibrasyon (yeterli sonuç birikip testte işe yaradıysa)."""
     c = CALIB.get(tur) or {}
-    if p is None or p_mkt is None or not c.get("kullan"):
+    if p is None or p_mkt is None:
         return p
+    if not c.get("kullan"):
+        # Kalibrasyon için yeterli sonuç yokken ihtiyat: model–piyasa farkının sadece bir kısmına güven.
+        # İlk 132 sinyalde model piyasadan sistematik olarak 10–20 puan iyimserdi, piyasa ise gerçeğe yakındı.
+        return p_mkt + SHRINK * (p - p_mkt)
     w = c["agirliklar"]
     lm = math.log(max(min(p_mkt, 0.9999), 1e-4) / (1 - max(min(p_mkt, 0.9999), 1e-4)))
     lp = math.log(max(min(p, 0.9999), 1e-4) / (1 - max(min(p, 0.9999), 1e-4)))
@@ -313,31 +320,41 @@ def p_next10_from_count_market(item: dict, names: tuple, current: int, minute: i
     return 1 - math.exp(-rate * min(10.0, remaining_minutes(minute)))
 
 
+def _nearest_count_line(item, names: tuple, current: int):
+    """Mevcut sayının üstündeki en yakın X.5 çizgisi ve Üst olasılığı.
+    Pazarlar ayrı ayrı okunur (birinin Üst'ü diğerinin Alt'ıyla eşleşmez).
+    En yakın çizgide piyasa Üst'e %85'ten fazla ihtimal veriyorsa piyasa, istatistiğe henüz düşmemiş bir
+    olayı biliyor demektir: oran ile istatistik farklı anları gösterdiği için None döner."""
+    for name in names:
+        lines = {}
+        for mk in (item or {}).get("odds") or []:
+            if mk.get("name") != name:
+                continue
+            for v in mk.get("values") or []:
+                if v.get("suspended"):
+                    continue
+                try:
+                    h, odd = float(v.get("handicap")), float(v.get("odd"))
+                except (TypeError, ValueError):
+                    continue
+                if abs(h - math.floor(h) - 0.5) > 1e-6 or h < current:
+                    continue
+                side = (v.get("value") or "").lower()
+                if side in ("over", "under"):
+                    lines.setdefault(h, {})[side] = odd
+        for h in sorted(lines):
+            d = lines[h]
+            if "over" in d and "under" in d:
+                p = fair_prob(d["over"], d["under"])
+                if h == current + 0.5 and p > 0.85:
+                    return None
+                return h, p
+    return None
+
+
 def count_market_rate(item: dict, names: tuple, current: int, minute: int) -> float | None:
     """Toplam (korner/kart) Üst-Alt pazarından piyasanın dakika başı olay hızı."""
-    lines = {}
-    for mk in item.get("odds") or []:
-        if mk.get("name") not in names:
-            continue
-        for v in mk.get("values") or []:
-            if v.get("suspended"):
-                continue
-            try:
-                h = float(v.get("handicap"))
-                odd = float(v.get("odd"))
-            except (TypeError, ValueError):
-                continue
-            if abs(h - math.floor(h) - 0.5) > 1e-6 or h < current:
-                continue
-            side = (v.get("value") or "").lower()
-            if side in ("over", "under"):
-                lines.setdefault(h, {})[side] = odd
-    best = None
-    for h in sorted(lines):
-        d = lines[h]
-        if "over" in d and "under" in d:
-            best = (h, fair_prob(d["over"], d["under"]))
-            break
+    best = _nearest_count_line(item, names, current)
     if not best:
         return None
     h, p_over = best
@@ -499,27 +516,8 @@ def ou_line_prob(item: dict | None, name: str, line: float) -> float | None:
 
 def count_line_market(item: dict | None, names: tuple, current: int):
     """Toplam (korner/kart) pazarında mevcut sayının üstündeki en yakın X.5 çizgisi ve Üst olasılığı."""
-    lines = {}
-    for mk in (item or {}).get("odds") or []:
-        if mk.get("name") not in names:
-            continue
-        for v in mk.get("values") or []:
-            if v.get("suspended"):
-                continue
-            try:
-                h, odd = float(v.get("handicap")), float(v.get("odd"))
-            except (TypeError, ValueError):
-                continue
-            if abs(h - math.floor(h) - 0.5) > 1e-6 or h < current:
-                continue
-            side = (v.get("value") or "").lower()
-            if side in ("over", "under"):
-                lines.setdefault(h, {})[side] = odd
-    for h in sorted(lines):
-        d = lines[h]
-        if "over" in d and "under" in d:
-            return h, fair_prob(d["over"], d["under"])
-    return None, None
+    best = _nearest_count_line(item, names, current)
+    return best if best else (None, None)
 
 
 def fmt_line(x: float) -> str:
