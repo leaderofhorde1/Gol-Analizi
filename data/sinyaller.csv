@@ -141,5 +141,5 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-21,1632063,Paraguay - Division Profesional - Clausura,Sportivo Ameliano - Sportivo Luqueno,68,1-0,,7,,orta,,,evet,isabet,11,0.667,0.539,korner,0.10868,,1.76,76,236,evet,9.5,1/9,,,,,,,,,,
 2026-11-21,1505563,Chile - Primera División,Cobresal - A. Italiano,60,2-1,,,,orta,,,evet,ıska,63,0.356,0.291,alt,0.03632,,3.26,-100,237,evet,3.5,9/10,,,,,,,,,,
 2026-11-21,1505563,Chile - Primera División,Cobresal - A. Italiano,70,3-1,deplasman,18.3,14.1,orta,hayır,"Deplasman baskısı düşük kaliteli (pencere xG 0.12), skor 3-1, benzer geçmiş 0/10, model piyasadan şişkin.",hayır,isabet,89,0.751,0.614,gol,0.03966,0.04346,1.55,55,,,4.5,0/10,lehte,,,,,,,,,
-2026-11-21,1556147,Japan - J1 League,Machida Zelvia - V-varen Nagasaki,45,0-0,,4,,yüksek,,,gölge,bekliyor,,0.729,0.546,korner,0.10182,,,,,,8.5,3/8,,,,,,1.666,0.214,,,
 2026-11-21,1556147,Japan - J1 League,Machida Zelvia - V-varen Nagasaki,45,0-0,,Machida Zelvia,,yüksek,,,evet,ıska,,0.361,0.268,baski,0.03119,,3.54,-100,241,evet,45,3/5,,,,,,,,,,
+2026-11-21,1556147,Japan - J1 League,Machida Zelvia - V-varen Nagasaki,45,0-0,,4,,yüksek,,,gölge,bekliyor,,0.729,0.546,korner,0.10182,,,,,,8.5,3/8,,,,,,1.666,0.214,,,
