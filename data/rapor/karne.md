@@ -4,13 +4,13 @@ Sadece gruba gönderilen sinyaller sayılır (Claude bölümü hariç). Sanal k�
 
 ## Son 7 gün
 
-**127 sinyal sonuçlandı (61 farklı maç): ✅ 64 tuttu, ❌ 63 tutmadı (%50)**
+**128 sinyal sonuçlandı (62 farklı maç): ✅ 64 tuttu, ❌ 64 tutmadı (%50)**
 
 _Aynı maçtaki sinyaller birbirinden bağımsız değildir; gerçek kanıt gücü maç sayısına yakındır._
 
-%90 güven aralığı (maç bazlı): piyasaya göre fark -4 ile +10 puan, sanal kâr -1579 ile +1981 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
+%90 güven aralığı (maç bazlı): piyasaya göre fark -4 ile +10 puan, sanal kâr -1792 ile +1785 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
 
-Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -4 TL • Piyasa bizim yönümüze döndü: -
+Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -104 TL • Piyasa bizim yönümüze döndü: -
 
 ### Tür bazında
 
@@ -22,7 +22,7 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -4 TL • Piy
 | 🟨 Kart | 8 | %75 | %50 | +25 puan | +375 TL | - | ⏳ veri az (8/30) |
 | ⏱ İlk yarı | 12 | %42 | %53 | -11 puan | -306 TL | - | ⏳ veri az (12/30) |
 | 🤝 KG | 11 | %55 | %49 | +5 puan | +146 TL | - | ⏳ veri az (11/30) |
-| 🔥 Baskı alarmı | 7 | %43 | %28 | +15 puan | +257 TL | - | ⏳ veri az (7/30) |
+| 🔥 Baskı alarmı | 8 | %38 | %28 | +10 puan | +157 TL | - | ⏳ veri az (8/30) |
 
 ### Lig bazında (en az 5 sonuç)
 
@@ -46,26 +46,32 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -4 TL • Piy
 
 | Form | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| ✅ destekliyor | 1 | %0 | %29 | -100 TL |
+| ✅ destekliyor | 2 | %0 | %28 | -200 TL |
 | ⚠️ ters | 1 | %100 | %54 | +76 TL |
+
+### 👻 Gölge moddaki türler (gruba gitmiyor, ölçülüyor)
+
+| Tür | Sonuç | İsabet | Piyasa | Fark | Sanal kâr | Durum |
+|---|---|---|---|---|---|---|
+| 🚩 Korner | 0 | - | - | - | - | ⏳ veri az (0/30) |
 
 ### 📶 Güven seviyesine göre
 
 | Güven | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| yüksek | 56 | %46 | %42 | +216 TL |
+| yüksek | 57 | %46 | %42 | +116 TL |
 | orta | 55 | %56 | %53 | +131 TL |
 | düşük | 16 | %44 | %58 | -351 TL |
 
 ## Tüm zamanlar
 
-**127 sinyal sonuçlandı (61 farklı maç): ✅ 64 tuttu, ❌ 63 tutmadı (%50)**
+**128 sinyal sonuçlandı (62 farklı maç): ✅ 64 tuttu, ❌ 64 tutmadı (%50)**
 
 _Aynı maçtaki sinyaller birbirinden bağımsız değildir; gerçek kanıt gücü maç sayısına yakındır._
 
-%90 güven aralığı (maç bazlı): piyasaya göre fark -4 ile +10 puan, sanal kâr -1579 ile +1981 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
+%90 güven aralığı (maç bazlı): piyasaya göre fark -4 ile +10 puan, sanal kâr -1792 ile +1785 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
 
-Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -4 TL • Piyasa bizim yönümüze döndü: -
+Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -104 TL • Piyasa bizim yönümüze döndü: -
 
 ### Tür bazında
 
@@ -77,7 +83,7 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -4 TL • Piy
 | 🟨 Kart | 8 | %75 | %50 | +25 puan | +375 TL | - | ⏳ veri az (8/30) |
 | ⏱ İlk yarı | 12 | %42 | %53 | -11 puan | -306 TL | - | ⏳ veri az (12/30) |
 | 🤝 KG | 11 | %55 | %49 | +5 puan | +146 TL | - | ⏳ veri az (11/30) |
-| 🔥 Baskı alarmı | 7 | %43 | %28 | +15 puan | +257 TL | - | ⏳ veri az (7/30) |
+| 🔥 Baskı alarmı | 8 | %38 | %28 | +10 puan | +157 TL | - | ⏳ veri az (8/30) |
 
 ### Lig bazında (en az 5 sonuç)
 
@@ -101,13 +107,19 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -4 TL • Piy
 
 | Form | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| ✅ destekliyor | 1 | %0 | %29 | -100 TL |
+| ✅ destekliyor | 2 | %0 | %28 | -200 TL |
 | ⚠️ ters | 1 | %100 | %54 | +76 TL |
+
+### 👻 Gölge moddaki türler (gruba gitmiyor, ölçülüyor)
+
+| Tür | Sonuç | İsabet | Piyasa | Fark | Sanal kâr | Durum |
+|---|---|---|---|---|---|---|
+| 🚩 Korner | 0 | - | - | - | - | ⏳ veri az (0/30) |
 
 ### 📶 Güven seviyesine göre
 
 | Güven | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| yüksek | 56 | %46 | %42 | +216 TL |
+| yüksek | 57 | %46 | %42 | +116 TL |
 | orta | 55 | %56 | %53 | +131 TL |
 | düşük | 16 | %44 | %58 | -351 TL |
