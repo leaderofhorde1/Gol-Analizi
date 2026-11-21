@@ -157,6 +157,6 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-21,1584470,Turkey - Süper Lig,Gençlerbirliği S.K. - Gaziantep FK,85,1-0,,,,yüksek,,,evet,isabet,,0.68,0.577,alt,,,1.61,62,283,evet,1.5,7/10,,+29%,,,,1.615,0.098,,,
 2026-11-21,1585838,Turkey - 1. Lig,Mardin 1969 - Bandırmaspor,86,1-2,,,,orta,,,evet,isabet,,0.75,0.686,alt,,,1.38,38,284,evet,3.5,8/10,,+10%,,,,1.375,0.031,,,
 2026-11-21,1526032,Belarus - Premier League,Baranovichi - Belshina,63,0-1,,Belshina,,düşük,,,evet,ıska,,0.653,,baski,,,,,285,uyarı,78,4/5,,,away:küme hattına yakın,,,,,,,
-2026-11-21,1642197,India - Indian Super League,Chennaiyin - Minerva Punjab,48,1-1,,Minerva Punjab,,yüksek,,,evet,bekliyor,,0.617,0.364,baski,0.03014,0.03012,,,288,,63,3/5,nötr,-2%,,,,,,0.02988,0.03085,
+2026-11-21,1642197,India - Indian Super League,Chennaiyin - Minerva Punjab,48,1-1,,Minerva Punjab,,yüksek,,,evet,ıska,,0.617,0.364,baski,0.03014,0.03012,2.61,-100,288,uyarı,63,3/5,nötr,-2%,,,,,,0.02988,0.03085,0.0307
 2026-11-21,1563870,England - League Two,Newport County - Swindon Town,13,1-0,,Newport County,,orta,,,evet,isabet,19,0.462,0.364,baski,0.03013,0.02949,2.61,161,289,uyarı,28,4/5,nötr,+6%,,,,,,0.03089,,
 2026-11-21,1576239,Germany - 2. Bundesliga,1. FC Nürnberg - Eintracht Braunschweig,45,1-0,,1-0,,orta,,,evet,bekliyor,,0.622,0.558,kg,0.03593,,,,290,,,3/5,,-3%,,,,1.666,0.036,,,
