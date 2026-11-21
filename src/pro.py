@@ -23,6 +23,7 @@ from form import FormBook, check as form_check
 import kadro
 import baglam
 import profil
+import aciklama
 
 from main import (
     COMBINED_THRESHOLD, DATA, FINISHED, LIVE, PRIORITY, REQUEST_RESERVE, THRESHOLD, TZ,
@@ -1037,7 +1038,16 @@ class ProEngine:
                 if ok:
                     m.last_signal_min = m.minute
                     sent.add(f"gol:{float(ust_line)}")
-                    self.goal_signal(m, pr, side, pu, pu_m, qg, ust_line, form=fi)
+                    sd_ = "home" if side == "ev" else "away"
+                    rh_, ra_ = kadro.red_counts(m)
+                    red_ = ""
+                    if (ra_ > rh_ and sd_ == "home") or (rh_ > ra_ and sd_ == "away"):
+                        red_ = "Rakip 10 kişi kaldı; eksik takım normalin yarısı kadar gol atar, rakibi ise belirgin şekilde fazla."
+                    why_ = aciklama.build("gol", m, pu, pu_m, d=pr["d_home"] if sd_ == "home" else pr["d_away"],
+                                          span=pr["span"], team=m.home if sd_ == "home" else m.away,
+                                          own_goals=m.gh if sd_ == "home" else m.ga,
+                                          opp_goals=m.ga if sd_ == "home" else m.gh, red=red_)
+                    self.goal_signal(m, pr, side, pu, pu_m, qg, ust_line, form=fi, why=why_)
         # 🧊 maç sonu Alt: son 15 dakikada iki takımın da baskısı çok düşükse
         # (Alt riskli bir tercih: sadece xG verisi olan maçlarda; uzun sessizlik ve isabetli şut/xG şartı)
         if ("alt" in SIGNALS_ON and has_xg and not gol_acik() and not meta.get("alt_gonderildi") and pu_m is not None
@@ -1055,7 +1065,8 @@ class ProEngine:
                     meta["alt_gonderildi"] = True
                     self.simple_signal(m, "alt", p_alt, p_alt_m, None, None, [
                         f"🧊 Son {int(pr15['span'])} dk iki takım toplam:", *stat_bullets(d),
-                        f"   • ceza sahası içi şut: {int(d['inbox'])}"], cizgi=ust_line, form=fi)
+                        f"   • ceza sahası içi şut: {int(d['inbox'])}"], cizgi=ust_line, form=fi,
+                        why=aciklama.build("alt", m, p_alt, p_alt_m, d=d, span=pr15["span"]))
         # 🚩 maç sonu korner Üst
         pcu, pcu_m, c_line, fcu, corners_now = self.corner_total(m, pr)
         pcu = calibrate("korner", pcu, pcu_m)
@@ -1067,7 +1078,8 @@ class ProEngine:
             d = {k: pr["d_home"][k] + pr["d_away"][k] for k in pr["d_home"]}
             self.simple_signal(m, "korner", pcu, pcu_m, corners_now, None, [
                 f"🚩 Şu an: {corners_now} korner",
-                f"📈 Son {int(pr['span'])} dk (iki takım):", *stat_bullets(d)], cizgi=c_line, form=fk_[1])
+                f"📈 Son {int(pr['span'])} dk (iki takım):", *stat_bullets(d)], cizgi=c_line, form=fk_[1],
+                why=aciklama.build("korner", m, pcu, pcu_m, d=d, span=pr["span"], f=fcu, now=corners_now, line=c_line))
         # ⏱ ilk yarı golü
         if ("iy" in SIGNALS_ON and not alt_acik() and piy is not None and piy_m is not None and 15 <= m.minute <= 40
                 and not meta.get("iy_gonderildi") and not pr.get("goal_in_window")
@@ -1081,7 +1093,8 @@ class ProEngine:
             dd = pr["d_home"] if side == "ev" else pr["d_away"] if side == "deplasman" else {
                 k: pr["d_home"][k] + pr["d_away"][k] for k in pr["d_home"]}
             self.simple_signal(m, "iy", piy, piy_m, m.gh + m.ga, None, [
-                f"📈 Son {int(pr['span'])} dk ({team}):", *stat_bullets(dd)], cizgi=m.gh + m.ga + 0.5, form=fi_[1])
+                f"📈 Son {int(pr['span'])} dk ({team}):", *stat_bullets(dd)], cizgi=m.gh + m.ga + 0.5, form=fi_[1],
+                why=aciklama.build("iy", m, piy, piy_m, d=dd, span=pr["span"], team=team))
         # 🤝 karşılıklı gol
         if ("kg" in SIGNALS_ON and not alt_acik() and pkg is not None and pkg_m is not None and 25 <= m.minute <= 80
                 and not meta.get("kg_gonderildi")
@@ -1095,7 +1108,9 @@ class ProEngine:
             self.simple_signal(m, "kg", pkg, pkg_m, f"{m.gh}-{m.ga}", None, [
                 f"👉 Gol atması gereken: {' ve '.join(names)}",
                 f"📈 Son {int(pr['span'])} dk ({m.home if sd0 == 'home' else m.away}):",
-                *stat_bullets(pr["d_home"] if sd0 == "home" else pr["d_away"])], form=fg_[1])
+                *stat_bullets(pr["d_home"] if sd0 == "home" else pr["d_away"])], form=fg_[1],
+                why=aciklama.build("kg", m, pkg, pkg_m, d=pr["d_home"] if sd0 == "home" else pr["d_away"],
+                                   span=pr["span"], need=" ve ".join(names), need_n=len(names)))
         # 🔥 baskı alarmı: piyasa şartı olmadan, çok yüksek baskıda bilgi amaçlı
         # (aynı maçta son 12 dakikada gol sinyali gittiyse alarm tekrar etmez)
         half_end = 45 if m.status == "1H" else 90
@@ -1114,7 +1129,10 @@ class ProEngine:
             # Olasılıklar alarmın gerçek süresine göre (10 dk'lık modelden dönüştürülür; devre sonunda ~2 dk uzatma)
             w = end - m.minute + (2 if end == half_end else 0)
             to_w = lambda p10: None if p10 is None else 1 - (1 - min(p10, 0.999)) ** (w / 10)
-            self.simple_signal(m, "baski", to_w(pg), to_w(pg_m), team, qg, lines, cizgi=end, form=fb_[1])
+            self.simple_signal(m, "baski", to_w(pg), to_w(pg_m), team, qg, lines, cizgi=end, form=fb_[1],
+                               why=aciklama.build("baski", m, to_w(pg), to_w(pg_m),
+                                                  d=pr["d_home"] if sd == "home" else pr["d_away"], span=pr["span"],
+                                                  team=team, x=pr[sd] / (THRESHOLD * ALARM_MULT)))
         # 🟨 maç sonu kart Üst
         pku, pku_m, k_line, fku, cards_now, fouls_now, ref_now = self.card_total(m, pr)
         pku = calibrate("kart", pku, pku_m)
@@ -1126,7 +1144,9 @@ class ProEngine:
             self.simple_signal(m, "kart", pku, pku_m, cards_now, None, [
                 f"🟨 Şu an: {cards_now} kart",
                 f"🦵 Faul temposu: 10 dk'da {fouls_now:.1f} (normali ~{TYPICAL_FOULS_10})",
-                f"👨‍⚖️ Hakem: {ref_now}"], cizgi=k_line, form=fkk_[1])
+                f"👨‍⚖️ Hakem: {ref_now}"], cizgi=k_line, form=fkk_[1],
+                why=aciklama.build("kart", m, pku, pku_m, fouls=fouls_now, typical=TYPICAL_FOULS_10, ref=ref_now,
+                                   late_close=abs(m.gh - m.ga) <= 1 and m.minute >= 70))
 
     def trained_prob(self, tur, s, default):
         t = TRAINED.get(tur) or {}
@@ -1314,7 +1334,7 @@ class ProEngine:
                 if str(r.get("fixture_id")) == str(mid) and r.get("sonuc") == "bekliyor"
                 and r.get("gonderildi") == "evet"}
 
-    def simple_signal(self, m, tur, p, p_mkt, count, q, lines, cizgi=None, form=None):
+    def simple_signal(self, m, tur, p, p_mkt, count, q, lines, cizgi=None, form=None, why=""):
         ratio = p / p_mkt if p_mkt else None
         gap = (p - p_mkt) if p_mkt is not None else None
         conf = "yüksek" if (gap and gap >= 0.10) else "orta" if (gap and gap >= 0.06) else "düşük"
@@ -1344,14 +1364,15 @@ class ProEngine:
                   "baski": (f"🎯 DİKKAT: {count} yoğun baskıda, devre bitmeden gol bekleniyor" if cizgi == 45 else
                             f"🎯 DİKKAT: {count} yoğun baskıda, {m.minute}'-{int(cizgi or m.minute + ALARM_WINDOW)}' arası gol bekleniyor")}[tur]
         body = [tahmin, LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}", "",
-                *lines, *(form["lines"] if form else []), *self.squad_lines(m), "", *prob_lines(p, p_mkt, conf), LINE,
+                *lines, *(form["lines"] if form else []), *self.squad_lines(m),
+                *([f"💬 Neden: {why}"] if why else []), "", *prob_lines(p, p_mkt, conf), LINE,
                 "ℹ️ Bahis tavsiyesi değildir."]
         notify(f"{icon} {label}: {m.name}", "\n".join(body), priority=4,
                                  on_tg=lambda mid, r=row: r.__setitem__("tg_mesaj", mid),
                                  tags=[{"korner": "triangular_flag_on_post", "kart": "yellow_square", "alt": "ice_cube",
                                         "iy": "stopwatch", "kg": "handshake", "baski": "fire"}[tur]])
 
-    def goal_signal(self, m, pr, side, p_model, p_mkt, q=None, line=None, form=None):
+    def goal_signal(self, m, pr, side, p_model, p_mkt, q=None, line=None, form=None, why=""):
         t_start = time.time()
         drop = self.book.over_drop(m.id)
         ratio = p_model / p_mkt if p_mkt else None
@@ -1416,7 +1437,8 @@ class ProEngine:
             lines.append(f"👉 Baskıyı kuran: {team}")
         lines += [LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}", "",
                   f"📈 Son {int(pr['span'])} dk ({team}):", *stat_bullets(d),
-                  *(form["lines"] if form else []), *self.squad_lines(m), "",
+                  *(form["lines"] if form else []), *self.squad_lines(m),
+                  *([f"💬 Neden: {why}"] if why else []), "",
                   *prob_lines(p_model, p_mkt, conf)]
         if drop >= DROP_PCT:
             lines.append(f"📉 Maç öncesi Üst 2.5 oranı %{round(drop * 100)} düşmüştü")
