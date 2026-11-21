@@ -653,6 +653,15 @@ class ProEngine:
             except Exception as e:
                 log("Sabah raporu hatası:", e)
         self.send_drop_alerts()
+        self.kupon_tick()
+
+    def kupon_tick(self):
+        import kupon
+        try:
+            kupon.resolve(self.api)
+            kupon.maybe_send(self.api, self.book, self.form, force=os.environ.get("FORCE_KUPON") == "1")
+        except Exception as e:
+            log("Kupon hatası:", e)
 
     def send_drop_alerts(self):
         import prematch
@@ -1936,7 +1945,7 @@ class ProEngine:
             log("Devralınan sinyaller işlenemedi:", e)
         notify("✅ Takip başladı", f"Pro mod ({', '.join(sorted(SIGNALS_ON))}), bitiş {end:%H:%M}.",
                priority=2, tags=["white_check_mark"])
-        last_save = last_odds = last_stop = time.time()
+        last_save = last_odds = last_stop = last_kupon = time.time()
         idle = 0
         try:
             while dt.datetime.now(TZ) < end:
@@ -1957,6 +1966,9 @@ class ProEngine:
                         self.send_drop_alerts()
                     except Exception as e:
                         log("Oran yenileme hatası:", e)
+                if time.time() - last_kupon > 900:
+                    last_kupon = time.time()
+                    self.kupon_tick()
                 if time.time() - last_save > CHECKPOINT_EVERY:
                     self.checkpoint()
                     last_save = time.time()

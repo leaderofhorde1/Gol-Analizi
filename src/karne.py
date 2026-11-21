@@ -295,6 +295,17 @@ def build(days=7):
          "olarak anlamlı (yaklaşık 2 standart hata).", ""]
     L += section(f"Son {days} gün", recent)
     L += section("Tüm zamanlar", rows)
+    try:
+        import kupon
+        for name, since_ in ((f"son {days} gün", since), ("tüm zamanlar", "")):
+            k = kupon.summary(since=since_)
+            if k["n"]:
+                L += [f"## 🧪 Deneme kuponları ({name})", "",
+                      f"Kupon: {k['w']}/{k['n']} tuttu (piyasanın beklediği ~{k['exp']:.1f}), "
+                      f"kupon başına 100 TL ile sanal kâr: {k['kar']:+.0f} TL. "
+                      f"Tek tek maçlar: {k['bacak_w']}/{k['bacak']} (piyasa beklentisi ~{k['bacak_exp']:.1f}).", ""]
+    except Exception as e:
+        L += [f"(Kupon özeti alınamadı: {e})", ""]
     text = "\n".join(L)
     RAPOR.mkdir(parents=True, exist_ok=True)
     (RAPOR / "karne.md").write_text(text, encoding="utf-8")

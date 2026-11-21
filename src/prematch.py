@@ -147,8 +147,19 @@ class OddsBook:
                 bid = bet.get("id")
                 if bid == 1 and all(vals.get(k) for k in ("Home", "Draw", "Away")):
                     out["1x2"] = {"ev": vals["Home"], "x": vals["Draw"], "dep": vals["Away"]}
-                elif bid == 5 and vals.get("Over 2.5") and vals.get("Under 2.5"):
-                    out["ou"] = {"ust": vals["Over 2.5"], "alt": vals["Under 2.5"]}
+                elif bid == 5:
+                    for ln, key in (("2.5", "ou"), ("1.5", "ou15"), ("3.5", "ou35")):
+                        if vals.get(f"Over {ln}") and vals.get(f"Under {ln}"):
+                            out[key] = {"ust": vals[f"Over {ln}"], "alt": vals[f"Under {ln}"]}
+                elif bid == 45 or (bet.get("name") or "").lower() == "corners over under":
+                    kr = {}
+                    for name, odd in vals.items():
+                        parts = (name or "").split()
+                        if len(parts) == 2 and parts[0] in ("Over", "Under") and odd:
+                            kr.setdefault(parts[1], {})["ust" if parts[0] == "Over" else "alt"] = odd
+                    kr = {k: v for k, v in kr.items() if "ust" in v and "alt" in v}
+                    if kr:
+                        out["korner"] = kr
                 elif bid == 8 and vals.get("Yes") and vals.get("No"):
                     out["kg"] = {"var": vals["Yes"], "yok": vals["No"]}
             break
