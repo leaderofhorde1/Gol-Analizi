@@ -143,6 +143,12 @@ def _goal_market(name: str) -> bool:
         w in n for w in ("1st", "2nd", "half", "corner", "card", "home", "away", "team", "asian", "extra"))
 
 
+def odd_line(row: dict, minute) -> list[str]:
+    """Sinyal mesajında bahsin o dakikadaki oranı."""
+    o = row.get("oran")
+    return [f"💰 Oran: {float(o):.2f} ({minute}. dakika itibarıyla)"] if o not in ("", None) else []
+
+
 def offered_odd(odds: dict | None, tur: str, line) -> float | None:
     """Sinyalin yönündeki gerçek (marjlı) oran: gruba gidenin karşılığı alınabilecek fiyat."""
     if not odds:
@@ -1462,7 +1468,8 @@ class ProEngine:
                                                             else "; gol garanti değildir.")]
         else:
             olas = prob_lines(p, p_mkt, conf)
-        body = [tahmin, LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}", "",
+        body = [tahmin, LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}",
+                *(odd_line(row, m.minute) if tur != "baski" else []), "",
                 *lines, *(form["lines"] if form else []), *self.squad_lines(m),
                 *([f"💬 Neden: {why}"] if why else []), "", *olas, LINE,
                 "ℹ️ Bahis tavsiyesi değildir."]
@@ -1534,7 +1541,7 @@ class ProEngine:
         lines = [f"🎯 TAHMİN: MAÇ SONU {fmt_line(line)} ÜST"]
         if side in ("ev", "deplasman"):
             lines.append(f"👉 Baskıyı kuran: {team}")
-        lines += [LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}", "",
+        lines += [LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}", *odd_line(row, m.minute), "",
                   f"📈 Son {int(pr['span'])} dk ({team}):", *stat_bullets(d),
                   *(form["lines"] if form else []), *self.squad_lines(m),
                   *([f"💬 Neden: {why}"] if why else []), "",
