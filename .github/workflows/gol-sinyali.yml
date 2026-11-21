@@ -17,7 +17,7 @@ on:
       mod:
         description: "test = bağlantıları dene, run = canlı takibi başlat, kisa = 6 dk deneme + sabah raporu, diag = teşhis"
         type: choice
-        options: [test, run, kisa, diag, kurtar, mac, soru]
+        options: [test, run, kisa, diag, kurtar, mac, soru, kapsam]
         default: test
       sure:
         description: "İsteğe bağlı: oturum süresi (dakika). Boş = varsayılan"
@@ -30,7 +30,7 @@ permissions:
 
 concurrency:
   # test ve teşhis, süren canlı oturumu beklemesin
-  group: gol-sinyali-${{ (github.event.inputs.mod == 'test' || github.event.inputs.mod == 'diag' || github.event.inputs.mod == 'kurtar' || github.event.inputs.mod == 'mac' || github.event.inputs.mod == 'soru') && 'kontrol' || 'canli' }}
+  group: gol-sinyali-${{ (github.event.inputs.mod == 'test' || github.event.inputs.mod == 'diag' || github.event.inputs.mod == 'kurtar' || github.event.inputs.mod == 'mac' || github.event.inputs.mod == 'soru' || github.event.inputs.mod == 'kapsam') && 'kontrol' || 'canli' }}
   cancel-in-progress: false
 
 jobs:

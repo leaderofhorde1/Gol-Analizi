@@ -1041,6 +1041,32 @@ def run_diag():
 def main():
     if MODE == "diag":
         return run_diag()
+    if MODE == "kapsam":  # API-Football lig kapsamı: canlı istatistik hangi liglerde var
+        api0 = Api(API_KEY)
+        lg = api0.get("leagues", current="true")
+        rows = []
+        for x in lg:
+            se = (x.get("seasons") or [{}])[-1]
+            cv = (se.get("coverage") or {}).get("fixtures") or {}
+            rows.append((x["country"]["name"], x["league"]["name"], x["league"]["type"],
+                         bool(cv.get("statistics_fixtures")), bool(cv.get("events")), bool((se.get("coverage") or {}).get("odds"))))
+        lig = [r for r in rows if r[2] == "League"]
+        print("TOPLAM LİG/KUPA:", len(rows), "| LİG:", len(lig))
+        print("LİG istatistik var:", sum(r[3] for r in lig), "yok:", sum(not r[3] for r in lig))
+        print("KUPA istatistik var:", sum(r[3] for r in rows if r[2] != "League"), "yok:", sum(not r[3] for r in rows if r[2] != "League"))
+        for c in ("Turkey", "Romania", "England", "Spain", "Italy", "Germany", "France", "Netherlands", "Portugal", "Poland", "Brazil", "Argentina", "Japan"):
+            print("ÜLKE", c, [(r[1], "istat" if r[3] else "-") for r in rows if r[0] == c][:10])
+        # bugünkü maçlarda gerçek durum: canlı maçların kaçında istatistik var
+        live = api0.get("fixtures", live="all")
+        ids = [str(f["fixture"]["id"]) for f in live]
+        withst = 0
+        for i in range(0, len(ids), 20):
+            for f in api0.get("fixtures", ids="-".join(ids[i:i + 20])):
+                st = parse_stats(f)
+                if any(v for sd in ("home", "away") for v in st[sd].values()):
+                    withst += 1
+        print("ŞU AN CANLI:", len(live), "| İSTATİSTİĞİ OLAN:", withst)
+        return 0
     if MODE == "soru":  # soru-cevap denemesi: sure alanındaki metni sorar, cevabı loga yazar
         import soru
         qa = soru.QA(Api(API_KEY))
