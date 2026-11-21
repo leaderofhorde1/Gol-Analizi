@@ -49,6 +49,14 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -104 TL • P
 | ✅ destekliyor | 2 | %0 | %28 | -200 TL |
 | ⚠️ ters | 1 | %100 | %54 | +76 TL |
 
+### 💰 Beklenen getiri (sunulan gerçek oranla)
+
+EV = model olasılığı × gerçek oran − 1. Negatif EV'li sinyal, model piyasadan iyimser olsa bile oranın marjı yüzünden zararlıdır.
+
+| EV | Sonuç | İsabet | Ort. oran | Sanal kâr |
+|---|---|---|---|---|
+| EV > +%2 | 0 | - | 2.20 | - |
+
 ### 👻 Gölge moddaki türler (gruba gitmiyor, ölçülüyor)
 
 | Tür | Sonuç | İsabet | Piyasa | Fark | Sanal kâr | Durum |
@@ -109,6 +117,14 @@ Piyasanın beklediği isabet: %48 → fark +2 puan • Sanal kâr: -104 TL • P
 |---|---|---|---|---|
 | ✅ destekliyor | 2 | %0 | %28 | -200 TL |
 | ⚠️ ters | 1 | %100 | %54 | +76 TL |
+
+### 💰 Beklenen getiri (sunulan gerçek oranla)
+
+EV = model olasılığı × gerçek oran − 1. Negatif EV'li sinyal, model piyasadan iyimser olsa bile oranın marjı yüzünden zararlıdır.
+
+| EV | Sonuç | İsabet | Ort. oran | Sanal kâr |
+|---|---|---|---|---|
+| EV > +%2 | 0 | - | 2.20 | - |
 
 ### 👻 Gölge moddaki türler (gruba gitmiyor, ölçülüyor)
 
