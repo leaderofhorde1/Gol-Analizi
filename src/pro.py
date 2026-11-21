@@ -1652,7 +1652,8 @@ class ProEngine:
         names = {"gol": "MAÇ SONU ÜST", "alt": "MAÇ SONU ALT", "korner": "KORNER ÜST", "kart": "KART ÜST",
                  "iy": "İLK YARI GOL", "kg": "KG VAR", "baski": "BASKI ALARMI"}
         head, rest = text.split("\n", 1) if "\n" in text else (text, "")
-        fallback = (f"{head} | {r['mac']}", f"↪️ {r['dakika']}' {names.get(tur, tur)} {ln} sinyali\n{rest}".strip())
+        ln_txt = "" if tur == "baski" else f" {ln}"
+        fallback = (f"{head} | {r['mac']}", f"↪️ {r['dakika']}' {names.get(tur, tur)}{ln_txt} sinyali\n{rest}".strip())
         telegram_reply(lambda r=r: r.get("tg_mesaj"), text, fallback=fallback)
 
     def label_samples(self, m: Match):
@@ -1718,6 +1719,11 @@ class ProEngine:
                 self.check_outcomes(m)
                 self.label_samples(m)
                 self.learn_referee(m)
+        try:  # kaydetmeden önce sıradaki Telegram mesajları gitsin (mesaj numaraları kayda girsin)
+            from main import telegram_drain
+            telegram_drain(60)
+        except Exception:
+            pass
         self.save()
         rows = self.all_rows + self.rows_today
         msg = []
