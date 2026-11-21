@@ -4,13 +4,13 @@ Sadece gruba gönderilen sinyaller sayılır (Claude bölümü hariç). Sanal k�
 
 ## Son 7 gün
 
-**134 sinyal sonuçlandı (66 farklı maç): ✅ 65 tuttu, ❌ 69 tutmadı (%49)**
+**139 sinyal sonuçlandı (66 farklı maç): ✅ 65 tuttu, ❌ 74 tutmadı (%47)**
 
 _Aynı maçtaki sinyaller birbirinden bağımsız değildir; gerçek kanıt gücü maç sayısına yakındır._
 
-%90 güven aralığı (maç bazlı): piyasaya göre fark -7 ile +8 puan, sanal kâr -2386 ile +1265 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
+%90 güven aralığı (maç bazlı): piyasaya göre fark -9 ile +5 puan, sanal kâr -3040 ile +842 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
 
-Piyasanın beklediği isabet: %48 → fark +1 puan • Sanal kâr: -504 TL • Piyasa bizim yönümüze döndü: %75 (4)
+Piyasanın beklediği isabet: %48 → fark -1 puan • Sanal kâr: -1004 TL • Piyasa bizim yönümüze döndü: %80 (5)
 
 ### Tür bazında
 
@@ -18,7 +18,7 @@ Piyasanın beklediği isabet: %48 → fark +1 puan • Sanal kâr: -504 TL • P
 |---|---|---|---|---|---|---|---|
 | ⚽ Üst (gol) | 21 | %67 | %67 | -1 puan | -199 TL | %100 (2) | ⏳ veri az (21/30) |
 | 🧊 Alt | 44 | %41 | %40 | +1 puan | -270 TL | %0 (1) | 🟡 piyasa kadar |
-| 🚩 Korner | 28 | %46 | %52 | -6 puan | -207 TL | - | ⏳ veri az (28/30) |
+| 🚩 Korner | 33 | %39 | %52 | -12 puan | -707 TL | %100 (1) | 🔴 zayıf |
 | 🟨 Kart | 8 | %75 | %50 | +25 puan | +375 TL | - | ⏳ veri az (8/30) |
 | ⏱ İlk yarı | 12 | %42 | %53 | -11 puan | -306 TL | - | ⏳ veri az (12/30) |
 | 🤝 KG | 12 | %50 | %47 | +3 puan | +46 TL | %100 (1) | ⏳ veri az (12/30) |
@@ -33,8 +33,8 @@ Piyasanın beklediği isabet: %48 → fark +1 puan • Sanal kâr: -504 TL • P
 | Netherlands - Eerste Divisie | 21 | %48 | %53 | +53 TL |
 | France - Ligue 1 | 5 | %40 | %42 | -120 TL |
 | Qatar - Stars League | 8 | %62 | %60 | -152 TL |
-| Poland - Ekstraklasa | 5 | %40 | %56 | -233 TL |
-| Japan - J1 League | 6 | %17 | %43 | -400 TL |
+| Poland - Ekstraklasa | 7 | %29 | %56 | -433 TL |
+| Japan - J1 League | 8 | %12 | %43 | -600 TL |
 
 ### 🤖 Claude filtresi (gol sinyalleri)
 
@@ -62,7 +62,7 @@ Piyasanın beklediği isabet: %48 → fark +1 puan • Sanal kâr: -504 TL • P
 |---|---|---|---|---|
 | ✅ destekliyor | 6 | %0 | %41 | -600 TL |
 | nötr | 2 | %50 | %44 | +0 TL |
-| ⚠️ ters | 1 | %100 | %54 | +76 TL |
+| ⚠️ ters | 4 | %25 | %48 | -224 TL |
 
 ### 💹 Canlı oran akışı (sinyal anında)
 
@@ -77,7 +77,7 @@ Sinyalden 5 dk sonra aynı çizgide piyasa bizim yönümüze döndüyse **lehte*
 
 | Piyasa | Sonuç | İsabet | Sanal kâr |
 |---|---|---|---|
-| lehte | 3 | %0 | -300 TL |
+| lehte | 4 | %0 | -400 TL |
 | aleyhte | 1 | %100 | +100 TL |
 
 ### 💰 Beklenen getiri (sunulan gerçek oranla)
@@ -86,7 +86,7 @@ EV = model olasılığı × gerçek oran − 1. Negatif EV'li sinyal, model piya
 
 | EV | Sonuç | İsabet | Ort. oran | Sanal kâr |
 |---|---|---|---|---|
-| EV > +%2 | 5 | %20 | 2.15 | -300 TL |
+| EV > +%2 | 8 | %12 | 2.15 | -600 TL |
 
 ### 👻 Gölge moddaki türler (gruba gitmiyor, ölçülüyor)
 
@@ -98,19 +98,19 @@ EV = model olasılığı × gerçek oran − 1. Negatif EV'li sinyal, model piya
 
 | Güven | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| yüksek | 60 | %45 | %41 | +16 TL |
-| orta | 58 | %53 | %53 | -169 TL |
+| yüksek | 63 | %43 | %42 | -284 TL |
+| orta | 60 | %52 | %53 | -369 TL |
 | düşük | 16 | %44 | %58 | -351 TL |
 
 ## Tüm zamanlar
 
-**134 sinyal sonuçlandı (66 farklı maç): ✅ 65 tuttu, ❌ 69 tutmadı (%49)**
+**139 sinyal sonuçlandı (66 farklı maç): ✅ 65 tuttu, ❌ 74 tutmadı (%47)**
 
 _Aynı maçtaki sinyaller birbirinden bağımsız değildir; gerçek kanıt gücü maç sayısına yakındır._
 
-%90 güven aralığı (maç bazlı): piyasaya göre fark -7 ile +8 puan, sanal kâr -2386 ile +1265 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
+%90 güven aralığı (maç bazlı): piyasaya göre fark -9 ile +5 puan, sanal kâr -3040 ile +842 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
 
-Piyasanın beklediği isabet: %48 → fark +1 puan • Sanal kâr: -504 TL • Piyasa bizim yönümüze döndü: %75 (4)
+Piyasanın beklediği isabet: %48 → fark -1 puan • Sanal kâr: -1004 TL • Piyasa bizim yönümüze döndü: %80 (5)
 
 ### Tür bazında
 
@@ -118,7 +118,7 @@ Piyasanın beklediği isabet: %48 → fark +1 puan • Sanal kâr: -504 TL • P
 |---|---|---|---|---|---|---|---|
 | ⚽ Üst (gol) | 21 | %67 | %67 | -1 puan | -199 TL | %100 (2) | ⏳ veri az (21/30) |
 | 🧊 Alt | 44 | %41 | %40 | +1 puan | -270 TL | %0 (1) | 🟡 piyasa kadar |
-| 🚩 Korner | 28 | %46 | %52 | -6 puan | -207 TL | - | ⏳ veri az (28/30) |
+| 🚩 Korner | 33 | %39 | %52 | -12 puan | -707 TL | %100 (1) | 🔴 zayıf |
 | 🟨 Kart | 8 | %75 | %50 | +25 puan | +375 TL | - | ⏳ veri az (8/30) |
 | ⏱ İlk yarı | 12 | %42 | %53 | -11 puan | -306 TL | - | ⏳ veri az (12/30) |
 | 🤝 KG | 12 | %50 | %47 | +3 puan | +46 TL | %100 (1) | ⏳ veri az (12/30) |
@@ -133,8 +133,8 @@ Piyasanın beklediği isabet: %48 → fark +1 puan • Sanal kâr: -504 TL • P
 | Netherlands - Eerste Divisie | 21 | %48 | %53 | +53 TL |
 | France - Ligue 1 | 5 | %40 | %42 | -120 TL |
 | Qatar - Stars League | 8 | %62 | %60 | -152 TL |
-| Poland - Ekstraklasa | 5 | %40 | %56 | -233 TL |
-| Japan - J1 League | 6 | %17 | %43 | -400 TL |
+| Poland - Ekstraklasa | 7 | %29 | %56 | -433 TL |
+| Japan - J1 League | 8 | %12 | %43 | -600 TL |
 
 ### 🤖 Claude filtresi (gol sinyalleri)
 
@@ -162,7 +162,7 @@ Piyasanın beklediği isabet: %48 → fark +1 puan • Sanal kâr: -504 TL • P
 |---|---|---|---|---|
 | ✅ destekliyor | 6 | %0 | %41 | -600 TL |
 | nötr | 2 | %50 | %44 | +0 TL |
-| ⚠️ ters | 1 | %100 | %54 | +76 TL |
+| ⚠️ ters | 4 | %25 | %48 | -224 TL |
 
 ### 💹 Canlı oran akışı (sinyal anında)
 
@@ -177,7 +177,7 @@ Sinyalden 5 dk sonra aynı çizgide piyasa bizim yönümüze döndüyse **lehte*
 
 | Piyasa | Sonuç | İsabet | Sanal kâr |
 |---|---|---|---|
-| lehte | 3 | %0 | -300 TL |
+| lehte | 4 | %0 | -400 TL |
 | aleyhte | 1 | %100 | +100 TL |
 
 ### 💰 Beklenen getiri (sunulan gerçek oranla)
@@ -186,7 +186,7 @@ EV = model olasılığı × gerçek oran − 1. Negatif EV'li sinyal, model piya
 
 | EV | Sonuç | İsabet | Ort. oran | Sanal kâr |
 |---|---|---|---|---|
-| EV > +%2 | 5 | %20 | 2.15 | -300 TL |
+| EV > +%2 | 8 | %12 | 2.15 | -600 TL |
 
 ### 👻 Gölge moddaki türler (gruba gitmiyor, ölçülüyor)
 
@@ -198,6 +198,6 @@ EV = model olasılığı × gerçek oran − 1. Negatif EV'li sinyal, model piya
 
 | Güven | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| yüksek | 60 | %45 | %41 | +16 TL |
-| orta | 58 | %53 | %53 | -169 TL |
+| yüksek | 63 | %43 | %42 | -284 TL |
+| orta | 60 | %52 | %53 | -369 TL |
 | düşük | 16 | %44 | %58 | -351 TL |
