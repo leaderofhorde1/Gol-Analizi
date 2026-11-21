@@ -570,6 +570,13 @@ class ProEngine:
         self.pending_samples: list[dict] = []
         self.done_samples: list[dict] = []
         self.all_rows = load_signals()
+        # Bitiş istatistiği gecikmeli geldiği için "bilinmiyor" kalan korner/kart sinyalleri yeniden açılır,
+        # sonuç gerçek veriyle belirlenip gruba yazılır (bugün ve dün)
+        _gun = (self.today, (self.now0 - dt.timedelta(days=1)).date().isoformat())
+        for r in self.all_rows:
+            if (r.get("sonuc") == "bilinmiyor" and (r.get("tur") or "") in ("korner", "kart")
+                    and r.get("cizgi") not in ("", None) and r.get("tarih") in _gun):
+                r["sonuc"], r["duyuruldu"], r["kar"] = "bekliyor", "", ""
         # Önceki oturumdan sonucu bekleyen bugünkü sinyaller bu oturumda takip edilmeye devam eder
         carry = [r for r in self.all_rows if r.get("sonuc") == "bekliyor"
                  and r.get("tarih") in (self.today, (self.now0 - dt.timedelta(days=1)).date().isoformat())]
@@ -638,7 +645,11 @@ class ProEngine:
         import prematch
         lines = prematch.drop_alerts(self.book, self.alerted)
         if lines:
-            notify("📉 ORAN DÜŞÜŞÜ", "\n\n".join(lines[:8]) + "\n" + LINE + "\nℹ️ Başlamasına 3 saatten az kalan maçlar",
+            notify("📉 ORAN DÜŞÜŞÜ", "\n\n".join(lines[:8]) + "\n" + LINE +
+                   "\nℹ️ Oran düşüşü ne demek? Bahis şirketleri o sonuca daha yüksek ihtimal veriyor: ya o sonuca çok "
+                   "para yatırıldı ya da yeni bir bilgi geldi (kadro, sakatlık, hava durumu). Genelde bilgili paranın "
+                   "işaretidir ama garanti değildir; oran düştüğü için o sonucun getirisi de azalmıştır."
+                   "\nℹ️ Başlamasına 3 saatten az kalan maçlar",
                    priority=3, tags=["chart_with_downwards_trend"])
 
     def mu(self, fid) -> float:
