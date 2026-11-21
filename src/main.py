@@ -1049,8 +1049,24 @@ def main():
         print("YAPI:", qa.parse(q, None))
         print("CEVAP:\n" + qa.answer(q, None))
         return 0
-    if MODE == "mac":  # tek maçın son durumunu yazdır (sure alanı = maç numarası)
-        it = Api(API_KEY).get("fixtures", id=os.environ.get("RUN_MINUTES"))[0]
+    if MODE == "mac":  # tek maçın son durumunu yazdır (sure alanı = maç numarası ya da takım adı)
+        key = (os.environ.get("RUN_MINUTES") or "").strip()
+        api0 = Api(API_KEY)
+        if not key.isdigit():  # takım adıyla canlı maç ara ve sinyal engellerini teşhis et
+            live = api0.get("fixtures", live="all")
+            hit = [f for f in live if key.lower() in (f["teams"]["home"]["name"] + " " + f["teams"]["away"]["name"]).lower()]
+            print("CANLI MAÇ SAYISI:", len(live), "| BULUNAN:", [(f["fixture"]["id"], f["teams"]["home"]["name"], f["teams"]["away"]["name"], f["league"]["name"], f["league"]["country"]) for f in hit])
+            if not hit:
+                return 0
+            key = str(hit[0]["fixture"]["id"])
+            od = api0.get("odds/live", fixture=key)
+            print("CANLI ORAN:", "yok" if not od else {"status": od[0].get("status"), "update": od[0].get("update"),
+                                                      "pazarlar": [mk.get("name") for mk in od[0].get("odds") or []]})
+            import re as _re
+            lq = _re.compile(r"U1[5-9]|U2[0-3]|youth|women|\bW\b|reserve|friendl|\bII\b|Jong|primavera|juvenil", _re.I)
+            f0 = hit[0]
+            print("DÜŞÜK KALİTE FİLTRESİ:", bool(lq.search(f"{f0['league']['name']} {f0['teams']['home']['name']} {f0['teams']['away']['name']}")))
+        it = api0.get("fixtures", id=key)[0]
         st = parse_stats(it)
         print("MAÇ:", it["teams"]["home"]["name"], "-", it["teams"]["away"]["name"], it["fixture"]["status"],
               "skor", it["goals"], "korner", st["home"]["corners"], st["away"]["corners"],
