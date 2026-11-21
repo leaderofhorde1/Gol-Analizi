@@ -552,6 +552,13 @@ class ProEngine:
         self.api = api
         self.claude = claude
         self.now0 = dt.datetime.now(TZ)
+        try:  # bu oturumun çalıştırdığı kodun commit zamanı
+            import subprocess
+            _ct = subprocess.run(["git", "log", "-1", "--format=%cI", os.environ.get("GITHUB_SHA", "HEAD")],
+                                 cwd=str(DATA.parent), capture_output=True, text=True, timeout=20).stdout.strip()
+            self.code_time = dt.datetime.fromisoformat(_ct).astimezone(TZ) if _ct else None
+        except Exception:
+            self.code_time = None
         self.today = self.now0.date().isoformat()
         self.book = OddsBook(api, self.today)
         self.matches: dict[int, Match] = {}
@@ -1798,7 +1805,9 @@ class ProEngine:
             r = self._git("show", "origin/main:data/kontrol/dur")
             if r.returncode == 0:
                 ts = dt.datetime.fromisoformat(r.stdout.strip())
-                return ts > self.now0
+                # Kuyrukta bekleyip geç başlayan oturum da eski kodla çalışıyorsa durmalı:
+                # başlangıç zamanı ya da kodunun (commit) zamanı, hangisi önceyse ona göre karşılaştırılır.
+                return ts > min(self.now0, self.code_time or self.now0)
         except Exception:
             pass
         return False
