@@ -53,6 +53,8 @@ ALARM_MULT = float(os.environ.get("ALARM_MULT", "1.8"))  # baskı alarmı: tek t
 # 65+ dakikadakilerin 22'de 14'ü tuttu. Arşivde 55. dakikada maçların ancak %28–37'si golsüz bitiyor;
 # son 15 dakikanın sakinliği 35–40 dakikalık kalan süre için zayıf bir işaret.
 ALT_MIN_MINUTE = int(os.environ.get("ALT_MIN_DK", "65"))
+ALT_MAX_ODD = float(os.environ.get("ALT_MAX_ORAN", "3.0"))   # Alt oranı bundan yüksekse piyasa golü bekliyor: gönderme
+ALT_JUMP = float(os.environ.get("ALT_SICRAMA", "1.12"))      # son 1-3 dk'da piyasanın gol hızı bu kadar arttıysa gönderme
 ALARM_MIN_WINDOW = 8   # dk: devre sonuna bundan az kaldıysa alarm verilmez
 ALARM_WINDOW = 15  # dk: alarmın "gol yakın" iddiasının ölçüldüğü süre (baskının etkisi ~15 dk)
 TYPICAL_TOTAL_PRESSURE = 12.0
@@ -284,6 +286,14 @@ def curve_avg(curve, minute: int, span: int = 10) -> float:
 def league_param(lid, key, default):
     v = (PARAMS.get("lig") or {}).get(str(lid), {}).get(key)
     return v if v else default
+
+
+def late_fix(minute: int, span: int) -> float:
+    """Maç sonuna kadar olan pencerelerde uzatma düzeltmesi (arşivden: gerçek kalan gol / model)."""
+    if minute + span < 90:
+        return 1.0
+    tab = PARAMS.get("kalan_duzeltme") or {}
+    return tab.get(str(min(88, max(45, int(minute)))), 1.0)  # arşivde uzatma golleri 90'a yazılı
 
 
 def goal_state(gh, ga) -> str:
@@ -866,6 +876,7 @@ class ProEngine:
     def time_mult(self, m: Match, minute: int, span: int) -> float:
         if PARAMS.get("gol_egrisi"):
             tm = curve_avg(PARAMS["gol_egrisi"], minute, max(1, span))
+            tm *= late_fix(minute, span)
             return tm * (PARAMS.get("gol_durum") or {}).get(goal_state(*self.ctx.state_score(m)), 1.0)
         return 1.0
 
@@ -1089,6 +1100,12 @@ class ProEngine:
                          and d["sot"] <= 1 and d["xg"] <= 0.25 and d["inbox"] <= 2)
                 ok, fi = (self.form_gate(m, "alt", ust_line, p_alt - p_alt_m, EDGE_ALT)
                           if quiet and p_alt - p_alt_m >= EDGE_ALT else (False, None))
+                engel = self.alt_fresh_check(m, ust_line, pu_m) if ok else None
+                if engel:
+                    log(f"  [alt] {m.name} {m.minute}': gönderilmedi ({engel})")
+                    meta.setdefault("alt_engel", 0)
+                    meta["alt_engel"] += 1
+                    ok = False
                 if ok:
                     meta["alt_gonderildi"] = True
                     self.simple_signal(m, "alt", p_alt, p_alt_m, None, None, [
@@ -1331,6 +1348,36 @@ class ProEngine:
                 log(f"  [kapı] {m.name} {tur} {line}: {', '.join(why)} → sinyal yok")
             return False, info
         return True, info
+
+    def alt_fresh_check(self, m, line, p_before) -> str | None:
+        """Alt göndermeden hemen önce taze oran: piyasa golü sezdiyse (istatistik geriden gelirken) engelle."""
+        try:
+            fresh = self.api.get("odds/live", fixture=m.id)
+        except Exception as e:
+            return f"taze oran alınamadı: {e}"
+        if not fresh:
+            return "taze oran yok"
+        o = fresh[0]
+        self.meta.setdefault(m.id, {})["odds"] = o
+        st = odds_state(o)
+        if st:
+            return st
+        p_now = goal_line_prob(o, float(line))
+        if p_now is None:
+            return "çizgi kapandı"
+        if p_now - p_before >= 0.03:
+            return f"piyasa gol ihtimalini artırdı ({p_before:.2f} → {p_now:.2f})"
+        odd = offered_odd(o, "alt", line)
+        if odd and odd > ALT_MAX_ODD:
+            return f"Alt oranı {odd} (piyasa gol bekliyor)"
+        hist = self.meta.get(m.id, {}).get("oran_gecmis") or []
+        goals = m.gh + m.ga
+        past = [h for h in hist if m.minute - 3 <= h[0] <= m.minute - 1 and h[1] == goals and h[2]]
+        if past and 0.01 < p_now < 0.99:
+            rate_now = -math.log(1 - p_now) / remaining_minutes(m.minute)
+            if rate_now / past[0][2] >= ALT_JUMP:
+                return f"son dakikalarda piyasa gol hızı %{(rate_now / past[0][2] - 1) * 100:.0f} arttı"
+        return None
 
     def steam(self, m) -> float | None:
         """Olaysız oran akışı: gol pazarının ima ettiği hız, STEAM_MIN dk önceye göre kaç kat?"""

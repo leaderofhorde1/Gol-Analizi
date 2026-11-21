@@ -206,6 +206,36 @@ def league_stats(hist):
     return out
 
 
+def late_correction(records, curve):
+    """Maç sonuna kalan gol: arşivdeki gerçek (uzatmalar dahil) / modelin eğriyle tahmini, dakika başına.
+    Canlı motor (pro.py) eğrinin uzatma dilimlerini maruz kalınan süreye göre küçültür; aynısı burada da yapılır."""
+    curve = list(curve)
+    curve[8] *= 5 / 7.5
+    curve[17] *= 5 / 10
+    def cavg(t, span):
+        vals = [curve[min(17, max(0, (min(x, 90) - 1) // 5))] for x in range(t + 1, t + span + 1)]
+        return sum(vals) / len(vals)
+    after = [0] * 95
+    n = goals = 0
+    for r in records:
+        n += 1
+        for m, ex, side in r["goller"]:
+            goals += 1
+            for t in range(0, min(int(m), 95)):
+                after[t] += 1
+    if n < 1000:
+        return {}
+    mu = goals / n
+    out = {}
+    for t in range(45, 89):
+        rem = max(4.0, 94.0 - t)
+        model = mu / 94 * cavg(t, int(rem)) * rem
+        emp = after[t] / n
+        if model > 0:
+            out[str(t)] = round(min(1.5, max(0.8, emp / model)), 3)
+    return out
+
+
 def timing_curves(hist):
     g = [0] * 18
     c = [0] * 18
@@ -458,7 +488,7 @@ def run():
     params = {
         "olusturma": dt.datetime.now(TZ).isoformat(timespec="minutes"), "mac_sayisi": n,
         "lig": leagues, "gol_egrisi": goals_curve, "kart_egrisi": cards_curve,
-        "gol_durum": state_mult, "kart_gec_yakin": late_close,
+        "gol_durum": state_mult, "kalan_duzeltme": late_correction(hist.values(), goals_curve), "kart_gec_yakin": late_close,
         "on_mac": {"shrink": best_k,
                    # Piyasa örneklemi küçükse modele güvenme: kanıtlanana kadar piyasa esas (0.0).
                    "model_agirligi": (mkt or {}).get("en_iyi_agirlik", 0.0) if (mkt or {}).get("mac", 0) >= 300 else 0.0,
