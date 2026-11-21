@@ -46,7 +46,7 @@ LOOKBACK_MIN = 10             # baskı penceresi (maç dakikası)
 MIN_SPAN = 6                  # en az bu kadar dakikalık veri olmalı
 COOLDOWN_MIN = 12             # aynı maçta iki sinyal arası
 EVAL_WINDOW = 10              # sinyalden sonra kaç dakika içinde gol = isabet
-MAX_CLAUDE_CALLS = int(os.environ.get("MAX_CLAUDE_CALLS", "40"))
+MAX_CLAUDE_CALLS = int(os.environ.get("MAX_CLAUDE_CALLS", "100"))
 CLAUDE_MODEL = os.environ.get("CLAUDE_MODEL", "sonnet")
 USE_CLAUDE = os.environ.get("USE_CLAUDE", "1") == "1"
 

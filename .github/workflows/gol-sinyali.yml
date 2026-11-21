@@ -77,7 +77,7 @@ jobs:
           MAX_TRACK: "3"          # günde takip edilecek maç sayısı (ücretsiz kota için 3)
           THRESHOLD: "13"         # baskı eşiği: büyütürsen daha az ama daha güçlü sinyal
           CLAUDE_MODEL: "sonnet"
-          MAX_CLAUDE_CALLS: "25"  # oturum başına en fazla Claude çağrısı
+          MAX_CLAUDE_CALLS: "100"  # oturum başına en fazla Claude çağrısı (akşam yoğunluğunda 25 yetmiyordu)
         run: python src/main.py
 
       - name: Sinyal kayıtlarını depoya kaydet

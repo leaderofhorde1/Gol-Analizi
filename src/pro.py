@@ -46,7 +46,7 @@ HOT_MAX = 20
 MAX_BATCHES = 15
 SAMPLE_EVERY = 5
 DROP_PCT = float(os.environ.get("DROP_PCT", "0.07"))
-MAX_CLAUDE = int(os.environ.get("MAX_CLAUDE_CALLS", "25"))
+MAX_CLAUDE = int(os.environ.get("MAX_CLAUDE_CALLS", "100"))
 SIGNALS_ON = set(os.environ.get("SIGNALS", "gol,alt,korner,kart,iy,kg,baski").split(","))
 ALARM_MULT = float(os.environ.get("ALARM_MULT", "1.8"))  # baskı alarmı: tek takım baskısı eşiğin bu katı
 # Alt sinyali en erken bu dakikada: 54–64. dakikalardaki 20 Alt sinyalinin sadece 3'ü tuttu (piyasa %32 bekliyordu),
