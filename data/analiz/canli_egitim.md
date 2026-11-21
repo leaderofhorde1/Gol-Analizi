@@ -1,4 +1,4 @@
-# Canlı model eğitimi – 2026-11-21T04:02+03:00
+# Canlı model eğitimi – 2026-11-21T08:41+03:00
 
 Toplam örnek: 1596
 
@@ -28,13 +28,13 @@ Ağırlıklar: sabit 0.5091, logit(piyasa) 1.0556, model-piyasa farkı 1.04, log
 | Olay oranı | 0.217 |
 | Log kayıp: piyasa | 0.80264 |
 | Log kayıp: eski model | 0.52035 |
-| Log kayıp: piyasa + maç durumu (B) | 3.66194 |
-| Log kayıp: tam model (C) | 2.99614 |
-| Brier (piyasa / B / C) | 0.25197 / 0.26506 / 0.21687 |
-| Simüle sinyal (yeni − piyasa ≥ 5 puan) | 0 adet, isabet None, piyasa ort. None |
+| Log kayıp: piyasa + maç durumu (B) | 0.51019 |
+| Log kayıp: tam model (C) | 0.55122 |
+| Brier (piyasa / B / C) | 0.25197 / 0.167 / 0.18936 |
+| Simüle sinyal (yeni − piyasa ≥ 5 puan) | 50 adet, isabet 0.24, piyasa ort. 0.333 |
 | Kullanımda | hayır |
 
-Ağırlıklar: sabit -281.553, logit(piyasa) 93.1318, model-piyasa farkı 410.259, log toplam baskı -351.358, log en yüksek baskı -322.2345, dakika -152.2471, skor eşit -91.9995, 1 gol fark -126.4495, kırmızı kart farkı -4.0
+Ağırlıklar: sabit -1.4902, logit(piyasa) 0.6297, model-piyasa farkı 0.5646, log toplam baskı 0.9447, log en yüksek baskı -0.3806, dakika -0.1122, skor eşit 0.2216, 1 gol fark -0.0467, kırmızı kart farkı -0.7586
 
 ## kart
 

@@ -1163,34 +1163,46 @@ class ProEngine:
         row["q_sonra"] = ""
         row["_clv"] = (tur_m, float(line), r[1] if r else None)
 
+    CLV_WINDOWS = {2: "q_2", 5: "q_sonra", 10: "q_10", 15: "q_15"}
+
     def clv_check(self, m, r):
-        """Sinyalden CLV_AFTER dk sonra piyasa bizim yönümüze döndü mü?"""
-        if r.get("piyasa_yon") or r.get("q_once") in ("", None) or "_clv" not in r:
+        """Piyasa tepki penceresi: sinyalden 2, 5, 10 ve 15 dk sonra aynı çizginin piyasa hızı.
+        Arada olay (gol/korner/kart) olursa o pencere "olay" olarak işaretlenir.
+        5. dakikaya göre lehte/aleyhte/nötr kararı verilir."""
+        if r.get("q_once") in ("", None) or "_clv" not in r:
             return
-        if m.minute < int(r["dakika"]) + CLV_AFTER:
+        smin = int(r["dakika"])
+        todo = [(w, f) for w, f in self.CLV_WINDOWS.items() if r.get(f) in ("", None) and m.minute >= smin + w]
+        if not todo:
             return
         tur_m, line, count0 = r["_clv"]
         try:
             now = market_rate(m, self.meta.get(m.id, {}).get("odds"), tur_m, line)
         except Exception:
             now = None
-        if now is None:
-            if m.minute >= int(r["dakika"]) + CLV_AFTER + 5:
-                r["piyasa_yon"] = "veri yok"
-            return
-        rate, count = now
-        if count0 is not None and count != count0:  # arada olay oldu: hız karşılaştırılamaz
-            r["piyasa_yon"] = "olay"
-            return
         q0 = float(r["q_once"])
-        r["q_sonra"] = round(rate, 5)
         d = OVER_DIR.get(r.get("tur") or "gol", 1)
-        if (rate > q0 * CLV_TOL and d > 0) or (rate < q0 / CLV_TOL and d < 0):
-            r["piyasa_yon"] = "lehte"
-        elif (rate < q0 / CLV_TOL and d > 0) or (rate > q0 * CLV_TOL and d < 0):
-            r["piyasa_yon"] = "aleyhte"
-        else:
-            r["piyasa_yon"] = "nötr"
+        for w, f in todo:
+            if now is None:
+                if m.minute >= smin + w + 5:
+                    r[f] = "veri yok"
+                    if w == CLV_AFTER and not r.get("piyasa_yon"):
+                        r["piyasa_yon"] = "veri yok"
+                continue
+            rate, count = now
+            if count0 is not None and count != count0:  # arada olay oldu: hız karşılaştırılamaz
+                r[f] = "olay"
+                if w == CLV_AFTER and not r.get("piyasa_yon"):
+                    r["piyasa_yon"] = "olay"
+                continue
+            r[f] = round(rate, 5)
+            if w == CLV_AFTER and not r.get("piyasa_yon"):
+                if (rate > q0 * CLV_TOL and d > 0) or (rate < q0 / CLV_TOL and d < 0):
+                    r["piyasa_yon"] = "lehte"
+                elif (rate < q0 / CLV_TOL and d > 0) or (rate > q0 * CLV_TOL and d < 0):
+                    r["piyasa_yon"] = "aleyhte"
+                else:
+                    r["piyasa_yon"] = "nötr"
 
     def form_gate(self, m, tur, line, edge=None, need=None, only=None):
         """Sinyal kapısı: son 5 maç formu ve canlı oran akışı tahmine ters düşüyorsa daha güçlü kanıt ister.

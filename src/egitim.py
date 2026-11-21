@@ -92,9 +92,14 @@ def fit_logistic(X, y, l2=1.0, iters=30):
             for b in range(a):
                 H[a][b] = H[b][a]
         step = solve(H, g)
-        w = [wi - si for wi, si in zip(w, step)]
-        if max(abs(s) for s in step) < 1e-6:
+        big = max(abs(s) for s in step)
+        scale = min(1.0, 1.0 / big) if big > 0 else 1.0  # sönümlü Newton: tek adımda en fazla 1 birim
+        w = [wi - scale * si for wi, si in zip(w, step)]
+        if big < 1e-6:
             break
+    if max(abs(v) for v in w) > 20:  # ayrışma/patlama: güvenilmez, piyasaya dön
+        w = [0.0] * k
+        w[1] = 1.0
     return w
 
 
@@ -185,7 +190,7 @@ def train_one(tur, rows):
 
 
 CAL_OUT = DATA / "model" / "kalibrasyon.json"
-MIN_CAL = int(os.environ.get("MIN_KALIBRASYON", "200"))
+MIN_CAL = int(os.environ.get("MIN_KALIBRASYON", "300"))
 CAL_TYPES = ("gol", "alt", "korner", "kart", "iy", "kg")
 
 
