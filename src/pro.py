@@ -1094,7 +1094,7 @@ class ProEngine:
                 and m.status in ("1H", "2H") and half_end - m.minute >= ALARM_MIN_WINDOW
                 and m.minute - m.last_signal_min >= 12 and m.minute - meta.get("son_gol_turu", -99) >= 12
                 and not pr.get("goal_in_window") and max(pr["home"], pr["away"]) >= THRESHOLD * ALARM_MULT
-                and (fb_ := self.form_gate(m, "baski", None, only="home" if pr["home"] >= pr["away"] else "away"))[0]):
+                and (fb_ := self.form_gate(m, "baski", m.status, only="home" if pr["home"] >= pr["away"] else "away"))[0]):
             meta["alarm_gonderildi"] = True
             sd = "home" if pr["home"] >= pr["away"] else "away"
             team = m.home if sd == "home" else m.away
