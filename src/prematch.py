@@ -221,6 +221,11 @@ def drop_alerts(book: OddsBook, alerted: set) -> list[str]:
                 anlam = {"1x2:ev": f"{ev} kazanır", "1x2:dep": f"{dep} kazanır", "1x2:x": "berabere biter",
                          "ou:ust": "maçta 3 veya daha fazla gol olur", "ou:alt": "maçta en fazla 2 gol olur",
                          "kg:var": "iki takım da gol atar", "kg:yok": "en az bir takım gol atamaz"}.get(key, LABELS[key])
+                try:
+                    import dusus
+                    dusus.record(book, fid, key)
+                except Exception as e:
+                    print("Oran düşüşü kaydı:", e)
                 lines.append(f"🕖 {t}  {ev} - {dep}\n"
                              f"   📉 {LABELS[key]}: {a:.2f} → {b:.2f} (▼%{round(d * 100)})\n"
                              f"   👉 Piyasaya göre \"{anlam}\" ihtimali: %{round(100 / a)} → %{round(100 / b)}")

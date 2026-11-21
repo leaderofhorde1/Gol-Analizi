@@ -656,7 +656,14 @@ class ProEngine:
         self.kupon_tick()
 
     def kupon_tick(self):
-        import kupon
+        import kupon, dusus
+        try:
+            if not getattr(self, "_dusus_backfill", False):
+                self._dusus_backfill = True
+                dusus.backfill()
+            dusus.resolve(self.api)
+        except Exception as e:
+            log("Oran düşüşü takibi hatası:", e)
         try:
             kupon.resolve(self.api)
             kupon.maybe_send(self.api, self.book, self.form, force=os.environ.get("FORCE_KUPON") == "1")

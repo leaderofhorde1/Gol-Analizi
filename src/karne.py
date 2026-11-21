@@ -306,6 +306,20 @@ def build(days=7):
                       f"Tek tek maçlar: {k['bacak_w']}/{k['bacak']} (piyasa beklentisi ~{k['bacak_exp']:.1f}).", ""]
     except Exception as e:
         L += [f"(Kupon özeti alınamadı: {e})", ""]
+    try:
+        import dusus
+        for name, since_ in ((f"son {days} gün", since), ("tüm zamanlar", "")):
+            sm = dusus.summary(since_)
+            if sm and sm[0][1]:
+                L += [f"## 📉 Oran düşüşü uyarıları ({name})", "",
+                      "Düşen oran o sonucun gerçekleşmesi demek; piyasa = uyarı anındaki adil ihtimal. "
+                      "Sanal kâr: her uyarıya uyarı anındaki oranla 100 TL.", "",
+                      "| Uyarı | Sonuç | İsabet | Piyasa | Sanal kâr |", "|---|---|---|---|---|"]
+                for g, n, w, exp, kar in sm:
+                    L.append(f"| {g} | {n} | %{round(100 * w / n)} | %{round(100 * exp / n)} | {kar:+.0f} TL |")
+                L.append("")
+    except Exception as e:
+        L += [f"(Oran düşüşü özeti alınamadı: {e})", ""]
     text = "\n".join(L)
     RAPOR.mkdir(parents=True, exist_ok=True)
     (RAPOR / "karne.md").write_text(text, encoding="utf-8")
