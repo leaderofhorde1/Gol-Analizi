@@ -48,6 +48,10 @@ DROP_PCT = float(os.environ.get("DROP_PCT", "0.07"))
 MAX_CLAUDE = int(os.environ.get("MAX_CLAUDE_CALLS", "25"))
 SIGNALS_ON = set(os.environ.get("SIGNALS", "gol,alt,korner,kart,iy,kg,baski").split(","))
 ALARM_MULT = float(os.environ.get("ALARM_MULT", "1.8"))  # baskı alarmı: tek takım baskısı eşiğin bu katı
+# Alt sinyali en erken bu dakikada: 54–64. dakikalardaki 20 Alt sinyalinin sadece 3'ü tuttu (piyasa %32 bekliyordu),
+# 65+ dakikadakilerin 22'de 14'ü tuttu. Arşivde 55. dakikada maçların ancak %28–37'si golsüz bitiyor;
+# son 15 dakikanın sakinliği 35–40 dakikalık kalan süre için zayıf bir işaret.
+ALT_MIN_MINUTE = int(os.environ.get("ALT_MIN_DK", "65"))
 ALARM_MIN_WINDOW = 8   # dk: devre sonuna bundan az kaldıysa alarm verilmez
 ALARM_WINDOW = 15  # dk: alarmın "gol yakın" iddiasının ölçüldüğü süre (baskının etkisi ~15 dk)
 TYPICAL_TOTAL_PRESSURE = 12.0
@@ -1032,7 +1036,7 @@ class ProEngine:
         # 🧊 maç sonu Alt: son 15 dakikada iki takımın da baskısı çok düşükse
         # (Alt riskli bir tercih: sadece xG verisi olan maçlarda; uzun sessizlik ve isabetli şut/xG şartı)
         if ("alt" in SIGNALS_ON and has_xg and not gol_acik() and not meta.get("alt_gonderildi") and pu_m is not None
-                and remaining_minutes(m.minute) <= 40):
+                and m.minute >= ALT_MIN_MINUTE):
             pr15 = evaluate_pressure(m, lookback=15, min_span=14)
             if pr15 and not pr15.get("goal_in_window"):
                 d = {k: pr15["d_home"][k] + pr15["d_away"][k] for k in pr15["d_home"]}
