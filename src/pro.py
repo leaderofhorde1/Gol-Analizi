@@ -561,7 +561,7 @@ class ProEngine:
         self.now0 = dt.datetime.now(TZ)
         try:  # bu oturumun çalıştırdığı kodun commit zamanı
             import subprocess
-            _ct = subprocess.run(["git", "log", "-1", "--format=%cI", os.environ.get("GITHUB_SHA", "HEAD")],
+            _ct = subprocess.run(["git", "log", "-1", "--format=%cI", "HEAD"],
                                  cwd=str(DATA.parent), capture_output=True, text=True, timeout=20).stdout.strip()
             self.code_time = dt.datetime.fromisoformat(_ct).astimezone(TZ) if _ct else None
         except Exception:
@@ -1755,7 +1755,33 @@ class ProEngine:
             f.write(buf.getvalue())
         self.done_samples = []
 
+    def _row_key(self, r):
+        return (r.get("tarih"), str(r.get("fixture_id")), r.get("tur") or "gol", str(r.get("dakika")), str(r.get("cizgi")))
+
+    def merge_remote_rows(self):
+        """Sunucudaki kayıtta olup bu oturumun belleğinde olmayan sinyalleri korur (hiçbir oturum kayıt silemez)."""
+        try:
+            import io
+            import subprocess
+            subprocess.run(["git", "fetch", "-q", "origin", "main"], cwd=str(DATA.parent), timeout=60)
+            txt = subprocess.run(["git", "show", "origin/main:data/sinyaller.csv"], cwd=str(DATA.parent),
+                                 capture_output=True, text=True, timeout=30).stdout
+            if not txt:
+                return
+            have = {self._row_key(r) for r in self.all_rows + self.rows_today}
+            added = 0
+            for r in csv.DictReader(io.StringIO(txt)):
+                if self._row_key(r) not in have:
+                    self.all_rows.append(r)
+                    have.add(self._row_key(r))
+                    added += 1
+            if added:
+                log(f"Kayıt birleştirme: sunucudan {added} eksik sinyal korundu")
+        except Exception as e:
+            log("Kayıt birleştirme hatası:", e)
+
     def save(self):
+        self.merge_remote_rows()
         save_signals(self.all_rows + self.rows_today)
         self.flush_samples()
         DATA.mkdir(exist_ok=True)

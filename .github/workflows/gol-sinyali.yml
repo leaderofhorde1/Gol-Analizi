@@ -40,6 +40,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: En güncel kod ve veri
+        # Sırada bekleyip geç başlayan oturum, tetiklendiği andaki eski kod/veriyle değil en güncel haliyle çalışır
+        run: |
+          git fetch -q origin main
+          git checkout -q -B main origin/main
+          git log -1 --format="Kod: %h %ci %s"
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
