@@ -304,6 +304,9 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-21,1570460,Spain - La Liga,Rayo Vallecano - Valencia,79,0-1,,3,,orta,,,evet,ıska,3,0.573,0.485,kart,0.10879,0.13543,1.91,-100,524,evet,4.5,5/10,lehte,,,,,1.909,0.094,0.12031,,
 2026-11-21,1551896,Netherlands - Eerste Divisie,FC Eindhoven - Waalwijk,86,2-1,ev,17.4,13.7,orta,hayır,"Dakika 86, kalan süre çok kısa; ev xG'si ceza sahası şutundan geldi ama isabet yok, skor avantajlı, piyasa verisi yok.",hayır,isabet,86,0.447,0.362,gol,,,2.6,160,,,3.5,2/9,,,,,3,2.6,0.161,,,
 2026-11-21,1552229,Netherlands - Eredivisie,NEC Nijmegen - PSV Eindhoven,81,1-4,ev,13.9,6.8,orta,hayır,"81. dakika, 1-4 geride; pencerede isabetli şut yok, tek xG şansı. Skor farkı tempoyu düşürür, benzer maçlarda 1/10, piyasa verisi yok.",hayır,ıska,,0.588,0.5,gol,,,1.83,-100,,,5.5,1/10,,,,,3,1.833,0.077,,,
-2026-11-21,1550205,Italy - Serie A,Parma - AS Roma,24,0-0,,5,,yüksek,,,evet,bekliyor,,0.722,0.558,korner,0.11537,veri yok,,,558,,12.5,4/10,veri yok,,,,,1.666,0.203,0.11655,,
+2026-11-21,1550205,Italy - Serie A,Parma - AS Roma,24,0-0,,5,,yüksek,,,evet,bekliyor,,0.722,0.558,korner,0.11537,veri yok,,,558,,12.5,4/10,veri yok,,,,,1.666,0.203,0.11655,veri yok,olay
 2026-11-21,1584472,Turkey - Süper Lig,Kocaelispor - Fenerbahçe,67,0-1,,Fenerbahçe,,düşük,,,evet,isabet,70,0.546,,baski,,,,,559,uyarı,82,4/5,,+2%,,,,,,,,
-2026-11-21,1561970,Austria - Bundesliga,WSG Wattens - Austria Lustenau,74,0-1,,,,orta,,,evet,bekliyor,,0.498,0.438,alt,0.04129,,,,560,,1.5,5/9,,+8%,,,,2.15,0.071,veri yok,,
+2026-11-21,1561970,Austria - Bundesliga,WSG Wattens - Austria Lustenau,74,0-1,,,,orta,,,evet,bekliyor,,0.498,0.438,alt,0.04129,0.04062,,,560,,1.5,5/9,nötr,+8%,,,,2.15,0.071,veri yok,0.04494,0.06137
+2026-11-21,1550205,Italy - Serie A,Parma - AS Roma,42,0-1,,0-1,,yüksek,,,evet,bekliyor,,0.597,0.467,kg,0.0384,,,,561,,,3/5,,,,,,2.0,0.193,0.03849,,
+2026-11-21,1584472,Turkey - Süper Lig,Kocaelispor - Fenerbahçe,83,2-1,ev,36.1,0.0,orta,hayır,"Ev baskısı gerçek ama 83'te skor avantajı, tempo düşürme, geçmiş benzer 0/10 ve piyasa akışı +16% tuzak riski taşıyor.",hayır,bekliyor,,0.496,0.419,gol,,,,,,,3.5,0/10,,+16%,,,3,2.25,0.117,,,
+2026-11-21,1494811,Norway - Eliteserien,Valerenga - Start,45,1-0,,1-0,,orta,,,evet,bekliyor,,0.596,0.533,kg,0.03927,,,,562,,,3/5,,,away:küme hattında,,,1.75,0.043,,,
