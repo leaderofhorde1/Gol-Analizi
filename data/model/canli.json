@@ -1,0 +1,70 @@
+{
+ "olusturma": "2026-11-21T04:02+03:00",
+ "gol": {
+  "orneklem": 1191,
+  "kullan": false,
+  "logloss_piyasa_durum": 0.58895,
+  "brier": {
+   "piyasa": 0.20242,
+   "piyasa_durum": 0.19987,
+   "tam": 0.20201
+  },
+  "test": 358,
+  "oran": 0.274,
+  "logloss_piyasa": 0.59449,
+  "logloss_eski_model": 0.62554,
+  "logloss_yeni_model": 0.59331,
+  "agirliklar": [
+   0.5091,
+   1.0556,
+   1.04,
+   -0.0729,
+   -0.1704,
+   -0.4241,
+   0.5087,
+   0.3592,
+   0.7934
+  ],
+  "sinyal_sim": {
+   "adet": 12,
+   "isabet": 0.167,
+   "piyasa_ort": 0.203
+  }
+ },
+ "korner": {
+  "orneklem": 551,
+  "kullan": false,
+  "logloss_piyasa_durum": 3.66194,
+  "brier": {
+   "piyasa": 0.25197,
+   "piyasa_durum": 0.26506,
+   "tam": 0.21687
+  },
+  "test": 166,
+  "oran": 0.217,
+  "logloss_piyasa": 0.80264,
+  "logloss_eski_model": 0.52035,
+  "logloss_yeni_model": 2.99614,
+  "agirliklar": [
+   -281.553,
+   93.1318,
+   410.259,
+   -351.358,
+   -322.2345,
+   -152.2471,
+   -91.9995,
+   -126.4495,
+   -4.0
+  ],
+  "sinyal_sim": {
+   "adet": 0,
+   "isabet": null,
+   "piyasa_ort": null
+  }
+ },
+ "kart": {
+  "orneklem": 59,
+  "kullan": false,
+  "not": "örneklem yetersiz"
+ }
+}
