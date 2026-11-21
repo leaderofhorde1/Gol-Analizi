@@ -159,4 +159,6 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-21,1526032,Belarus - Premier League,Baranovichi - Belshina,63,0-1,,Belshina,,düşük,,,evet,ıska,,0.653,,baski,,,,,285,uyarı,78,4/5,,,away:küme hattına yakın,,,,,,,
 2026-11-21,1642197,India - Indian Super League,Chennaiyin - Minerva Punjab,48,1-1,,Minerva Punjab,,yüksek,,,evet,ıska,,0.617,0.364,baski,0.03014,0.03012,2.61,-100,288,uyarı,63,3/5,nötr,-2%,,,,,,0.02988,0.03085,0.0307
 2026-11-21,1563870,England - League Two,Newport County - Swindon Town,13,1-0,,Newport County,,orta,,,evet,isabet,19,0.462,0.364,baski,0.03013,0.02949,2.61,161,289,uyarı,28,4/5,nötr,+6%,,,,,,0.03089,,
-2026-11-21,1576239,Germany - 2. Bundesliga,1. FC Nürnberg - Eintracht Braunschweig,45,1-0,,1-0,,orta,,,evet,bekliyor,,0.622,0.558,kg,0.03593,,,,290,,,3/5,,-3%,,,,1.666,0.036,,,
+2026-11-21,1576239,Germany - 2. Bundesliga,1. FC Nürnberg - Eintracht Braunschweig,45,1-0,,1-0,,orta,,,evet,bekliyor,,0.622,0.558,kg,0.03593,0.04001,,,290,,,3/5,lehte,-3%,,,,1.666,0.036,0.03746,,
+2026-11-21,1649505,Sweden - Allsvenskan,Ostersunds FK - Varbergs BoIS FC,50,0-1,deplasman,16.4,9.7,düşük,evet,"Deplasman 6 dakikada 5 şut, 1 isabetli; xG düşük (0.18). Piyasa akışı +4% destekliyor, ancak baskı kalitesi zayıf, marjinal.",evet,bekliyor,,0.725,0.671,gol,0.02524,0.02606,,,292,,1.5,4/10,lehte,+4%,,0.671,3,1.4,0.014,0.02644,,
+2026-11-21,1649505,Sweden - Allsvenskan,Ostersunds FK - Varbergs BoIS FC,50,0-1,,4,,orta,,,evet,bekliyor,,0.636,0.537,korner,0.11071,,,,293,,8.5,6/10,,,,,,1.727,0.098,,,
