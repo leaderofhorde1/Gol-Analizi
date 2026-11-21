@@ -114,7 +114,7 @@ CUM_KEYS = ("sot", "shots", "inbox", "corners", "xg", "red", "danger", "blocked"
 EVENT_COOLDOWN = 2  # dk
 
 
-ODDS_MAX_AGE = int(os.environ.get("ODDS_MAX_AGE", "90"))  # sn: bundan eski canlı oranla sinyal verilmez
+ODDS_MAX_AGE = int(os.environ.get("ODDS_MAX_AGE", "300"))  # sn: bundan eski canlı oranla sinyal verilmez (API oranları ~2 dk'da bir günceller)
 
 
 def odds_state(odds: dict | None) -> str | None:
