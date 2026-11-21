@@ -154,6 +154,7 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-21,1556147,Japan - J1 League,Machida Zelvia - V-varen Nagasaki,63,0-0,,9,,yüksek,,,evet,ıska,11,0.55,0.423,korner,0.10699,veri yok,2.2,-100,248,evet,12.5,0/8,veri yok,,,,,2.2,0.21,0.11247,olay,olay
 2026-11-21,1593706,Australia - A-League,Central Coast Mariners - Perth Glory,21,0-0,,4,,yüksek,,,evet,ıska,10,0.71,0.537,korner,0.10857,0.11278,1.73,-100,247,evet,11.5,0/10,lehte,,,,,1.727,0.227,0.10946,0.11402,0.13665
 2026-11-21,1577587,Russia - First League,Nizhny Novgorod - Torpedo Moskva,66,0-0,,Nizhny Novgorod,,düşük,,,evet,isabet,68,0.524,,baski,,,,,281,uyarı,81,3/5,,,,,,,,,,
-2026-11-21,1584470,Turkey - Süper Lig,Gençlerbirliği S.K. - Gaziantep FK,85,1-0,,,,yüksek,,,evet,bekliyor,,0.68,0.577,alt,,,,,283,,1.5,7/10,,+29%,,,,1.615,0.098,,,
+2026-11-21,1584470,Turkey - Süper Lig,Gençlerbirliği S.K. - Gaziantep FK,85,1-0,,,,yüksek,,,evet,isabet,,0.68,0.577,alt,,,1.61,62,283,evet,1.5,7/10,,+29%,,,,1.615,0.098,,,
 2026-11-21,1585838,Turkey - 1. Lig,Mardin 1969 - Bandırmaspor,86,1-2,,,,orta,,,evet,isabet,,0.75,0.686,alt,,,1.38,38,284,evet,3.5,8/10,,+10%,,,,1.375,0.031,,,
-2026-11-21,1526032,Belarus - Premier League,Baranovichi - Belshina,63,0-1,,Belshina,,düşük,,,evet,bekliyor,,0.653,,baski,,,,,285,,78,4/5,,,away:küme hattına yakın,,,,,,,
+2026-11-21,1526032,Belarus - Premier League,Baranovichi - Belshina,63,0-1,,Belshina,,düşük,,,evet,ıska,,0.653,,baski,,,,,285,uyarı,78,4/5,,,away:küme hattına yakın,,,,,,,
+2026-11-21,1642197,India - Indian Super League,Chennaiyin - Minerva Punjab,48,1-1,,Minerva Punjab,,yüksek,,,evet,bekliyor,,0.617,0.364,baski,0.03014,,,,288,,63,3/5,,-2%,,,,,,0.02988,,
