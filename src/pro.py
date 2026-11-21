@@ -85,6 +85,8 @@ FORM_ON = os.environ.get("FORM", "1") == "1"
 FORM_WEAK = float(os.environ.get("FORM_WEAK", "0.2"))      # bu oranın altı "form ters"
 FORM_STRONG = float(os.environ.get("FORM_STRONG", "0.6"))  # bu oranın üstü "form destekliyor"
 FORM_EXTRA = float(os.environ.get("FORM_EXTRA", "0.03"))   # form tersse istenen ek fark
+FORM_MIN_TEAM = {t.strip() for t in os.environ.get("FORM_TAKIM_SART", "korner").split(",") if t.strip()}
+FORM_MIN_HITS = int(os.environ.get("FORM_TAKIM_EN_AZ", "2"))  # her takımın son 5 maçından en az kaçı çizgiyi geçmeli
 GOLGE = {t.strip() for t in os.environ.get("GOLGE", "").split(",") if t.strip()}  # gruba gitmez, ölçülür
 STEAM_MIN = 5            # dk: oran akışı bu kadar öncesiyle karşılaştırılır
 STEAM_UP, STEAM_DOWN = 1.15, 0.87  # gol hızında %15 artış / %13 düşüş "akış" sayılır
@@ -1223,6 +1225,16 @@ class ProEngine:
             except Exception as e:
                 log("Form hatası:", e)
                 fi = None
+            if fi and tur in FORM_MIN_TEAM:
+                # Her takımın son maçlarından en az FORM_MIN_HITS'i bu çizgiyi geçmiş olmalı (yeterli veri varsa)
+                weak = [f"{nm} {h}/{k}" for nm, h, k in fi.get("teams", []) if k >= 3 and h < FORM_MIN_HITS]
+                if weak:
+                    key = f"{tur}:{line}:takim"
+                    red = self.meta.setdefault(m.id, {}).setdefault("form_red", set())
+                    if key not in red:
+                        red.add(key)
+                        log(f"  [form] {m.name} {tur} {line}: son 5 maçta çizgiye yeterince ulaşmamış ({', '.join(weak)}) → sinyal yok")
+                    return False, {"lines": [fi["text"]], "hits": fi["hits"], "n": fi["n"]}
             if fi:
                 r = fi["ratio"]
                 etki = "ters" if r <= FORM_WEAK else "destek" if r >= FORM_STRONG else "nötr"

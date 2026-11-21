@@ -126,7 +126,7 @@ def check(book: FormBook, tur: str, line, home: tuple, away: tuple, only=None) -
     sides = [("home", home), ("away", away)]
     if only:
         sides = [s for s in sides if s[0] == only]
-    parts, hits, n = [], 0, 0
+    parts, hits, n, teams = [], 0, 0, []
     for _, (tid, name) in sides:
         if not tid:
             continue
@@ -137,6 +137,7 @@ def check(book: FormBook, tur: str, line, home: tuple, away: tuple, only=None) -
         h = sum(res)
         hits += h
         n += len(res)
+        teams.append((name, h, len(res)))
         part = f"{name} {h}/{len(res)}"
         if tur in ("baski", "kg", "iy"):
             ms = [s for s in book.team(tid) if s.get("iy_gf") is not None]
@@ -151,5 +152,5 @@ def check(book: FormBook, tur: str, line, home: tuple, away: tuple, only=None) -
         label = TUR_ETIKET[tur].format(l="ilk yarıda" if line == "1H" else "ikinci yarıda")
     else:
         label = TUR_ETIKET[tur].format(l=fmt_l(line) if line is not None else "")
-    return {"hits": hits, "n": n, "ratio": hits / n,
+    return {"hits": hits, "n": n, "ratio": hits / n, "teams": teams,
             "text": f"📋 Son 5 maç ({label}): " + " • ".join(parts)}
