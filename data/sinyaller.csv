@@ -315,7 +315,7 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-21,1560073,Czech-Republic - Czech Liga,Bohemians 1905 - Plzen,50,0-0,,Plzen,,yüksek,,,evet,ıska,,0.493,0.377,baski,0.03151,0.03295,2.52,-100,572,uyarı,65,2/5,lehte,-2%,,,,,,0.0313,0.03162,0.03065
 2026-11-21,1555429,Switzerland - Super League,BSC Young Boys - FC Thun,56,1-1,,BSC Young Boys,,orta,,,evet,isabet,66,0.598,0.501,baski,0.04633,0.04632,1.9,90,574,uyarı,71,3/5,nötr,+2%,,,,,,0.04626,0.04695,
 2026-11-21,1556707,Scotland - Premiership,Dundee - Heart Of Midlothian,32,0-2,,Heart Of Midlothian,,yüksek,,,evet,isabet,32,0.527,0.383,baski,0.0322,,2.48,148,577,uyarı,45,2/4,,+1%,,,,,,,,
-2026-11-21,1550205,Italy - Serie A,Parma - AS Roma,24,0-0,,5,,yüksek,,,evet,bekliyor,,0.722,0.558,korner,0.11537,veri yok,,,558,,12.5,4/10,veri yok,,,,,1.666,0.203,0.11655,veri yok,olay
+2026-11-21,1550205,Italy - Serie A,Parma - AS Roma,24,0-0,,5,,yüksek,,,evet,ıska,11,0.722,0.558,korner,0.11537,veri yok,1.67,-100,558,evet,12.5,4/10,veri yok,,,,,1.666,0.203,0.11655,veri yok,olay
 2026-11-21,1494811,Norway - Eliteserien,Valerenga - Start,45,1-0,,1-0,,orta,,,evet,isabet,67,0.596,0.533,kg,0.03927,0.04001,1.75,75,562,evet,,3/5,nötr,,away:küme hattında,,,1.75,0.043,0.03927,0.04028,0.04272
 2026-11-21,1558684,Belgium - Jupiler Pro League,Genk - RAAL La Louvière,39,3-0,ev,35.0,4.1,orta,evet,"Ev baskısı gerçek: isabetli şut ve ceza sahası xG yüksek, piyasa akışı destekliyor. Ancak 3-0 önde tempo düşebilir.",evet,bekliyor,,0.886,0.828,gol,0.03201,0.03331,,,565,,3.5,5/9,lehte,+6%,,0.828,3,1.142,0.012,0.03322,0.03228,
 2026-11-21,1561444,Russia - Premier League,CSKA Moscow - Akhmat,79,1-2,,CSKA Moscow,,düşük,,,evet,ıska,,0.5,,baski,,,,,578,uyarı,90,4/5,,,,,,,,,,
