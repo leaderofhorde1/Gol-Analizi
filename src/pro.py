@@ -97,8 +97,12 @@ STEAM_UP, STEAM_DOWN = 1.15, 0.87  # gol hızında %15 artış / %13 düşüş "
 STEAM_EXTRA = float(os.environ.get("STEAM_EXTRA", "0.03"))
 STEAM_DIR = {"gol": 1, "iy": 1, "kg": 1, "baski": 1, "alt": -1}  # +1: gol yönlü tahmin
 
-LOW_QUALITY = re.compile(r"\bU-?(1[5-9]|2[0-3])\b|youth|women|\bW\b|reserve|friendl|\bII\b|\bJong\b|primavera|juvenil",
+# Lig adında aranır: gençlik, kadın, hazırlık (lig adındaki "II" ikinci lig demektir, yedek takım değil: "Liga II")
+LOW_QUALITY = re.compile(r"\bU-?(1[5-9]|2[0-3])\b|youth|women|\bW\b|reserve|friendl|primavera|juvenil",
                          re.IGNORECASE)
+# Takım adında aranır: yedek/ikinci takımlar ("Bayern II", "Jong Ajax", "Real Madrid B")
+LOW_QUALITY_TEAM = re.compile(r"\bU-?(1[5-9]|2[0-3])\b|\bW\b|women|reserves?|\bII\b|\bB$|\bJong\b|primavera|juvenil",
+                              re.IGNORECASE)
 
 STALE_MIN = int(os.environ.get("STALE_MIN", "8"))
 CUM_KEYS = ("sot", "shots", "inbox", "corners", "xg", "red", "danger", "blocked", "fouls", "yellow")
@@ -995,7 +999,7 @@ class ProEngine:
         if m.minute >= 88:
             return
         # Kalite filtresi: gençlik/kadın/yedek/hazırlık maçlarında sinyal yok
-        if LOW_QUALITY.search(f"{m.league} {m.home} {m.away}"):
+        if LOW_QUALITY.search(m.league) or LOW_QUALITY_TEAM.search(m.home) or LOW_QUALITY_TEAM.search(m.away):
             return
         # Olay soğuması: gol, VAR/penaltı ya da kırmızı karttan sonraki 2 dk oranlar ve istatistik eski kalabilir
         olay = recent_event(m)
@@ -1036,8 +1040,10 @@ class ProEngine:
         sent = meta.setdefault("cizgiler", set())  # her tür ve çizgi için maç başına bir sinyal
         # Zıt yön kilidi: bekleyen Alt varken gol yönlü sinyal, bekleyen gol yönlü sinyal varken Alt gitmez
         alt_acik = lambda: "alt" in self.pending_types(m.id)
+        # Aynı golü bekleyen ikinci bahis sinyali gitmez (ör. aynı anda 1.5 Üst + KG: tek gol ikisini de belirler)
+        gol_bahis_acik = lambda: bool(self.pending_types(m.id) & {"gol", "iy", "kg"})
         gol_acik = lambda: bool(self.pending_types(m.id) & set(self.GOL_YONLU))
-        if ("gol" in SIGNALS_ON and not alt_acik() and m.minute - m.last_signal_min >= 12 and pu_m is not None
+        if ("gol" in SIGNALS_ON and not alt_acik() and not gol_bahis_acik() and m.minute - m.last_signal_min >= 12 and pu_m is not None
                 and f"gol:{float(ust_line)}" not in sent):
             side = signal_side(pr)
             if side and pu - pu_m >= EDGE_UST + extra:
@@ -1088,7 +1094,7 @@ class ProEngine:
                 f"📈 Son {int(pr['span'])} dk (iki takım):", *stat_bullets(d)], cizgi=c_line, form=fk_[1],
                 why=aciklama.build("korner", m, pcu, pcu_m, d=d, span=pr["span"], f=fcu, now=corners_now, line=c_line))
         # ⏱ ilk yarı golü
-        if ("iy" in SIGNALS_ON and not alt_acik() and piy is not None and piy_m is not None and 15 <= m.minute <= 40
+        if ("iy" in SIGNALS_ON and not alt_acik() and not gol_bahis_acik() and piy is not None and piy_m is not None and 15 <= m.minute <= 40
                 and not meta.get("iy_gonderildi") and not pr.get("goal_in_window")
                 and (signal_side(pr) or pr["home"] + pr["away"] >= COMBINED_THRESHOLD * 0.8)
                 and piy - piy_m >= EDGE_IY + extra
@@ -1103,7 +1109,7 @@ class ProEngine:
                 f"📈 Son {int(pr['span'])} dk ({team}):", *stat_bullets(dd)], cizgi=m.gh + m.ga + 0.5, form=fi_[1],
                 why=aciklama.build("iy", m, piy, piy_m, d=dd, span=pr["span"], team=team))
         # 🤝 karşılıklı gol
-        if ("kg" in SIGNALS_ON and not alt_acik() and pkg is not None and pkg_m is not None and 25 <= m.minute <= 80
+        if ("kg" in SIGNALS_ON and not alt_acik() and not gol_bahis_acik() and pkg is not None and pkg_m is not None and 25 <= m.minute <= 80
                 and not meta.get("kg_gonderildi")
                 and any(pr[sd] >= THRESHOLD * 0.8 for sd in kg_need)
                 and pkg - pkg_m >= EDGE_KG + extra
@@ -1503,8 +1509,13 @@ class ProEngine:
                 m.goals = goal_events(it)
                 m.events = it.get("events") or []
                 if m.status in FINISHED:
-                    m.final = parse_stats(it)
-                m.finalized = m.status in FINISHED
+                    fin = parse_stats(it)
+                    has = any(v for side in ("home", "away") for v in fin[side].values())
+                    m.final = fin if has else None  # istatistik henüz düşmediyse boş sayılmaz
+                    if not getattr(m, "ft_seen", None):
+                        m.ft_seen = time.time()
+                # istatistik gelene kadar (en fazla 60 dk) tekrar denenir
+                m.finalized = m.status in FINISHED and (m.final is not None or time.time() - m.ft_seen > 3600)
 
     def resolve_carried(self):
         """Önceki oturumdan devralınan sinyallerin maçlarını yükler ve bitenleri sonuçlandırır."""
@@ -1586,8 +1597,12 @@ class ProEngine:
                         r["sonuc"] = "bilinmiyor"
                 elif now is not None and now > line:
                     r["sonuc"], r["gol_dakikasi"] = "isabet", now
-                elif done:
-                    r["sonuc"] = "ıska" if getattr(m, "final", None) else "bilinmiyor"
+                elif done and getattr(m, "final", None):
+                    r["sonuc"], r["gol_dakikasi"] = "ıska", now
+                elif done and getattr(m, "finalized", False):
+                    # 60 dk beklendi, bitiş istatistiği hiç gelmedi: son ölçüm 85. dk sonrasındaysa onunla karar ver
+                    late = m.snaps and m.snaps[-1]["min"] >= 85
+                    r["sonuc"] = "ıska" if (late and now is not None) else "bilinmiyor"
                     r["gol_dakikasi"] = "" if now is None else now
             elif tur == "kart":
                 st_y, st_r = self.current_count(m, "yellow"), self.current_count(m, "red")
