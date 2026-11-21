@@ -65,8 +65,8 @@ def build(tur: str, m, p, p_mkt, **k) -> str:
             return (f"Gol atması gereken {k.get('need')} son {span} dk'da {_stats(d)} üretti; rakip kaleye yaklaşıyor. "
                     + tail + _mkt(p, p_mkt, "karşılıklı gole"))
         if tur == "baski":
-            return (f"{team} son {span} dk'da {_stats(d)} üretti; baskısı alarm eşiğinin {_num(k.get('x', 1), 1)} katı. "
-                    f"Bu yoğunluk kısa sürede gol getirebilir, ancak kesin değildir." + _mkt(p, p_mkt, "bu sürede gole"))
+            return (f"{team} son {span} dk'da {_stats(d)} üretti; baskısı uyarı eşiğinin {_num(k.get('x', 1), 1)} katı. "
+                    f"Bu yoğunluk kısa sürede gol getirebilir.")
     except Exception:
         return ""
     return ""

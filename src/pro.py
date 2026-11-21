@@ -1349,7 +1349,7 @@ class ProEngine:
         self.rows_today.append(row)
         icon, label = {"korner": ("🚩", "KORNER SİNYALİ"), "kart": ("🟨", "KART SİNYALİ"),
                        "iy": ("⏱", "İLK YARI GOL SİNYALİ"), "kg": ("🤝", "KG SİNYALİ"),
-                       "baski": ("🔥", "BASKI ALARMI"), "alt": ("🧊", "ALT SİNYALİ")}[tur]
+                       "baski": ("🔥", "BASKI UYARISI"), "alt": ("🧊", "ALT SİNYALİ")}[tur]
         if tur in GOLGE:  # gölge mod: gruba gönderilmez, sonucu ölçülmeye devam eder
             row["gonderildi"] = "gölge"
             log(f"GÖLGE[{tur}] {m.name} {m.minute}' model={p:.2f} piyasa={p_mkt} çizgi={cizgi}")
@@ -1361,11 +1361,19 @@ class ProEngine:
                   "alt": f"🎯 TAHMİN: MAÇ SONU {ln} ALT",
                   "iy": f"🎯 TAHMİN: İLK YARI {ln} ÜST (devreden önce gol)",
                   "kg": "🎯 TAHMİN: KARŞILIKLI GOL (KG VAR)",
-                  "baski": (f"🎯 DİKKAT: {count} yoğun baskıda, devre bitmeden gol bekleniyor" if cizgi == 45 else
-                            f"🎯 DİKKAT: {count} yoğun baskıda, {m.minute}'-{int(cizgi or m.minute + ALARM_WINDOW)}' arası gol bekleniyor")}[tur]
+                  "baski": f"🔥 {count} yoğun baskıda"}[tur]
+        if tur == "baski":
+            # Uyarı: dakika aralığı vaadi ve ✅/❌ sonucu yok; gerçekçi ihtimal açıkça yazılır
+            sure = "devre sonuna kadar" if cizgi in (45, 90) else f"önümüzdeki ~{int((cizgi or m.minute + ALARM_WINDOW) - m.minute)} dk'da"
+            olas = [f"📈 Bu baskıyla {sure} gol ihtimali ~%{round(p * 100)}"
+                    + (f" (normalde %{round(p_mkt * 100)})" if p_mkt is not None else ""),
+                    "ℹ️ Bu bir uyarıdır, tahmin değildir" + (": bu tür baskıların çoğu golsüz geçer." if p < 0.5
+                                                            else "; gol garanti değildir.")]
+        else:
+            olas = prob_lines(p, p_mkt, conf)
         body = [tahmin, LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}", "",
                 *lines, *(form["lines"] if form else []), *self.squad_lines(m),
-                *([f"💬 Neden: {why}"] if why else []), "", *prob_lines(p, p_mkt, conf), LINE,
+                *([f"💬 Neden: {why}"] if why else []), "", *olas, LINE,
                 "ℹ️ Bahis tavsiyesi değildir."]
         notify(f"{icon} {label}: {m.name}", "\n".join(body), priority=4,
                                  on_tg=lambda mid, r=row: r.__setitem__("tg_mesaj", mid),
@@ -1611,6 +1619,9 @@ class ProEngine:
         """Sinyalin sonucunu Telegram'da sinyal mesajını alıntılayarak bildirir."""
         if r.get("duyuruldu") or r.get("gonderildi") != "evet":
             return
+        if (r.get("tur") or "gol") == "baski":  # baskı uyarısının sonucu gruba yazılmaz, karnede ölçülür
+            r["duyuruldu"] = "uyarı"
+            return
         r["duyuruldu"] = "evet"
         tur = r.get("tur") or "gol"
         smin = int(r["dakika"])
@@ -1729,7 +1740,7 @@ class ProEngine:
         msg = []
         for tur, label in (("gol", "⚽ Maç sonu Üst"), ("alt", "🧊 Maç sonu Alt"), ("korner", "🚩 Korner Üst"),
                            ("kart", "🟨 Kart Üst"), ("iy", "⏱ İlk yarı gol"), ("kg", "🤝 KG Var"),
-                           ("baski", "🔥 Baskı alarmı")):
+                           ("baski", "🔥 Baskı uyarısı (ölçüm)")):
             sent = [r for r in self.rows_today if (r.get("tur") or "gol") == tur and r["gonderildi"] == "evet"]
             hit = [r for r in sent if r["sonuc"] == "isabet"]
             hist = [r for r in rows if (r.get("tur") or "gol") == tur and r.get("gonderildi") == "evet"

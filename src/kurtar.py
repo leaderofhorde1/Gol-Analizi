@@ -18,7 +18,7 @@ from main import (API_KEY, FINISHED, NTFY_TOPIC, TZ, Api, goal_events, load_sign
 
 TYPES = {"⚽ Gol sinyali: ": "gol", "🚩 Korner sinyali: ": "korner", "🟨 Kart sinyali: ": "kart",
          "⚽ GOL SİNYALİ: ": "gol", "🚩 KORNER SİNYALİ: ": "korner", "🟨 KART SİNYALİ: ": "kart",
-         "⏱ İLK YARI GOL SİNYALİ: ": "iy", "🤝 KG SİNYALİ: ": "kg", "🔥 BASKI ALARMI: ": "baski",
+         "⏱ İLK YARI GOL SİNYALİ: ": "iy", "🤝 KG SİNYALİ: ": "kg", "🔥 BASKI ALARMI: ": "baski", "🔥 BASKI UYARISI: ": "baski",
          "🧊 ALT SİNYALİ: ": "alt"}
 
 
