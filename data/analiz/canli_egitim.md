@@ -1,4 +1,4 @@
-# Canlı model eğitimi – 2026-11-22T03:59+03:00
+# Canlı model eğitimi – 2026-11-22T09:41+03:00
 
 Toplam örnek: 14284
 
@@ -32,9 +32,9 @@ Ağırlıklar: sabit 1.1108, logit(piyasa) 1.2307, model-piyasa farkı 0.9107, l
 | Log kayıp: tam model (C) | 0.52316 |
 | Brier (piyasa / B / C) | 0.26459 / 0.18204 / 0.17731 |
 | Simüle sinyal (yeni − piyasa ≥ 5 puan) | 161 adet, isabet 0.255, piyasa ort. 0.267 |
-| Kullanımda | evet |
+| Kullanımda | hayır (sinyal anlarında piyasayı geçmiyor) |
 
-Ağırlıklar: sabit -1.9175, logit(piyasa) 0.0505, model-piyasa farkı 0.3186, log toplam baskı -0.1251, log en yüksek baskı 0.4684, dakika 0.5239, skor eşit 0.1092, 1 gol fark 0.0354, kırmızı kart farkı -0.173
+Ağırlıklar: sabit -1.8997, logit(piyasa) 0.0139, model-piyasa farkı 0.2919, log toplam baskı -0.047, log en yüksek baskı 0.4493, dakika 0.2703, skor eşit 0.0099, 1 gol fark 0.0182, kırmızı kart farkı -0.1739
 
 ## kart
 

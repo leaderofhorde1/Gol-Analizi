@@ -33,7 +33,7 @@ from main import (
 
 RUN_MINUTES = int(os.environ.get("RUN_MINUTES", "350"))
 EDGE = float(os.environ.get("EDGE", "0.04"))
-EDGE_CORNER = float(os.environ.get("EDGE_CORNER", "0.07"))
+EDGE_CORNER = float(os.environ.get("EDGE_CORNER", "0.08"))
 EDGE_CARD = float(os.environ.get("EDGE_CARD", "0.07"))
 EDGE_IY = float(os.environ.get("EDGE_IY", "0.05"))
 EDGE_UST = float(os.environ.get("EDGE_UST", "0.05"))

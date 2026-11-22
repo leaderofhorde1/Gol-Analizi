@@ -1,5 +1,5 @@
 {
- "olusturma": "2026-11-22T03:59+03:00",
+ "olusturma": "2026-11-22T09:41+03:00",
  "gol": {
   "orneklem": 9042,
   "kullan": true,
@@ -33,7 +33,7 @@
  },
  "korner": {
   "orneklem": 3690,
-  "kullan": true,
+  "kullan": false,
   "logloss_piyasa_durum": 0.54195,
   "brier": {
    "piyasa": 0.26459,
@@ -46,21 +46,22 @@
   "logloss_eski_model": 0.53835,
   "logloss_yeni_model": 0.52316,
   "agirliklar": [
-   -1.9175,
-   0.0505,
-   0.3186,
-   -0.1251,
-   0.4684,
-   0.5239,
-   0.1092,
-   0.0354,
-   -0.173
+   -1.8997,
+   0.0139,
+   0.2919,
+   -0.047,
+   0.4493,
+   0.2703,
+   0.0099,
+   0.0182,
+   -0.1739
   ],
   "sinyal_sim": {
    "adet": 161,
    "isabet": 0.255,
    "piyasa_ort": 0.267
-  }
+  },
+  "not": "sinyal anlarında piyasayı geçmiyor"
  },
  "kart": {
   "orneklem": 966,

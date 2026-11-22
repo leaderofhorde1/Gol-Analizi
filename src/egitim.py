@@ -184,6 +184,12 @@ def train_one(tur, rows):
     })
     # tam model hem piyasayı hem "piyasa + maç durumu" modelini geçmeli
     res["kullan"] = n >= MIN_SAMPLES and ll_n < ll_m - 0.0005 and ll_n < ll_b - 0.0003
+    # Genel isabet yetmez: modelin sinyal vereceği anlarda piyasadan daha çok tutması gerekir
+    # (piyasa ortalamada kötü olabilir; asıl soru, modelin "fırsat" dediği yerde haklı mı)
+    ss = res["sinyal_sim"]
+    if res["kullan"] and ss["adet"] >= 30 and ss["isabet"] < ss["piyasa_ort"] + 0.01:
+        res["kullan"] = False
+        res["not"] = "sinyal anlarında piyasayı geçmiyor"
     if res["kullan"]:  # son model tüm veriyle
         res["agirliklar"] = [round(v, 4) for v in fit_logistic([d[0] for d in data], [d[1] for d in data])]
     return res
@@ -289,7 +295,7 @@ def write_report(out, n):
                   f"| Log kayıp: tam model (C) | {r['logloss_yeni_model']} |",
                   f"| Brier (piyasa / B / C) | {r.get('brier', {}).get('piyasa', '-')} / {r.get('brier', {}).get('piyasa_durum', '-')} / {r.get('brier', {}).get('tam', '-')} |",
                   f"| Simüle sinyal (yeni − piyasa ≥ 5 puan) | {r['sinyal_sim']['adet']} adet, isabet {r['sinyal_sim']['isabet']}, piyasa ort. {r['sinyal_sim']['piyasa_ort']} |",
-                  f"| Kullanımda | {'evet' if r['kullan'] else 'hayır'} |", "",
+                  f"| Kullanımda | {'evet' if r['kullan'] else 'hayır'}{(' (' + r['not'] + ')') if r.get('not') else ''} |", "",
                   "Ağırlıklar: " + ", ".join(f"{nm} {w}" for nm, w in zip(FEATURE_NAMES, r["agirliklar"])), ""]
     REPORT.parent.mkdir(parents=True, exist_ok=True)
     REPORT.write_text("\n".join(lines) + "\n", encoding="utf-8")
