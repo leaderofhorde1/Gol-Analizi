@@ -18,7 +18,8 @@ from main import DATA, FINISHED, PRIORITY, TZ, log, notify, telegram_reply
 
 KUPON_DIR = DATA / "kupon"
 KUPON_JSON = KUPON_DIR / "kuponlar.json"
-KUPON_SAAT = int(os.environ.get("KUPON_SAAT", "10"))        # bu saatten sonra günün kuponları hazırlanır
+# kupon partileri: her saatten sonra bir kez; sonraki partiler önceki partilerde kullanılmamış, daha geç maçlardan
+KUPON_SAATLER = sorted(int(x) for x in os.environ.get("KUPON_SAATLER", "10,18").split(",") if x.strip())
 MAX_ADAY = int(os.environ.get("KUPON_ADAY", "120"))           # form verisi çekilecek en fazla maç
 MIN_BACAK, MAX_BACAK = 3, 4
 VOID = {"PST", "CANC", "ABD", "AWD", "WO"}
@@ -106,12 +107,12 @@ def form_support(leg: dict, home: list, away: list) -> dict | None:
     return {"form_ev": list(res[0]), "form_dep": list(res[1]), "oran_form": ratio}
 
 
-def build(api, book, fb) -> list[dict]:
+def build(api, book, fb, parti: int = 10, skip: set | None = None) -> list[dict]:
     now = dt.datetime.now(TZ)
     cands = []
     for fid, fx in book.fixtures.items():
         rec = book.data.get(fid)
-        if fx["durum"] != "NS" or not rec or not fx.get("ev_id"):
+        if fx["durum"] != "NS" or not rec or not fx.get("ev_id") or fid in (skip or ()):
             continue
         if not (now.timestamp() + 45 * 60 < fx["ts"] < now.timestamp() + 16 * 3600):
             continue
@@ -153,7 +154,9 @@ def build(api, book, fb) -> list[dict]:
         for l in legs:
             odd *= l["oran"]
             p *= l["p"]
-        coupons.append({"tarih": book.today, "id": f"{book.today}-{kid}", "tur": kid, "baslik": title,
+        sfx = "" if parti == KUPON_SAATLER[0] else f"-{parti}"
+        coupons.append({"tarih": book.today, "id": f"{book.today}-{kid}{sfx}", "parti": parti, "tur": kid,
+                        "baslik": title + ("" if parti == KUPON_SAATLER[0] else " (akşam)"),
                         "oran": round(odd, 2), "p_piyasa": round(p, 3), "bacaklar": legs,
                         "sonuc": "bekliyor", "tg": None})
     log(f"Kupon: {len(cands)} aday maç, {len(pool)} uygun bahis, {len(coupons)} kupon")
@@ -176,21 +179,25 @@ def text(c: dict) -> str:
 
 
 def maybe_send(api, book, fb, force: bool = False):
-    """Günde bir kez: bugünün kuponları yoksa hazırla ve gönder."""
+    """Her kupon partisi (KUPON_SAATLER) için günde bir kez: o partinin kuponları yoksa hazırla ve gönder."""
     now = dt.datetime.now(TZ)
-    if not force and now.hour < KUPON_SAAT:
+    due = [h for h in KUPON_SAATLER if now.hour >= h]
+    if not due:
         return
+    parti = due[-1]
     rows = load()
-    if any(r["tarih"] == book.today for r in rows) and not force:
+    today = [r for r in rows if r["tarih"] == book.today]
+    if any(r.get("parti", KUPON_SAATLER[0]) == parti for r in today) and not force:
         return
+    skip = {l["fixture_id"] for r in today for l in r.get("bacaklar") or []}
     try:
-        coupons = build(api, book, fb)
+        coupons = build(api, book, fb, parti=parti, skip=skip)
     except Exception as e:
         log("Kupon hazırlanamadı:", e)
         return
-    if not coupons:  # boş gün de işaretlensin ki her oturumda tekrar denenmesin
-        coupons = [{"tarih": book.today, "id": f"{book.today}-yok", "tur": "yok", "bacaklar": [],
-                    "sonuc": "yok", "tg": None}]
+    if not coupons:  # boş parti de işaretlensin ki her oturumda tekrar denenmesin
+        coupons = [{"tarih": book.today, "id": f"{book.today}-yok-{parti}", "parti": parti, "tur": "yok",
+                    "bacaklar": [], "sonuc": "yok", "tg": None}]
     rows += coupons
     save(rows)
     for c in coupons:
