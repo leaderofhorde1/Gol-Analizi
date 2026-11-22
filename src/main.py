@@ -88,7 +88,7 @@ CSV_FIELDS = [
     "tarih", "fixture_id", "lig", "mac", "dakika", "skor", "taraf", "baski",
     "baski_rakip", "guven", "ai_onay", "ai_yorum", "gonderildi", "sonuc",
     "gol_dakikasi", "p_model", "p_piyasa", "tur", "q_once", "q_sonra", "adil_oran", "kar",
-    "tg_mesaj", "duyuruldu", "cizgi", "form", "piyasa_yon", "oran_akisi", "baglam", "p_piyasa_karar", "karar_sn", "oran", "ev", "q_2", "q_10", "q_15",
+    "tg_mesaj", "duyuruldu", "cizgi", "form", "piyasa_yon", "oran_akisi", "baglam", "p_piyasa_karar", "karar_sn", "oran", "ev", "q_2", "q_10", "q_15", "guc", "pay",
 ]
 
 

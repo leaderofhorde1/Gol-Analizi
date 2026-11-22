@@ -21,7 +21,8 @@ KUPON_JSON = KUPON_DIR / "kuponlar.json"
 # kupon partileri: her saatten sonra bir kez; sonraki partiler önceki partilerde kullanılmamış, daha geç maçlardan
 KUPON_SAATLER = sorted(int(x) for x in os.environ.get("KUPON_SAATLER", "10,18").split(",") if x.strip())
 MAX_ADAY = int(os.environ.get("KUPON_ADAY", "120"))           # form verisi çekilecek en fazla maç
-MIN_BACAK, MAX_BACAK = 3, 4
+MIN_BACAK, MAX_BACAK = 2, 3   # 4 maçta şirket payı ~%21'e çıkıyor, 3 maçta ~%15, 2 maçta ~%10
+MIN_FARK = float(os.environ.get("KUPON_FARK", "0.12"))  # form, piyasadan en az bu kadar iyimser olmalı
 VOID = {"PST", "CANC", "ABD", "AWD", "WO"}
 _lock = threading.Lock()
 
@@ -125,10 +126,10 @@ def build(api, book, fb, parti: int = 10, skip: set | None = None) -> list[dict]
         home, away = fb.team(fx["ev_id"]), fb.team(fx["dep_id"])
         for leg in legs:
             sup = form_support(leg, home, away)
-            if not sup:
+            if not sup or sup["oran_form"] - leg["p"] < MIN_FARK:  # herkesin gördüğü değil, piyasanın küçümsediği
                 continue
             # sıralama: form piyasadan ne kadar iyimser + piyasanın kendi güveni
-            score = (sup["oran_form"] - leg["p"]) + 0.5 * leg["p"]
+            score = (sup["oran_form"] - leg["p"]) + 0.3 * leg["p"]
             t = dt.datetime.fromtimestamp(fx["ts"], TZ).strftime("%H:%M")
             pool.append({**leg, **sup, "sira_puan": round(score, 4), "fixture_id": fid, "saat": t, "ts": fx["ts"],
                          "mac": f'{fx["ev"]} - {fx["dep"]}', "ev": fx["ev"], "dep": fx["dep"], "lig": fx["lig"],
@@ -169,7 +170,8 @@ def text(c: dict) -> str:
         (hh, hn), (ah, an) = l["form_ev"], l["form_dep"]
         L += [f"🕖 {l['saat']}  {l['mac']}", f"   🏆 {l['lig']}",
               f"   👉 {l['etiket']} @{l['oran']:.2f}",
-              f"   📋 Son maçlarında bu sonuç: {l['ev']} {hh}/{hn}, {l['dep']} {ah}/{an}", ""]
+              f"   📋 Son maçlarında bu sonuç: {l['ev']} {hh}/{hn}, {l['dep']} {ah}/{an}",
+              f"   📈 Formda %{round(l['oran_form'] * 100)} tutuyor, piyasa %{round(l['p'] * 100)} veriyor", ""]
     L += [f"💰 Toplam oran: {c['oran']:.2f}",
           f"📊 Piyasaya göre tutma ihtimali: ~%{round(c['p_piyasa'] * 100)}",
           "━━━━━━━━━━━━━━",

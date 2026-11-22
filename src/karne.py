@@ -42,8 +42,8 @@ def summ(rows):
     pk = [_f(r.get("p_piyasa")) for r in done]
     pk = [x for x in pk if x is not None]
     kar = [_f(r.get("kar")) for r in done if _f(r.get("kar")) is not None]
-    yon = [r.get("piyasa_yon") for r in done + [r for r in rows if r.get("sonuc") == "bekliyor"]]
-    leh, al, no = yon.count("lehte"), yon.count("aleyhte"), yon.count("nötr")
+    c = clv(done + [r for r in rows if r.get("sonuc") == "bekliyor"])  # zamanın doğal etkisi ayıklanmış
+    leh, al, no = c["leh"], c["al"], max(0, c["nm"] - c["leh"] - c["al"])
     rate = hit / n if n else None
     exp = sum(pk) / len(pk) if pk else None
     # piyasa beklentisinden farkın anlamlılığı (kabaca 2 standart hata)
@@ -128,6 +128,63 @@ def form_cat(r):
     return "ters" if ratio <= 0.2 else "destek" if ratio >= 0.6 else "nötr"
 
 
+OVER_DIR = {"alt": -1}
+
+
+def clv(rows) -> dict:
+    """Öncü gösterge: sinyalden 5 dk sonra piyasanın aynı çizgideki gol/korner/kart hızı bizim yönümüze mi gitti?
+    Sonuç beklemeden (gol/korner şansına kalmadan) sinyalin piyasadan önce davranıp davranmadığını ölçer."""
+    try:
+        from pro import natural_drift
+    except Exception:
+        natural_drift = lambda *a: 1.0
+    leh = al = 0
+    moves = []
+    for r in rows:
+        q0, q1 = _f(r.get("q_once")), _f(r.get("q_sonra"))
+        if not (q0 and q1 and q0 > 0):
+            continue
+        tur = r.get("tur") or "gol"
+        mv = OVER_DIR.get(tur, 1) * (q1 / (q0 * natural_drift(tur, int(_f(r.get("dakika")) or 0), 5)) - 1)
+        moves.append(mv)
+        leh += mv > 0.02
+        al += mv < -0.02
+    n = leh + al
+    rate = leh / n if n else None
+    z = (rate - 0.5) / math.sqrt(0.25 / n) if n >= 10 else None
+    return {"n": n, "leh": leh, "al": al, "rate": rate, "z": z,
+            "move": sum(moves) / len(moves) if moves else None, "nm": len(moves)}
+
+
+def clv_verdict(c) -> str:
+    if c["z"] is None:
+        return "veri az"
+    if c["z"] >= 2:
+        return "✅ piyasadan önce"
+    if c["z"] <= -2:
+        return "❌ piyasanın gerisinde"
+    return "➖ belirsiz"
+
+
+def clv_block(rows) -> list[str]:
+    body = []
+    for tur in TUR_AD:
+        for mode, label in (("evet", ""), ("gölge", " (gölge)")):
+            rs = [r for r in rows if (r.get("tur") or "gol") == tur and r.get("gonderildi") == mode]
+            c = clv(rs)
+            if c["n"] or c["nm"]:
+                body.append([TUR_AD[tur] + label, c["n"], pct(c["rate"]),
+                             "–" if c["move"] is None else f"{c['move'] * 100:+.1f}%", clv_verdict(c)])
+    if not body:
+        return []
+    return ["### 📈 Öncü gösterge: piyasa bizim yönümüze gitti mi?", "",
+            "Sonuç şansa çok bağlıdır; piyasanın sinyalden sonraki hareketi çok daha hızlı ve güvenilir bir ölçüttür. "
+            "**Lehte**: 5 dk sonra aynı çizgide piyasa da bizim beklediğimiz yöne döndü (zamanın doğal etkisi ayıklanmış olarak). %50'nin anlamlı üstü = sistem "
+            "piyasadan önce davranıyor (gerçek üstünlük işareti). **Hız değişimi**: piyasanın gol/korner/kart hızının "
+            "bizim yönümüzde ortalama değişimi.", "",
+            table(["Tür", "Ölçülen", "Lehte", "Hız değişimi", "Gösterge"], body), ""]
+
+
 def section(title, rows):
     sent = [r for r in rows if r.get("gonderildi") == "evet"]
     s = summ(sent)
@@ -147,6 +204,7 @@ def section(title, rows):
           *([ci_txt, ""] if ci_txt else []),
           f"Piyasanın beklediği isabet: {pct(s['exp'])} → fark {fark(s)} • Sanal kâr: {kar_s(s)}"
           f" • Piyasa bizim yönümüze döndü: {yon_s(s)}", ""]
+    L += clv_block(rows)
     # tür
     by = defaultdict(list)
     for r in sent:
@@ -240,8 +298,9 @@ def section(title, rows):
     # piyasa hareketi ↔ sonuç
     py = defaultdict(list)
     for r in sent:
-        if r.get("piyasa_yon") in ("lehte", "aleyhte", "nötr"):
-            py[r["piyasa_yon"]].append(r)
+        c = clv([r])
+        if c["nm"]:
+            py["lehte" if c["leh"] else "aleyhte" if c["al"] else "nötr"].append(r)
     if py:
         L += ["### 📈 Piyasa hareketi ve sonuç", "",
               "Sinyalden 5 dk sonra aynı çizgide piyasa bizim yönümüze döndüyse **lehte**. "
@@ -249,6 +308,21 @@ def section(title, rows):
               table(["Piyasa", "Sonuç", "İsabet", "Sanal kâr"],
                     [[k, t["n"], pct(t["rate"]), kar_s(t)] for k in ("lehte", "nötr", "aleyhte") if k in py
                      for t in [summ(py[k])]]), ""]
+    # sinyal gücü dereceleri
+    gc = defaultdict(list)
+    for r in sent:
+        if r.get("guc"):
+            gc[r["guc"]].append(r)
+    if gc:
+        def pay_kar(rs):  # önerilen payla: kasa 100 birim, kâr birim cinsinden
+            return sum((_f(r.get("pay")) or 0) * ((_f(r.get("oran")) or 1) - 1 if r.get("sonuc") == "isabet" else -1)
+                       for r in rs if r.get("sonuc") in ("isabet", "ıska"))
+        L += ["### 💪 Sinyal gücü", "",
+              "Güç, modelin olasılığı ve gerçek orandan (Kelly'nin onda biri) hesaplanır. Güçlüler belirgin şekilde "
+              "daha iyiyse derecelendirme işe yarıyor demektir. **Payla kâr**: kasa 100 birim, önerilen paylarla.", "",
+              table(["Güç", "Sonuç", "İsabet", "Piyasa", "Sanal kâr (100 TL)", "Payla kâr"],
+                    [[k, t["n"], pct(t["rate"]), pct(t["exp"]), kar_s(t), f"{pay_kar(gc[k]):+.1f} birim"]
+                     for k in ("Güçlü", "Orta", "Hafif") if k in gc for t in [summ(gc[k])]]), ""]
     # beklenen getiri (gerçek oranla)
     ev = defaultdict(list)
     for r in sent:

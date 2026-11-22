@@ -55,6 +55,7 @@ ALARM_MULT = float(os.environ.get("ALARM_MULT", "1.8"))  # baskı alarmı: tek t
 ALT_MIN_MINUTE = int(os.environ.get("ALT_MIN_DK", "65"))
 ALT_MAX_ODD = float(os.environ.get("ALT_MAX_ORAN", "3.0"))   # Alt oranı bundan yüksekse piyasa golü bekliyor: gönderme
 ALT_JUMP = float(os.environ.get("ALT_SICRAMA", "1.12"))      # son 1-3 dk'da piyasanın gol hızı bu kadar arttıysa gönderme
+ALT_CALM = float(os.environ.get("ALT_SAKIN", "1.05"))        # son 5 dk'da doğal artışın üstünde bu kadar artış = sakin değil
 ALARM_MIN_WINDOW = 8   # dk: devre sonuna bundan az kaldıysa alarm verilmez
 ALARM_WINDOW = 15  # dk: alarmın "gol yakın" iddiasının ölçüldüğü süre (baskının etkisi ~15 dk)
 TYPICAL_TOTAL_PRESSURE = 12.0
@@ -143,10 +144,40 @@ def _goal_market(name: str) -> bool:
         w in n for w in ("1st", "2nd", "half", "corner", "card", "home", "away", "team", "asian", "extra"))
 
 
+PAY_MAX = float(os.environ.get("PAY_MAX", "2.0"))   # önerilen en yüksek pay: kasanın %'si
+
+
+def stake(p, odd) -> tuple[str, float] | None:
+    """Sinyal gücü ve önerilen pay (kasanın %'si): Kelly'nin onda biri, en az %0.5, en çok PAY_MAX.
+    Model olasılıkları henüz kalibre edilmediği için tam Kelly'nin çok altında tutulur."""
+    try:
+        p, odd = float(p), float(odd)
+    except (TypeError, ValueError):
+        return None
+    if odd <= 1.01 or not 0 < p < 1:
+        return None
+    kelly = (p * odd - 1) / (odd - 1)
+    if kelly <= 0:
+        return None
+    pay = round(min(PAY_MAX, max(0.5, 10 * kelly)) * 2) / 2  # 0.5'lik adımlar
+    guc = "Güçlü" if pay >= 1.5 else "Orta" if pay >= 1.0 else "Hafif"
+    return guc, pay
+
+
+GUC_ICON = {"Güçlü": "💪💪💪", "Orta": "💪💪", "Hafif": "💪"}
+
+
 def odd_line(row: dict, minute) -> list[str]:
-    """Sinyal mesajında bahsin o dakikadaki oranı."""
+    """Sinyal mesajında bahsin o dakikadaki oranı, sinyal gücü ve önerilen pay."""
     o = row.get("oran")
-    return [f"💰 Oran: {float(o):.2f} ({minute}. dakika itibarıyla)"] if o not in ("", None) else []
+    if o in ("", None):
+        return []
+    out = [f"💰 Oran: {float(o):.2f} ({minute}. dakika itibarıyla)"]
+    st = stake(row.get("p_model"), o)
+    if st:
+        row["guc"], row["pay"] = st
+        out.append(f"{GUC_ICON[st[0]]} Güç: {st[0]}  •  Önerilen pay: kasanın %{st[1]:g} kadarı")
+    return out
 
 
 def offered_odd(odds: dict | None, tur: str, line) -> float | None:
@@ -252,7 +283,8 @@ SAMPLE_FIELDS = ["tarih", "fixture_id", "lig_id", "dakika", "skor_farki", "topla
                  "baski_ev", "baski_dep", "kirmizi_farki", "mu", "dusus", "p_model",
                  "p_piyasa", "gol_10dk", "korner", "p_korner", "p_korner_piyasa", "korner_10dk",
                  "kart", "faul_10", "p_kart", "p_kart_piyasa", "kart_10dk",
-                 "durum", "p_iy", "p_iy_piyasa", "p_kg", "p_kg_piyasa", "hucum_ev", "hucum_dep", "kirmizi_ev", "kirmizi_dep"]
+                 "durum", "p_iy", "p_iy_piyasa", "p_kg", "p_kg_piyasa", "hucum_ev", "hucum_dep", "kirmizi_ev", "kirmizi_dep",
+                 "korner_tempo", "sut_tempo", "korner_fark"]
 
 
 # ---------------------------------------------------------------- olasılık yardımcıları
@@ -460,6 +492,20 @@ def goal_line_prob(item: dict | None, line: float) -> float | None:
         if over and under:
             return fair_prob(over, under)
     return None
+
+
+def natural_drift(tur: str, minute: int, w: int) -> float:
+    """Olay olmadan w dakika geçince piyasa hızının kendiliğinden ne kadar değişmesi beklenir?
+    Kalan süre kısaldıkça pencere maçın daha yoğun son dakikalarına kayar; bu doğal artış lehte sayılmamalı."""
+    curve = PARAMS.get("kart_egrisi") if tur == "kart" and PARAMS.get("kart_egrisi") else PARAMS.get("gol_egrisi")
+    if not curve:
+        return 1.0
+    end = 47 if tur == "iy" else 94
+    if minute + w >= end - 1:
+        return 1.0
+    a = curve_avg(curve, minute, max(1, end - minute)) * late_fix(minute, end - minute)
+    b = curve_avg(curve, minute + w, max(1, end - minute - w)) * late_fix(minute + w, end - minute - w)
+    return b / a if a > 0 else 1.0
 
 
 def market_rate(m, odds, tur: str, line) -> tuple[float, int] | None:
@@ -671,6 +717,11 @@ class ProEngine:
         except Exception as e:
             log("Oran düşüşü takibi hatası:", e)
         try:
+            import gunluk
+            gunluk.maybe_send()
+        except Exception as e:
+            log("Günlük özet hatası:", e)
+        try:
             kupon.resolve(self.api)
             kupon.maybe_send(self.api, self.book, self.form, force=os.environ.get("FORCE_KUPON") == "1")
         except Exception as e:
@@ -848,6 +899,17 @@ class ProEngine:
         q = count_market_rate(odds, ("Total Corners", "Asian Corners"), corners, m.minute) if odds else None
         p_mkt = poisson_over(q * T, 2) if q else None
         return p_model, p_mkt, f, corners, q
+
+    @staticmethod
+    def corner_sample(pr) -> dict:
+        """Korner için ek özellikler: son pencerede (≈10 dk) korner ve şut temposu, iki takımın korner farkı."""
+        try:
+            cur, base, span = pr["cur"]["stats"], pr["base"]["stats"], max(pr["span"], 6)
+            d = lambda k: sum(max(0.0, cur[s][k] - base[s][k]) for s in ("home", "away"))
+            return {"korner_tempo": round(d("corners") * 10 / span, 2), "sut_tempo": round(d("shots") * 10 / span, 2),
+                    "korner_fark": int(abs(cur["home"]["corners"] - cur["away"]["corners"]))}
+        except Exception:
+            return {}
 
     @staticmethod
     def squad_sample(m) -> dict:
@@ -1041,7 +1103,7 @@ class ProEngine:
                 "p_kart_piyasa": r3(pk_m), "kart_10dk": "",
                 "durum": m.status, "p_iy": r3(piy), "p_iy_piyasa": r3(piy_m),
                 "p_kg": r3(pkg), "p_kg_piyasa": r3(pkg_m),
-                **self.squad_sample(m),
+                **self.squad_sample(m), **self.corner_sample(pr),
             })
         if m.minute >= 88:
             return
@@ -1076,7 +1138,7 @@ class ProEngine:
         sample_like = {"baski_ev": pr["home"], "baski_dep": pr["away"], "dakika": m.minute,
                            "skor_farki": m.gh - m.ga, "kirmizi_farki": pr["cur"]["stats"]["home"]["red"] - pr["cur"]["stats"]["away"]["red"],
                            "faul_10": fouls10, "p_model": pg, "p_piyasa": pg_m, "p_korner": pc,
-                       "p_korner_piyasa": pc_m, "p_kart": pk, "p_kart_piyasa": pk_m}
+                       "p_korner_piyasa": pc_m, "p_kart": pk, "p_kart_piyasa": pk_m, **self.corner_sample(pr)}
         pg = self.trained_prob("gol", sample_like, pg)
         pc = self.trained_prob("korner", sample_like, pc)
         pk = self.trained_prob("kart", sample_like, pk)
@@ -1219,9 +1281,11 @@ class ProEngine:
         t = TRAINED.get(tur) or {}
         if not t.get("kullan"):
             return default
+        import egitim
         from egitim import features, sigmoid
+        egitim.KORNER_EK = bool(tur == "korner" and t.get("ek"))
         x = features(tur, s)
-        if x is None:
+        if x is None or len(x) != len(t["agirliklar"]):  # özellik seti değiştiyse eski ağırlıklar kullanılmaz
             return default
         return sigmoid(sum(a * b for a, b in zip(t["agirliklar"], x)))
 
@@ -1282,6 +1346,7 @@ class ProEngine:
             now = None
         q0 = float(r["q_once"])
         d = OVER_DIR.get(r.get("tur") or "gol", 1)
+        q0 *= natural_drift(tur_m, smin, CLV_AFTER)  # doğal zaman etkisi ayıklanır
         for w, f in todo:
             if now is None:
                 if m.minute >= smin + w + 5:
@@ -1399,6 +1464,15 @@ class ProEngine:
             rate_now = -math.log(1 - p_now) / remaining_minutes(m.minute)
             if rate_now / past[0][2] >= ALT_JUMP:
                 return f"son dakikalarda piyasa gol hızı %{(rate_now / past[0][2] - 1) * 100:.0f} arttı"
+        # sakinlik şartı: son 5 dk boyunca piyasa (zamanın doğal etkisi dışında) gol beklentisini artırmamış olmalı
+        if 0.01 < p_now < 0.99:
+            rate_now = -math.log(1 - p_now) / remaining_minutes(m.minute)
+            old5 = [h for h in hist if m.minute - 7 <= h[0] <= m.minute - 4 and h[1] == goals and h[2]]
+            if not old5:
+                return "son 5 dk piyasa geçmişi yok (sakinlik doğrulanamadı)"
+            base = old5[0][2] * natural_drift("alt", old5[0][0], m.minute - old5[0][0])
+            if rate_now > base * ALT_CALM:
+                return f"piyasa son 5 dk'da sakin değil (gol hızı %{(rate_now / base - 1) * 100:.0f} arttı)"
         return None
 
     def steam(self, m) -> float | None:
@@ -1814,7 +1888,7 @@ class ProEngine:
         if not self.done_samples:
             return
         SAMPLES_DIR.mkdir(parents=True, exist_ok=True)
-        path = SAMPLES_DIR / f"{self.today}-v4.csv.gz"
+        path = SAMPLES_DIR / f"{self.today}-v5.csv.gz"
         buf = io.StringIO()
         w = csv.DictWriter(buf, fieldnames=SAMPLE_FIELDS)
         if not path.exists():

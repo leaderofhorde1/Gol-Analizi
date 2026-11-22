@@ -48,6 +48,10 @@ def sigmoid(z):
     return 1 / (1 + math.exp(-max(min(z, 30), -30)))
 
 
+KORNER_EK = False  # canlı motor canli.json'daki "ek" bayrağına göre ayarlar
+KORNER_EK_MIN = int(os.environ.get("KORNER_EK_MIN", "4000"))  # bu kadar v5 örneği olunca tempo özellikleri devreye girer
+
+
 def features(tur: str, s: dict) -> list[float] | None:
     """Örnek satırından özellik vektörü. Canlı motor da aynı fonksiyonu kullanır."""
     mkt = _f(s.get(TARGETS[tur][2]))
@@ -62,6 +66,9 @@ def features(tur: str, s: dict) -> list[float] | None:
               abs(_f(s.get("kirmizi_farki"), 0.0))]
     if tur == "kart":
         common.append(math.log1p(_f(s.get("faul_10"), 0.0)))
+    if tur == "korner" and KORNER_EK:
+        # son ~10 dk korner ve şut temposu (v5 örneklerinden itibaren; yeterli veri birikince açılır)
+        common += [math.log1p(_f(s.get("korner_tempo"), 0.0)), math.log1p(_f(s.get("sut_tempo"), 0.0))]
     return common
 
 
@@ -126,7 +133,7 @@ def logloss(ps, ys):
 
 def load_samples():
     rows = []
-    for path in sorted(glob.glob(str(DATA / "ornekler" / "*-v[234].csv.gz"))):
+    for path in sorted(glob.glob(str(DATA / "ornekler" / "*-v[2345].csv.gz"))):
         with gzip.open(path, "rt", encoding="utf-8") as f:
             text = f.read()
         # aynı dosyaya birden çok oturum ekleyince başlık satırı tekrarlanabilir
@@ -245,7 +252,16 @@ def run():
     rows = load_samples()
     log(f"Eğitim örneği: {len(rows)}")
     out = {"olusturma": dt.datetime.now(TZ).isoformat(timespec="minutes")}
+    global KORNER_EK
     for tur in TARGETS:
+        if tur == "korner":
+            v5 = [s for s in rows if s.get("korner_tempo") not in ("", None)]
+            KORNER_EK = len(v5) >= KORNER_EK_MIN
+            out[tur] = train_one(tur, v5 if KORNER_EK else rows)
+            out[tur]["ek"] = KORNER_EK
+            out[tur]["tempo_orneklem"] = len(v5)
+            KORNER_EK = False
+            continue
         out[tur] = train_one(tur, rows)
         log(tur, json.dumps(out[tur], ensure_ascii=False))
     OUT.parent.mkdir(parents=True, exist_ok=True)
