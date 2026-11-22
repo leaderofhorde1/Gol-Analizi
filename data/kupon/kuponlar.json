@@ -150,7 +150,9 @@
     "dep": "Muğlaspor",
     "lig": "Turkey - 1. Lig",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "2-0",
+    "neden": "3 gol gerekiyordu, maçta 2 gol oldu (2-0). Şutlar 17-13, isabetli 4-3, xG 2.5-0.9."
    },
    {
     "tur": "ust25",
@@ -229,7 +231,8 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 680
+  "tg": 680,
+  "yatti": true
  },
  {
   "tarih": "2026-11-22",
@@ -262,7 +265,9 @@
     "dep": "Göztepe",
     "lig": "Turkey - Süper Lig",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "0-1",
+    "neden": "2 gol gerekiyordu, maçta 1 gol oldu (0-1). Şutlar 15-11, isabetli 5-4, xG 1.0-2.0. Takımlar pozisyona girdi ama golü bulamadı."
    },
    {
     "tur": "ust15",
@@ -341,6 +346,7 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 681
+  "tg": 681,
+  "yatti": true
  }
 ]

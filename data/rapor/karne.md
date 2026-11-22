@@ -4,25 +4,25 @@ Sadece gruba gönderilen sinyaller sayılır (Claude bölümü hariç). Sanal k�
 
 ## Son 7 gün
 
-**349 sinyal sonuçlandı (200 farklı maç): ✅ 171 tuttu, ❌ 178 tutmadı (%49)**
+**355 sinyal sonuçlandı (203 farklı maç): ✅ 175 tuttu, ❌ 180 tutmadı (%49)**
 
 _Aynı maçtaki sinyaller birbirinden bağımsız değildir; gerçek kanıt gücü maç sayısına yakındır._
 
-%90 güven aralığı (maç bazlı): piyasaya göre fark -4 ile +5 puan, sanal kâr -3956 ile +2030 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
+%90 güven aralığı (maç bazlı): piyasaya göre fark -3 ile +5 puan, sanal kâr -3829 ile +2310 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
 
-Piyasanın beklediği isabet: %49 → fark +0 puan • Sanal kâr: -1057 TL • Piyasa bizim yönümüze döndü: %59 (135)
+Piyasanın beklediği isabet: %49 → fark +0 puan • Sanal kâr: -813 TL • Piyasa bizim yönümüze döndü: %57 (142)
 
 ### Tür bazında
 
 | Tür | Sonuç | İsabet | Piyasa | Fark | Sanal kâr | Piyasa lehte | Durum |
 |---|---|---|---|---|---|---|---|
-| ⚽ Üst (gol) | 74 | %61 | %63 | -3 puan | -833 TL | %80 (40) | 🟡 piyasa kadar |
+| ⚽ Üst (gol) | 76 | %61 | %63 | -3 puan | -866 TL | %79 (42) | 🟡 piyasa kadar |
 | 🧊 Alt | 78 | %49 | %44 | +5 puan | +222 TL | %11 (19) | 🟢 umut verici |
-| 🚩 Korner | 57 | %47 | %51 | -4 puan | -367 TL | %75 (8) | 🔴 zayıf |
+| 🚩 Korner | 58 | %48 | %51 | -3 puan | -310 TL | %67 (9) | 🔴 zayıf |
 | 🟨 Kart | 26 | %58 | %48 | +10 puan | +423 TL | %88 (8) | ⏳ veri az (26/30) |
 | ⏱ İlk yarı | 16 | %44 | %52 | -8 puan | -375 TL | %67 (3) | ⏳ veri az (16/30) |
-| 🤝 KG | 41 | %44 | %44 | +0 puan | +69 TL | %58 (24) | 🟡 piyasa kadar |
-| 🔥 Baskı alarmı | 57 | %37 | %38 | -2 puan | -196 TL | %52 (33) | 🟡 piyasa kadar |
+| 🤝 KG | 42 | %43 | %44 | -1 puan | -31 TL | %52 (27) | 🟡 piyasa kadar |
+| 🔥 Baskı alarmı | 59 | %39 | %38 | +1 puan | +124 TL | %50 (34) | 🟡 piyasa kadar |
 
 ### Lig bazında (en az 5 sonuç)
 
@@ -34,7 +34,9 @@ Piyasanın beklediği isabet: %49 → fark +0 puan • Sanal kâr: -1057 TL • 
 | Norway - Eliteserien | 6 | %83 | %55 | +382 TL |
 | Belgium - Challenger Pro League | 6 | %83 | %49 | +366 TL |
 | Italy - Serie B | 12 | %67 | %46 | +354 TL |
+| Turkey - 1. Lig | 6 | %83 | %50 | +352 TL |
 | Spain - La Liga | 7 | %57 | %50 | +208 TL |
+| Turkey - Süper Lig | 6 | %83 | %52 | +196 TL |
 | Germany - 2. Bundesliga | 11 | %64 | %54 | +184 TL |
 | Scotland - Premiership | 15 | %53 | %51 | +160 TL |
 | England - League One | 14 | %50 | %48 | +126 TL |
@@ -56,7 +58,7 @@ Piyasanın beklediği isabet: %49 → fark +0 puan • Sanal kâr: -1057 TL • 
 
 |  | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| Onayladı (gönderildi) | 62 | %66 | %65 | -521 TL |
+| Onayladı (gönderildi) | 65 | %65 | %65 | -654 TL |
 | Reddetti (gönderilmedi) | 29 | %41 | %49 | -69 TL |
 
 ➡️ Filtre işe yarıyor.
@@ -65,8 +67,8 @@ Piyasanın beklediği isabet: %49 → fark +0 puan • Sanal kâr: -1057 TL • 
 
 | Form | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| güçlü (≥%60) | 21 | %67 | %70 | -238 TL |
-| orta | 32 | %50 | %58 | -587 TL |
+| güçlü (≥%60) | 22 | %68 | %69 | -171 TL |
+| orta | 33 | %48 | %58 | -687 TL |
 | zayıf (≤%20) | 2 | %50 | %44 | -9 TL |
 
 ### 📋 Form ölçütü – 🧊 Alt (dakikadan sonra gol olmadı mı) (sadece kayıt, sinyali etkilemiyor)
@@ -80,8 +82,8 @@ Piyasanın beklediği isabet: %49 → fark +0 puan • Sanal kâr: -1057 TL • 
 
 | Form | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| ✅ destekliyor | 116 | %52 | %50 | +459 TL |
-| nötr | 96 | %46 | %49 | -1048 TL |
+| ✅ destekliyor | 119 | %53 | %50 | +745 TL |
+| nötr | 99 | %45 | %49 | -1090 TL |
 | ⚠️ ters | 10 | %40 | %49 | -288 TL |
 
 ### 💹 Canlı oran akışı (sinyal anında)
@@ -89,7 +91,7 @@ Piyasanın beklediği isabet: %49 → fark +0 puan • Sanal kâr: -1057 TL • 
 | Akış | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
 | aynı yönde | 16 | %44 | %49 | -261 TL |
-| nötr | 130 | %47 | %51 | -1517 TL |
+| nötr | 135 | %47 | %51 | -1330 TL |
 | ters yönde | 7 | %71 | %47 | +202 TL |
 
 ### 🏆 Maç bağlamı
@@ -104,9 +106,9 @@ Sinyalden 5 dk sonra aynı çizgide piyasa bizim yönümüze döndüyse **lehte*
 
 | Piyasa | Sonuç | İsabet | Sanal kâr |
 |---|---|---|---|
-| lehte | 80 | %44 | -1500 TL |
-| nötr | 40 | %42 | -436 TL |
-| aleyhte | 15 | %67 | +503 TL |
+| lehte | 81 | %43 | -1600 TL |
+| nötr | 43 | %44 | -412 TL |
+| aleyhte | 16 | %69 | +665 TL |
 
 ### 💰 Beklenen getiri (sunulan gerçek oranla)
 
@@ -114,8 +116,8 @@ EV = model olasılığı × gerçek oran − 1. Negatif EV'li sinyal, model piya
 
 | EV | Sonuç | İsabet | Ort. oran | Sanal kâr |
 |---|---|---|---|---|
-| EV > +%2 | 149 | %49 | 2.05 | -436 TL |
-| EV 0 ile +%2 | 15 | %73 | 1.32 | -71 TL |
+| EV > +%2 | 152 | %49 | 2.05 | -579 TL |
+| EV 0 ile +%2 | 16 | %75 | 1.34 | -4 TL |
 | EV negatif | 6 | %83 | 1.46 | +107 TL |
 
 ### 👻 Gölge moddaki türler (gruba gitmiyor, ölçülüyor)
@@ -128,31 +130,31 @@ EV = model olasılığı × gerçek oran − 1. Negatif EV'li sinyal, model piya
 
 | Güven | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| yüksek | 126 | %44 | %42 | +210 TL |
-| orta | 179 | %53 | %53 | -758 TL |
-| düşük | 44 | %45 | %57 | -509 TL |
+| yüksek | 127 | %44 | %42 | +110 TL |
+| orta | 182 | %53 | %53 | -734 TL |
+| düşük | 46 | %48 | %56 | -189 TL |
 
 ## Tüm zamanlar
 
-**349 sinyal sonuçlandı (200 farklı maç): ✅ 171 tuttu, ❌ 178 tutmadı (%49)**
+**355 sinyal sonuçlandı (203 farklı maç): ✅ 175 tuttu, ❌ 180 tutmadı (%49)**
 
 _Aynı maçtaki sinyaller birbirinden bağımsız değildir; gerçek kanıt gücü maç sayısına yakındır._
 
-%90 güven aralığı (maç bazlı): piyasaya göre fark -4 ile +5 puan, sanal kâr -3956 ile +2030 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
+%90 güven aralığı (maç bazlı): piyasaya göre fark -3 ile +5 puan, sanal kâr -3829 ile +2310 TL. **Aralık sıfırı içeriyor: henüz piyasadan iyi olduğu kanıtlanmadı.**
 
-Piyasanın beklediği isabet: %49 → fark +0 puan • Sanal kâr: -1057 TL • Piyasa bizim yönümüze döndü: %59 (135)
+Piyasanın beklediği isabet: %49 → fark +0 puan • Sanal kâr: -813 TL • Piyasa bizim yönümüze döndü: %57 (142)
 
 ### Tür bazında
 
 | Tür | Sonuç | İsabet | Piyasa | Fark | Sanal kâr | Piyasa lehte | Durum |
 |---|---|---|---|---|---|---|---|
-| ⚽ Üst (gol) | 74 | %61 | %63 | -3 puan | -833 TL | %80 (40) | 🟡 piyasa kadar |
+| ⚽ Üst (gol) | 76 | %61 | %63 | -3 puan | -866 TL | %79 (42) | 🟡 piyasa kadar |
 | 🧊 Alt | 78 | %49 | %44 | +5 puan | +222 TL | %11 (19) | 🟢 umut verici |
-| 🚩 Korner | 57 | %47 | %51 | -4 puan | -367 TL | %75 (8) | 🔴 zayıf |
+| 🚩 Korner | 58 | %48 | %51 | -3 puan | -310 TL | %67 (9) | 🔴 zayıf |
 | 🟨 Kart | 26 | %58 | %48 | +10 puan | +423 TL | %88 (8) | ⏳ veri az (26/30) |
 | ⏱ İlk yarı | 16 | %44 | %52 | -8 puan | -375 TL | %67 (3) | ⏳ veri az (16/30) |
-| 🤝 KG | 41 | %44 | %44 | +0 puan | +69 TL | %58 (24) | 🟡 piyasa kadar |
-| 🔥 Baskı alarmı | 57 | %37 | %38 | -2 puan | -196 TL | %52 (33) | 🟡 piyasa kadar |
+| 🤝 KG | 42 | %43 | %44 | -1 puan | -31 TL | %52 (27) | 🟡 piyasa kadar |
+| 🔥 Baskı alarmı | 59 | %39 | %38 | +1 puan | +124 TL | %50 (34) | 🟡 piyasa kadar |
 
 ### Lig bazında (en az 5 sonuç)
 
@@ -164,7 +166,9 @@ Piyasanın beklediği isabet: %49 → fark +0 puan • Sanal kâr: -1057 TL • 
 | Norway - Eliteserien | 6 | %83 | %55 | +382 TL |
 | Belgium - Challenger Pro League | 6 | %83 | %49 | +366 TL |
 | Italy - Serie B | 12 | %67 | %46 | +354 TL |
+| Turkey - 1. Lig | 6 | %83 | %50 | +352 TL |
 | Spain - La Liga | 7 | %57 | %50 | +208 TL |
+| Turkey - Süper Lig | 6 | %83 | %52 | +196 TL |
 | Germany - 2. Bundesliga | 11 | %64 | %54 | +184 TL |
 | Scotland - Premiership | 15 | %53 | %51 | +160 TL |
 | England - League One | 14 | %50 | %48 | +126 TL |
@@ -186,7 +190,7 @@ Piyasanın beklediği isabet: %49 → fark +0 puan • Sanal kâr: -1057 TL • 
 
 |  | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| Onayladı (gönderildi) | 62 | %66 | %65 | -521 TL |
+| Onayladı (gönderildi) | 65 | %65 | %65 | -654 TL |
 | Reddetti (gönderilmedi) | 29 | %41 | %49 | -69 TL |
 
 ➡️ Filtre işe yarıyor.
@@ -195,8 +199,8 @@ Piyasanın beklediği isabet: %49 → fark +0 puan • Sanal kâr: -1057 TL • 
 
 | Form | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| güçlü (≥%60) | 21 | %67 | %70 | -238 TL |
-| orta | 32 | %50 | %58 | -587 TL |
+| güçlü (≥%60) | 22 | %68 | %69 | -171 TL |
+| orta | 33 | %48 | %58 | -687 TL |
 | zayıf (≤%20) | 2 | %50 | %44 | -9 TL |
 
 ### 📋 Form ölçütü – 🧊 Alt (dakikadan sonra gol olmadı mı) (sadece kayıt, sinyali etkilemiyor)
@@ -210,8 +214,8 @@ Piyasanın beklediği isabet: %49 → fark +0 puan • Sanal kâr: -1057 TL • 
 
 | Form | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| ✅ destekliyor | 116 | %52 | %50 | +459 TL |
-| nötr | 96 | %46 | %49 | -1048 TL |
+| ✅ destekliyor | 119 | %53 | %50 | +745 TL |
+| nötr | 99 | %45 | %49 | -1090 TL |
 | ⚠️ ters | 10 | %40 | %49 | -288 TL |
 
 ### 💹 Canlı oran akışı (sinyal anında)
@@ -219,7 +223,7 @@ Piyasanın beklediği isabet: %49 → fark +0 puan • Sanal kâr: -1057 TL • 
 | Akış | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
 | aynı yönde | 16 | %44 | %49 | -261 TL |
-| nötr | 130 | %47 | %51 | -1517 TL |
+| nötr | 135 | %47 | %51 | -1330 TL |
 | ters yönde | 7 | %71 | %47 | +202 TL |
 
 ### 🏆 Maç bağlamı
@@ -234,9 +238,9 @@ Sinyalden 5 dk sonra aynı çizgide piyasa bizim yönümüze döndüyse **lehte*
 
 | Piyasa | Sonuç | İsabet | Sanal kâr |
 |---|---|---|---|
-| lehte | 80 | %44 | -1500 TL |
-| nötr | 40 | %42 | -436 TL |
-| aleyhte | 15 | %67 | +503 TL |
+| lehte | 81 | %43 | -1600 TL |
+| nötr | 43 | %44 | -412 TL |
+| aleyhte | 16 | %69 | +665 TL |
 
 ### 💰 Beklenen getiri (sunulan gerçek oranla)
 
@@ -244,8 +248,8 @@ EV = model olasılığı × gerçek oran − 1. Negatif EV'li sinyal, model piya
 
 | EV | Sonuç | İsabet | Ort. oran | Sanal kâr |
 |---|---|---|---|---|
-| EV > +%2 | 149 | %49 | 2.05 | -436 TL |
-| EV 0 ile +%2 | 15 | %73 | 1.32 | -71 TL |
+| EV > +%2 | 152 | %49 | 2.05 | -579 TL |
+| EV 0 ile +%2 | 16 | %75 | 1.34 | -4 TL |
 | EV negatif | 6 | %83 | 1.46 | +107 TL |
 
 ### 👻 Gölge moddaki türler (gruba gitmiyor, ölçülüyor)
@@ -258,9 +262,9 @@ EV = model olasılığı × gerçek oran − 1. Negatif EV'li sinyal, model piya
 
 | Güven | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| yüksek | 126 | %44 | %42 | +210 TL |
-| orta | 179 | %53 | %53 | -758 TL |
-| düşük | 44 | %45 | %57 | -509 TL |
+| yüksek | 127 | %44 | %42 | +110 TL |
+| orta | 182 | %53 | %53 | -734 TL |
+| düşük | 46 | %48 | %56 | -189 TL |
 
 ## 📉 Oran düşüşü uyarıları (son 7 gün)
 
@@ -268,11 +272,11 @@ Düşen oran o sonucun gerçekleşmesi demek; piyasa = uyarı anındaki adil iht
 
 | Uyarı | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| Hepsi | 112 | %30 | %32 | -1523 TL |
-| Deplasman | 41 | %24 | %22 | -815 TL |
+| Hepsi | 118 | %30 | %31 | -1956 TL |
+| Deplasman | 43 | %26 | %23 | -848 TL |
 | Alt 2.5 | 14 | %29 | %44 | -579 TL |
-| Ev sahibi | 36 | %36 | %36 | -91 TL |
-| Beraberlik | 10 | %20 | %22 | -40 TL |
+| Ev sahibi | 38 | %34 | %35 | -291 TL |
+| Beraberlik | 12 | %17 | %22 | -240 TL |
 | KG Var | 2 | %50 | %30 | +125 TL |
 | Üst 2.5 | 5 | %40 | %52 | -133 TL |
 | KG Yok | 4 | %50 | %44 | +10 TL |
@@ -283,11 +287,11 @@ Düşen oran o sonucun gerçekleşmesi demek; piyasa = uyarı anındaki adil iht
 
 | Uyarı | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| Hepsi | 112 | %30 | %32 | -1523 TL |
-| Deplasman | 41 | %24 | %22 | -815 TL |
+| Hepsi | 118 | %30 | %31 | -1956 TL |
+| Deplasman | 43 | %26 | %23 | -848 TL |
 | Alt 2.5 | 14 | %29 | %44 | -579 TL |
-| Ev sahibi | 36 | %36 | %36 | -91 TL |
-| Beraberlik | 10 | %20 | %22 | -40 TL |
+| Ev sahibi | 38 | %34 | %35 | -291 TL |
+| Beraberlik | 12 | %17 | %22 | -240 TL |
 | KG Var | 2 | %50 | %30 | +125 TL |
 | Üst 2.5 | 5 | %40 | %52 | -133 TL |
 | KG Yok | 4 | %50 | %44 | +10 TL |
