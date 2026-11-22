@@ -353,11 +353,216 @@
     "dep": "Red Bull Salzburg",
     "lig": "Austria - Bundesliga",
     "etiket": "KG Var",
+    "sonuc": "ıska",
+    "skor": "1-0",
+    "neden": "Red Bull Salzburg gol atamadı (1-0). Şutlar 9-8, isabetli 3-1, xG 0.7-1.2."
+   }
+  ],
+  "sonuc": "ıska",
+  "tg": 681,
+  "yatti": true,
+  "oran_gercek": 3.34,
+  "kar": -100
+ },
+ {
+  "tarih": "2026-11-22",
+  "id": "2026-11-22-alt-18",
+  "parti": 18,
+  "tur": "alt",
+  "baslik": "🧊 Alt kuponu (akşam)",
+  "oran": 3.53,
+  "p_piyasa": 0.237,
+  "bacaklar": [
+   {
+    "tur": "alt35",
+    "oran": 1.4,
+    "p": 0.6818181818181818,
+    "cizgi": 3.5,
+    "form_ev": [
+     4,
+     5
+    ],
+    "form_dep": [
+     4,
+     5
+    ],
+    "oran_form": 0.8,
+    "sira_puan": 0.4591,
+    "fixture_id": "1492460",
+    "saat": "22:00",
+    "ts": 1795374000,
+    "mac": "Atletico Paranaense - Remo",
+    "ev": "Atletico Paranaense",
+    "dep": "Remo",
+    "lig": "Brazil - Serie A",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt35",
+    "oran": 1.44,
+    "p": 0.645320197044335,
+    "cizgi": 3.5,
+    "form_ev": [
+     4,
+     5
+    ],
+    "form_dep": [
+     5,
+     5
+    ],
+    "oran_form": 0.9,
+    "sira_puan": 0.5773,
+    "fixture_id": "1647585",
+    "saat": "22:30",
+    "ts": 1795375800,
+    "mac": "União de Leiria - Leça",
+    "ev": "União de Leiria",
+    "dep": "Leça",
+    "lig": "Portugal - Taça de Portugal",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt25",
+    "oran": 1.75,
+    "p": 0.5394736842105263,
+    "cizgi": 2.5,
+    "form_ev": [
+     4,
+     5
+    ],
+    "form_dep": [
+     4,
+     5
+    ],
+    "oran_form": 0.8,
+    "sira_puan": 0.5303,
+    "fixture_id": "1640407",
+    "saat": "23:00",
+    "ts": 1795377600,
+    "mac": "Vila Real - Uniclinic Atletico Clube",
+    "ev": "Vila Real",
+    "dep": "Uniclinic Atletico Clube",
+    "lig": "Brazil - Copa Fares Lopes",
+    "etiket": "2.5 Alt",
     "sonuc": "bekliyor"
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 681,
-  "yatti": true
+  "tg": 871
+ },
+ {
+  "tarih": "2026-11-22",
+  "id": "2026-11-22-gol-18",
+  "parti": 18,
+  "tur": "gol",
+  "baslik": "🎯 Gol kuponu (akşam)",
+  "oran": 2.93,
+  "p_piyasa": 0.271,
+  "bacaklar": [
+   {
+    "tur": "ust15",
+    "oran": 1.33,
+    "p": 0.7096069868995633,
+    "cizgi": 1.5,
+    "form_ev": [
+     4,
+     5
+    ],
+    "form_dep": [
+     5,
+     5
+    ],
+    "oran_form": 0.9,
+    "sira_puan": 0.5452,
+    "fixture_id": "1639837",
+    "saat": "22:00",
+    "ts": 1795374000,
+    "mac": "Orense SC - Mushuc Runa SC",
+    "ev": "Orense SC",
+    "dep": "Mushuc Runa SC",
+    "lig": "Ecuador - Liga Pro",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust15",
+    "oran": 1.22,
+    "p": 0.7662835249042146,
+    "cizgi": 1.5,
+    "form_ev": [
+     5,
+     5
+    ],
+    "form_dep": [
+     5,
+     5
+    ],
+    "oran_form": 1.0,
+    "sira_puan": 0.6169,
+    "fixture_id": "1549561",
+    "saat": "23:00",
+    "ts": 1795377600,
+    "mac": "Sport Huancayo - Universitario",
+    "ev": "Sport Huancayo",
+    "dep": "Universitario",
+    "lig": "Peru - Primera División",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust15",
+    "oran": 1.33,
+    "p": 0.7096069868995633,
+    "cizgi": 1.5,
+    "form_ev": [
+     5,
+     5
+    ],
+    "form_dep": [
+     4,
+     5
+    ],
+    "oran_form": 0.9,
+    "sira_puan": 0.5452,
+    "fixture_id": "1570026",
+    "saat": "23:00",
+    "ts": 1795377600,
+    "mac": "Burgos - Albacete",
+    "ev": "Burgos",
+    "dep": "Albacete",
+    "lig": "Spain - Segunda División",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust15",
+    "oran": 1.36,
+    "p": 0.7017543859649122,
+    "cizgi": 1.5,
+    "form_ev": [
+     4,
+     5
+    ],
+    "form_dep": [
+     4,
+     5
+    ],
+    "oran_form": 0.8,
+    "sira_puan": 0.4491,
+    "fixture_id": "1570456",
+    "saat": "23:00",
+    "ts": 1795377600,
+    "mac": "Getafe - Atletico Madrid",
+    "ev": "Getafe",
+    "dep": "Atletico Madrid",
+    "lig": "Spain - La Liga",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 872
  }
 ]
