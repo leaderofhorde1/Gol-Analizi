@@ -19,7 +19,7 @@ from main import DATA, FINISHED, PRIORITY, TZ, log, notify, telegram_reply
 KUPON_DIR = DATA / "kupon"
 KUPON_JSON = KUPON_DIR / "kuponlar.json"
 KUPON_SAAT = int(os.environ.get("KUPON_SAAT", "10"))        # bu saatten sonra günün kuponları hazırlanır
-MAX_ADAY = int(os.environ.get("KUPON_ADAY", "45"))           # form verisi çekilecek en fazla maç
+MAX_ADAY = int(os.environ.get("KUPON_ADAY", "120"))           # form verisi çekilecek en fazla maç
 MIN_BACAK, MAX_BACAK = 3, 4
 VOID = {"PST", "CANC", "ABD", "AWD", "WO"}
 _lock = threading.Lock()
@@ -33,6 +33,7 @@ BACAKLAR = {
     "kg":    ("KG Var", "kg", None, (1.45, 1.90), 3, 7),
     "korner": ("Korner {line} Üst", "korner", None, (1.40, 1.85), 3, 7),
 }
+AILE = {"ust15": "gol", "ust25": "gol", "kg": "gol", "alt25": "alt", "alt35": "alt", "korner": "korner"}
 KUPONLAR = [  # sıra: önce dar havuzlu kuponlar doldurulur; bir maç tek kuponda yer alır
     ("korner", "🚩 Korner kuponu", ("korner",)),
     ("alt", "🧊 Alt kuponu", ("alt25", "alt35")),
@@ -137,6 +138,9 @@ def build(api, book, fb) -> list[dict]:
         legs = []
         for leg in pool:
             if leg["tur"] in types and leg["fixture_id"] not in used and leg["fixture_id"] not in {l["fixture_id"] for l in legs}:
+                # karışık kupon gerçekten karışık olsun: aynı aileden (gol / alt / korner) en fazla 2 maç
+                if kid == "karisik" and sum(AILE[l["tur"]] == AILE[leg["tur"]] for l in legs) >= 2:
+                    continue
                 legs.append(leg)
             if len(legs) == MAX_BACAK:
                 break
