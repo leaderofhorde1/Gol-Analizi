@@ -429,7 +429,9 @@
     "dep": "Leça",
     "lig": "Portugal - Taça de Portugal",
     "etiket": "3.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "2-2",
+    "neden": "En fazla 3 gol olmalıydı, maçta 4 gol oldu (2-2). Gol dakikaları: 27' Leça, 55' União de Leiria, 84' União de Leiria, 88' Leça, 98' União de Leiria, 108' União de Leiria. Bahsi kaybettiren 4. gol 88. dakikada geldi."
    },
    {
     "tur": "alt25",
@@ -454,12 +456,16 @@
     "dep": "Uniclinic Atletico Clube",
     "lig": "Brazil - Copa Fares Lopes",
     "etiket": "2.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "5-1",
+    "neden": "En fazla 2 gol olmalıydı, maçta 6 gol oldu (5-1). Gol dakikaları: 1' Vila Real, 1' Uniclinic Atletico Clube, 31' Vila Real, 33' Vila Real, 55' Vila Real, 79' Vila Real. Bahsi kaybettiren 3. gol 31. dakikada geldi."
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 871,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 3.53,
+  "kar": -100
  },
  {
   "tarih": "2026-11-22",
@@ -571,7 +577,8 @@
     "dep": "Atletico Madrid",
     "lig": "Spain - La Liga",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "0-3"
    }
   ],
   "sonuc": "bekliyor",
