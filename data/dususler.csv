@@ -114,25 +114,25 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-22,1572747,13:30,Spain - Segunda División RFEF - Group 3,Peña Deportiva - Lorca Deportiva,1x2:ev,Ev sahibi,3.0,2.55,0.15,0.3,0.354,ıska,0-1,-100
 2026-11-22,1629131,13:30,Kenya - FKF Premier League,Shabana - Mara Sugar,1x2:x,Beraberlik,2.88,2.38,0.174,0.312,0.375,ıska,0-1,-100
 2026-11-22,1650700,11:30,Indonesia - Liga Nusantara,Persibo - Persegres Gresik United,1x2:dep,Deplasman,3.5,2.8,0.2,0.258,0.321,ıska,1-1,-100
-2026-11-22,1551490,14:00,Macedonia - First League,Bregalnica Štip - Struga,1x2:ev,Ev sahibi,4.75,4.0,0.158,0.19,0.226,bekliyor,,
+2026-11-22,1551490,14:00,Macedonia - First League,Bregalnica Štip - Struga,1x2:ev,Ev sahibi,4.75,4.0,0.158,0.19,0.226,ıska,1-2,-100
 2026-11-22,1565530,14:00,Ukraine - Premier League,Dynamo Kyiv - Obolon'-Brovar,1x2:x,Beraberlik,5.5,4.75,0.136,0.164,0.19,bekliyor,,
-2026-11-22,1572443,14:00,Spain - Segunda División RFEF - Group 2,Utebo - Calamocha,1x2:dep,Deplasman,6.5,5.25,0.192,0.138,0.171,bekliyor,,
+2026-11-22,1572443,14:00,Spain - Segunda División RFEF - Group 2,Utebo - Calamocha,1x2:dep,Deplasman,6.5,5.25,0.192,0.138,0.171,ıska,2-0,-100
 2026-11-22,1591399,13:00,Turkey - 2. Lig,Kastamonuspor - Erbaaspor,1x2:ev,Ev sahibi,15.0,11.0,0.267,0.061,0.084,ıska,0-3,-100
 2026-11-22,1591399,13:00,Turkey - 2. Lig,Kastamonuspor - Erbaaspor,1x2:x,Beraberlik,8.0,7.0,0.125,0.115,0.131,ıska,0-3,-100
-2026-11-22,1599294,14:00,Poland - Central Youth League,Zagłębie Lubin U19 - Korona Kielce U19,1x2:dep,Deplasman,4.0,3.4,0.15,0.224,0.261,bekliyor,,
-2026-11-22,1613415,14:00,Spain - Tercera División RFEF - Group 3,Cayón - Castro,1x2:dep,Deplasman,7.0,6.0,0.143,0.128,0.149,bekliyor,,
-2026-11-22,1614642,14:00,Spain - Tercera División RFEF - Group 7,Pozuelo Alarcón - Móstoles,1x2:ev,Ev sahibi,3.6,3.0,0.167,0.25,0.298,bekliyor,,
-2026-11-22,1630265,14:00,Moldova - Super Liga,Sireți - Petrocub,1x2:ev,Ev sahibi,7.5,6.0,0.2,0.12,0.15,bekliyor,,
+2026-11-22,1599294,14:00,Poland - Central Youth League,Zagłębie Lubin U19 - Korona Kielce U19,1x2:dep,Deplasman,4.0,3.4,0.15,0.224,0.261,ıska,3-1,-100
+2026-11-22,1613415,14:00,Spain - Tercera División RFEF - Group 3,Cayón - Castro,1x2:dep,Deplasman,7.0,6.0,0.143,0.128,0.149,ıska,2-2,-100
+2026-11-22,1614642,14:00,Spain - Tercera División RFEF - Group 7,Pozuelo Alarcón - Móstoles,1x2:ev,Ev sahibi,3.6,3.0,0.167,0.25,0.298,isabet,2-1,200
+2026-11-22,1630265,14:00,Moldova - Super Liga,Sireți - Petrocub,1x2:ev,Ev sahibi,7.5,6.0,0.2,0.12,0.15,ıska,0-1,-100
 2026-11-22,1640888,13:00,South-Africa - Diski Challenge,Stellenbosch U23 - Kaizer Chiefs U23,1x2:dep,Deplasman,1.91,1.67,0.126,0.464,0.532,isabet,1-2,67
-2026-11-22,1647588,14:00,Portugal - Taça de Portugal,Sanjoanense - Academica,ou:alt,Alt 2.5,2.35,2.0,0.149,0.401,0.474,bekliyor,,
-2026-11-22,1647588,14:00,Portugal - Taça de Portugal,Sanjoanense - Academica,kg:yok,KG Yok,2.1,1.83,0.129,0.443,0.5,bekliyor,,
+2026-11-22,1647588,14:00,Portugal - Taça de Portugal,Sanjoanense - Academica,ou:alt,Alt 2.5,2.35,2.0,0.149,0.401,0.474,ıska,1-2,-100
+2026-11-22,1647588,14:00,Portugal - Taça de Portugal,Sanjoanense - Academica,kg:yok,KG Yok,2.1,1.83,0.129,0.443,0.5,ıska,1-2,-100
 2026-11-22,1550201,14:30,Italy - Serie A,Juventus - Venezia,1x2:dep,Deplasman,8.5,7.0,0.176,0.112,0.134,bekliyor,,
 2026-11-22,1590099,15:30,Albania - Superliga,Vora - Tirana,1x2:dep,Deplasman,2.45,2.15,0.122,0.363,0.426,bekliyor,,
 2026-11-22,1591398,15:00,Turkey - 2. Lig,İnegöl Kafkas Gençlik - Arnavutköy Belediyespor,1x2:dep,Deplasman,7.5,6.5,0.133,0.121,0.138,bekliyor,,
 2026-11-22,1607739,15:00,England - FA WSL,Manchester City W - Tottenham Hotspur W,1x2:dep,Deplasman,7.0,6.0,0.143,0.132,0.155,bekliyor,,
 2026-11-22,1552225,16:30,Netherlands - Eredivisie,Ajax - ADO Den Haag,1x2:dep,Deplasman,15.0,13.0,0.133,0.063,0.072,bekliyor,,
 2026-11-22,1559013,16:00,Slovenia - 2. SNL,Tabor Sežana - Jesenice,1x2:dep,Deplasman,6.0,5.0,0.167,0.15,0.18,bekliyor,,
-2026-11-22,1591692,14:00,Turkey - 2. Lig,İskenderunspor - Ankaragücü,1x2:ev,Ev sahibi,6.5,5.5,0.154,0.138,0.163,bekliyor,,
+2026-11-22,1591692,14:00,Turkey - 2. Lig,İskenderunspor - Ankaragücü,1x2:ev,Ev sahibi,6.5,5.5,0.154,0.138,0.163,ıska,0-3,-100
 2026-11-22,1601935,16:00,Azerbaijan - Premyer Liqa,Kapaz - Qarabag,1x2:ev,Ev sahibi,8.5,7.0,0.176,0.104,0.127,bekliyor,,
 2026-11-22,1618489,16:00,Netherlands - Derde Divisie,UDI '19 - FC Lisse,1x2:dep,Deplasman,2.1,1.8,0.143,0.426,0.498,bekliyor,,
 2026-11-22,1624113,16:30,Italy - Serie D - Girone A,Alessandria - Saluzzo,1x2:dep,Deplasman,6.25,5.5,0.12,0.145,0.166,bekliyor,,
