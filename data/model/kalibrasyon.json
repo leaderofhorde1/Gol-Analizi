@@ -1,32 +1,32 @@
 {
- "olusturma": "2026-11-21T08:41+03:00",
+ "olusturma": "2026-11-22T03:59+03:00",
  "gol": {
-  "orneklem": 29,
+  "orneklem": 103,
   "kullan": false,
   "not": "en az 300 sonuç gerekli"
  },
  "alt": {
-  "orneklem": 42,
+  "orneklem": 78,
   "kullan": false,
   "not": "en az 300 sonuç gerekli"
  },
  "korner": {
-  "orneklem": 27,
+  "orneklem": 57,
   "kullan": false,
   "not": "en az 300 sonuç gerekli"
  },
  "kart": {
-  "orneklem": 4,
+  "orneklem": 22,
   "kullan": false,
   "not": "en az 300 sonuç gerekli"
  },
  "iy": {
-  "orneklem": 12,
+  "orneklem": 16,
   "kullan": false,
   "not": "en az 300 sonuç gerekli"
  },
  "kg": {
-  "orneklem": 11,
+  "orneklem": 41,
   "kullan": false,
   "not": "en az 300 sonuç gerekli"
  }
