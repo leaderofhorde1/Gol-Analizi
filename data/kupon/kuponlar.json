@@ -518,7 +518,8 @@
     "dep": "Universitario",
     "lig": "Peru - Primera División",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "4-1"
    },
    {
     "tur": "ust15",
@@ -543,7 +544,9 @@
     "dep": "Albacete",
     "lig": "Spain - Segunda División",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "1-0",
+    "neden": "2 gol gerekiyordu, maçta 1 gol oldu (1-0). Şutlar 14-20, isabetli 3-1, xG 1.2-1.4."
    },
    {
     "tur": "ust15",
@@ -572,6 +575,7 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 872
+  "tg": 872,
+  "yatti": true
  }
 ]
