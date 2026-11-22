@@ -93,7 +93,7 @@ FORM_MIN_TEAM = {t.strip() for t in os.environ.get("FORM_TAKIM_SART", "korner,iy
 # sinyali etkilemez: 1-2 hafta sonra karnede işe yarayıp yaramadığına bakılacak.
 FORM_SADECE_KAYIT = {"gol", "alt"}
 FORM_MIN_HITS = int(os.environ.get("FORM_TAKIM_EN_AZ", "2"))  # her takımın son 5 maçından en az kaçı çizgiyi geçmeli
-GOLGE = {t.strip() for t in os.environ.get("GOLGE", "").split(",") if t.strip()}  # gruba gitmez, ölçülür
+GOLGE = {t.strip() for t in os.environ.get("GOLGE", "alt").split(",") if t.strip()}  # gruba gitmez, ölçülür
 STEAM_MIN = 5            # dk: oran akışı bu kadar öncesiyle karşılaştırılır
 STEAM_UP, STEAM_DOWN = 1.15, 0.87  # gol hızında %15 artış / %13 düşüş "akış" sayılır
 STEAM_EXTRA = float(os.environ.get("STEAM_EXTRA", "0.03"))
