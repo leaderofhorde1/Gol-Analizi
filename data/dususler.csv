@@ -174,11 +174,14 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-22,1550197,20:00,Italy - Serie A,AC Milan - Frosinone,ou:alt,Alt 2.5,3.2,2.75,0.141,0.298,0.344,bekliyor,,
 2026-11-22,1553234,19:30,Poland - Ekstraklasa,Wisla Plock - Legia Warszawa,ou:alt,Alt 2.5,2.08,1.75,0.159,0.454,0.539,bekliyor,,
 2026-11-22,1589542,18:00,Luxembourg - National Division,Victoria Rosport - AS Jeunesse Esch,1x2:dep,Deplasman,2.6,2.2,0.154,0.344,0.407,bekliyor,,
-2026-11-22,1603608,18:00,Cyprus - 1. Division,Karmiotissa - AEL,1x2:dep,Deplasman,1.67,1.33,0.204,0.551,0.698,bekliyor,,
-2026-11-22,1589537,18:00,Luxembourg - National Division,Etzella Ettelbruck - UNA Strassen,1x2:ev,Ev sahibi,7.5,6.5,0.133,0.12,0.139,bekliyor,,
+2026-11-22,1603608,18:00,Cyprus - 1. Division,Karmiotissa - AEL,1x2:dep,Deplasman,1.67,1.33,0.204,0.551,0.698,isabet,1-2,33
+2026-11-22,1589537,18:00,Luxembourg - National Division,Etzella Ettelbruck - UNA Strassen,1x2:ev,Ev sahibi,7.5,6.5,0.133,0.12,0.139,ıska,0-2,-100
 2026-11-22,1636048,21:00,Mexico - Primera Premier,Montañeses - Tigres de Alica,1x2:dep,Deplasman,2.4,2.1,0.125,0.375,0.407,bekliyor,,
 2026-11-22,1492460,22:00,Brazil - Serie A,Atletico Paranaense - Remo,1x2:dep,Deplasman,7.0,5.75,0.179,0.135,0.164,bekliyor,,
 2026-11-22,1645545,22:00,Bolivia - Primera División,Real Potosí - Bolívar,ou:alt,Alt 2.5,2.6,2.15,0.173,0.363,0.437,bekliyor,,
 2026-11-22,1645545,22:00,Bolivia - Primera División,Real Potosí - Bolívar,1x2:ev,Ev sahibi,8.0,4.75,0.406,0.114,0.191,bekliyor,,
 2026-11-22,1645545,22:00,Bolivia - Primera División,Real Potosí - Bolívar,1x2:x,Beraberlik,5.0,4.2,0.16,0.183,0.216,bekliyor,,
 2026-11-22,1650220,22:00,Brazil - Paulista - U20,Corinthians U20 - Palmeiras U20,1x2:dep,Deplasman,2.25,1.75,0.222,0.397,0.509,bekliyor,,
+2026-11-22,1650166,23:00,Jamaica - Premier League,Molynes United - Tivoli Gardens,ou:ust,Üst 2.5,1.75,1.53,0.126,0.539,0.609,bekliyor,,
+2026-11-22,1650166,23:00,Jamaica - Premier League,Molynes United - Tivoli Gardens,1x2:dep,Deplasman,2.5,2.2,0.12,0.36,0.41,bekliyor,,
+2026-11-22,1650252,23:00,Brazil - Copa Santa Catarina,Marcílio Dias - Joinville,1x2:dep,Deplasman,3.3,2.88,0.127,0.271,0.31,bekliyor,,
