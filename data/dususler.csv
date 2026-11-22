@@ -130,15 +130,15 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-22,1590099,15:30,Albania - Superliga,Vora - Tirana,1x2:dep,Deplasman,2.45,2.15,0.122,0.363,0.426,ıska,0-0,-100
 2026-11-22,1591398,15:00,Turkey - 2. Lig,İnegöl Kafkas Gençlik - Arnavutköy Belediyespor,1x2:dep,Deplasman,7.5,6.5,0.133,0.121,0.138,ıska,4-0,-100
 2026-11-22,1607739,15:00,England - FA WSL,Manchester City W - Tottenham Hotspur W,1x2:dep,Deplasman,7.0,6.0,0.143,0.132,0.155,isabet,1-3,500
-2026-11-22,1552225,16:30,Netherlands - Eredivisie,Ajax - ADO Den Haag,1x2:dep,Deplasman,15.0,13.0,0.133,0.063,0.072,bekliyor,,
+2026-11-22,1552225,16:30,Netherlands - Eredivisie,Ajax - ADO Den Haag,1x2:dep,Deplasman,15.0,13.0,0.133,0.063,0.072,ıska,3-0,-100
 2026-11-22,1559013,16:00,Slovenia - 2. SNL,Tabor Sežana - Jesenice,1x2:dep,Deplasman,6.0,5.0,0.167,0.15,0.18,ıska,5-2,-100
 2026-11-22,1591692,14:00,Turkey - 2. Lig,İskenderunspor - Ankaragücü,1x2:ev,Ev sahibi,6.5,5.5,0.154,0.138,0.163,ıska,0-3,-100
 2026-11-22,1601935,16:00,Azerbaijan - Premyer Liqa,Kapaz - Qarabag,1x2:ev,Ev sahibi,8.5,7.0,0.176,0.104,0.127,ıska,0-0,-100
-2026-11-22,1618489,16:00,Netherlands - Derde Divisie,UDI '19 - FC Lisse,1x2:dep,Deplasman,2.1,1.8,0.143,0.426,0.498,bekliyor,,
-2026-11-22,1624113,16:30,Italy - Serie D - Girone A,Alessandria - Saluzzo,1x2:dep,Deplasman,6.25,5.5,0.12,0.145,0.166,bekliyor,,
-2026-11-22,1625670,16:30,Italy - Serie D - Girone E,Progresso - San Donato Tavarnelle,1x2:ev,Ev sahibi,3.7,3.0,0.189,0.242,0.3,bekliyor,,
-2026-11-22,1625974,16:30,Italy - Serie D - Girone H,Ebolitana - Turris,1x2:ev,Ev sahibi,5.0,3.8,0.24,0.179,0.24,bekliyor,,
-2026-11-22,1626283,16:30,Italy - Serie D - Girone F,Teramo - Ancona,1x2:ev,Ev sahibi,1.95,1.57,0.195,0.46,0.571,bekliyor,,
+2026-11-22,1618489,16:00,Netherlands - Derde Divisie,UDI '19 - FC Lisse,1x2:dep,Deplasman,2.1,1.8,0.143,0.426,0.498,ıska,2-1,-100
+2026-11-22,1624113,16:30,Italy - Serie D - Girone A,Alessandria - Saluzzo,1x2:dep,Deplasman,6.25,5.5,0.12,0.145,0.166,ıska,2-0,-100
+2026-11-22,1625670,16:30,Italy - Serie D - Girone E,Progresso - San Donato Tavarnelle,1x2:ev,Ev sahibi,3.7,3.0,0.189,0.242,0.3,ıska,0-0,-100
+2026-11-22,1625974,16:30,Italy - Serie D - Girone H,Ebolitana - Turris,1x2:ev,Ev sahibi,5.0,3.8,0.24,0.179,0.24,ıska,0-0,-100
+2026-11-22,1626283,16:30,Italy - Serie D - Girone F,Teramo - Ancona,1x2:ev,Ev sahibi,1.95,1.57,0.195,0.46,0.571,isabet,1-0,57
 2026-11-22,1554226,17:00,Serbia - Prva Liga,Jedinstvo Ub - Javor,1x2:ev,Ev sahibi,5.0,4.33,0.134,0.178,0.204,bekliyor,,
 2026-11-22,1554230,15:00,Serbia - Prva Liga,Semendrija 1924 - Metalac GM,1x2:dep,Deplasman,4.5,3.75,0.167,0.203,0.244,isabet,2-3,275
 2026-11-22,1612685,17:00,England - WSL Cup,Newcastle United W - Nottingham Forest W,1x2:dep,Deplasman,4.75,3.4,0.284,0.188,0.261,bekliyor,,
@@ -151,7 +151,7 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-22,1648115,17:00,San-Marino - Campionato,Pennarossa - Tre Penne,1x2:ev,Ev sahibi,8.0,5.25,0.344,0.112,0.173,bekliyor,,
 2026-11-22,1648819,17:00,Malta - Premier League,Hamrun Spartans - Sliema Wanderers,1x2:dep,Deplasman,2.8,1.75,0.375,0.316,0.525,bekliyor,,
 2026-11-22,1589538,18:00,Luxembourg - National Division,Swift Hesperange - Atert Bissen,1x2:x,Beraberlik,12.0,10.0,0.167,0.078,0.093,bekliyor,,
-2026-11-22,1607474,16:30,Tunisia - Ligue 1,ES Zarzis - US Ben Guerdane,1x2:ev,Ev sahibi,2.05,1.8,0.122,0.434,0.495,bekliyor,,
+2026-11-22,1607474,16:30,Tunisia - Ligue 1,ES Zarzis - US Ben Guerdane,1x2:ev,Ev sahibi,2.05,1.8,0.122,0.434,0.495,isabet,1-0,80
 2026-11-22,1610757,18:00,Portugal - 1a Divisão - Women,Racing Power W - Marítimo W,1x2:dep,Deplasman,11.0,9.5,0.136,0.082,0.094,bekliyor,,
 2026-11-22,1610759,18:00,Portugal - 1a Divisão - Women,Valadares Gaia W - Torreense W,ou:ust,Üst 2.5,2.0,1.75,0.125,0.474,0.539,bekliyor,,
 2026-11-22,1610759,18:00,Portugal - 1a Divisão - Women,Valadares Gaia W - Torreense W,1x2:ev,Ev sahibi,5.75,4.5,0.217,0.157,0.2,bekliyor,,
@@ -160,11 +160,11 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-22,1616478,18:15,Spain - Tercera División RFEF - Group 13,SFC Minerva - Atlético Pulpileño,1x2:dep,Deplasman,2.2,1.85,0.159,0.405,0.48,bekliyor,,
 2026-11-22,1617394,18:15,Spain - Tercera División RFEF - Group 16,Cenicero - Alfaro,1x2:dep,Deplasman,1.6,1.38,0.138,0.556,0.646,bekliyor,,
 2026-11-22,1617705,18:30,Spain - Tercera División RFEF - Group 17,Épila - Almudévar,1x2:dep,Deplasman,3.75,3.0,0.2,0.239,0.3,bekliyor,,
-2026-11-22,1620545,16:00,Greece - Gamma Ethniki - Group 6,Aris Filiates - Panachaiki FC,1x2:dep,Deplasman,1.65,1.36,0.176,0.548,0.664,bekliyor,,
+2026-11-22,1620545,16:00,Greece - Gamma Ethniki - Group 6,Aris Filiates - Panachaiki FC,1x2:dep,Deplasman,1.65,1.36,0.176,0.548,0.664,isabet,0-2,36
 2026-11-22,1624118,17:00,Italy - Serie D - Girone A,Sestri Levante - Derthona,1x2:ev,Ev sahibi,2.25,1.9,0.156,0.4,0.483,bekliyor,,
-2026-11-22,1625023,16:30,Italy - Serie D - Girone I,Licata - Vigor Lamezia,1x2:ev,Ev sahibi,1.85,1.57,0.151,0.485,0.57,bekliyor,,
-2026-11-22,1625674,16:30,Italy - Serie D - Girone E,Ternana - Grassina,1x2:dep,Deplasman,9.5,7.5,0.211,0.094,0.121,bekliyor,,
-2026-11-22,1626284,16:30,Italy - Serie D - Girone F,Termoli Calcio - Pietralunga,1x2:ev,Ev sahibi,2.05,1.67,0.185,0.436,0.538,bekliyor,,
+2026-11-22,1625023,16:30,Italy - Serie D - Girone I,Licata - Vigor Lamezia,1x2:ev,Ev sahibi,1.85,1.57,0.151,0.485,0.57,ıska,1-1,-100
+2026-11-22,1625674,16:30,Italy - Serie D - Girone E,Ternana - Grassina,1x2:dep,Deplasman,9.5,7.5,0.211,0.094,0.121,ıska,2-0,-100
+2026-11-22,1626284,16:30,Italy - Serie D - Girone F,Termoli Calcio - Pietralunga,1x2:ev,Ev sahibi,2.05,1.67,0.185,0.436,0.538,isabet,2-1,67
 2026-11-22,1628605,18:00,Nigeria - NPFL,Kun Khalifat FC - Katsina United,1x2:ev,Ev sahibi,1.91,1.62,0.152,0.469,0.549,bekliyor,,
 2026-11-22,1647594,17:00,Portugal - Taça de Portugal,Vitória de Sernache - Lusitânia Lourosa,ou:alt,Alt 2.5,2.25,1.95,0.133,0.419,0.487,bekliyor,,
 2026-11-22,1494807,19:00,Norway - Eliteserien,Kristiansund BK - Sandefjord,ou:alt,Alt 2.5,2.88,2.5,0.132,0.327,0.375,bekliyor,,
@@ -176,3 +176,4 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-22,1589542,18:00,Luxembourg - National Division,Victoria Rosport - AS Jeunesse Esch,1x2:dep,Deplasman,2.6,2.2,0.154,0.344,0.407,bekliyor,,
 2026-11-22,1603608,18:00,Cyprus - 1. Division,Karmiotissa - AEL,1x2:dep,Deplasman,1.67,1.33,0.204,0.551,0.698,bekliyor,,
 2026-11-22,1589537,18:00,Luxembourg - National Division,Etzella Ettelbruck - UNA Strassen,1x2:ev,Ev sahibi,7.5,6.5,0.133,0.12,0.139,bekliyor,,
+2026-11-22,1636048,21:00,Mexico - Primera Premier,Montañeses - Tigres de Alica,1x2:dep,Deplasman,2.4,2.1,0.125,0.375,0.407,bekliyor,,

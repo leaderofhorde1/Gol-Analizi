@@ -64,7 +64,9 @@
     "dep": "Sturm Graz",
     "lig": "Austria - Bundesliga",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "1-0",
+    "neden": "2 gol gerekiyordu, maçta 1 gol oldu (1-0). Şutlar 13-15, isabetli 4-5, xG 2.2-1.2. Takımlar pozisyona girdi ama golü bulamadı."
    },
    {
     "tur": "ust15",
@@ -118,7 +120,8 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 679
+  "tg": 679,
+  "yatti": true
  },
  {
   "tarih": "2026-11-22",
@@ -230,12 +233,15 @@
     "dep": "AZ Alkmaar",
     "lig": "Netherlands - Eredivisie",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "1-5"
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 680,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 7.77,
+  "kar": -100
  },
  {
   "tarih": "2026-11-22",
