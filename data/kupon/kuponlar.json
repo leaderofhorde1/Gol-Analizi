@@ -91,7 +91,9 @@
     "dep": "Malaga",
     "lig": "Spain - La Liga",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "1-0",
+    "neden": "2 gol gerekiyordu, maçta 1 gol oldu (1-0). Şutlar 11-5, isabetli 2-0, xG 1.3-0.7."
    },
    {
     "tur": "kg",
@@ -116,12 +118,16 @@
     "dep": "Kifisia",
     "lig": "Greece - Super League 1",
     "etiket": "KG Var",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "4-0",
+    "neden": "Kifisia gol atamadı (4-0). Şutlar 21-4, isabetli 9-2, xG 3.4-0.4."
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 679,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 3.65,
+  "kar": -100
  },
  {
   "tarih": "2026-11-22",
