@@ -402,7 +402,9 @@
     "dep": "Remo",
     "lig": "Brazil - Serie A",
     "etiket": "3.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "4-2",
+    "neden": "En fazla 3 gol olmalıydı, maçta 6 gol oldu (4-2). Gol dakikaları: 9' Atletico Paranaense, 32' Atletico Paranaense, 62' Remo, 68' Atletico Paranaense, 84' Atletico Paranaense, 90' Remo. Bahsi kaybettiren 4. gol 68. dakikada geldi."
    },
    {
     "tur": "alt35",
@@ -456,7 +458,8 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 871
+  "tg": 871,
+  "yatti": true
  },
  {
   "tarih": "2026-11-22",
