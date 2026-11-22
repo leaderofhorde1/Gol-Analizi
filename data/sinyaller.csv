@@ -399,4 +399,6 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-22,1550201,Italy - Serie A,Juventus - Venezia,79,4-0,,7,,yüksek,,,evet,ıska,7,0.577,0.463,korner,0.10427,0.11999,2.0,-100,711,evet,8.5,8/10,lehte,,,,,2.0,0.153,0.11543,,
 2026-11-22,1550201,Italy - Serie A,Juventus - Venezia,79,4-0,,4-0,,orta,,,evet,ıska,,0.326,0.234,kg,0.04202,0.04359,4.0,-100,712,evet,,2/5,lehte,+6%,,,,4.0,0.302,0.04531,0.04908,
 2026-11-22,1494340,Sweden - Allsvenskan,BK Hacken - IF Elfsborg,13,1-0,,IF Elfsborg,,düşük,,,evet,isabet,18,0.437,0.382,baski,0.03213,,2.49,149,713,uyarı,28,2/5,,+1%,,,,,,0.03295,,
-2026-11-22,1555430,Switzerland - Super League,FC Zurich - FC ST. Gallen,22,0-0,,FC ST. Gallen,,düşük,,,evet,bekliyor,,0.419,0.399,baski,0.03389,,,,716,,37,4/5,,+7%,,,,,,0.03486,,
+2026-11-22,1555430,Switzerland - Super League,FC Zurich - FC ST. Gallen,22,0-0,,FC ST. Gallen,,düşük,,,evet,isabet,24,0.419,0.399,baski,0.03389,,2.38,138,716,uyarı,37,4/5,,+7%,,,,,,0.03486,,
+2026-11-22,1607734,England - FA WSL,Birmingham City W - Manchester United W,77,1-0,,7,,orta,,,evet,bekliyor,,0.68,0.608,korner,0.12067,,,,718,,8.5,4/8,,,,,,1.533,0.043,0.13207,,
+2026-11-22,1607734,England - FA WSL,Birmingham City W - Manchester United W,79,1-0,deplasman,18.7,6.9,düşük,evet,"Deplasman 10 dakikada 6 şut, 66% topa sahip, piyasa akışı +10% destekliyor; ancak xG düşük, ev defansif, edge küçük.",evet,bekliyor,,0.58,0.52,gol,0.04709,,,,719,,1.5,3/10,,+10%,,0.507,2,1.875,0.087,,,

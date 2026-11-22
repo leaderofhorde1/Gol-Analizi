@@ -115,7 +115,7 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-22,1629131,13:30,Kenya - FKF Premier League,Shabana - Mara Sugar,1x2:x,Beraberlik,2.88,2.38,0.174,0.312,0.375,ıska,0-1,-100
 2026-11-22,1650700,11:30,Indonesia - Liga Nusantara,Persibo - Persegres Gresik United,1x2:dep,Deplasman,3.5,2.8,0.2,0.258,0.321,ıska,1-1,-100
 2026-11-22,1551490,14:00,Macedonia - First League,Bregalnica Štip - Struga,1x2:ev,Ev sahibi,4.75,4.0,0.158,0.19,0.226,ıska,1-2,-100
-2026-11-22,1565530,14:00,Ukraine - Premier League,Dynamo Kyiv - Obolon'-Brovar,1x2:x,Beraberlik,5.5,4.75,0.136,0.164,0.19,bekliyor,,
+2026-11-22,1565530,14:00,Ukraine - Premier League,Dynamo Kyiv - Obolon'-Brovar,1x2:x,Beraberlik,5.5,4.75,0.136,0.164,0.19,ıska,4-2,-100
 2026-11-22,1572443,14:00,Spain - Segunda División RFEF - Group 2,Utebo - Calamocha,1x2:dep,Deplasman,6.5,5.25,0.192,0.138,0.171,ıska,2-0,-100
 2026-11-22,1591399,13:00,Turkey - 2. Lig,Kastamonuspor - Erbaaspor,1x2:ev,Ev sahibi,15.0,11.0,0.267,0.061,0.084,ıska,0-3,-100
 2026-11-22,1591399,13:00,Turkey - 2. Lig,Kastamonuspor - Erbaaspor,1x2:x,Beraberlik,8.0,7.0,0.125,0.115,0.131,ıska,0-3,-100
@@ -126,7 +126,7 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-22,1640888,13:00,South-Africa - Diski Challenge,Stellenbosch U23 - Kaizer Chiefs U23,1x2:dep,Deplasman,1.91,1.67,0.126,0.464,0.532,isabet,1-2,67
 2026-11-22,1647588,14:00,Portugal - Taça de Portugal,Sanjoanense - Academica,ou:alt,Alt 2.5,2.35,2.0,0.149,0.401,0.474,ıska,1-2,-100
 2026-11-22,1647588,14:00,Portugal - Taça de Portugal,Sanjoanense - Academica,kg:yok,KG Yok,2.1,1.83,0.129,0.443,0.5,ıska,1-2,-100
-2026-11-22,1550201,14:30,Italy - Serie A,Juventus - Venezia,1x2:dep,Deplasman,8.5,7.0,0.176,0.112,0.134,bekliyor,,
+2026-11-22,1550201,14:30,Italy - Serie A,Juventus - Venezia,1x2:dep,Deplasman,8.5,7.0,0.176,0.112,0.134,ıska,4-0,-100
 2026-11-22,1590099,15:30,Albania - Superliga,Vora - Tirana,1x2:dep,Deplasman,2.45,2.15,0.122,0.363,0.426,bekliyor,,
 2026-11-22,1591398,15:00,Turkey - 2. Lig,İnegöl Kafkas Gençlik - Arnavutköy Belediyespor,1x2:dep,Deplasman,7.5,6.5,0.133,0.121,0.138,bekliyor,,
 2026-11-22,1607739,15:00,England - FA WSL,Manchester City W - Tottenham Hotspur W,1x2:dep,Deplasman,7.0,6.0,0.143,0.132,0.155,bekliyor,,
@@ -167,3 +167,7 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-22,1626284,16:30,Italy - Serie D - Girone F,Termoli Calcio - Pietralunga,1x2:ev,Ev sahibi,2.05,1.67,0.185,0.436,0.538,bekliyor,,
 2026-11-22,1628605,18:00,Nigeria - NPFL,Kun Khalifat FC - Katsina United,1x2:ev,Ev sahibi,1.91,1.62,0.152,0.469,0.549,bekliyor,,
 2026-11-22,1647594,17:00,Portugal - Taça de Portugal,Vitória de Sernache - Lusitânia Lourosa,ou:alt,Alt 2.5,2.25,1.95,0.133,0.419,0.487,bekliyor,,
+2026-11-22,1494807,19:00,Norway - Eliteserien,Kristiansund BK - Sandefjord,ou:alt,Alt 2.5,2.88,2.5,0.132,0.327,0.375,bekliyor,,
+2026-11-22,1612806,19:00,Spain - Tercera División RFEF - Group 1,Estradense - Arenteiro,1x2:dep,Deplasman,5.75,4.0,0.304,0.155,0.223,bekliyor,,
+2026-11-22,1613416,19:00,Spain - Tercera División RFEF - Group 3,Barquereño - Escobedo,1x2:ev,Ev sahibi,3.1,2.7,0.129,0.289,0.334,bekliyor,,
+2026-11-22,1648820,19:30,Malta - Premier League,Hibernians - Marsaxlokk,1x2:ev,Ev sahibi,2.9,2.45,0.155,0.312,0.368,bekliyor,,
