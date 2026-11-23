@@ -1,4 +1,4 @@
-# Canlı model eğitimi – 2026-11-23T04:02+03:00
+# Canlı model eğitimi – 2026-11-23T07:52+03:00
 
 Toplam örnek: 24583
 
@@ -16,9 +16,9 @@ Log kayıp: düşük = daha iyi. Yeni model ancak testte piyasadan iyiyse kullan
 | Log kayıp: tam model (C) | 0.57135 |
 | Brier (piyasa / B / C) | 0.1923 / 0.19331 / 0.19253 |
 | Simüle sinyal (yeni − piyasa ≥ 5 puan) | 72 adet, isabet 0.333, piyasa ort. 0.189 |
-| Kullanımda | hayır |
+| Kullanımda | evet (genelde piyasa kadar, sinyal anlarında piyasadan iyi) |
 
-Ağırlıklar: sabit 0.9166, logit(piyasa) 1.1708, model-piyasa farkı 0.8371, log toplam baskı -0.22, log en yüksek baskı -0.0629, dakika -0.4145, skor eşit 0.1298, 1 gol fark -0.1297, kırmızı kart farkı -0.009
+Ağırlıklar: sabit 1.1109, logit(piyasa) 1.3417, model-piyasa farkı 0.8407, log toplam baskı -0.1996, log en yüksek baskı -0.0835, dakika -0.4088, skor eşit 0.1362, 1 gol fark -0.1117, kırmızı kart farkı 0.0674
 
 ## korner
 

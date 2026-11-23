@@ -190,13 +190,20 @@ def train_one(tur, rows):
                        "piyasa_ort": round(sum(pm for _, pm, _ in sig) / len(sig), 3) if sig else None},
     })
     # tam model hem piyasayı hem "piyasa + maç durumu" modelini geçmeli
-    res["kullan"] = n >= MIN_SAMPLES and ll_n < ll_m - 0.0005 and ll_n < ll_b - 0.0003
-    # Genel isabet yetmez: modelin sinyal vereceği anlarda piyasadan daha çok tutması gerekir
-    # (piyasa ortalamada kötü olabilir; asıl soru, modelin "fırsat" dediği yerde haklı mı)
+    # Kullanım kuralı: (a) genel tahminde piyasadan iyi ve sinyal anlarında en azından piyasa kadar, ya da
+    # (b) genel tahminde piyasadan kötü değil ve sinyal anlarında piyasayı en az 3 puan geçiyor (en az 30 sinyal).
+    # Modelin değeri asıl sinyal verdiği anlarda ortaya çıkar; piyasa ortalamada kötü olabilir (korner gibi).
     ss = res["sinyal_sim"]
-    if res["kullan"] and ss["adet"] >= 30 and ss["isabet"] < ss["piyasa_ort"] + 0.01:
-        res["kullan"] = False
+    adet, isabet, pm = ss.get("adet", 0), ss.get("isabet") or 0, ss.get("piyasa_ort") or 0
+    genel = ll_n < ll_m - 0.0005 and ll_n < ll_b - 0.0003
+    kotu_degil = ll_n <= ll_m + 0.0005
+    sim_ok = adet >= 30 and isabet >= pm + 0.03
+    sim_kotu = adet >= 30 and isabet < pm + 0.01
+    res["kullan"] = n >= MIN_SAMPLES and ((genel and not sim_kotu) or (kotu_degil and sim_ok))
+    if n >= MIN_SAMPLES and genel and sim_kotu:
         res["not"] = "sinyal anlarında piyasayı geçmiyor"
+    elif res["kullan"] and not genel:
+        res["not"] = "genelde piyasa kadar, sinyal anlarında piyasadan iyi"
     if res["kullan"]:  # son model tüm veriyle
         res["agirliklar"] = [round(v, 4) for v in fit_logistic([d[0] for d in data], [d[1] for d in data])]
     return res
