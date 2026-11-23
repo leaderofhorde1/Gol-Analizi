@@ -692,7 +692,9 @@
     "dep": "Pakhtakor",
     "lig": "World - AFC Champions League Elite",
     "etiket": "KG Var",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "2-0",
+    "neden": "Pakhtakor gol atamadı (2-0). Şutlar 17-13, isabetli 6-2, xG 1.4-0.6."
    },
    {
     "tur": "ust15",
@@ -751,7 +753,8 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 991
+  "tg": 991,
+  "yatti": true
  },
  {
   "tarih": "2026-11-23",
@@ -999,7 +1002,8 @@
     "dep": "Pyramids FC",
     "lig": "Egypt - Premier League",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "0-2"
    },
    {
     "tur": "kg",
