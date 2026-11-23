@@ -886,7 +886,9 @@
     "dep": "Al Saqer",
     "lig": "Saudi-Arabia - Division 1",
     "etiket": "2.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "3-2",
+    "neden": "En fazla 2 gol olmalıydı, maçta 5 gol oldu (3-2). Gol dakikaları: 31' Al Jeel, 45'+2 Al Saqer, 45'+4 Al Jeel, 52' Al Saqer, 80' Al Jeel. Bahsi kaybettiren 3. gol 45'+4. dakikada geldi."
    },
    {
     "tur": "kg",
@@ -948,7 +950,8 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 993
+  "tg": 993,
+  "yatti": true
  },
  {
   "tarih": "2026-11-23",
