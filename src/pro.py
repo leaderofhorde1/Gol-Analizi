@@ -735,6 +735,10 @@ class ProEngine:
         except Exception as e:
             log("Günlük özet hatası:", e)
         try:
+            kupon.maybe_rebuild(self.api, self.book, self.form)
+        except Exception as e:
+            log("Kupon yenileme hatası:", e)
+        try:
             kupon.resolve(self.api)
             kupon.maybe_send(self.api, self.book, self.form, force=os.environ.get("FORCE_KUPON") == "1")
         except Exception as e:

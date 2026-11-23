@@ -14,7 +14,7 @@ import os
 import threading
 
 import form as formmod
-from main import DATA, FINISHED, PRIORITY, TZ, log, notify, telegram_reply
+from main import DATA, FINISHED, PRIORITY, TZ, log, notify, telegram_reply, _tg, telegram_chat_id
 
 KUPON_DIR = DATA / "kupon"
 KUPON_JSON = KUPON_DIR / "kuponlar.json"
@@ -229,6 +229,41 @@ def maybe_send(api, book, fb, force: bool = False):
                     r["tg"] = mid
             save(rs)
         notify(f"🧪 {c['baslik']} (oran {c['oran']:.2f})", text(c), priority=3, tags=["ticket"], on_tg=on_tg)
+
+
+YENILE = DATA / "kontrol" / "kupon_yenile"
+
+
+def maybe_rebuild(api, book, fb):
+    """data/kontrol/kupon_yenile dosyasında bugünün tarihi varsa: bugünün henüz başlamamış kuponlarını gruptan
+    sil, kayıttan çıkar ve güncel kurallarla yeniden hazırla. Bir kez yapılır (dosyaya 'yapildi' yazılır)."""
+    try:
+        cmd = YENILE.read_text().strip()
+    except FileNotFoundError:
+        return
+    if cmd != book.today:
+        return
+    YENILE.write_text(f"{book.today} yapildi\n")
+    rows = load()
+    now = dt.datetime.now(TZ).timestamp()
+    drop = [c for c in rows if c["tarih"] == book.today and c.get("bacaklar")
+            and all(l["sonuc"] == "bekliyor" and l["ts"] > now for l in c["bacaklar"])]
+    drop += [c for c in rows if c["tarih"] == book.today and not c.get("bacaklar")]  # "yok" işaretleri
+    chat = telegram_chat_id()
+    for c in drop:
+        if c.get("tg") and chat:
+            try:
+                r = _tg("deleteMessage", chat_id=chat, message_id=c["tg"])
+                log("Kupon mesajı silindi:", c["id"], r.get("ok"), r.get("description", ""))
+            except Exception as e:
+                log("Kupon mesajı silinemedi:", c["id"], e)
+    ids = {c["id"] for c in drop}
+    save([c for c in rows if c["id"] not in ids])
+    log(f"Kupon yenileme: {len(ids)} kupon silindi, yeniden hazırlanıyor")
+    if any(c.get("bacaklar") for c in drop):
+        notify("♻️ Kuponlar güncellendi", "♻️ Bugünün kuponları yeni kurallarla (bu sezonun son 10 maçı + "
+               "aralarındaki maçlar) yeniden hazırlandı. Önceki kuponlar geçersizdir.", priority=3)
+    maybe_send(api, book, fb, force=True)
 
 
 def _leg_result(leg: dict, it: dict):
