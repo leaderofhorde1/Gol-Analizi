@@ -1098,10 +1098,13 @@
     "dep": "Karcag SE",
     "lig": "Hungary - NB II",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "2-1"
    }
   ],
-  "sonuc": "bekliyor",
-  "tg": 998
+  "sonuc": "isabet",
+  "tg": 998,
+  "oran_gercek": 2.35,
+  "kar": 136
  }
 ]
