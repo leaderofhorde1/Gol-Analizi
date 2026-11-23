@@ -57,6 +57,13 @@ def build(day: str) -> str | None:
             if rs:
                 w = sum(r["sonuc"] == "isabet" for r in rs)
                 L.append(f"{ad}: {w}/{len(rs)}")
+    try:
+        import kasa
+        kl = kasa.summary_lines(day)
+        if kl:
+            L += [""] + kl
+    except Exception:
+        pass
     if alarms:
         w = sum(r["sonuc"] == "isabet" for r in alarms)
         pm = [_f(r.get("p_piyasa")) for r in alarms]

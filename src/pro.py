@@ -177,8 +177,18 @@ def odd_line(row: dict, minute) -> list[str]:
     st = stake(row.get("p_model"), o)
     if st:
         row["guc"], row["pay"] = st
-        out.append(f"{GUC_ICON[st[0]]} Güç: {st[0]}  •  Önerilen pay: kasanın %{st[1]:g} kadarı")
+        out.append(f"{GUC_ICON[st[0]]} Güç: {st[0]}")
     return out
+
+
+def kasa_lines(row: dict) -> list[str]:
+    """Sanal günlük kasa: bahsi aç ve mesaja yaz (oran yoksa da uyarı satırı döner)."""
+    try:
+        import kasa
+        return kasa.bet(row)
+    except Exception as e:
+        log("Kasa hatası:", e)
+        return []
 
 
 def offered_odd(odds: dict | None, tur: str, line) -> float | None:
@@ -1570,7 +1580,7 @@ class ProEngine:
         else:
             olas = prob_lines(p, p_mkt, conf)
         body = [tahmin, LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}",
-                *(odd_line(row, m.minute) if tur != "baski" else []), "",
+                *(odd_line(row, m.minute) + kasa_lines(row) if tur != "baski" else []), "",
                 *lines, *(form["lines"] if form else []), *self.squad_lines(m),
                 *([f"💬 Neden: {why}"] if why else []), "", *olas, LINE,
                 "ℹ️ Bahis tavsiyesi değildir."]
@@ -1642,7 +1652,7 @@ class ProEngine:
         lines = [f"🎯 TAHMİN: MAÇ SONU {fmt_line(line)} ÜST"]
         if side in ("ev", "deplasman"):
             lines.append(f"👉 Baskıyı kuran: {team}")
-        lines += [LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}", *odd_line(row, m.minute), "",
+        lines += [LINE, f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}", *odd_line(row, m.minute), *kasa_lines(row), "",
                   f"📈 Son {int(pr['span'])} dk ({team}):", *stat_bullets(d),
                   *(form["lines"] if form else []), *self.squad_lines(m),
                   *([f"💬 Neden: {why}"] if why else []), "",
@@ -1865,6 +1875,13 @@ class ProEngine:
                 span_txt = "devre bitene kadar" if end == 45 else f"{smin}'-{end}' arası"
                 text = (f"❌ TUTMADI\n🔥 {span_txt} gol olmadı\n📊 {'Devre' if end == 45 else str(end) + chr(39) + ' itibarıyla'} skor: {sh}-{sa}"
                         + (f"\nℹ️ Gol {later[0]}. dakikada, süre dolduktan sonra geldi" if later else ""))
+        try:
+            import kasa
+            kl = kasa.settle(r)
+            if kl:
+                text += "\n" + "\n".join(kl)
+        except Exception as e:
+            log("Kasa hatası:", e)
         from main import telegram_reply
         # Sinyal mesajının numarası gönderim anında çözülür (asıl mesaj hâlâ sıradaysa da doğru alıntılanır);
         # numara hiç yoksa (oturum değişimi, gönderilemedi) sonuç ayrı mesaj olarak yazılır
