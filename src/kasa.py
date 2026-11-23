@@ -125,3 +125,21 @@ def refund(row: dict) -> list[str]:
         _save(d)
     row["kasa_durum"], row["kasa_donus"] = "iade", round(stake)
     return [f"💼 Basılan {tl(stake)} kasaya iade edildi  •  Nakit: {tl(st['nakit'])}"]
+
+
+def reopen(row: dict) -> list[str]:
+    """Yanlışlıkla iptal edilip iade edilen bahsi yeniden aç (aynı tutarla)."""
+    if row.get("kasa_durum") != "iade":
+        return []
+    stake = float(row.get("kasa_bahis") or 0)
+    day = row.get("tarih")
+    with _lock:
+        d = _load()
+        st = day_state(day, d)
+        st["nakit"] -= stake
+        st["acik"] += stake
+        st["bahis"] += 1
+        d[day] = st
+        _save(d)
+    row["kasa_durum"], row["kasa_donus"] = "acik", ""
+    return [f"💼 {tl(stake)}'lik bahis yeniden açıldı, sonuç kasaya işlenecek"]

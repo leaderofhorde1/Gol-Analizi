@@ -707,6 +707,11 @@ class ProEngine:
         self.all_rows = [r for r in self.all_rows if r not in carry]
         self.rows_today: list[dict] = carry
         self._iptal_seen = ""
+        self._geri_seen = ""
+        try:
+            self.apply_restores((DATA / "kontrol" / "geri_al").read_text())
+        except FileNotFoundError:
+            pass
         try:
             self.apply_cancels((DATA / "kontrol" / "iptal").read_text())
         except FileNotFoundError:
@@ -2139,6 +2144,40 @@ class ProEngine:
                         and r.get("gonderildi") == "evet" and r.get("sonuc") == "bekliyor"):
                     self.cancel_row(r, why.strip() or "Sinyal hatalı veriyle gönderildi.")
 
+    def apply_restores(self, text: str):
+        """data/kontrol/geri_al: "fixture_id tur dakika | not". Hatalı iptal edilen sinyal geçerli sayılır:
+        yeniden sonuç takibine alınır, bahsi kasada yeniden açılır, gruba düzeltme yazılır."""
+        if not text or text == self._geri_seen:
+            return
+        self._geri_seen = text
+        for line in text.splitlines():
+            key, _, note = line.partition("|")
+            parts = key.split()
+            if len(parts) != 3:
+                continue
+            fid, tur, dk = parts
+            for r in list(self.all_rows) + self.rows_today:
+                if not (str(r.get("fixture_id")) == fid and (r.get("tur") or "gol") == tur
+                        and str(r.get("dakika")) == dk and r.get("sonuc") == "iptal"):
+                    continue
+                r["sonuc"], r["duyuruldu"], r["kar"] = "bekliyor", "", ""
+                if r in self.all_rows:
+                    self.all_rows.remove(r)
+                if r not in self.rows_today:
+                    self.rows_today.append(r)
+                kl = []
+                try:
+                    import kasa
+                    kl = kasa.reopen(r)
+                except Exception as e:
+                    log("Kasa yeniden açma hatası:", e)
+                text_ = "\n".join(["↩️ DÜZELTME: İPTAL GERİ ALINDI",
+                                   f"ℹ️ {note.strip() or 'Önceki iptal hatalıydı.'}",
+                                   "Sinyal geçerli sayılıyor; sonucu birazdan bu mesaja yazılacak.", *kl])
+                from main import telegram_reply
+                telegram_reply(lambda r=r: r.get("tg_mesaj"), text_, fallback=(f"↩️ DÜZELTME | {r['mac']}", text_))
+                log(f"İptal geri alındı: {r['mac']} {tur} {dk}'")
+
     def cancel_row(self, r: dict, why: str):
         """Gönderilmiş, sonucu bekleyen bir sinyali iptal et: sonuçlara/kasaya dahil edilmez, gruba bildirilir."""
         r["sonuc"], r["duyuruldu"], r["kar"] = "iptal", "iptal", 0
@@ -2202,6 +2241,9 @@ class ProEngine:
         Aynı kontrolde data/kontrol/iptal dosyası da okunur (sinyal iptali)."""
         try:
             self._git("fetch", "-q", "origin", "main")
+            rg = self._git("show", "origin/main:data/kontrol/geri_al")
+            if rg.returncode == 0:
+                self.apply_restores(rg.stdout)
             ri = self._git("show", "origin/main:data/kontrol/iptal")
             if ri.returncode == 0:
                 self.apply_cancels(ri.stdout)
