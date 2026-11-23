@@ -1,7 +1,7 @@
 """🧪 Deneme kuponları: günde bir kez, en fazla 4 maçlık kupon önerileri.
 
-Seçim: bahis piyasasının yüksek ihtimal verdiği (düşük oranlı) bahisler arasından, iki takımın son 5
-maçının da aynı sonucu destekledikleri. Her kupon gruba ayrı mesaj olarak gider, maçlar bitince sonucu
+Seçim: bahis piyasasının yüksek ihtimal verdiği (düşük oranlı) bahisler arasından, iki takımın bu sezonki son 10
+maçının ve son iki sezonda kendi aralarındaki maçların da aynı sonucu destekledikleri. Her kupon gruba ayrı mesaj olarak gider, maçlar bitince sonucu
 o mesaja cevap olarak yazılır. Kayıt: data/kupon/kuponlar.json (karnede ayrı bölüm).
 
 Deneme aşamasındadır: maç öncesi modelimizin piyasayı geçtiği henüz kanıtlanmadı.
@@ -91,21 +91,31 @@ def legs_for_match(fx: dict, son: dict) -> list[dict]:
     return out
 
 
-def form_support(leg: dict, home: list, away: list) -> dict | None:
-    """İki takımın son 5 maçında bu bahis kaç kez tutmuş? Şartı sağlamıyorsa None."""
+def form_support(leg: dict, home: list, away: list, h2h: list | None = None) -> dict | None:
+    """İki takımın bu sezonki son 10 maçında bu bahis kaç kez tutmuş? Şartı sağlamıyorsa None.
+    Eşikler 5 maç için tanımlı (her takım en az `each`/5, toplam en az `total`/10); oranla uygulanır.
+    Aralarındaki maçlar (son 2 sezon, en az 3) yarıdan az tutmuşsa da elenir."""
     _, crit, line, _, each, total = BACAKLAR[leg["tur"]]
     line = leg["cizgi"] if line is None else line
     res = []
     for games in (home, away):
-        hs = [formmod.hit(crit, line, s) for s in games[:5]]
+        hs = [formmod.hit(crit, line, s) for s in games[:formmod.LAST_N]]
         hs = [h for h in hs if h is not None]
-        if len(hs) < 4:
+        if len(hs) < 5:
             return None
         res.append((sum(hs), len(hs)))
-    if min(h for h, _ in res) < each or res[0][0] + res[1][0] < total:
+    if min(h / n for h, n in res) < each / 5 or (res[0][0] + res[1][0]) / (res[0][1] + res[1][1]) < total / 10:
         return None
     ratio = (res[0][0] + res[1][0]) / (res[0][1] + res[1][1])
-    return {"form_ev": list(res[0]), "form_dep": list(res[1]), "oran_form": ratio}
+    hh = None
+    if h2h:
+        hr = [formmod.hit(crit, line, s) for s in h2h]
+        hr = [x for x in hr if x is not None]
+        if hr:
+            hh = [sum(hr), len(hr)]
+            if len(hr) >= 3 and hh[0] / hh[1] < 0.5:
+                return None
+    return {"form_ev": list(res[0]), "form_dep": list(res[1]), "oran_form": ratio, "h2h": hh}
 
 
 def build(api, book, fb, parti: int = 10, skip: set | None = None) -> list[dict]:
@@ -123,9 +133,13 @@ def build(api, book, fb, parti: int = 10, skip: set | None = None) -> list[dict]
     cands.sort(key=lambda c: (-PRIORITY.get(c[1]["lig_id"], 10), c[1]["ts"]))
     pool = []
     for fid, fx, legs in cands[:MAX_ADAY]:
-        home, away = fb.team(fx["ev_id"]), fb.team(fx["dep_id"])
+        sz = fx.get("sezon")
+        home, away = fb.team(fx["ev_id"], sz), fb.team(fx["dep_id"], sz)
+        h2h = None
         for leg in legs:
-            sup = form_support(leg, home, away)
+            if h2h is None:
+                h2h = fb.h2h(fx["ev_id"], fx["dep_id"], sz)
+            sup = form_support(leg, home, away, h2h)
             if not sup or sup["oran_form"] - leg["p"] < MIN_FARK:  # herkesin gördüğü değil, piyasanın küçümsediği
                 continue
             # sıralama: form piyasadan ne kadar iyimser + piyasanın kendi güveni
@@ -170,8 +184,11 @@ def text(c: dict) -> str:
         (hh, hn), (ah, an) = l["form_ev"], l["form_dep"]
         L += [f"🕖 {l['saat']}  {l['mac']}", f"   🏆 {l['lig']}",
               f"   👉 {l['etiket']} @{l['oran']:.2f}",
-              f"   📋 Son maçlarında bu sonuç: {l['ev']} {hh}/{hn}, {l['dep']} {ah}/{an}",
-              f"   📈 Formda %{round(l['oran_form'] * 100)} tutuyor, piyasa %{round(l['p'] * 100)} veriyor", ""]
+              f"   📋 Bu sezon son maçlarında: {l['ev']} {hh}/{hn}, {l['dep']} {ah}/{an}",
+              (f"   🤝 Aralarındaki son {l['h2h'][1]} maç (2 sezon): {l['h2h'][0]}/{l['h2h'][1]}" if l.get("h2h")
+               else "   🤝 Son 2 sezonda aralarında maç yok"),
+              f"   📈 İki takımın son {hn + an} maçından {hh + ah} tanesi bu sonuçla bitti "
+              f"(%{round(l['oran_form'] * 100)}), piyasa %{round(l['p'] * 100)} ihtimal veriyor", ""]
     L += [f"💰 Toplam oran: {c['oran']:.2f}",
           f"📊 Piyasaya göre tutma ihtimali: ~%{round(c['p_piyasa'] * 100)}",
           "━━━━━━━━━━━━━━",
@@ -372,7 +389,7 @@ def resolve(api):
             L += ["", "🔎 Neden kaybetti?"]
             L += [f"• {l['mac']} ({l['etiket']}): {l.get('neden') or 'tutmadı.'}" for l in lost]
             L.append(f"• Seçimde piyasa bu maç(lar)a %{', %'.join(str(round(l['p'] * 100)) for l in lost)} "
-                     "ihtimal veriyordu; son 5 maç formu da destekliyordu ama bu sefer tutmadı.")
+                     "ihtimal veriyordu; bu sezonki form ve aralarındaki maçlar da destekliyordu ama bu sefer tutmadı.")
         body = "\n".join(L)
         if c.get("yatti"):  # yattı mesajı zaten alıntıladı: özet yeni mesaj olarak
             notify(f"🧪 {c['baslik']}: tam özet", body, priority=3)

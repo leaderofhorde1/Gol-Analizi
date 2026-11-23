@@ -93,7 +93,8 @@ FORM_MIN_TEAM = {t.strip() for t in os.environ.get("FORM_TAKIM_SART", "korner,iy
 # Üst/Alt için form ölçütü (dakikadan sonra gol oldu mu/olmadı mı) şimdilik sadece gösterilir ve kaydedilir,
 # sinyali etkilemez: 1-2 hafta sonra karnede işe yarayıp yaramadığına bakılacak.
 FORM_SADECE_KAYIT = {"gol", "alt"}
-FORM_MIN_HITS = int(os.environ.get("FORM_TAKIM_EN_AZ", "2"))  # her takımın son 5 maçından en az kaçı çizgiyi geçmeli
+FORM_MIN_RATIO = float(os.environ.get("FORM_TAKIM_ORAN", "0.4"))  # her takımın bu sezonki son maçlarının en az bu kadarı çizgiyi geçmeli
+FORM_H2H_TERS = float(os.environ.get("FORM_H2H_TERS", "0.2"))      # aralarındaki maçlarda bu orana kadar = ters (en az 3 maç)
 GOLGE = {t.strip() for t in os.environ.get("GOLGE", "alt").split(",") if t.strip()}  # gruba gitmez, ölçülür
 STEAM_MIN = 5            # dk: oran akışı bu kadar öncesiyle karşılaştırılır
 STEAM_UP, STEAM_DOWN = 1.15, 0.87  # gol hızında %15 artış / %13 düşüş "akış" sayılır
@@ -1382,40 +1383,42 @@ class ProEngine:
                     r["piyasa_yon"] = "nötr"
 
     def form_gate(self, m, tur, line, edge=None, need=None, only=None):
-        """Sinyal kapısı: son 5 maç formu ve canlı oran akışı tahmine ters düşüyorsa daha güçlü kanıt ister.
+        """Sinyal kapısı: bu sezonun son 10 maç formu, aralarındaki maçlar ve canlı oran akışı tahmine ters
+        düşüyorsa daha güçlü kanıt ister.
         Dönüş: (gönderilsin_mi, bilgi) — bilgi: {'lines': [...], 'hits','n' (form), 'akis' (oran akışı)}."""
         info, extra, why = {"lines": []}, 0.0, []
         if FORM_ON:
             H, A = (getattr(m, "home_id", None), m.home), (getattr(m, "away_id", None), m.away)
+            SZ = getattr(m, "season", None)
             try:
                 if tur in ("gol", "alt"):
                     # Doğru ölçüt: çizgi değil, "bu dakikadan sonra gol oldu mu"
-                    fi = form_check(self.form, f"{tur}_sonra", m.minute, H, A)
+                    fi = form_check(self.form, f"{tur}_sonra", m.minute, H, A, season=SZ)
                 elif tur == "kg":
                     # Sadece henüz gol atmamış (atması gereken) takım(lar)ın gol atma formu önemli
                     need = [sd for sd, g in (("home", m.gh), ("away", m.ga)) if g == 0]
-                    parts = [form_check(self.form, "kg_atar", None, H, A, only=sd) for sd in need]
+                    parts = [form_check(self.form, "kg_atar", None, H, A, only=sd, season=SZ) for sd in need]
                     parts = [x for x in parts if x]
                     fi = None
                     if parts:
                         fi = {"hits": sum(x["hits"] for x in parts), "n": sum(x["n"] for x in parts),
                               "teams": [t for x in parts for t in x["teams"]],
-                              "text": "📋 Son 5 maç (gol attı): " + " • ".join(x["text"].split("): ", 1)[1] for x in parts)}
+                              "text": "📋 Bu sezon son maçlar (gol attı): " + " • ".join(x["text"].split("): ", 1)[1] for x in parts)}
                         fi["ratio"] = fi["hits"] / fi["n"]
                 else:
-                    fi = form_check(self.form, tur, line, H, A, only=only)
+                    fi = form_check(self.form, tur, line, H, A, only=only, season=SZ)
             except Exception as e:
                 log("Form hatası:", e)
                 fi = None
             if fi and tur in FORM_MIN_TEAM:
-                # Her takımın son maçlarından en az FORM_MIN_HITS'i bu çizgiyi geçmiş olmalı (yeterli veri varsa)
-                weak = [f"{nm} {h}/{k}" for nm, h, k in fi.get("teams", []) if k >= 3 and h < FORM_MIN_HITS]
+                # Her takımın bu sezonki son maçlarının en az FORM_MIN_RATIO'su bu çizgiyi geçmiş olmalı (yeterli veri varsa)
+                weak = [f"{nm} {h}/{k}" for nm, h, k in fi.get("teams", []) if k >= 3 and h < math.ceil(FORM_MIN_RATIO * k)]
                 if weak:
                     key = f"{tur}:{line}:takim"
                     red = self.meta.setdefault(m.id, {}).setdefault("form_red", set())
                     if key not in red:
                         red.add(key)
-                        log(f"  [form] {m.name} {tur} {line}: son 5 maç şartı sağlanmadı ({', '.join(weak)}) → sinyal yok")
+                        log(f"  [form] {m.name} {tur} {line}: bu sezon form şartı sağlanmadı ({', '.join(weak)}) → sinyal yok")
                     return False, {"lines": [fi["text"]], "hits": fi["hits"], "n": fi["n"]}
             if fi:
                 r = fi["ratio"]
@@ -1426,6 +1429,14 @@ class ProEngine:
                 if etki == "ters" and tur not in FORM_SADECE_KAYIT:
                     extra += FORM_EXTRA
                     why.append(f"form ters ({fi['hits']}/{fi['n']})")
+                hh = fi.get("h2h")
+                if hh:
+                    info["h2h"] = f"{hh[0]}/{hh[1]}"
+                    # aralarındaki maçlar açıkça tersse ek kanıt istenir (gol/alt'ta sadece kayıt)
+                    hk = hh
+                    if hk[1] >= 3 and hk[0] / hk[1] <= FORM_H2H_TERS and tur not in FORM_SADECE_KAYIT:
+                        extra += FORM_EXTRA
+                        why.append(f"aralarındaki maçlar ters ({hk[0]}/{hk[1]})")
         st = self.steam(m)
         if st is not None and tur in STEAM_DIR:
             info["akis"] = st
