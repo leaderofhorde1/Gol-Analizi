@@ -358,8 +358,8 @@ Düşen oran o sonucun gerçekleşmesi demek; piyasa = uyarı anındaki adil iht
 
 | Uyarı | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| Hepsi | 192 | %31 | %32 | -2547 TL |
-| Deplasman | 75 | %28 | %26 | -1206 TL |
+| Hepsi | 193 | %32 | %32 | -2337 TL |
+| Deplasman | 76 | %29 | %26 | -996 TL |
 | Alt 2.5 | 20 | %35 | %44 | -594 TL |
 | Ev sahibi | 66 | %36 | %33 | +121 TL |
 | Beraberlik | 17 | %12 | %22 | -740 TL |
@@ -373,8 +373,8 @@ Düşen oran o sonucun gerçekleşmesi demek; piyasa = uyarı anındaki adil iht
 
 | Uyarı | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| Hepsi | 192 | %31 | %32 | -2547 TL |
-| Deplasman | 75 | %28 | %26 | -1206 TL |
+| Hepsi | 193 | %32 | %32 | -2337 TL |
+| Deplasman | 76 | %29 | %26 | -996 TL |
 | Alt 2.5 | 20 | %35 | %44 | -594 TL |
 | Ev sahibi | 66 | %36 | %33 | +121 TL |
 | Beraberlik | 17 | %12 | %22 | -740 TL |
