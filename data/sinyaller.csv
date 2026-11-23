@@ -555,5 +555,5 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-23,1612279,Egypt - Premier League,El Gouna FC - Zamalek SC,39,0-2,,0-2,,orta,,,evet,isabet,90,0.518,0.442,kg,0.02779,0.02905,2.1,110,999,evet,,5/10,lehte,+5%,,,,2.1,0.087,0.02884,0.02922,0.03087,Orta,1.0,2950,kapandi,6195
 2026-11-23,1629978,World - AFC Champions League Elite,Tractor Sazi - Al-Wasl FC,27,0-0,,Al-Wasl FC,,düşük,,,evet,ıska,,0.378,0.381,baski,0.032,0.03355,2.49,-100,1001,uyarı,42,7/10,lehte,+7%,,,,,,0.03298,0.03526,0.0357,,,,,
 2026-11-23,1593359,Greece - Super League 1,Asteras Tripolis - Aris Thessalonikis,75,0-0,,,,orta,,,gölge,ıska,90,0.661,0.589,alt,0.02621,0.02939,1.53,-100,,,0.5,13/20,aleyhte,+7%,,,,1.533,0.014,0.02765,0.03475,0.04522,,,,,
-2026-11-23,1612284,Egypt - Premier League,Wadi Degla - Al Ittihad,72,1-1,,,,orta,,,gölge,bekliyor,,0.6,0.539,alt,0.02805,0.03292,,,,,2.5,8/19,aleyhte,+5%,,,,1.75,0.05,0.03025,0.03745,0.04568,,,,,
+2026-11-23,1612284,Egypt - Premier League,Wadi Degla - Al Ittihad,72,1-1,,,,orta,,,gölge,isabet,,0.6,0.539,alt,0.02805,0.03292,1.75,75,,,2.5,8/19,aleyhte,+5%,,,,1.75,0.05,0.03025,0.03745,0.04568,,,,,
 2026-11-23,1629977,World - AFC Champions League Elite,Al Shamal - Al-Ahli Jeddah,45,0-1,,0-1,,orta,,,evet,bekliyor,,0.552,0.485,kg,0.03119,,,,1004,,,6/10,,+0%,,,,1.909,0.054,,,,Hafif,0.5,3770,acik,

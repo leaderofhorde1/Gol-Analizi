@@ -163,7 +163,7 @@ EV = model olasılığı × gerçek oran − 1. Negatif EV'li sinyal, model piya
 | Tür | Sonuç | İsabet | Piyasa | Fark | Sanal kâr | Durum |
 |---|---|---|---|---|---|---|
 | 🚩 Korner | 1 | %100 | %55 | +45 puan | +67 TL | ⏳ veri az (1/30) |
-| 🧊 Alt | 9 | %44 | %52 | -8 puan | -201 TL | ⏳ veri az (9/30) |
+| 🧊 Alt | 10 | %50 | %52 | -2 puan | -126 TL | ⏳ veri az (10/30) |
 
 ### 📶 Güven seviyesine göre
 
@@ -334,7 +334,7 @@ EV = model olasılığı × gerçek oran − 1. Negatif EV'li sinyal, model piya
 | Tür | Sonuç | İsabet | Piyasa | Fark | Sanal kâr | Durum |
 |---|---|---|---|---|---|---|
 | 🚩 Korner | 1 | %100 | %55 | +45 puan | +67 TL | ⏳ veri az (1/30) |
-| 🧊 Alt | 9 | %44 | %52 | -8 puan | -201 TL | ⏳ veri az (9/30) |
+| 🧊 Alt | 10 | %50 | %52 | -2 puan | -126 TL | ⏳ veri az (10/30) |
 
 ### 📶 Güven seviyesine göre
 
@@ -358,8 +358,8 @@ Düşen oran o sonucun gerçekleşmesi demek; piyasa = uyarı anındaki adil iht
 
 | Uyarı | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| Hepsi | 191 | %31 | %32 | -2447 TL |
-| Deplasman | 74 | %28 | %26 | -1106 TL |
+| Hepsi | 192 | %31 | %32 | -2547 TL |
+| Deplasman | 75 | %28 | %26 | -1206 TL |
 | Alt 2.5 | 20 | %35 | %44 | -594 TL |
 | Ev sahibi | 66 | %36 | %33 | +121 TL |
 | Beraberlik | 17 | %12 | %22 | -740 TL |
@@ -373,8 +373,8 @@ Düşen oran o sonucun gerçekleşmesi demek; piyasa = uyarı anındaki adil iht
 
 | Uyarı | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| Hepsi | 191 | %31 | %32 | -2447 TL |
-| Deplasman | 74 | %28 | %26 | -1106 TL |
+| Hepsi | 192 | %31 | %32 | -2547 TL |
+| Deplasman | 75 | %28 | %26 | -1206 TL |
 | Alt 2.5 | 20 | %35 | %44 | -594 TL |
 | Ev sahibi | 66 | %36 | %33 | +121 TL |
 | Beraberlik | 17 | %12 | %22 | -740 TL |
