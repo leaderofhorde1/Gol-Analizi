@@ -584,5 +584,357 @@
   "sonuc": "bekliyor",
   "tg": 872,
   "yatti": true
+ },
+ {
+  "tarih": "2026-11-23",
+  "id": "2026-11-23-alt",
+  "parti": 10,
+  "tur": "alt",
+  "baslik": "🧊 Alt kuponu",
+  "oran": 4.1,
+  "p_piyasa": 0.202,
+  "bacaklar": [
+   {
+    "tur": "alt25",
+    "oran": 1.5,
+    "p": 0.625,
+    "cizgi": 2.5,
+    "form_ev": [
+     4,
+     5
+    ],
+    "form_dep": [
+     4,
+     5
+    ],
+    "oran_form": 0.8,
+    "sira_puan": 0.3625,
+    "fixture_id": "1646787",
+    "saat": "15:00",
+    "ts": 1795435200,
+    "mac": "Kibera Black Stars - Naivas",
+    "ev": "Kibera Black Stars",
+    "dep": "Naivas",
+    "lig": "Kenya - Super League",
+    "etiket": "2.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt25",
+    "oran": 1.9,
+    "p": 0.5,
+    "cizgi": 2.5,
+    "form_ev": [
+     4,
+     5
+    ],
+    "form_dep": [
+     3,
+     5
+    ],
+    "oran_form": 0.7,
+    "sira_puan": 0.35,
+    "fixture_id": "1650506",
+    "saat": "22:30",
+    "ts": 1795462200,
+    "mac": "Juventud - Defensor Sporting",
+    "ev": "Juventud",
+    "dep": "Defensor Sporting",
+    "lig": "Uruguay - Primera División",
+    "etiket": "2.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt35",
+    "oran": 1.44,
+    "p": 0.645320197044335,
+    "cizgi": 3.5,
+    "form_ev": [
+     4,
+     5
+    ],
+    "form_dep": [
+     4,
+     5
+    ],
+    "oran_form": 0.8,
+    "sira_puan": 0.3483,
+    "fixture_id": "1570029",
+    "saat": "22:30",
+    "ts": 1795462200,
+    "mac": "AD Ceuta FC - Almeria",
+    "ev": "AD Ceuta FC",
+    "dep": "Almeria",
+    "lig": "Spain - Segunda División",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 976
+ },
+ {
+  "tarih": "2026-11-23",
+  "id": "2026-11-23-gol",
+  "parti": 10,
+  "tur": "gol",
+  "baslik": "🎯 Gol kuponu",
+  "oran": 2.12,
+  "p_piyasa": 0.394,
+  "bacaklar": [
+   {
+    "tur": "ust15",
+    "oran": 1.33,
+    "p": 0.7096069868995633,
+    "cizgi": 1.5,
+    "form_ev": [
+     4,
+     5
+    ],
+    "form_dep": [
+     5,
+     5
+    ],
+    "oran_form": 0.9,
+    "sira_puan": 0.4033,
+    "fixture_id": "1593359",
+    "saat": "18:00",
+    "ts": 1795446000,
+    "mac": "Asteras Tripolis - Aris Thessalonikis",
+    "ev": "Asteras Tripolis",
+    "dep": "Aris Thessalonikis",
+    "lig": "Greece - Super League 1",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust15",
+    "oran": 1.33,
+    "p": 0.7096069868995633,
+    "cizgi": 1.5,
+    "form_ev": [
+     4,
+     4
+    ],
+    "form_dep": [
+     4,
+     4
+    ],
+    "oran_form": 1.0,
+    "sira_puan": 0.5033,
+    "fixture_id": "1629978",
+    "saat": "19:00",
+    "ts": 1795449600,
+    "mac": "Tractor Sazi - Al-Wasl FC",
+    "ev": "Tractor Sazi",
+    "dep": "Al-Wasl FC",
+    "lig": "World - AFC Champions League Elite",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust15",
+    "oran": 1.2,
+    "p": 0.783001808318264,
+    "cizgi": 1.5,
+    "form_ev": [
+     5,
+     5
+    ],
+    "form_dep": [
+     5,
+     5
+    ],
+    "oran_form": 1.0,
+    "sira_puan": 0.4519,
+    "fixture_id": "1608753",
+    "saat": "22:30",
+    "ts": 1795462200,
+    "mac": "Grosseto - Guidonia Montecelio 1937",
+    "ev": "Grosseto",
+    "dep": "Guidonia Montecelio 1937",
+    "lig": "Italy - Serie C - Girone B",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 977
+ },
+ {
+  "tarih": "2026-11-23",
+  "id": "2026-11-23-ust",
+  "parti": 10,
+  "tur": "ust",
+  "baslik": "⚽ Üst kuponu",
+  "oran": 3.39,
+  "p_piyasa": 0.243,
+  "bacaklar": [
+   {
+    "tur": "ust25",
+    "oran": 1.5,
+    "p": 0.625,
+    "cizgi": 2.5,
+    "form_ev": [
+     5,
+     5
+    ],
+    "form_dep": [
+     5,
+     5
+    ],
+    "oran_form": 1.0,
+    "sira_puan": 0.5625,
+    "fixture_id": "1571896",
+    "saat": "21:30",
+    "ts": 1795458600,
+    "mac": "Diosgyori VTK - Karcag SE",
+    "ev": "Diosgyori VTK",
+    "dep": "Karcag SE",
+    "lig": "Hungary - NB II",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.44,
+    "p": 0.645320197044335,
+    "cizgi": 2.5,
+    "form_ev": [
+     5,
+     5
+    ],
+    "form_dep": [
+     4,
+     5
+    ],
+    "oran_form": 0.9,
+    "sira_puan": 0.4483,
+    "fixture_id": "1627129",
+    "saat": "22:00",
+    "ts": 1795460400,
+    "mac": "Brighton U21 - West Ham United U21",
+    "ev": "Brighton U21",
+    "dep": "West Ham United U21",
+    "lig": "England - Premier League Cup",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.57,
+    "p": 0.6025316455696202,
+    "cizgi": 2.5,
+    "form_ev": [
+     4,
+     5
+    ],
+    "form_dep": [
+     5,
+     5
+    ],
+    "oran_form": 0.9,
+    "sira_puan": 0.4782,
+    "fixture_id": "1550203",
+    "saat": "22:45",
+    "ts": 1795463100,
+    "mac": "Monza - Fiorentina",
+    "ev": "Monza",
+    "dep": "Fiorentina",
+    "lig": "Italy - Serie A",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 978
+ },
+ {
+  "tarih": "2026-11-23",
+  "id": "2026-11-23-karisik",
+  "parti": 10,
+  "tur": "karisik",
+  "baslik": "🎲 Karışık kupon",
+  "oran": 5.25,
+  "p_piyasa": 0.16,
+  "bacaklar": [
+   {
+    "tur": "ust25",
+    "oran": 1.8,
+    "p": 0.5263157894736842,
+    "cizgi": 2.5,
+    "form_ev": [
+     3,
+     5
+    ],
+    "form_dep": [
+     5,
+     5
+    ],
+    "oran_form": 0.8,
+    "sira_puan": 0.4316,
+    "fixture_id": "1569442",
+    "saat": "19:00",
+    "ts": 1795449600,
+    "mac": "Torino U20 - Bologna U20",
+    "ev": "Torino U20",
+    "dep": "Bologna U20",
+    "lig": "Italy - Campionato Primavera - 1",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt25",
+    "oran": 1.8,
+    "p": 0.5263157894736842,
+    "cizgi": 2.5,
+    "form_ev": [
+     3,
+     5
+    ],
+    "form_dep": [
+     4,
+     5
+    ],
+    "oran_form": 0.7,
+    "sira_puan": 0.3316,
+    "fixture_id": "1565309",
+    "saat": "21:00",
+    "ts": 1795456800,
+    "mac": "Sepsi OSK Sfantu Gheorghe - Rapid",
+    "ev": "Sepsi OSK Sfantu Gheorghe",
+    "dep": "Rapid",
+    "lig": "Romania - Liga I",
+    "etiket": "2.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "kg",
+    "oran": 1.62,
+    "p": 0.5759162303664922,
+    "cizgi": null,
+    "form_ev": [
+     4,
+     5
+    ],
+    "form_dep": [
+     4,
+     5
+    ],
+    "oran_form": 0.8,
+    "sira_puan": 0.3969,
+    "fixture_id": "1588461",
+    "saat": "22:45",
+    "ts": 1795463100,
+    "mac": "Chelmsford City - Maidstone Utd",
+    "ev": "Chelmsford City",
+    "dep": "Maidstone Utd",
+    "lig": "England - National League - South",
+    "etiket": "KG Var",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 979
  }
 ]
