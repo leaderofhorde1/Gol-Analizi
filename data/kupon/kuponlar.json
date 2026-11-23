@@ -922,7 +922,9 @@
     "dep": "FC Midtjylland",
     "lig": "Denmark - Superliga",
     "etiket": "KG Var",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "0-2",
+    "neden": "Brondby gol atamadı (0-2). Şutlar 11-10, isabetli 2-4, xG 0.7-1.1."
    },
    {
     "tur": "ust15",
@@ -951,12 +953,15 @@
     "dep": "Rapid",
     "lig": "Romania - Liga I",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "1-3"
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 993,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 3.31,
+  "kar": -100
  },
  {
   "tarih": "2026-11-23",
