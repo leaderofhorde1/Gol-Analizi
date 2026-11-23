@@ -624,7 +624,9 @@
     "dep": "Aris Thessalonikis",
     "lig": "Greece - Super League 1",
     "etiket": "Korner 8.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "0-1, 3 korner",
+    "neden": "En az 9 korner gerekiyordu, 3 korner oldu (Asteras Tripolis 2, Aris Thessalonikis 1)."
    },
    {
     "tur": "korner",
@@ -654,7 +656,8 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 990
+  "tg": 990,
+  "yatti": true
  },
  {
   "tarih": "2026-11-23",

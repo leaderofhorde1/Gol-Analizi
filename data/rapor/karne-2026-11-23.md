@@ -358,14 +358,14 @@ Düşen oran o sonucun gerçekleşmesi demek; piyasa = uyarı anındaki adil iht
 
 | Uyarı | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| Hepsi | 190 | %31 | %32 | -2517 TL |
+| Hepsi | 191 | %31 | %32 | -2447 TL |
 | Deplasman | 74 | %28 | %26 | -1106 TL |
 | Alt 2.5 | 20 | %35 | %44 | -594 TL |
 | Ev sahibi | 66 | %36 | %33 | +121 TL |
 | Beraberlik | 17 | %12 | %22 | -740 TL |
 | KG Var | 2 | %50 | %30 | +125 TL |
 | Üst 2.5 | 6 | %33 | %52 | -233 TL |
-| KG Yok | 5 | %40 | %45 | -90 TL |
+| KG Yok | 6 | %50 | %47 | -20 TL |
 
 ## 📉 Oran düşüşü uyarıları (tüm zamanlar)
 
@@ -373,11 +373,11 @@ Düşen oran o sonucun gerçekleşmesi demek; piyasa = uyarı anındaki adil iht
 
 | Uyarı | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| Hepsi | 190 | %31 | %32 | -2517 TL |
+| Hepsi | 191 | %31 | %32 | -2447 TL |
 | Deplasman | 74 | %28 | %26 | -1106 TL |
 | Alt 2.5 | 20 | %35 | %44 | -594 TL |
 | Ev sahibi | 66 | %36 | %33 | +121 TL |
 | Beraberlik | 17 | %12 | %22 | -740 TL |
 | KG Var | 2 | %50 | %30 | +125 TL |
 | Üst 2.5 | 6 | %33 | %52 | -233 TL |
-| KG Yok | 5 | %40 | %45 | -90 TL |
+| KG Yok | 6 | %50 | %47 | -20 TL |
