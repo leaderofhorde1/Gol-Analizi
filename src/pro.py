@@ -121,6 +121,22 @@ EVENT_COOLDOWN = 2  # dk
 ODDS_MAX_AGE = int(os.environ.get("ODDS_MAX_AGE", "300"))  # sn: bundan eski canlı oranla sinyal verilmez (API oranları ~2 dk'da bir günceller)
 
 
+def feed_mismatch(m, odds: dict | None) -> str | None:
+    """İki bağımsız akışı karşılaştırır: oran akışındaki dakika/skor ile maç akışındaki dakika/skor uyuşmalı.
+    Biri geride kaldıysa (gol yansımadı, dakika takıldı) sinyal verilmez."""
+    if not odds:
+        return None
+    fx = odds.get("fixture") or {}
+    el = (fx.get("status") or {}).get("elapsed")
+    if el and m.minute and abs(int(el) - int(m.minute)) > 4:
+        return f"akışlar uyuşmuyor (oran akışı {el}', maç akışı {m.minute}')"
+    tm = odds.get("teams") or {}
+    gh, ga = (tm.get("home") or {}).get("goals"), (tm.get("away") or {}).get("goals")
+    if gh is not None and ga is not None and (int(gh), int(ga)) != (m.gh, m.ga):
+        return f"skor uyuşmuyor (oran akışı {gh}-{ga}, maç akışı {m.gh}-{m.ga})"
+    return None
+
+
 def odds_state(odds: dict | None) -> str | None:
     """Canlı oran kullanılabilir mi? Askıda/durdurulmuş ya da eski ise sebebini döndürür."""
     if not odds:
@@ -275,6 +291,8 @@ def data_health(m) -> str | None:
     snaps = m.snaps
     if len(snaps) < 2:
         return "az veri"
+    if snaps[-1].get("t") and time.time() - snaps[-1]["t"] > 180:
+        return f"istatistik {int((time.time() - snaps[-1]['t']) / 60)} dk önce alındı (güncel değil)"
     cur = snaps[-1]["stats"]
     h, a = cur["home"], cur["away"]
     # 1) Tutarlılık: isabetli/ceza sahası şut toplam şuttan fazla olamaz
@@ -820,9 +838,13 @@ class ProEngine:
                 m = Match(it)
                 self.matches[fid] = m
             st = it["fixture"]["status"]
+            prev_min, prev_t = m.minute, getattr(m, "min_t", None)
             m.status = st["short"]
             m.minute = st.get("elapsed") or m.minute
             m.periods = it["fixture"].get("periods") or getattr(m, "periods", {})
+            if m.minute != prev_min or prev_t is None:
+                self.check_catchup(m, prev_min, prev_t)
+                m.min_t = time.time()
             m.gh = it["goals"]["home"] or 0
             m.ga = it["goals"]["away"] or 0
             if it.get("events"):
@@ -855,7 +877,11 @@ class ProEngine:
             for it in items:
                 m = self.matches.get(it["fixture"]["id"])
                 if m:
+                    _pm, _pt = m.minute, getattr(m, "min_t", None)
                     m.update(it)
+                    if m.minute != _pm or _pt is None:
+                        self.check_catchup(m, _pm, _pt)
+                        m.min_t = time.time()
         if self.odds_live_ok:
             cost += 1
             try:
@@ -910,7 +936,11 @@ class ProEngine:
             for it in self.api.get("fixtures", ids="-".join(str(m.id) for m in hot)):
                 m = self.matches.get(it["fixture"]["id"])
                 if m:
+                    _pm, _pt = m.minute, getattr(m, "min_t", None)
                     m.update(it)
+                    if m.minute != _pm or _pt is None:
+                        self.check_catchup(m, _pm, _pt)
+                        m.min_t = time.time()
             if self.odds_live_ok:
                 for it in self.api.get("odds/live"):
                     m = self.matches.get(it["fixture"]["id"])
@@ -1189,8 +1219,8 @@ class ProEngine:
                 log(f"  [oran] {m.name} {m.minute}': {os_} → sinyal yok")
             return
         meta.pop("oran_sorunu", None)
-        # Veri sağlığı: donmuş/tutarsız/eksik istatistikle sinyal verilmez
-        sorun = data_health(m)
+        # Veri sağlığı: donmuş/tutarsız/eksik/geride kalmış veriyle sinyal verilmez
+        sorun = data_health(m) or feed_mismatch(m, meta.get("odds"))
         if sorun:
             if meta.get("veri_sorunu") != sorun:
                 meta["veri_sorunu"] = sorun
@@ -1357,7 +1387,8 @@ class ProEngine:
                "dakika": m.minute, "skor": f"{m.gh}-{m.ga}", "taraf": side, "baski": "",
                "baski_rakip": "", "guven": conf, "ai_onay": "", "ai_yorum": "",
                "gonderildi": "evet", "sonuc": "bekliyor", "gol_dakikasi": "",
-               "p_model": round(p, 3), "p_piyasa": "" if p_mkt is None else round(p_mkt, 3), "tur": tur}
+               "p_model": round(p, 3), "p_piyasa": "" if p_mkt is None else round(p_mkt, 3), "tur": tur,
+               "_t": time.time()}  # gönderim anı (yalnız bellekte; veri gecikmesi denetimi için)
         if extra:
             row.update(extra)
         return row
@@ -1598,6 +1629,11 @@ class ProEngine:
             row["gonderildi"] = "gölge"
             log(f"GÖLGE[{tur}] {m.name} {m.minute}' model={p:.2f} piyasa={p_mkt} çizgi={cizgi}")
             return
+        engel = self.presend_check(m)
+        if engel:
+            row["gonderildi"], row["ai_yorum"] = "hayır", f"veri kontrolü: {engel}"
+            log(f"  [veri] {m.name} {m.minute}' {tur}: {engel} → gönderilmedi")
+            return
         log(f"SİNYAL[{tur}] {m.name} {m.minute}' model={p:.2f} piyasa={p_mkt} çizgi={cizgi}")
         ln = fmt_line(cizgi) if cizgi is not None and tur != "baski" else ""
         tahmin = {"korner": f"🎯 TAHMİN: MAÇ SONU KORNER {ln} ÜST",
@@ -1663,6 +1699,13 @@ class ProEngine:
                 send = False
                 ai["yorum"] = (ai.get("yorum") or "") + " | karar anında oran kaçtı"
                 log(f"  [fiyat] {m.name}: oran kaçtı (piyasa {p_mkt} → {p_now:.3f}), gönderilmedi")
+        if send:
+            engel = self.presend_check(m)
+            if engel:
+                send = False
+                ai = ai or {}
+                ai["yorum"] = (ai.get("yorum") or "") + f" | veri kontrolü: {engel}"
+                log(f"  [veri] {m.name} {m.minute}' gol: {engel} → gönderilmedi")
         if ai:
             conf = ai.get("guven", conf)
             side = ai.get("taraf", side)
@@ -2094,19 +2137,65 @@ class ProEngine:
             for r in self.rows_today:
                 if (str(r.get("fixture_id")) == fid and (r.get("tur") or "gol") == tur and str(r.get("dakika")) == dk
                         and r.get("gonderildi") == "evet" and r.get("sonuc") == "bekliyor"):
-                    r["sonuc"], r["duyuruldu"], r["kar"] = "iptal", "iptal", 0
-                    kl = []
-                    try:
-                        import kasa
-                        kl = kasa.refund(r)
-                    except Exception as e:
-                        log("Kasa iade hatası:", e)
-                    text_ = "\n".join(["🚫 SİNYAL İPTAL", f"ℹ️ {why.strip() or 'Sinyal hatalı veriyle gönderildi.'}",
-                                       "Bu sinyal geçersiz sayıldı; sonuçlara ve kasaya dahil edilmez.", *kl])
-                    from main import telegram_reply
-                    telegram_reply(lambda r=r: r.get("tg_mesaj"), text_,
-                                   fallback=(f"🚫 SİNYAL İPTAL | {r['mac']}", text_))
-                    log(f"İptal: {r['mac']} {tur} {dk}'")
+                    self.cancel_row(r, why.strip() or "Sinyal hatalı veriyle gönderildi.")
+
+    def cancel_row(self, r: dict, why: str):
+        """Gönderilmiş, sonucu bekleyen bir sinyali iptal et: sonuçlara/kasaya dahil edilmez, gruba bildirilir."""
+        r["sonuc"], r["duyuruldu"], r["kar"] = "iptal", "iptal", 0
+        kl = []
+        try:
+            import kasa
+            kl = kasa.refund(r)
+        except Exception as e:
+            log("Kasa iade hatası:", e)
+        text_ = "\n".join(["🚫 SİNYAL İPTAL", f"ℹ️ {why}",
+                           "Bu sinyal geçersiz sayıldı; sonuçlara ve kasaya dahil edilmez.", *kl])
+        from main import telegram_reply
+        telegram_reply(lambda r=r: r.get("tg_mesaj"), text_, fallback=(f"🚫 SİNYAL İPTAL | {r['mac']}", text_))
+        log(f"İptal: {r['mac']} {r.get('tur')} {r.get('dakika')}' — {why}")
+
+    def check_catchup(self, m, prev_min=None, prev_t=None):
+        """Sinyal verildikten sonra maçın dakikası, geçen gerçek süreden çok daha ileri atladıysa sinyal anındaki
+        veri takılıymış demektir (örn. 45'te donmuş, maç aslında 76'da): o sinyal kendiliğinden iptal edilir."""
+        if m.status not in ("1H", "2H") or not m.minute:
+            return
+        now = time.time()
+        for r in self.rows_today:
+            t0 = r.get("_t")
+            if not t0 or str(r.get("fixture_id")) != str(m.id) or r.get("gonderildi") != "evet" \
+                    or r.get("sonuc") != "bekliyor" or now - t0 > 45 * 60:
+                continue
+            try:
+                dk = int(r.get("dakika") or 0)
+            except ValueError:
+                continue
+            exp = dk + (now - t0) / 60
+            if m.minute > exp + 6:
+                log(f"  [veri] {m.name}: sinyal {dk}' iken verildi, {(now - t0) / 60:.0f} dk sonra maç {m.minute}'")
+                self.cancel_row(r, f"Veri gecikmesi tespit edildi: sinyal anında sistem maçı {dk}. dakikada "
+                                   f"görüyordu, veri güncellenince maçın {m.minute}. dakikada olduğu anlaşıldı.")
+
+    def presend_check(self, m) -> str | None:
+        """Göndermeden hemen önce maçı yeniden çek: dakika, skor ve saat tutarlı mı?"""
+        try:
+            items = self.api.get("fixtures", id=m.id)
+        except Exception as e:
+            return f"son kontrol yapılamadı ({e})"
+        if not items:
+            return "son kontrol: maç verisi alınamadı"
+        f = items[0]
+        st = f["fixture"]["status"]
+        gh, ga = f["goals"]["home"] or 0, f["goals"]["away"] or 0
+        if (gh, ga) != (m.gh, m.ga):
+            return f"son kontrol: skor değişmiş ({m.gh}-{m.ga} → {gh}-{ga})"
+        el = st.get("elapsed")
+        if el and abs(int(el) - int(m.minute)) > 3:
+            return f"son kontrol: dakika uyuşmuyor ({m.minute}' → {el}')"
+        class _F:
+            pass
+        x = _F()
+        x.status, x.minute, x.periods = st["short"], el or m.minute, f["fixture"].get("periods") or {}
+        return clock_problem(x)
 
     def stop_requested(self) -> bool:
         """Depoda bu oturumdan sonra yazılmış bir data/kontrol/dur dosyası varsa oturum nazikçe biter.

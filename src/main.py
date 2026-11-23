@@ -536,7 +536,7 @@ class Match:
         stats = parse_stats(item)
         if self.status in LIVE and self.status != "HT":
             self.snaps.append({"min": self.minute, "stats": stats,
-                               "gh": self.gh, "ga": self.ga})
+                               "gh": self.gh, "ga": self.ga, "t": time.time()})
             self.snaps = self.snaps[-240:]  # sık taramada da en az ~20 dk geçmiş kalsın
         return stats
 
