@@ -93,7 +93,7 @@ FORM_MIN_TEAM = {t.strip() for t in os.environ.get("FORM_TAKIM_SART", "korner,iy
 # Üst/Alt için form ölçütü (dakikadan sonra gol oldu mu/olmadı mı) şimdilik sadece gösterilir ve kaydedilir,
 # sinyali etkilemez: 1-2 hafta sonra karnede işe yarayıp yaramadığına bakılacak.
 FORM_SADECE_KAYIT = {"gol", "alt"}
-FORM_MIN_RATIO = float(os.environ.get("FORM_TAKIM_ORAN", "0.4"))  # her takımın bu sezonki son maçlarının en az bu kadarı çizgiyi geçmeli
+FORM_MIN_RATIO = float(os.environ.get("FORM_TAKIM_ORAN", "0.5"))  # her takımın bu sezonki son maçlarının en az bu kadarı çizgiyi geçmeli
 FORM_H2H_TERS = float(os.environ.get("FORM_H2H_TERS", "0.2"))      # aralarındaki maçlarda bu orana kadar = ters (en az 3 maç)
 GOLGE = {t.strip() for t in os.environ.get("GOLGE", "alt").split(",") if t.strip()}  # gruba gitmez, ölçülür
 STEAM_MIN = 5            # dk: oran akışı bu kadar öncesiyle karşılaştırılır
