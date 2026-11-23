@@ -949,5 +949,141 @@
   ],
   "sonuc": "bekliyor",
   "tg": 993
+ },
+ {
+  "tarih": "2026-11-23",
+  "id": "2026-11-23-gol-18",
+  "parti": 18,
+  "tur": "gol",
+  "baslik": "🎯 Gol kuponu (akşam)",
+  "oran": 2.27,
+  "p_piyasa": 0.382,
+  "bacaklar": [
+   {
+    "tur": "ust15",
+    "oran": 1.4,
+    "p": 0.6626506024096386,
+    "cizgi": 1.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": [
+     2,
+     2
+    ],
+    "sira_puan": 0.3361,
+    "fixture_id": "1612280",
+    "saat": "21:00",
+    "ts": 1795456800,
+    "mac": "Al Ahly - Pyramids FC",
+    "ev": "Al Ahly",
+    "dep": "Pyramids FC",
+    "lig": "Egypt - Premier League",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "kg",
+    "oran": 1.62,
+    "p": 0.5759162303664922,
+    "cizgi": null,
+    "form_ev": [
+     6,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.7,
+    "h2h": [
+     1,
+     2
+    ],
+    "sira_puan": 0.2969,
+    "fixture_id": "1588461",
+    "saat": "22:45",
+    "ts": 1795463100,
+    "mac": "Chelmsford City - Maidstone Utd",
+    "ev": "Chelmsford City",
+    "dep": "Maidstone Utd",
+    "lig": "England - National League - South",
+    "etiket": "KG Var",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 997
+ },
+ {
+  "tarih": "2026-11-23",
+  "id": "2026-11-23-ust-18",
+  "parti": 18,
+  "tur": "ust",
+  "baslik": "⚽ Üst kuponu (akşam)",
+  "oran": 2.35,
+  "p_piyasa": 0.375,
+  "bacaklar": [
+   {
+    "tur": "ust25",
+    "oran": 1.57,
+    "p": 0.5994897959183673,
+    "cizgi": 2.5,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.75,
+    "h2h": null,
+    "sira_puan": 0.3304,
+    "fixture_id": "1584467",
+    "saat": "20:00",
+    "ts": 1795453200,
+    "mac": "Başakşehir - Çorum FK",
+    "ev": "Başakşehir",
+    "dep": "Çorum FK",
+    "lig": "Turkey - Süper Lig",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.5,
+    "p": 0.625,
+    "cizgi": 2.5,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.75,
+    "h2h": null,
+    "sira_puan": 0.3125,
+    "fixture_id": "1571896",
+    "saat": "21:30",
+    "ts": 1795458600,
+    "mac": "Diosgyori VTK - Karcag SE",
+    "ev": "Diosgyori VTK",
+    "dep": "Karcag SE",
+    "lig": "Hungary - NB II",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 998
  }
 ]
