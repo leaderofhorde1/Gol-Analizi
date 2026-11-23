@@ -499,7 +499,8 @@
     "dep": "Mushuc Runa SC",
     "lig": "Ecuador - Liga Pro",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "2-3"
    },
    {
     "tur": "ust15",
@@ -581,9 +582,11 @@
     "skor": "0-3"
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 872,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 2.93,
+  "kar": -100
  },
  {
   "tarih": "2026-11-23",
