@@ -190,3 +190,8 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-23,1571629,15:30,Bulgaria - Second League,CSKA Sofia II - Beroe,1x2:dep,Deplasman,5.5,4.75,0.136,0.162,0.187,bekliyor,,
 2026-11-23,1559009,16:00,Slovenia - 2. SNL,Bistrica - Krka,1x2:ev,Ev sahibi,2.0,1.75,0.125,0.451,0.52,bekliyor,,
 2026-11-23,1628386,15:30,Albania - 1st Division,Besëlidhja Lezhë - Iliria Fushë-Krujë,1x2:dep,Deplasman,3.4,2.88,0.153,0.264,0.312,bekliyor,,
+2026-11-23,1593359,18:00,Greece - Super League 1,Asteras Tripolis - Aris Thessalonikis,kg:yok,KG Yok,1.95,1.7,0.128,0.48,0.547,bekliyor,,
+2026-11-23,1598743,18:00,Portugal - Liga Revelação U23,Sporting Braga U23 - Leixões U23,1x2:dep,Deplasman,3.7,3.1,0.162,0.242,0.29,bekliyor,,
+2026-11-23,1636994,16:00,Greece - Super League 2,PAOK II - Niki Volos,1x2:ev,Ev sahibi,11.0,7.0,0.364,0.084,0.133,bekliyor,,
+2026-11-23,1636994,16:00,Greece - Super League 2,PAOK II - Niki Volos,1x2:x,Beraberlik,4.2,3.6,0.143,0.22,0.259,bekliyor,,
+2026-11-23,1642133,18:00,Oman - Professional League,Bahla - Smail,1x2:dep,Deplasman,4.5,3.9,0.133,0.199,0.23,bekliyor,,
