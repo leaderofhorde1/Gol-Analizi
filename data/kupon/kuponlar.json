@@ -750,12 +750,16 @@
     "dep": "Fiorentina",
     "lig": "Italy - Serie A",
     "etiket": "KG Var",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "3-0",
+    "neden": "Fiorentina gol atamadı (3-0). Şutlar 13-17, isabetli 5-8, xG 1.7-1.8."
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 991,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 3.11,
+  "kar": -100
  },
  {
   "tarih": "2026-11-23",
@@ -1036,11 +1040,15 @@
     "dep": "Maidstone Utd",
     "lig": "England - National League - South",
     "etiket": "KG Var",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "1-0",
+    "neden": "Maidstone Utd gol atamadı (1-0). Şutlar 0-0, isabetli 0-0."
    }
   ],
-  "sonuc": "bekliyor",
-  "tg": 997
+  "sonuc": "ıska",
+  "tg": 997,
+  "oran_gercek": 2.27,
+  "kar": -100
  },
  {
   "tarih": "2026-11-23",
