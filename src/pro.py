@@ -688,6 +688,11 @@ class ProEngine:
                  and r.get("tarih") in (self.today, (self.now0 - dt.timedelta(days=1)).date().isoformat())]
         self.all_rows = [r for r in self.all_rows if r not in carry]
         self.rows_today: list[dict] = carry
+        self._iptal_seen = ""
+        try:
+            self.apply_cancels((DATA / "kontrol" / "iptal").read_text())
+        except FileNotFoundError:
+            pass
         # Bugün önceki oturumlarda gönderilen sinyalleri hatırla: aynı maça aynı sinyal tekrar gitmesin
         flags = {"alt": "alt_gonderildi", "iy": "iy_gonderildi", "kg": "kg_gonderildi", "baski": "alarm_gonderildi"}
         for r in self.all_rows + self.rows_today:
@@ -2074,10 +2079,43 @@ class ProEngine:
         except Exception as e:
             log("Ara kayıt hatası:", e)
 
+    def apply_cancels(self, text: str):
+        """data/kontrol/iptal: her satır "fixture_id tur dakika | sebep". Eşleşen bekleyen sinyal iptal edilir:
+        sonuçlara ve kasaya dahil edilmez, bahis iade edilir, sinyal mesajına iptal bildirimi yazılır."""
+        if not text or text == self._iptal_seen:
+            return
+        self._iptal_seen = text
+        for line in text.splitlines():
+            key, _, why = line.partition("|")
+            parts = key.split()
+            if len(parts) != 3:
+                continue
+            fid, tur, dk = parts
+            for r in self.rows_today:
+                if (str(r.get("fixture_id")) == fid and (r.get("tur") or "gol") == tur and str(r.get("dakika")) == dk
+                        and r.get("gonderildi") == "evet" and r.get("sonuc") == "bekliyor"):
+                    r["sonuc"], r["duyuruldu"], r["kar"] = "iptal", "iptal", 0
+                    kl = []
+                    try:
+                        import kasa
+                        kl = kasa.refund(r)
+                    except Exception as e:
+                        log("Kasa iade hatası:", e)
+                    text_ = "\n".join(["🚫 SİNYAL İPTAL", f"ℹ️ {why.strip() or 'Sinyal hatalı veriyle gönderildi.'}",
+                                       "Bu sinyal geçersiz sayıldı; sonuçlara ve kasaya dahil edilmez.", *kl])
+                    from main import telegram_reply
+                    telegram_reply(lambda r=r: r.get("tg_mesaj"), text_,
+                                   fallback=(f"🚫 SİNYAL İPTAL | {r['mac']}", text_))
+                    log(f"İptal: {r['mac']} {tur} {dk}'")
+
     def stop_requested(self) -> bool:
-        """Depoda bu oturumdan sonra yazılmış bir data/kontrol/dur dosyası varsa oturum nazikçe biter."""
+        """Depoda bu oturumdan sonra yazılmış bir data/kontrol/dur dosyası varsa oturum nazikçe biter.
+        Aynı kontrolde data/kontrol/iptal dosyası da okunur (sinyal iptali)."""
         try:
             self._git("fetch", "-q", "origin", "main")
+            ri = self._git("show", "origin/main:data/kontrol/iptal")
+            if ri.returncode == 0:
+                self.apply_cancels(ri.stdout)
             r = self._git("show", "origin/main:data/kontrol/dur")
             if r.returncode == 0:
                 ts = dt.datetime.fromisoformat(r.stdout.strip())

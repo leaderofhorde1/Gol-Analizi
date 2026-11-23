@@ -107,3 +107,21 @@ def summary_lines(day: str) -> list[str]:
     if st.get("atlanan"):
         L.append(f"   ⚠️ Kasada para kalmadığı için {st['atlanan']} sinyale bahis yapılamadı")
     return L
+
+
+def refund(row: dict) -> list[str]:
+    """İptal edilen sinyalin bahsini iade et."""
+    if row.get("kasa_durum") != "acik":
+        return []
+    stake = float(row.get("kasa_bahis") or 0)
+    day = row.get("tarih")
+    with _lock:
+        d = _load()
+        st = day_state(day, d)
+        st["nakit"] += stake
+        st["acik"] = max(0.0, st["acik"] - stake)
+        st["bahis"] = max(0, st["bahis"] - 1)
+        d[day] = st
+        _save(d)
+    row["kasa_durum"], row["kasa_donus"] = "iade", round(stake)
+    return [f"💼 Basılan {tl(stake)} kasaya iade edildi  •  Nakit: {tl(st['nakit'])}"]
