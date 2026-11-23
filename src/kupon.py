@@ -113,8 +113,8 @@ def form_support(leg: dict, home: list, away: list, h2h: list | None = None) -> 
         hr = [x for x in hr if x is not None]
         if hr:
             hh = [sum(hr), len(hr)]
-            if len(hr) >= 3 and hh[0] / hh[1] < 0.5:
-                return None
+            if (len(hr) >= 3 and hh[0] / hh[1] < 0.5) or (len(hr) == 2 and hh[0] == 0):
+                return None  # aralarındaki maçlar ters: en az 3 maçta yarıdan az ya da 2 maçta hiç
     return {"form_ev": list(res[0]), "form_dep": list(res[1]), "oran_form": ratio, "h2h": hh}
 
 
@@ -162,6 +162,8 @@ def build(api, book, fb, parti: int = 10, skip: set | None = None) -> list[dict]
                 break
         if len(legs) < MIN_BACAK:
             continue
+        if kid == "karisik" and len({AILE[l["tur"]] for l in legs}) < 2:
+            continue  # karışık kupon en az iki farklı türden (gol / alt / korner) oluşmalı
         legs.sort(key=lambda x: x["ts"])
         used |= {l["fixture_id"] for l in legs}
         odd = 1.0
@@ -261,8 +263,8 @@ def maybe_rebuild(api, book, fb):
     save([c for c in rows if c["id"] not in ids])
     log(f"Kupon yenileme: {len(ids)} kupon silindi, yeniden hazırlanıyor")
     if any(c.get("bacaklar") for c in drop):
-        notify("♻️ Kuponlar güncellendi", "♻️ Bugünün kuponları yeni kurallarla (bu sezonun son 10 maçı + "
-               "aralarındaki maçlar) yeniden hazırlandı. Önceki kuponlar geçersizdir.", priority=3)
+        notify("♻️ Kuponlar güncellendi", "♻️ Bugünün kuponları güncel kurallarla yeniden hazırlandı. "
+               "Önceki kuponlar geçersizdir.", priority=3)
     maybe_send(api, book, fb, force=True)
 
 
