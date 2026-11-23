@@ -529,6 +529,7 @@ class Match:
         self.lineups = item.get("lineups") or getattr(self, "lineups", [])
         self.status = st["short"]
         self.minute = st.get("elapsed") or self.minute
+        self.periods = item["fixture"].get("periods") or getattr(self, "periods", {})
         self.gh = item["goals"]["home"] or 0
         self.ga = item["goals"]["away"] or 0
         self.goals = goal_events(item)

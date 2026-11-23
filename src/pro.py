@@ -239,8 +239,39 @@ def recent_event(m) -> str | None:
     return None
 
 
+CLOCK_MAX = int(os.environ.get("SAAT_FARKI", "5"))  # API dakikası gerçek saatin bu kadar gerisindeyse veri takılı
+
+
+def clock_problem(m, now: float | None = None) -> str | None:
+    """API'nin dakikası gerçek saatle uyuşuyor mu? Devre başlangıç zamanlarından (periods) beklenen dakikayı
+    hesaplar. API bazen dakikayı ve istatistikleri bir yerde dondurur (örn. 45'te takılı kalır, maç 76'da)."""
+    p = getattr(m, "periods", None) or {}
+    now = now or time.time()
+    first, second = p.get("first"), p.get("second")
+    if m.status == "1H" and first:
+        raw = (now - first) / 60
+        if raw > 58:  # ilk yarı uzatmalarla bile bu kadar sürmez
+            return f"dakika takılı (ilk yarı {raw:.0f} dk önce başladı, API {m.minute}' diyor)"
+        exp = min(45.0, raw)
+    elif m.status == "2H" and second:
+        raw = 45 + (now - second) / 60
+        if raw > 105:
+            return f"dakika takılı (ikinci yarı {raw - 45:.0f} dk önce başladı, API {m.minute}' diyor)"
+        exp = min(90.0, raw)
+    elif m.status == "HT" and first and (now - first) / 60 > 75:
+        return f"devre arası takılı (maç {(now - first) / 60:.0f} dk önce başladı)"
+    else:
+        return None
+    if exp - (m.minute or 0) > CLOCK_MAX:
+        return f"dakika takılı (API {m.minute}', gerçekte ~{exp:.0f}')"
+    return None
+
+
 def data_health(m) -> str | None:
     """Veri sorunluysa sebebini döndürür (o maçta sinyal verilmez), sağlıklıysa None."""
+    saat = clock_problem(m)
+    if saat:
+        return saat
     snaps = m.snaps
     if len(snaps) < 2:
         return "az veri"
@@ -786,6 +817,7 @@ class ProEngine:
             st = it["fixture"]["status"]
             m.status = st["short"]
             m.minute = st.get("elapsed") or m.minute
+            m.periods = it["fixture"].get("periods") or getattr(m, "periods", {})
             m.gh = it["goals"]["home"] or 0
             m.ga = it["goals"]["away"] or 0
             if it.get("events"):
@@ -1700,6 +1732,7 @@ class ProEngine:
                     continue
                 m.status = it["fixture"]["status"]["short"]
                 m.minute = it["fixture"]["status"].get("elapsed") or m.minute
+                m.periods = it["fixture"].get("periods") or getattr(m, "periods", {})
                 m.gh, m.ga = it["goals"]["home"] or 0, it["goals"]["away"] or 0
                 m.goals = goal_events(it)
                 m.events = it.get("events") or []
