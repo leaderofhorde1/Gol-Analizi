@@ -652,12 +652,15 @@
     "dep": "Anorthosis",
     "lig": "Cyprus - 1. Division",
     "etiket": "Korner 8.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "bilinmiyor",
+    "skor": "1-2"
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 990,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 1.73,
+  "kar": -100
  },
  {
   "tarih": "2026-11-23",
