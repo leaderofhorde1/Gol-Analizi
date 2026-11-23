@@ -175,9 +175,8 @@ def odd_line(row: dict, minute) -> list[str]:
         return []
     out = [f"💰 Oran: {float(o):.2f} ({minute}. dakika itibarıyla)"]
     st = stake(row.get("p_model"), o)
-    if st:
+    if st:  # kayıt için (karnede ölçülür); mesajda tek güç göstergesi "Sinyal gücü" satırıdır
         row["guc"], row["pay"] = st
-        out.append(f"{GUC_ICON[st[0]]} Güç: {st[0]}")
     return out
 
 
