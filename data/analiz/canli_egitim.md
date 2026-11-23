@@ -1,6 +1,6 @@
-# Canlı model eğitimi – 2026-11-22T09:41+03:00
+# Canlı model eğitimi – 2026-11-23T04:02+03:00
 
-Toplam örnek: 14284
+Toplam örnek: 24583
 
 Log kayıp: düşük = daha iyi. Yeni model ancak testte piyasadan iyiyse kullanılır.
 
@@ -8,47 +8,47 @@ Log kayıp: düşük = daha iyi. Yeni model ancak testte piyasadan iyiyse kullan
 
 | | Değer |
 |---|---|
-| Örneklem / test | 9042 / 2713 |
-| Olay oranı | 0.231 |
-| Log kayıp: piyasa | 0.53647 |
-| Log kayıp: eski model | 0.55028 |
-| Log kayıp: piyasa + maç durumu (B) | 0.5353 |
-| Log kayıp: tam model (C) | 0.53304 |
-| Brier (piyasa / B / C) | 0.17621 / 0.17584 / 0.17515 |
-| Simüle sinyal (yeni − piyasa ≥ 5 puan) | 85 adet, isabet 0.247, piyasa ort. 0.17 |
-| Kullanımda | evet |
+| Örneklem / test | 14451 / 4336 |
+| Olay oranı | 0.268 |
+| Log kayıp: piyasa | 0.57134 |
+| Log kayıp: eski model | 0.60681 |
+| Log kayıp: piyasa + maç durumu (B) | 0.57364 |
+| Log kayıp: tam model (C) | 0.57135 |
+| Brier (piyasa / B / C) | 0.1923 / 0.19331 / 0.19253 |
+| Simüle sinyal (yeni − piyasa ≥ 5 puan) | 72 adet, isabet 0.333, piyasa ort. 0.189 |
+| Kullanımda | hayır |
 
-Ağırlıklar: sabit 1.1108, logit(piyasa) 1.2307, model-piyasa farkı 0.9107, log toplam baskı -0.2779, log en yüksek baskı -0.0244, dakika -0.4632, skor eşit 0.0824, 1 gol fark -0.1862, kırmızı kart farkı -0.0139
+Ağırlıklar: sabit 0.9166, logit(piyasa) 1.1708, model-piyasa farkı 0.8371, log toplam baskı -0.22, log en yüksek baskı -0.0629, dakika -0.4145, skor eşit 0.1298, 1 gol fark -0.1297, kırmızı kart farkı -0.009
 
 ## korner
 
 | | Değer |
 |---|---|
-| Örneklem / test | 3690 / 1107 |
-| Olay oranı | 0.244 |
-| Log kayıp: piyasa | 0.82823 |
-| Log kayıp: eski model | 0.53835 |
-| Log kayıp: piyasa + maç durumu (B) | 0.54195 |
-| Log kayıp: tam model (C) | 0.52316 |
-| Brier (piyasa / B / C) | 0.26459 / 0.18204 / 0.17731 |
-| Simüle sinyal (yeni − piyasa ≥ 5 puan) | 161 adet, isabet 0.255, piyasa ort. 0.267 |
+| Örneklem / test | 5686 / 1706 |
+| Olay oranı | 0.22 |
+| Log kayıp: piyasa | 0.80506 |
+| Log kayıp: eski model | 0.50285 |
+| Log kayıp: piyasa + maç durumu (B) | 0.51994 |
+| Log kayıp: tam model (C) | 0.4957 |
+| Brier (piyasa / B / C) | 0.25651 / 0.172 / 0.16494 |
+| Simüle sinyal (yeni − piyasa ≥ 5 puan) | 293 adet, isabet 0.242, piyasa ort. 0.249 |
 | Kullanımda | hayır (sinyal anlarında piyasayı geçmiyor) |
 
-Ağırlıklar: sabit -1.8997, logit(piyasa) 0.0139, model-piyasa farkı 0.2919, log toplam baskı -0.047, log en yüksek baskı 0.4493, dakika 0.2703, skor eşit 0.0099, 1 gol fark 0.0182, kırmızı kart farkı -0.1739
+Ağırlıklar: sabit -1.9929, logit(piyasa) 0.0636, model-piyasa farkı 0.3539, log toplam baskı -0.1626, log en yüksek baskı 0.4938, dakika 0.6584, skor eşit 0.1597, 1 gol fark 0.0589, kırmızı kart farkı -0.2051
 
 ## kart
 
 | | Değer |
 |---|---|
-| Örneklem / test | 966 / 290 |
-| Olay oranı | 0.272 |
-| Log kayıp: piyasa | 0.66509 |
-| Log kayıp: eski model | 0.58389 |
-| Log kayıp: piyasa + maç durumu (B) | 0.5827 |
-| Log kayıp: tam model (C) | 0.58798 |
-| Brier (piyasa / B / C) | 0.23653 / 0.19748 / 0.20006 |
-| Simüle sinyal (yeni − piyasa ≥ 5 puan) | 1 adet, isabet 0.0, piyasa ort. 0.277 |
+| Örneklem / test | 1432 / 430 |
+| Olay oranı | 0.36 |
+| Log kayıp: piyasa | 0.69777 |
+| Log kayıp: eski model | 0.64466 |
+| Log kayıp: piyasa + maç durumu (B) | 0.64379 |
+| Log kayıp: tam model (C) | 0.64667 |
+| Brier (piyasa / B / C) | 0.24992 / 0.22583 / 0.2264 |
+| Simüle sinyal (yeni − piyasa ≥ 5 puan) | 2 adet, isabet 0.0, piyasa ort. 0.273 |
 | Kullanımda | hayır |
 
-Ağırlıklar: sabit -1.4384, logit(piyasa) 0.5347, model-piyasa farkı -0.3884, log toplam baskı -0.2112, log en yüksek baskı 0.209, dakika 1.1716, skor eşit -0.1805, 1 gol fark -0.3475, kırmızı kart farkı -0.6474, log faul temposu 0.3308
+Ağırlıklar: sabit -1.2023, logit(piyasa) 0.6792, model-piyasa farkı -0.2721, log toplam baskı -0.1043, log en yüksek baskı 0.0323, dakika 1.1053, skor eşit -0.2379, 1 gol fark -0.3694, kırmızı kart farkı -0.7548, log faul temposu 0.2529
 
