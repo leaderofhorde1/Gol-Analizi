@@ -346,11 +346,11 @@ EV = model olasılığı × gerçek oran − 1. Negatif EV'li sinyal, model piya
 
 ## 🧪 Deneme kuponları (son 7 gün)
 
-Kupon: 0/4 tuttu (piyasanın beklediği ~0.8), kupon başına 100 TL ile sanal kâr: -400 TL. Tek tek maçlar: 6/15 (piyasa beklentisi ~9.7).
+Kupon: 0/5 tuttu (piyasanın beklediği ~1.1), kupon başına 100 TL ile sanal kâr: -500 TL. Tek tek maçlar: 9/19 (piyasa beklentisi ~12.6).
 
 ## 🧪 Deneme kuponları (tüm zamanlar)
 
-Kupon: 0/4 tuttu (piyasanın beklediği ~0.8), kupon başına 100 TL ile sanal kâr: -400 TL. Tek tek maçlar: 6/15 (piyasa beklentisi ~9.7).
+Kupon: 0/5 tuttu (piyasanın beklediği ~1.1), kupon başına 100 TL ile sanal kâr: -500 TL. Tek tek maçlar: 9/19 (piyasa beklentisi ~12.6).
 
 ## 📉 Oran düşüşü uyarıları (son 7 gün)
 
@@ -358,13 +358,13 @@ Düşen oran o sonucun gerçekleşmesi demek; piyasa = uyarı anındaki adil iht
 
 | Uyarı | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| Hepsi | 181 | %31 | %32 | -2407 TL |
-| Deplasman | 70 | %29 | %27 | -1046 TL |
+| Hepsi | 185 | %32 | %32 | -2017 TL |
+| Deplasman | 72 | %29 | %26 | -906 TL |
 | Alt 2.5 | 20 | %35 | %44 | -594 TL |
-| Ev sahibi | 63 | %37 | %33 | -29 TL |
+| Ev sahibi | 64 | %38 | %33 | +321 TL |
 | Beraberlik | 16 | %12 | %21 | -640 TL |
 | KG Var | 2 | %50 | %30 | +125 TL |
-| Üst 2.5 | 5 | %40 | %52 | -133 TL |
+| Üst 2.5 | 6 | %33 | %52 | -233 TL |
 | KG Yok | 5 | %40 | %45 | -90 TL |
 
 ## 📉 Oran düşüşü uyarıları (tüm zamanlar)
@@ -373,11 +373,11 @@ Düşen oran o sonucun gerçekleşmesi demek; piyasa = uyarı anındaki adil iht
 
 | Uyarı | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
-| Hepsi | 181 | %31 | %32 | -2407 TL |
-| Deplasman | 70 | %29 | %27 | -1046 TL |
+| Hepsi | 185 | %32 | %32 | -2017 TL |
+| Deplasman | 72 | %29 | %26 | -906 TL |
 | Alt 2.5 | 20 | %35 | %44 | -594 TL |
-| Ev sahibi | 63 | %37 | %33 | -29 TL |
+| Ev sahibi | 64 | %38 | %33 | +321 TL |
 | Beraberlik | 16 | %12 | %21 | -640 TL |
 | KG Var | 2 | %50 | %30 | +125 TL |
-| Üst 2.5 | 5 | %40 | %52 | -133 TL |
+| Üst 2.5 | 6 | %33 | %52 | -233 TL |
 | KG Yok | 5 | %40 | %45 | -90 TL |
