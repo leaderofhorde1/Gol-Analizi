@@ -677,8 +677,12 @@ class ProEngine:
 
     # --- zaman ve bütçe
     def _reset(self, now):
-        return (now + dt.timedelta(days=1 if now.hour >= 3 else 0)).replace(
-            hour=2, minute=55, second=0, microsecond=0)
+        """API kotası 03:00'te (TR) yenilenir; oturum 5 dk önce kapanıp yenisi zincirle başlar.
+        02:55'ten sonra başlayan oturum için sınır ertesi günün 02:55'idir (aksi halde anında biter, döngüye girer)."""
+        r = now.replace(hour=3, minute=0, second=0, microsecond=0)
+        if now >= r - dt.timedelta(minutes=5):
+            r += dt.timedelta(days=1)
+        return r - dt.timedelta(minutes=5)
 
     def end_time(self) -> dt.datetime:
         return min(self.now0 + dt.timedelta(minutes=RUN_MINUTES), self._reset(self.now0))
@@ -698,17 +702,25 @@ class ProEngine:
             prematch.resolve_picks(self.api)
         except Exception as e:
             log("Tahmin sonuçları işlenemedi:", e)
-        report = prematch.REPORT_DIR / f"{self.today}.md"
-        if (self.now0.hour < 13 and not report.exists()) or os.environ.get("FORCE_REPORT") == "1":
+        self.send_drop_alerts()
+        self.kupon_tick()
+
+    def report_tick(self):
+        """Sabah raporu: 08:00-13:00 arası, günde bir kez (7/24 çalışmada gece 03:00'te gitmesin)."""
+        import prematch
+        now = dt.datetime.now(TZ)
+        report = prematch.REPORT_DIR / f"{self.book.today}.md"
+        force = os.environ.get("FORCE_REPORT") == "1" and not getattr(self, "_report_forced", False)
+        if force or (8 <= now.hour < 13 and now.date().isoformat() == self.book.today and not report.exists()):
+            self._report_forced = True
             try:
                 prematch.morning_report(self.api, self.book)
             except Exception as e:
                 log("Sabah raporu hatası:", e)
-        self.send_drop_alerts()
-        self.kupon_tick()
 
     def kupon_tick(self):
         import kupon, dusus
+        self.report_tick()
         try:
             if not getattr(self, "_dusus_backfill", False):
                 self._dusus_backfill = True
@@ -2082,7 +2094,7 @@ class ProEngine:
                         self.hot_tick()
             # Süre dolduysa ve gün bitmediyse bir sonraki oturumu iş akışı başlatsın
             now = dt.datetime.now(TZ)
-            if now >= end and not (2 * 60 + 30 <= now.hour * 60 + now.minute < 9 * 60 + 40):
+            if now >= end:  # 7/24: gece molası yok (Asya ve Güney Amerika maçları)
                 open(CHAIN_FLAG, "w").write(now.isoformat())
         finally:
             self.finish()
