@@ -280,7 +280,7 @@ def clock_problem(m, now: float | None = None) -> str | None:
         return None
     lag = exp - (m.minute or 0)
     # API'nin devre başlama saatleri birkaç dakika kayık olabilir (sabit fark): asıl işaret farkın BÜYÜMESİ.
-    # Her devrede ilk görülen fark taban alınır; fark tabandan CLOCK_MAX'tan fazla açılırsa ya da 12 dk'yı
+    # Her devrede ilk görülen fark taban alınır; fark tabandan CLOCK_MAX'tan fazla açılırsa ya da 25 dk'yı
     # aşarsa veri takılı sayılır.
     base = getattr(m, "_lag0", None)
     if not isinstance(base, dict):
@@ -290,7 +290,7 @@ def clock_problem(m, now: float | None = None) -> str | None:
         except AttributeError:
             pass
     b = base.setdefault(m.status, lag)
-    if lag - b > CLOCK_MAX or lag > 12:
+    if lag - b > CLOCK_MAX or lag > 25:
         return f"dakika takılı (API {m.minute}', gerçekte ~{exp:.0f}')"
     return None
 
