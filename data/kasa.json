@@ -9,12 +9,15 @@
   "atlanan": 0
  },
  "2026-11-24": {
-  "baslangic": 10000.0,
-  "nakit": 6302.5,
+  "baslangic": 20000.0,
+  "nakit": 16302.5,
   "acik": 0.0,
   "bahis": 8,
   "kazanan": 4,
   "kaybeden": 4,
-  "atlanan": 0
+  "atlanan": 0,
+  "ekler": [
+   "2026-11-24 10000"
+  ]
  }
 }
