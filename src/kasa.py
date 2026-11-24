@@ -101,7 +101,9 @@ def summary_lines(day: str) -> list[str]:
     st = d[day]
     toplam = st["nakit"] + st["acik"]
     fark = toplam - st["baslangic"]
-    L = [f"💼 Sanal kasa: {tl(st['baslangic'])} → {tl(toplam)} ({'+' if fark >= 0 else '−'}{tl(abs(fark))})",
+    ek = len(st.get("ekler", []))
+    L = [f"💼 Sanal kasa: {tl(st['baslangic'])} → {tl(toplam)} ({'+' if fark >= 0 else '−'}{tl(abs(fark))})"
+         + (f"  (gün içinde {ek} kez para eklendi)" if ek else ""),
          f"   {st['bahis']} bahis: {st['kazanan']} kazandı, {st['kaybeden']} kaybetti"
          + (f", {st['bahis'] - st['kazanan'] - st['kaybeden']} açık" if st['bahis'] - st['kazanan'] - st['kaybeden'] else "")]
     if st.get("atlanan"):
@@ -143,3 +145,19 @@ def reopen(row: dict) -> list[str]:
         _save(d)
     row["kasa_durum"], row["kasa_donus"] = "acik", ""
     return [f"💼 {tl(stake)}'lik bahis yeniden açıldı, sonuç kasaya işlenecek"]
+
+
+def deposit(day: str, amount: float, key: str) -> list[str]:
+    """Kasaya para ekle (bir kez; key ile). Kâr/zarar eklenen dahil toplam yatırılana göre hesaplanır."""
+    with _lock:
+        d = _load()
+        st = day_state(day, d)
+        if key in st.get("ekler", []):
+            return []
+        st["nakit"] += amount
+        st["baslangic"] += amount
+        st.setdefault("ekler", []).append(key)
+        d[day] = st
+        _save(d)
+    return [f"💼 Kasaya {tl(amount)} eklendi", f"💵 Güncel nakit: {tl(st['nakit'])}",
+            f"📒 Bugün kasaya yatırılan toplam: {tl(st['baslangic'])}"]

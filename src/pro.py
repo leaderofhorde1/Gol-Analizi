@@ -713,6 +713,11 @@ class ProEngine:
         self.rows_today: list[dict] = carry
         self._iptal_seen = ""
         self._geri_seen = ""
+        self._ekle_seen = ""
+        try:
+            self.apply_deposits((DATA / "kontrol" / "kasa_ekle").read_text())
+        except FileNotFoundError:
+            pass
         try:
             self.apply_restores((DATA / "kontrol" / "geri_al").read_text())
         except FileNotFoundError:
@@ -2148,6 +2153,25 @@ class ProEngine:
                         and r.get("gonderildi") == "evet" and r.get("sonuc") == "bekliyor"):
                     self.cancel_row(r, why.strip() or "Sinyal hatalı veriyle gönderildi.")
 
+    def apply_deposits(self, text: str):
+        """data/kontrol/kasa_ekle: her satır "YYYY-AA-GG tutar". O günün kasasına bir kez eklenir, gruba bildirilir."""
+        if not text or text == self._ekle_seen:
+            return
+        self._ekle_seen = text
+        import kasa
+        for line in text.splitlines():
+            parts = line.split("|")[0].split()
+            if len(parts) != 2:
+                continue
+            try:
+                amount = float(parts[1])
+            except ValueError:
+                continue
+            kl = kasa.deposit(parts[0], amount, line.strip())
+            if kl:
+                notify("💼 Kasa güncellendi", "\n".join(kl), priority=3)
+                log(f"Kasaya eklendi: {parts[0]} {amount}")
+
     def apply_restores(self, text: str):
         """data/kontrol/geri_al: "fixture_id tur dakika | not". Hatalı iptal edilen sinyal geçerli sayılır:
         yeniden sonuç takibine alınır, bahsi kasada yeniden açılır, gruba düzeltme yazılır."""
@@ -2245,6 +2269,9 @@ class ProEngine:
         Aynı kontrolde data/kontrol/iptal dosyası da okunur (sinyal iptali)."""
         try:
             self._git("fetch", "-q", "origin", "main")
+            re_ = self._git("show", "origin/main:data/kontrol/kasa_ekle")
+            if re_.returncode == 0:
+                self.apply_deposits(re_.stdout)
             rg = self._git("show", "origin/main:data/kontrol/geri_al")
             if rg.returncode == 0:
                 self.apply_restores(rg.stdout)
