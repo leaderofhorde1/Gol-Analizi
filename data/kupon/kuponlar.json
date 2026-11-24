@@ -1486,7 +1486,9 @@
     "dep": "Swansea City U21",
     "lig": "England - Premier League Cup",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "0-2",
+    "neden": "3 gol gerekiyordu, maçta 2 gol oldu (0-2). Şutlar 0-0, isabetli 0-0."
    },
    {
     "tur": "ust25",
@@ -1519,7 +1521,8 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 1077
+  "tg": 1077,
+  "yatti": true
  },
  {
   "tarih": "2026-11-24",
