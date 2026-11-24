@@ -105,8 +105,12 @@ class Api:
         self.used = 0
 
     def get(self, path: str, **params):
-        r = self.s.get(f"{API}/{path}", params=params, timeout=30)
-        self.used += 1
+        for wait in (2, 5, 10, None):  # dakika başı istek sınırına (429) takılınca bekleyip yeniden dener
+            r = self.s.get(f"{API}/{path}", params=params, timeout=30)
+            self.used += 1
+            if r.status_code != 429 or wait is None:
+                break
+            time.sleep(wait)
         rem = r.headers.get("x-ratelimit-requests-remaining")
         if rem is not None and rem.lstrip("-").isdigit():
             self.remaining = int(rem)

@@ -6,6 +6,7 @@ Veri günde bir kez takım başına (2 istek) ve eşleşme başına (2 istek) ç
 from __future__ import annotations
 
 import json
+import time
 import pathlib
 
 FORM_DIR = pathlib.Path(__file__).resolve().parent.parent / "data" / "form"
@@ -79,6 +80,7 @@ class FormBook:
             pass
 
     def _summaries(self, fixtures: list, team_id: int) -> list[dict]:
+        time.sleep(0.25)  # toplu form çekiminde dakika başı istek sınırını aşmamak için
         ids = [str(f["fixture"]["id"]) for f in fixtures]
         full = self.api.get("fixtures", ids="-".join(ids)) if ids else []
         by_id = {f["fixture"]["id"]: f for f in full}
