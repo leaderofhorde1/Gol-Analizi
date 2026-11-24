@@ -1513,5 +1513,341 @@
   ],
   "sonuc": "bekliyor",
   "tg": 1077
+ },
+ {
+  "tarih": "2026-11-24",
+  "id": "2026-11-24-korner-18",
+  "parti": 18,
+  "tur": "korner",
+  "baslik": "🚩 Korner kuponu (akşam)",
+  "oran": 3.29,
+  "p_piyasa": 0.257,
+  "bacaklar": [
+   {
+    "tur": "korner",
+    "oran": 1.8,
+    "p": 0.5148247978436657,
+    "cizgi": 9.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     6,
+     10
+    ],
+    "oran_form": 0.7,
+    "h2h": null,
+    "sira_puan": 0.3396,
+    "fixture_id": "1564328",
+    "saat": "22:45",
+    "ts": 1795549500,
+    "mac": "Stevenage - Sheffield Wednesday",
+    "ev": "Stevenage",
+    "dep": "Sheffield Wednesday",
+    "lig": "England - League One",
+    "etiket": "Korner 9.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "korner",
+    "oran": 1.83,
+    "p": 0.5,
+    "cizgi": 9.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     7,
+     10
+    ],
+    "oran_form": 0.75,
+    "h2h": [
+     1,
+     1
+    ],
+    "sira_puan": 0.4,
+    "fixture_id": "1635692",
+    "saat": "23:00",
+    "ts": 1795550400,
+    "mac": "Manchester City - Napoli",
+    "ev": "Manchester City",
+    "dep": "Napoli",
+    "lig": "World - UEFA Champions League",
+    "etiket": "Korner 9.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1096
+ },
+ {
+  "tarih": "2026-11-24",
+  "id": "2026-11-24-alt-18",
+  "parti": 18,
+  "tur": "alt",
+  "baslik": "🧊 Alt kuponu (akşam)",
+  "oran": 2.38,
+  "p_piyasa": 0.366,
+  "bacaklar": [
+   {
+    "tur": "alt25",
+    "oran": 1.7,
+    "p": 0.5526315789473685,
+    "cizgi": 2.5,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     7,
+     10
+    ],
+    "oran_form": 0.7,
+    "h2h": [
+     1,
+     1
+    ],
+    "sira_puan": 0.3132,
+    "fixture_id": "1630406",
+    "saat": "19:00",
+    "ts": 1795536000,
+    "mac": "Al Seeb - Al Shorta",
+    "ev": "Al Seeb",
+    "dep": "Al Shorta",
+    "lig": "World - AFC Champions League Two",
+    "etiket": "2.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt35",
+    "oran": 1.4,
+    "p": 0.6626506024096386,
+    "cizgi": 3.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": [
+     1,
+     2
+    ],
+    "sira_puan": 0.3361,
+    "fixture_id": "1587912",
+    "saat": "22:45",
+    "ts": 1795549500,
+    "mac": "Darlington 1883 - Southport",
+    "ev": "Darlington 1883",
+    "dep": "Southport",
+    "lig": "England - National League - North",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1097
+ },
+ {
+  "tarih": "2026-11-24",
+  "id": "2026-11-24-gol-18",
+  "parti": 18,
+  "tur": "gol",
+  "baslik": "🎯 Gol kuponu (akşam)",
+  "oran": 2.34,
+  "p_piyasa": 0.351,
+  "bacaklar": [
+   {
+    "tur": "kg",
+    "oran": 1.5,
+    "p": 0.625,
+    "cizgi": null,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": [
+     0,
+     1
+    ],
+    "sira_puan": 0.3625,
+    "fixture_id": "1588855",
+    "saat": "22:00",
+    "ts": 1795546800,
+    "mac": "Fleetwood Town - Leeds United U21",
+    "ev": "Fleetwood Town",
+    "dep": "Leeds United U21",
+    "lig": "England - EFL Trophy",
+    "etiket": "KG Var",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust15",
+    "oran": 1.28,
+    "p": 0.7322175732217574,
+    "cizgi": 1.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.9,
+    "h2h": [
+     2,
+     4
+    ],
+    "sira_puan": 0.3874,
+    "fixture_id": "1647222",
+    "saat": "22:45",
+    "ts": 1795549500,
+    "mac": "Carrick Rangers - Glenavon FC",
+    "ev": "Carrick Rangers",
+    "dep": "Glenavon FC",
+    "lig": "Northern-Ireland - League Cup",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust15",
+    "oran": 1.22,
+    "p": 0.7662835249042146,
+    "cizgi": 1.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.9,
+    "h2h": [
+     1,
+     2
+    ],
+    "sira_puan": 0.3636,
+    "fixture_id": "1587909",
+    "saat": "22:45",
+    "ts": 1795549500,
+    "mac": "AFC Telford United - Buxton",
+    "ev": "AFC Telford United",
+    "dep": "Buxton",
+    "lig": "England - National League - North",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1098
+ },
+ {
+  "tarih": "2026-11-24",
+  "id": "2026-11-24-ust-18",
+  "parti": 18,
+  "tur": "ust",
+  "baslik": "⚽ Üst kuponu (akşam)",
+  "oran": 3.77,
+  "p_piyasa": 0.219,
+  "bacaklar": [
+   {
+    "tur": "ust25",
+    "oran": 1.57,
+    "p": 0.5994897959183673,
+    "cizgi": 2.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.9,
+    "h2h": null,
+    "sira_puan": 0.4804,
+    "fixture_id": "1588463",
+    "saat": "22:45",
+    "ts": 1795549500,
+    "mac": "Ebbsfleet United - Billericay Town",
+    "ev": "Ebbsfleet United",
+    "dep": "Billericay Town",
+    "lig": "England - National League - South",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.57,
+    "p": 0.5994897959183673,
+    "cizgi": 2.5,
+    "form_ev": [
+     6,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.75,
+    "h2h": [
+     1,
+     2
+    ],
+    "sira_puan": 0.3304,
+    "fixture_id": "1585357",
+    "saat": "22:45",
+    "ts": 1795549500,
+    "mac": "Eastleigh - Yeovil Town",
+    "ev": "Eastleigh",
+    "dep": "Yeovil Town",
+    "lig": "England - National League",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.53,
+    "p": 0.6086956521739131,
+    "cizgi": 2.5,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.75,
+    "h2h": [
+     1,
+     1
+    ],
+    "sira_puan": 0.3239,
+    "fixture_id": "1596936",
+    "saat": "22:45",
+    "ts": 1795549500,
+    "mac": "Anstey Nomads - Redditch United",
+    "ev": "Anstey Nomads",
+    "dep": "Redditch United",
+    "lig": "England - Non League Premier - Southern Central",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1099
  }
 ]
