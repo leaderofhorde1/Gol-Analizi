@@ -204,8 +204,8 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-23,1552539,22:45,France - Ligue 2,Sochaux - Dunkerque,1x2:dep,Deplasman,2.88,2.45,0.149,0.312,0.363,isabet,2-3,145
 2026-11-24,1648376,12:00,Indonesia - League Cup Indonesia,Garudayaksa - PSS Sleman,1x2:ev,Ev sahibi,1.9,1.48,0.221,0.473,0.611,isabet,2-0,48
 2026-11-24,1604066,15:20,Saudi-Arabia - Division 1,Al Jabalain - Al Zulfi,ou:ust,Üst 2.5,2.35,1.95,0.17,0.401,0.487,bekliyor,,
-2026-11-24,1648380,15:00,Indonesia - League Cup Indonesia,Persepam Madura Utd - Persela Lamongan,1x2:x,Beraberlik,5.0,4.33,0.134,0.179,0.208,bekliyor,,
-2026-11-24,1648380,15:00,Indonesia - League Cup Indonesia,Persepam Madura Utd - Persela Lamongan,1x2:dep,Deplasman,7.5,6.0,0.2,0.12,0.15,bekliyor,,
+2026-11-24,1648380,15:00,Indonesia - League Cup Indonesia,Persepam Madura Utd - Persela Lamongan,1x2:x,Beraberlik,5.0,4.33,0.134,0.179,0.208,isabet,2-2,333
+2026-11-24,1648380,15:00,Indonesia - League Cup Indonesia,Persepam Madura Utd - Persela Lamongan,1x2:dep,Deplasman,7.5,6.0,0.2,0.12,0.15,ıska,2-2,-100
 2026-11-24,1619190,16:00,England - Professional Development League,Charlton Athletic U21 - Coventry City U21,ou:alt,Alt 2.5,4.0,3.5,0.125,0.234,0.268,bekliyor,,
 2026-11-24,1619190,16:00,England - Professional Development League,Charlton Athletic U21 - Coventry City U21,1x2:dep,Deplasman,3.9,3.25,0.167,0.231,0.275,bekliyor,,
 2026-11-24,1630405,16:45,World - AFC Champions League Two,East Bengal II - Al Hussein,ou:ust,Üst 2.5,2.05,1.7,0.171,0.461,0.553,bekliyor,,
