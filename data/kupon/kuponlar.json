@@ -1287,7 +1287,8 @@
     "dep": "Hebburn Town",
     "lig": "England - National League - North",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "1-1"
    },
    {
     "tur": "kg",
@@ -1316,11 +1317,15 @@
     "dep": "West Ham",
     "lig": "England - Championship",
     "etiket": "KG Var",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "1-0",
+    "neden": "West Ham gol atamadı (1-0). Şutlar 9-19, isabetli 1-6, xG 0.6-1.8."
    }
   ],
-  "sonuc": "bekliyor",
-  "tg": 1075
+  "sonuc": "ıska",
+  "tg": 1075,
+  "oran_gercek": 2.55,
+  "kar": -100
  },
  {
   "tarih": "2026-11-24",
@@ -1413,12 +1418,15 @@
     "dep": "Worthing",
     "lig": "England - National League",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "4-3"
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 1076,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 3.98,
+  "kar": -100
  },
  {
   "tarih": "2026-11-24",
@@ -1560,7 +1568,8 @@
     "dep": "Sheffield Wednesday",
     "lig": "England - League One",
     "etiket": "Korner 9.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "0-0, 12 korner"
    },
    {
     "tur": "korner",
@@ -1589,11 +1598,14 @@
     "dep": "Napoli",
     "lig": "World - UEFA Champions League",
     "etiket": "Korner 9.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "2-2, 10 korner"
    }
   ],
-  "sonuc": "bekliyor",
-  "tg": 1096
+  "sonuc": "isabet",
+  "tg": 1096,
+  "oran_gercek": 3.29,
+  "kar": 229
  },
  {
   "tarih": "2026-11-24",
@@ -1765,11 +1777,14 @@
     "dep": "Buxton",
     "lig": "England - National League - North",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "1-0",
+    "neden": "2 gol gerekiyordu, maçta 1 gol oldu (1-0). Şutlar 0-0, isabetli 0-0."
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 1098
+  "tg": 1098,
+  "yatti": true
  },
  {
   "tarih": "2026-11-24",
@@ -1835,7 +1850,8 @@
     "dep": "Yeovil Town",
     "lig": "England - National League",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "1-3"
    },
    {
     "tur": "ust25",
@@ -1864,11 +1880,14 @@
     "dep": "Redditch United",
     "lig": "England - Non League Premier - Southern Central",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "2-1"
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 1099,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 3.77,
+  "kar": -100
  }
 ]
