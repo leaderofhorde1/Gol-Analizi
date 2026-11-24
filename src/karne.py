@@ -308,6 +308,21 @@ def section(title, rows):
               table(["Piyasa", "Sonuç", "İsabet", "Sanal kâr"],
                     [[k, t["n"], pct(t["rate"]), kar_s(t)] for k in ("lehte", "nötr", "aleyhte") if k in py
                      for t in [summ(py[k])]]), ""]
+    # oran aralıkları: kayıp düşük oranlı "güvenli" sinyallerden mi geliyor?
+    ob = []
+    for lo, hi, ad in ((1.0, 1.5, "1.00-1.49"), (1.5, 2.0, "1.50-1.99"), (2.0, 3.0, "2.00-2.99"),
+                       (3.0, 4.0, "3.00-3.99"), (4.0, 1e9, "4.00+")):
+        g = [r for r in sent if (r.get("tur") or "gol") != "baski" and _f(r.get("oran"))
+             and lo <= _f(r.get("oran")) < hi]
+        if g:
+            t = summ(g)
+            if t["n"]:
+                ob.append([ad, t["n"], pct(t["rate"]), pct(t["exp"]), kar_s(t)])
+    if ob:
+        L += ["### 🎚 Oran aralığına göre", "",
+              "Sinyal anındaki gerçek orana göre. İsabet piyasanın beklentisinin altında kalan aralık, "
+              "o oranlarda sistemin üstünlüğü olmadığını gösterir.", "",
+              table(["Oran", "Sonuç", "İsabet", "Piyasa", "Sanal kâr (100 TL)"], ob), ""]
     # sinyal gücü dereceleri
     gc = defaultdict(list)
     for r in sent:
