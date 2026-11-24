@@ -1517,12 +1517,15 @@
     "dep": "Dundee",
     "lig": "Scotland - Premiership",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "2-1"
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 1077,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 3.85,
+  "kar": -100
  },
  {
   "tarih": "2026-11-24",
@@ -1658,11 +1661,14 @@
     "dep": "Southport",
     "lig": "England - National League - North",
     "etiket": "3.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "2-1"
    }
   ],
-  "sonuc": "bekliyor",
-  "tg": 1097
+  "sonuc": "isabet",
+  "tg": 1097,
+  "oran_gercek": 2.38,
+  "kar": 138
  },
  {
   "tarih": "2026-11-24",
@@ -1798,7 +1804,9 @@
     "dep": "Billericay Town",
     "lig": "England - National League - South",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "1-1",
+    "neden": "3 gol gerekiyordu, maçta 2 gol oldu (1-1). Şutlar 0-0, isabetli 0-0."
    },
    {
     "tur": "ust25",
@@ -1860,6 +1868,7 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 1099
+  "tg": 1099,
+  "yatti": true
  }
 ]

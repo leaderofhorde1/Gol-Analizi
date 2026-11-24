@@ -235,15 +235,15 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-24,1596931,22:45,England - Non League Premier - Southern Central,Leighton Town - Racing Club Warwick,1x2:dep,Deplasman,2.2,1.85,0.159,0.407,0.48,bekliyor,,
 2026-11-24,1635731,23:00,World - UEFA Champions League,Slovan Bratislava - Real Betis,1x2:ev,Ev sahibi,12.0,9.0,0.25,0.08,0.106,bekliyor,,
 2026-11-24,1647222,22:45,Northern-Ireland - League Cup,Carrick Rangers - Glenavon FC,ou:alt,Alt 2.5,2.3,1.95,0.152,0.41,0.487,bekliyor,,
-2026-11-24,1647225,22:45,Northern-Ireland - League Cup,H&W Welders - Linfield,ou:alt,Alt 2.5,3.25,2.75,0.154,0.29,0.337,bekliyor,,
-2026-11-24,1647225,22:45,Northern-Ireland - League Cup,H&W Welders - Linfield,1x2:ev,Ev sahibi,11.0,8.5,0.227,0.084,0.108,bekliyor,,
-2026-11-24,1647225,22:45,Northern-Ireland - League Cup,H&W Welders - Linfield,1x2:x,Beraberlik,7.0,5.75,0.179,0.131,0.159,bekliyor,,
-2026-11-24,1647228,22:45,Northern-Ireland - League Cup,Moyola Park - Ballymena United,1x2:ev,Ev sahibi,7.5,6.0,0.2,0.12,0.15,bekliyor,,
-2026-11-24,1649157,22:45,Scotland - Challenge Cup,Dunfermline - Kelty Hearts,1x2:x,Beraberlik,8.0,7.0,0.125,0.116,0.131,bekliyor,,
+2026-11-24,1647225,22:45,Northern-Ireland - League Cup,H&W Welders - Linfield,ou:alt,Alt 2.5,3.25,2.75,0.154,0.29,0.337,isabet,0-1,175
+2026-11-24,1647225,22:45,Northern-Ireland - League Cup,H&W Welders - Linfield,1x2:ev,Ev sahibi,11.0,8.5,0.227,0.084,0.108,ıska,0-1,-100
+2026-11-24,1647225,22:45,Northern-Ireland - League Cup,H&W Welders - Linfield,1x2:x,Beraberlik,7.0,5.75,0.179,0.131,0.159,ıska,0-1,-100
+2026-11-24,1647228,22:45,Northern-Ireland - League Cup,Moyola Park - Ballymena United,1x2:ev,Ev sahibi,7.5,6.0,0.2,0.12,0.15,ıska,0-3,-100
+2026-11-24,1649157,22:45,Scotland - Challenge Cup,Dunfermline - Kelty Hearts,1x2:x,Beraberlik,8.0,7.0,0.125,0.116,0.131,ıska,3-0,-100
 2026-11-24,1649159,22:45,Scotland - Challenge Cup,Hamilton Academical - Cove Rangers,ou:ust,Üst 2.5,1.67,1.4,0.162,0.563,0.673,bekliyor,,
 2026-11-24,1649159,22:45,Scotland - Challenge Cup,Hamilton Academical - Cove Rangers,1x2:dep,Deplasman,5.25,4.5,0.143,0.175,0.203,bekliyor,,
 2026-11-24,1649159,22:45,Scotland - Challenge Cup,Hamilton Academical - Cove Rangers,kg:var,KG Var,1.73,1.5,0.133,0.536,0.625,bekliyor,,
-2026-11-24,1649160,22:45,Scotland - Challenge Cup,Livingston - Peterhead,1x2:x,Beraberlik,6.25,5.0,0.2,0.147,0.183,bekliyor,,
-2026-11-24,1587912,22:45,England - National League - North,Darlington 1883 - Southport,ou:alt,Alt 2.5,2.3,2.0,0.13,0.41,0.474,bekliyor,,
-2026-11-24,1587912,22:45,England - National League - North,Darlington 1883 - Southport,kg:yok,KG Yok,2.1,1.83,0.129,0.443,0.5,bekliyor,,
+2026-11-24,1649160,22:45,Scotland - Challenge Cup,Livingston - Peterhead,1x2:x,Beraberlik,6.25,5.0,0.2,0.147,0.183,ıska,3-0,-100
+2026-11-24,1587912,22:45,England - National League - North,Darlington 1883 - Southport,ou:alt,Alt 2.5,2.3,2.0,0.13,0.41,0.474,ıska,2-1,-100
+2026-11-24,1587912,22:45,England - National League - North,Darlington 1883 - Southport,kg:yok,KG Yok,2.1,1.83,0.129,0.443,0.5,ıska,2-1,-100
 2026-11-24,1597369,22:45,England - Non League Premier - Southern South,Chippenham Town - Havant & Wville,1x2:dep,Deplasman,2.7,2.3,0.148,0.335,0.391,bekliyor,,
