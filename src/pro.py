@@ -278,7 +278,19 @@ def clock_problem(m, now: float | None = None) -> str | None:
         return f"devre arası takılı (maç {(now - first) / 60:.0f} dk önce başladı)"
     else:
         return None
-    if exp - (m.minute or 0) > CLOCK_MAX:
+    lag = exp - (m.minute or 0)
+    # API'nin devre başlama saatleri birkaç dakika kayık olabilir (sabit fark): asıl işaret farkın BÜYÜMESİ.
+    # Her devrede ilk görülen fark taban alınır; fark tabandan CLOCK_MAX'tan fazla açılırsa ya da 12 dk'yı
+    # aşarsa veri takılı sayılır.
+    base = getattr(m, "_lag0", None)
+    if not isinstance(base, dict):
+        base = {}
+        try:
+            m._lag0 = base
+        except AttributeError:
+            pass
+    b = base.setdefault(m.status, lag)
+    if lag - b > CLOCK_MAX or lag > 12:
         return f"dakika takılı (API {m.minute}', gerçekte ~{exp:.0f}')"
     return None
 
