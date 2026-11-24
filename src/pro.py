@@ -841,8 +841,9 @@ class ProEngine:
         import prematch
         lines = prematch.drop_alerts(self.book, self.alerted)
         if lines:
-            notify("📉 ORAN DÜŞÜŞÜ", "\n\n".join(lines[:8]) + "\n" + LINE +
-                   "\nℹ️ Oran düşüşü ne demek? Bahis şirketleri o sonuca daha yüksek ihtimal veriyor: ya o sonuca çok "
+            short = [l.split("\n")[0] + "\n" + l.split("\n")[1] if l.count("\n") >= 1 else l for l in lines[:8]]
+            notify("📉 ORAN DÜŞÜŞÜ", "\n\n".join(short) + "\n" + DETAY + "\n" + "\n\n".join(lines[:8]) +
+                   "\n\nℹ️ Oran düşüşü ne demek? Bahis şirketleri o sonuca daha yüksek ihtimal veriyor: ya o sonuca çok "
                    "para yatırıldı ya da yeni bir bilgi geldi (kadro, sakatlık, hava durumu). Genelde bilgili paranın "
                    "işaretidir ama garanti değildir; oran düştüğü için o sonucun getirisi de azalmıştır."
                    "\nℹ️ Başlamasına 3 saatten az kalan maçlar",
@@ -2128,7 +2129,8 @@ class ProEngine:
         except Exception as e:
             log("Karne hatası:", e)
         if not getattr(self, "stopping", False):  # güncelleme için kapanışta gruba özet gönderme
-            notify("📊 OTURUM ÖZETİ", "\n".join(msg), priority=2, tags=["bar_chart"])
+            # gruba gitmez: 7/24'te günde 4 oturum var, grup için gece "Günlük özet" yeterli
+            notify("📊 OTURUM ÖZETİ", "\n".join(msg), priority=2, tags=["bar_chart"], telegram=False)
 
     # --- ara kayıt ve nazik durdurma
     def _git(self, *args, check=False):

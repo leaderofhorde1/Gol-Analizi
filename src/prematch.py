@@ -444,16 +444,17 @@ def morning_report(api, book: OddsBook):
     if hi_mu:
         msg.append("⚽ Gol beklentisi en yüksek:")
         msg += [f"{r['saat']} {r['mac']} (beklenen {r['mu']:.1f} gol)" for r in hi_mu]
+    if drops:
+        msg.append("\n📉 Üst 2.5 oranı düşenler:")
+        msg += [f"{r['saat']} {r['mac']} (%{round(d * 100)})" for r, d in drops]
+    msg.append("⋯DETAY⋯")  # Telegram'da aşağısı dokununca açılır
     if MODEL_WEIGHT <= 0:
-        msg.append("\nℹ️ Geri testte maç öncesi model bahis piyasasını geçemedi; bu yüzden 'değerli seçim' "
+        msg.append("ℹ️ Geri testte maç öncesi model bahis piyasasını geçemedi; bu yüzden 'değerli seçim' "
                    "önerilmiyor. Oranlar esas alınıyor.")
     if picks:
         msg.append("\n💡 Modelin piyasadan yüksek gördükleri:")
         msg += [f"{p['saat']} {p['mac']}: {p['secim']} @{p['oran']} "
                 f"(model %{round(p['model'] * 100)}, piyasa %{round(p['piyasa'] * 100)})" for p in picks[:5]]
-    if drops:
-        msg.append("\n📉 Üst 2.5 oranı düşenler:")
-        msg += [f"{r['saat']} {r['mac']} (%{round(d * 100)})" for r, d in drops]
     star_out = [r for r in rows if "⭐" in (r.get("eksik") or "")][:5]
     if star_out:
         msg.append("\n🚑 Önemli eksikler:")
@@ -464,7 +465,6 @@ def morning_report(api, book: OddsBook):
         kar = sum(float(r.get("kar") or 0) for r in hist)
         msg.append(f"\nGeçmiş maç öncesi seçimler: {w}/{len(hist)} (%{100 * w // len(hist)}), "
                    f"100 TL sabit bahisle sanal kâr: {kar:+.0f} TL")
-    msg.append("Tam rapor: depoda data/rapor/")
     notify("☀️ Günün maç öncesi raporu", "\n".join(msg) if msg else "Bugün raporlanacak maç yok.",
            priority=3, tags=["sunny"])
     log(f"Sabah raporu: {len(rows)} maç, {len(picks)} seçim")

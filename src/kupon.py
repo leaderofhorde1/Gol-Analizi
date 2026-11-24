@@ -180,20 +180,23 @@ def build(api, book, fb, parti: int = 10, skip: set | None = None) -> list[dict]
     return coupons
 
 
+DETAY = "⋯DETAY⋯"  # Telegram'da bu satırdan sonrası dokununca açılan "Ayrıntılar" bölümüne girer
+
+
 def text(c: dict) -> str:
-    L = ["🧪 DENEME KUPONU", "━━━━━━━━━━━━━━"]
+    L = ["🧪 DENEME KUPONU", ""]
+    for l in c["bacaklar"]:
+        L += [f"🕖 {l['saat']}  {l['mac']}", f"   👉 {l['etiket']} @{l['oran']:.2f}"]
+    L += ["", f"💰 Toplam oran: {c['oran']:.2f}  •  Tutma ihtimali ~%{round(c['p_piyasa'] * 100)}", DETAY]
     for l in c["bacaklar"]:
         (hh, hn), (ah, an) = l["form_ev"], l["form_dep"]
-        L += [f"🕖 {l['saat']}  {l['mac']}", f"   🏆 {l['lig']}",
-              f"   👉 {l['etiket']} @{l['oran']:.2f}",
+        L += [f"⚽ {l['mac']}", f"   🏆 {l['lig']}",
               f"   📋 Bu sezon son maçlarında: {l['ev']} {hh}/{hn}, {l['dep']} {ah}/{an}",
               (f"   🤝 Aralarındaki son {l['h2h'][1]} maç (2 sezon): {l['h2h'][0]}/{l['h2h'][1]}" if l.get("h2h")
                else "   🤝 Son 2 sezonda aralarında maç yok"),
               f"   📈 İki takımın son {hn + an} maçından {hh + ah} tanesi bu sonuçla bitti "
               f"(%{round(l['oran_form'] * 100)}), piyasa %{round(l['p'] * 100)} ihtimal veriyor", ""]
-    L += [f"💰 Toplam oran: {c['oran']:.2f}",
-          f"📊 Piyasaya göre tutma ihtimali: ~%{round(c['p_piyasa'] * 100)}",
-          "━━━━━━━━━━━━━━",
+    L += ["ℹ️ Tutma ihtimali piyasanın oranlarından (şirket payı çıkarılarak) hesaplanır.",
           "ℹ️ Deneme aşamasındadır: maç öncesi seçimlerin piyasayı geçtiği henüz kanıtlanmadı, sonuçlar ölçülüyor.",
           "ℹ️ Bahis tavsiyesi değildir."]
     return "\n".join(L)
@@ -397,8 +400,8 @@ def resolve(api):
                 c["yatti"] = True
                 changed = True
                 body = "\n".join(["❌ Kupon yattı", *[_line(l) for l in c["bacaklar"]], "",
-                                  *[f"📉 {l['mac']}: {l['neden']}" for l in lost if l.get("neden")],
-                                  "", f"⏳ Kalan {len(pending)} maç bitince tam özet gelecek."])
+                                  f"⏳ Kalan {len(pending)} maç bitince tam özet gelecek.", DETAY,
+                                  *[f"📉 {l['mac']}: {l['neden']}" for l in lost if l.get("neden")]])
                 telegram_reply(c.get("tg"), body, fallback=(f"🧪 {c['baslik']}: kupon yattı", body))
                 notify(f"🧪 {c['baslik']}: kupon yattı", body, priority=3, telegram=False)
             continue
@@ -423,7 +426,7 @@ def resolve(api):
         if any(l["sonuc"] in ("iptal", "bilinmiyor") for l in c["bacaklar"]) and c["sonuc"] != "iptal":
             L.append("➖ Oynanmayan/sonucu bilinmeyen maç kupondan düşüldü.")
         if lost:
-            L += ["", "🔎 Neden kaybetti?"]
+            L += [DETAY, "🔎 Neden kaybetti?"]
             L += [f"• {l['mac']} ({l['etiket']}): {l.get('neden') or 'tutmadı.'}" for l in lost]
             L.append(f"• Seçimde piyasa bu maç(lar)a %{', %'.join(str(round(l['p'] * 100)) for l in lost)} "
                      "ihtimal veriyordu; bu sezonki form ve aralarındaki maçlar da destekliyordu ama bu sefer tutmadı.")

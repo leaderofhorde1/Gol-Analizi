@@ -310,6 +310,33 @@ def _tg_send(chat, **params):
     return res
 
 
+DETAY_MARK = "⋯DETAY⋯"
+BOLD_PREFIX = ("🎯", "✅", "❌", "⚠️", "💼", "🔥", "🧪", "📊", "🚫", "↩️", "♻️", "💰 Toplam", "📋 Kupon özeti")
+
+
+def _html(message: str, head: str = "", bold_first: bool = False) -> str:
+    """Telegram HTML: DETAY_MARK satırından sonrası dokununca açılan "Ayrıntılar" bölümüne girer."""
+    def fmt(part, bold=True):
+        out = []
+        for i, l in enumerate(part.split("\n")):
+            if bold and ((bold_first and i == 0) or l.startswith(BOLD_PREFIX)):
+                out.append(f"<b>{_esc(l)}</b>")
+            elif l.startswith(("🤖", "ℹ️")):
+                out.append(f"<i>{_esc(l)}</i>")
+            else:
+                out.append(_esc(l))
+        return "\n".join(out)
+    top, sep, det = message.partition(DETAY_MARK)
+    text = head + fmt(top.rstrip())
+    if sep and det.strip():  # ayrıntılar: Telegram'da kapalı gelir, dokununca açılır
+        d = fmt(det.strip(), bold=False)  # ayrıntılarda kalın yok: sade dursun
+        room = 3900 - len(text)
+        if len(d) > room:  # etiket bozulmasın diye satır sınırında kes
+            d = d[:max(0, room)].rsplit("\n", 1)[0]
+        return text + "\n\n<blockquote expandable>🔎 <b>Ayrıntılar</b>\n\n" + d + "</blockquote>"
+    return text[:4000]
+
+
 def _send_html(title, message):
     """HTML biçimli mesajı gönderir; mesaj numarasını döndürür. Ağ hatasında istisna fırlatır."""
     global _tg_chat
@@ -317,20 +344,7 @@ def _send_html(title, message):
     if not chat:
         log("Telegram: grup bulunamadı (botu gruba ekleyip grupta bir mesaj yazın).")
         return None
-    fmt = lambda part: "\n".join(f"<b>{_esc(l)}</b>" if l.startswith(("🎯", "✅", "❌", "⚠️", "💼", "🔥")) else
-                                 f"<i>{_esc(l)}</i>" if l.startswith(("🤖", "ℹ️")) else _esc(l)
-                                 for l in part.split("\n"))
-    top, sep, det = message.partition("⋯DETAY⋯")
-    body = fmt(top.rstrip())
-    head = f"<b>{_esc(title)}</b>\n\n{body}"
-    if sep and det.strip():  # ayrıntılar: Telegram'da kapalı gelir, dokununca açılır
-        d = fmt(det.strip())
-        room = 3900 - len(head)
-        if len(d) > room:  # etiket bozulmasın diye satır sınırında kes
-            d = d[:max(0, room)].rsplit("\n", 1)[0]
-        text = head + "\n\n<blockquote expandable>🔎 <b>Ayrıntılar</b>\n\n" + d + "</blockquote>"
-    else:
-        text = head[:4000]
+    text = _html(message, head=f"<b>{_esc(title)}</b>\n\n")
     res = _tg_send(chat, text=text, parse_mode="HTML", disable_web_page_preview=True)
     if not res.get("ok"):
         log("Telegram hatası:", res.get("description"))
@@ -343,9 +357,8 @@ def _reply_html(message_id, text):
     chat = telegram_chat_id()
     if not chat:
         return None
-    lines = text.split("\n")
-    html = "\n".join([f"<b>{_esc(lines[0])}</b>", *map(_esc, lines[1:])])
-    res = _tg_send(chat, text=html[:4000], parse_mode="HTML", disable_web_page_preview=True,
+    html = _html(text, bold_first=True)
+    res = _tg_send(chat, text=html, parse_mode="HTML", disable_web_page_preview=True,
                    reply_parameters={"message_id": int(message_id), "allow_sending_without_reply": True})
     if not res.get("ok"):
         log("Telegram cevap hatası:", res.get("description"))

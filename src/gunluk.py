@@ -40,7 +40,8 @@ def build(day: str) -> str | None:
     if not done and not coupons:
         return None
     d = dt.date.fromisoformat(day)
-    L = [f"📊 GÜNLÜK ÖZET — {d.day} {AYLAR[d.month - 1]}", "━━━━━━━━━━━━━━"]
+    L = [f"📊 GÜNLÜK ÖZET — {d.day} {AYLAR[d.month - 1]}", ""]
+    D = []  # ayrıntılar (dokununca açılır)
     if done:
         w = sum(r["sonuc"] == "isabet" for r in done)
         pm = [_f(r.get("p_piyasa")) for r in done]
@@ -51,12 +52,11 @@ def build(day: str) -> str | None:
         if KAR_GOSTER:
             kar = sum(_f(r.get("kar")) or 0 for r in done)
             L.append(f"💰 Her sinyale 100 TL ile: {kar:+.0f} TL")
-        L.append("")
         for tur, ad in AD.items():
             rs = [r for r in done if (r.get("tur") or "gol") == tur]
             if rs:
                 w = sum(r["sonuc"] == "isabet" for r in rs)
-                L.append(f"{ad}: {w}/{len(rs)}")
+                D.append(f"{ad}: {w}/{len(rs)}")
     try:
         import kasa
         kl = kasa.summary_lines(day)
@@ -68,21 +68,23 @@ def build(day: str) -> str | None:
         w = sum(r["sonuc"] == "isabet" for r in alarms)
         pm = [_f(r.get("p_piyasa")) for r in alarms]
         pm = [x for x in pm if x is not None]
-        L += ["", f"🔥 Baskı uyarıları: {len(alarms)} uyarıdan {w} tanesinde gol geldi"
+        D += ["", f"🔥 Baskı uyarıları: {len(alarms)} uyarıdan {w} tanesinde gol geldi"
               + (f" (piyasa %{round(100 * sum(pm) / len(pm))} bekliyordu)" if pm else "")]
     if coupons:
         icon = {"isabet": "✅", "ıska": "❌", "iptal": "➖", "bekliyor": "⏳"}
-        L += ["", "🧪 Deneme kuponları:"]
+        won = sum(c["sonuc"] == "isabet" for c in coupons)
+        L += ["", f"🧪 Kuponlar: {len(coupons)} kupondan {won} tanesi tuttu"]
+        D += ["", "🧪 Deneme kuponları:"]
         for c in coupons:
             n_hit = sum(l["sonuc"] == "isabet" for l in c["bacaklar"])
             n_wait = sum(l["sonuc"] == "bekliyor" for l in c["bacaklar"])
             st = "ıska" if c.get("yatti") else c["sonuc"]
-            L.append(f"{icon.get(st, '❔')} {c['baslik']} (oran {c['oran']:.2f}): "
+            D.append(f"{icon.get(st, '❔')} {c['baslik']} (oran {c['oran']:.2f}): "
                      f"{n_hit}/{len(c['bacaklar'])} maç tuttu" + (f", {n_wait} maç bekliyor" if n_wait else ""))
     if pend:
-        L += ["", f"⏳ Sonucu bekleyen {len(pend)} sinyal var."]
-    L += ["━━━━━━━━━━━━━━", "ℹ️ Tutanı da tutmayanı da gösteriyoruz. Bahis tavsiyesi değildir."]
-    return "\n".join(L)
+        D += ["", f"⏳ Sonucu bekleyen {len(pend)} sinyal var."]
+    D += ["", "ℹ️ Tutanı da tutmayanı da gösteriyoruz. Bahis tavsiyesi değildir."]
+    return "\n".join(L + ["⋯DETAY⋯"] + [x for i, x in enumerate(D) if not (i == 0 and x == "")])
 
 
 def maybe_send():
