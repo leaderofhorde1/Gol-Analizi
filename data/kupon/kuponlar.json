@@ -1349,7 +1349,9 @@
     "dep": "PSS Sleman",
     "lig": "Indonesia - League Cup Indonesia",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "2-0",
+    "neden": "3 gol gerekiyordu, maçta 2 gol oldu (2-0)."
    },
    {
     "tur": "ust25",
@@ -1405,7 +1407,8 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 1076
+  "tg": 1076,
+  "yatti": true
  },
  {
   "tarih": "2026-11-24",
