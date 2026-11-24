@@ -1043,9 +1043,48 @@ def run_diag():
     return 0
 
 
+def run_basket():
+    """Basketbol keşfi: aynı API-Sports anahtarı API-Basketball'da çalışıyor mu, canlı maçta hangi veriler var?"""
+    import requests as rq
+    B = "https://v1.basketball.api-sports.io"
+    h = {"x-apisports-key": API_KEY}
+    def g(path, **p):
+        r = rq.get(f"{B}/{path}", headers=h, params=p, timeout=30)
+        print(f"--- {path} {p} → HTTP {r.status_code}, kalan {r.headers.get('x-ratelimit-requests-remaining')}")
+        try:
+            body = r.json()
+        except Exception:
+            print(r.text[:500]); return []
+        if body.get("errors"):
+            print("HATA:", body["errors"])
+        return body.get("response") or []
+    st = g("status")
+    print(json.dumps(st, ensure_ascii=False)[:800])
+    live = g("games", live="all") if st else []
+    if not live:
+        today = dt.datetime.now(TZ).date().isoformat()
+        live = [x for x in g("games", date=today, timezone="Europe/Istanbul")][:200]
+    print("maç sayısı:", len(live))
+    lv = [x for x in live if (x.get("status") or {}).get("short") not in ("NS", "FT", "AOT", "CANC", "POST")]
+    print("şu an oynanan:", len(lv))
+    for x in (lv or live)[:3]:
+        print(json.dumps({k: x.get(k) for k in ("id", "status", "league", "teams", "scores")}, ensure_ascii=False)[:900])
+    ex = (lv or live)[:1]
+    if ex:
+        gid = ex[0]["id"]
+        ts = g("games/statistics/teams", id=gid)
+        print("takım istatistikleri:", json.dumps(ts, ensure_ascii=False)[:1500])
+        od = g("odds", game=gid)
+        bets = sorted({b.get("name") for o in od for bk in o.get("bookmakers") or [] for b in bk.get("bets") or []})
+        print("oran pazarları:", bets[:40])
+    return 0
+
+
 def main():
     if MODE == "diag":
         return run_diag()
+    if MODE == "basket":
+        return run_basket()
     if MODE == "kapsam":  # API-Football lig kapsamı: canlı istatistik hangi liglerde var
         api0 = Api(API_KEY)
         lg = api0.get("leagues", current="true")
