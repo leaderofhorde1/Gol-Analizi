@@ -1121,5 +1121,390 @@
   "tg": 998,
   "oran_gercek": 2.35,
   "kar": 136
+ },
+ {
+  "tarih": "2026-11-24",
+  "id": "2026-11-24-alt",
+  "parti": 10,
+  "tur": "alt",
+  "baslik": "🧊 Alt kuponu",
+  "oran": 4.39,
+  "p_piyasa": 0.192,
+  "bacaklar": [
+   {
+    "tur": "alt25",
+    "oran": 1.73,
+    "p": 0.5459317585301837,
+    "cizgi": 2.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": [
+     2,
+     2
+    ],
+    "sira_puan": 0.4178,
+    "fixture_id": "1604066",
+    "saat": "15:20",
+    "ts": 1795522800,
+    "mac": "Al Jabalain - Al Zulfi",
+    "ev": "Al Jabalain",
+    "dep": "Al Zulfi",
+    "lig": "Saudi-Arabia - Division 1",
+    "etiket": "2.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt35",
+    "oran": 1.3,
+    "p": 0.7234042553191489,
+    "cizgi": 3.5,
+    "form_ev": [
+     10,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.95,
+    "h2h": [
+     1,
+     1
+    ],
+    "sira_puan": 0.4436,
+    "fixture_id": "1612283",
+    "saat": "21:00",
+    "ts": 1795543200,
+    "mac": "AL Masry - Asyut Petrol",
+    "ev": "AL Masry",
+    "dep": "Asyut Petrol",
+    "lig": "Egypt - Premier League",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt25",
+    "oran": 1.95,
+    "p": 0.48684210526315796,
+    "cizgi": 2.5,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     7,
+     10
+    ],
+    "oran_form": 0.7,
+    "h2h": null,
+    "sira_puan": 0.3592,
+    "fixture_id": "1601614",
+    "saat": "22:00",
+    "ts": 1795546800,
+    "mac": "Cesena - Ascoli",
+    "ev": "Cesena",
+    "dep": "Ascoli",
+    "lig": "Italy - Serie B",
+    "etiket": "2.5 Alt",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1074
+ },
+ {
+  "tarih": "2026-11-24",
+  "id": "2026-11-24-gol",
+  "parti": 10,
+  "tur": "gol",
+  "baslik": "🎯 Gol kuponu",
+  "oran": 2.55,
+  "p_piyasa": 0.32,
+  "bacaklar": [
+   {
+    "tur": "ust15",
+    "oran": 1.25,
+    "p": 0.75,
+    "cizgi": 1.5,
+    "form_ev": [
+     10,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.95,
+    "h2h": null,
+    "sira_puan": 0.425,
+    "fixture_id": "1629987",
+    "saat": "19:00",
+    "ts": 1795536000,
+    "mac": "Shabab Al Ahli Dubai - Al-Qadisiyah FC",
+    "ev": "Shabab Al Ahli Dubai",
+    "dep": "Al-Qadisiyah FC",
+    "lig": "World - AFC Champions League Elite",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust15",
+    "oran": 1.22,
+    "p": 0.7662835249042146,
+    "cizgi": 1.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.9,
+    "h2h": null,
+    "sira_puan": 0.3636,
+    "fixture_id": "1587911",
+    "saat": "22:45",
+    "ts": 1795549500,
+    "mac": "Chorley - Hebburn Town",
+    "ev": "Chorley",
+    "dep": "Hebburn Town",
+    "lig": "England - National League - North",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "kg",
+    "oran": 1.67,
+    "p": 0.557029177718833,
+    "cizgi": null,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.75,
+    "h2h": [
+     1,
+     1
+    ],
+    "sira_puan": 0.3601,
+    "fixture_id": "1563280",
+    "saat": "22:45",
+    "ts": 1795549500,
+    "mac": "Portsmouth - West Ham",
+    "ev": "Portsmouth",
+    "dep": "West Ham",
+    "lig": "England - Championship",
+    "etiket": "KG Var",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1075
+ },
+ {
+  "tarih": "2026-11-24",
+  "id": "2026-11-24-ust",
+  "parti": 10,
+  "tur": "ust",
+  "baslik": "⚽ Üst kuponu",
+  "oran": 3.98,
+  "p_piyasa": 0.205,
+  "bacaklar": [
+   {
+    "tur": "ust25",
+    "oran": 1.7,
+    "p": 0.5526315789473685,
+    "cizgi": 2.5,
+    "form_ev": [
+     6,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.75,
+    "h2h": [
+     2,
+     2
+    ],
+    "sira_puan": 0.3632,
+    "fixture_id": "1648376",
+    "saat": "12:00",
+    "ts": 1795510800,
+    "mac": "Garudayaksa - PSS Sleman",
+    "ev": "Garudayaksa",
+    "dep": "PSS Sleman",
+    "lig": "Indonesia - League Cup Indonesia",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.53,
+    "p": 0.6086956521739131,
+    "cizgi": 2.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": null,
+    "sira_puan": 0.3739,
+    "fixture_id": "1648381",
+    "saat": "16:30",
+    "ts": 1795527000,
+    "mac": "Persiraja Banda Aceh - Dewa United",
+    "ev": "Persiraja Banda Aceh",
+    "dep": "Dewa United",
+    "lig": "Indonesia - League Cup Indonesia",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.53,
+    "p": 0.6106870229007634,
+    "cizgi": 2.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.85,
+    "h2h": null,
+    "sira_puan": 0.4225,
+    "fixture_id": "1585361",
+    "saat": "22:45",
+    "ts": 1795549500,
+    "mac": "Woking - Worthing",
+    "ev": "Woking",
+    "dep": "Worthing",
+    "lig": "England - National League",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": null
+ },
+ {
+  "tarih": "2026-11-24",
+  "id": "2026-11-24-karisik",
+  "parti": 10,
+  "tur": "karisik",
+  "baslik": "🎲 Karışık kupon",
+  "oran": 3.85,
+  "p_piyasa": 0.216,
+  "bacaklar": [
+   {
+    "tur": "alt25",
+    "oran": 1.6,
+    "p": 0.5897435897435896,
+    "cizgi": 2.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     7,
+     10
+    ],
+    "oran_form": 0.75,
+    "h2h": [
+     1,
+     2
+    ],
+    "sira_puan": 0.3372,
+    "fixture_id": "1635335",
+    "saat": "16:00",
+    "ts": 1795525200,
+    "mac": "UPDF - Mbarara City",
+    "ev": "UPDF",
+    "dep": "Mbarara City",
+    "lig": "Uganda - Premier League",
+    "etiket": "2.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.44,
+    "p": 0.645320197044335,
+    "cizgi": 2.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": [
+     2,
+     3
+    ],
+    "sira_puan": 0.3483,
+    "fixture_id": "1627132",
+    "saat": "22:00",
+    "ts": 1795546800,
+    "mac": "Huddersfield Town U21 - Swansea City U21",
+    "ev": "Huddersfield Town U21",
+    "dep": "Swansea City U21",
+    "lig": "England - Premier League Cup",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.67,
+    "p": 0.5684754521963824,
+    "cizgi": 2.5,
+    "form_ev": [
+     6,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.75,
+    "h2h": [
+     3,
+     4
+    ],
+    "sira_puan": 0.3521,
+    "fixture_id": "1556696",
+    "saat": "22:45",
+    "ts": 1795549500,
+    "mac": "Hibernian - Dundee",
+    "ev": "Hibernian",
+    "dep": "Dundee",
+    "lig": "Scotland - Premiership",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": null
  }
 ]
