@@ -142,7 +142,7 @@ def notify(title: str, message: str, priority: int = 4, tags=None, click=None, t
     if not NTFY_TOPIC:
         log("[ntfy kapalı]", title, "|", message)
         return
-    payload = {"topic": NTFY_TOPIC, "title": title, "message": message,
+    payload = {"topic": NTFY_TOPIC, "title": title, "message": message.replace("⋯DETAY⋯\n\n", "").replace("⋯DETAY⋯", ""),
                "priority": priority, "tags": tags or []}
     # Bildirime dokununca Gol Sinyali uygulaması açılsın
     payload["click"] = click or os.environ.get("APP_LINK", "golsinyali://canli")
@@ -317,9 +317,20 @@ def _send_html(title, message):
     if not chat:
         log("Telegram: grup bulunamadı (botu gruba ekleyip grupta bir mesaj yazın).")
         return None
-    body = "\n".join(f"<b>{_esc(l)}</b>" if l.startswith(("🎯", "✅", "❌", "⚠️")) else
-                     f"<i>{_esc(l)}</i>" if l.startswith(("🤖", "ℹ️")) else _esc(l) for l in message.split("\n"))
-    text = f"<b>{_esc(title)}</b>\n{body}"[:4000]
+    fmt = lambda part: "\n".join(f"<b>{_esc(l)}</b>" if l.startswith(("🎯", "✅", "❌", "⚠️", "💼", "🔥")) else
+                                 f"<i>{_esc(l)}</i>" if l.startswith(("🤖", "ℹ️")) else _esc(l)
+                                 for l in part.split("\n"))
+    top, sep, det = message.partition("⋯DETAY⋯")
+    body = fmt(top.rstrip())
+    head = f"<b>{_esc(title)}</b>\n\n{body}"
+    if sep and det.strip():  # ayrıntılar: Telegram'da kapalı gelir, dokununca açılır
+        d = fmt(det.strip())
+        room = 3900 - len(head)
+        if len(d) > room:  # etiket bozulmasın diye satır sınırında kes
+            d = d[:max(0, room)].rsplit("\n", 1)[0]
+        text = head + "\n\n<blockquote expandable>🔎 <b>Ayrıntılar</b>\n\n" + d + "</blockquote>"
+    else:
+        text = head[:4000]
     res = _tg_send(chat, text=text, parse_mode="HTML", disable_web_page_preview=True)
     if not res.get("ok"):
         log("Telegram hatası:", res.get("description"))

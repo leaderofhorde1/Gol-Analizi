@@ -617,7 +617,10 @@ def stat_bullets(d: dict) -> list[str]:
 
 def prob_lines(p, p_mkt, conf) -> list[str]:
     mk = f"%{round(p_mkt * 100)}" if p_mkt is not None else "yok"
-    return [f"📶 Sinyal gücü: {CONF_ICON.get(conf, conf)}", f"🔢 Model %{round(p * 100)}  •  Piyasa {mk}"]
+    return [f"📶 {CONF_ICON.get(conf, conf)}", f"🔢 Model %{round(p * 100)}  •  Piyasa {mk}"]
+
+
+DETAY = "⋯DETAY⋯"  # bu satırdan sonrası Telegram'da dokununca açılan "Ayrıntılar" bölümüne girer
 
 
 def compose(*blocks) -> str:
@@ -1668,11 +1671,13 @@ class ProEngine:
             olas = prob_lines(p, p_mkt, conf)
         maç = [f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}"]
         if tur == "baski":
-            body = compose(maç, [tahmin, *olas], [*lines, *(form["lines"] if form else [])],
-                           [f"💬 Neden: {why}"] if why else [])
+            body = compose(maç, [tahmin, olas[0]], [DETAY], [*lines, *(form["lines"] if form else [])],
+                           [f"💬 Neden: {why}"] if why else [], olas[1:])
         else:
-            body = compose(maç, [tahmin, *odd_line(row, m.minute), *olas], kasa_lines(row),
-                           lines, [*(form["lines"] if form else []), *self.squad_lines(m)],
+            ol = odd_line(row, m.minute)
+            top = [tahmin, ((ol[0] + "  •  ") if ol else "") + olas[0]]
+            body = compose(maç, top, kasa_lines(row), [DETAY], [olas[1]], lines,
+                           [*(form["lines"] if form else []), *self.squad_lines(m)],
                            [f"💬 Neden: {why}"] if why else [], ["ℹ️ Bahis tavsiyesi değildir."])
         notify(f"{icon} {label}: {m.name}", body, priority=4,
                                  on_tg=lambda mid, r=row: r.__setitem__("tg_mesaj", mid),
@@ -1746,14 +1751,14 @@ class ProEngine:
         d = pr["d_home"] if side == "ev" else pr["d_away"] if side == "deplasman" else {
             k: pr["d_home"][k] + pr["d_away"][k] for k in pr["d_home"]}
         team = m.home if side == "ev" else m.away if side == "deplasman" else "İki takım"
-        tahmin = [f"🎯 TAHMİN: MAÇ SONU {fmt_line(line)} ÜST", *odd_line(row, m.minute),
-                  *prob_lines(p_model, p_mkt, conf)]
+        ol, pl = odd_line(row, m.minute), prob_lines(p_model, p_mkt, conf)
+        tahmin = [f"🎯 TAHMİN: MAÇ SONU {fmt_line(line)} ÜST", ((ol[0] + "  •  ") if ol else "") + pl[0]]
         stats = [*([f"👉 Baskıyı kuran: {team}"] if side in ("ev", "deplasman") else []),
                  f"📈 Son {int(pr['span'])} dk ({team}):", *stat_bullets(d)]
         extra = [*(form["lines"] if form else []), *self.squad_lines(m),
                  *([f"📉 Maç öncesi Üst 2.5 oranı %{round(drop * 100)} düşmüştü"] if drop >= DROP_PCT else [])]
         body = compose([f"🏆 {m.league}", f"⏱ {m.minute}'  •  📊 Skor {m.gh}-{m.ga}"], tahmin, kasa_lines(row),
-                       stats, extra, [f"💬 Neden: {why}"] if why else [],
+                       [DETAY], [pl[1]], stats, extra, [f"💬 Neden: {why}"] if why else [],
                        [f"🤖 {ai['yorum']}"] if ai and ai.get("yorum") else [], ["ℹ️ Bahis tavsiyesi değildir."])
         notify(f"⚽ GOL SİNYALİ: {m.name}", body,
                                  on_tg=lambda mid, r=row: r.__setitem__("tg_mesaj", mid),
