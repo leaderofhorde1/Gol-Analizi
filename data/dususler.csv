@@ -214,3 +214,6 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-24,1648831,16:00,Montenegro - Cup,Jedinstvo - Sutjeska,1x2:ev,Ev sahibi,4.0,2.35,0.412,0.224,0.383,bekliyor,,
 2026-11-24,1648831,16:00,Montenegro - Cup,Jedinstvo - Sutjeska,1x2:x,Beraberlik,4.0,3.4,0.15,0.224,0.265,bekliyor,,
 2026-11-24,1649986,16:00,Tunisia - Ligue 2,Stade Gabesien - AS Kasserine,1x2:ev,Ev sahibi,3.0,2.5,0.167,0.301,0.361,bekliyor,,
+2026-11-24,1637382,18:00,World - UEFA Youth League,Feyenoord U19 - Porto U19,ou:alt,Alt 2.5,4.0,3.5,0.125,0.234,0.268,bekliyor,,
+2026-11-24,1637382,18:00,World - UEFA Youth League,Feyenoord U19 - Porto U19,1x2:dep,Deplasman,3.8,3.2,0.158,0.237,0.28,bekliyor,,
+2026-11-24,1635335,16:00,Uganda - Premier League,UPDF - Mbarara City,1x2:ev,Ev sahibi,2.35,1.9,0.191,0.385,0.476,bekliyor,,
