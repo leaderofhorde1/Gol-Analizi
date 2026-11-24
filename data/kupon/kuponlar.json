@@ -1158,7 +1158,9 @@
     "dep": "Al Zulfi",
     "lig": "Saudi-Arabia - Division 1",
     "etiket": "2.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "2-1",
+    "neden": "En fazla 2 gol olmalıydı, maçta 3 gol oldu (2-1). Gol dakikaları: 45'+1 Al Zulfi, 68' Al Jabalain, 90'+4 Al Jabalain. Bahsi kaybettiren 3. gol 90'+4. dakikada geldi."
    },
    {
     "tur": "alt35",
@@ -1217,7 +1219,8 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 1074
+  "tg": 1074,
+  "yatti": true
  },
  {
   "tarih": "2026-11-24",
