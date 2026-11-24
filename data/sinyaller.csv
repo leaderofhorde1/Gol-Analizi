@@ -614,7 +614,11 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-24,1629987,World - AFC Champions League Elite,Shabab Al Ahli Dubai - Al-Qadisiyah FC,46,0-2,,0-2,,orta,,,evet,isabet,61,0.661,0.589,kg,0.03867,0.03912,1.57,57,1106,evet,,8/10,nötr,+2%,,,,1.571,0.039,0.03854,0.03822,veri yok,Hafif,0.5,1000,kapandi,1571
 2026-11-24,1629987,World - AFC Champions League Elite,Shabab Al Ahli Dubai - Al-Qadisiyah FC,84,1-4,iki taraf,23.6,10.7,orta,hayır,"Skor 1-4, 84. dakika; son pencere xG çok düşük (0.08/0.12), baskı zayıf, korner kaynaklı. Piyasa akışı lehte ama kalan süre kısa.",hayır,isabet,86,0.539,0.463,gol,,,2.0,100,,,5.5,13/20,,+29%,,,3,2.0,0.077,,,,,,,,
 2026-11-24,1629988,World - AFC Champions League Elite,Al-Nassr - Al Sadd,19,1-0,,1,,orta,,,evet,isabet,22,0.75,0.688,iy,0.04082,,1.36,36,1112,evet,1.5,11/20,,+1%,,,,1.363,0.023,0.04101,,,Hafif,0.5,4080,kapandi,5561
-2026-11-24,1629988,World - AFC Champions League Elite,Al-Nassr - Al Sadd,20,1-0,,2,,yüksek,,,evet,bekliyor,,0.637,0.537,korner,0.09336,veri yok,,,1113,,8.5,12/20,veri yok,,,,,1.727,0.1,olay,veri yok,veri yok,Güçlü,1.5,3060,acik,
+2026-11-24,1629988,World - AFC Champions League Elite,Al-Nassr - Al Sadd,20,1-0,,2,,yüksek,,,evet,isabet,9,0.637,0.537,korner,0.09336,veri yok,1.73,73,1113,evet,8.5,12/20,veri yok,,,,,1.727,0.1,olay,veri yok,veri yok,Güçlü,1.5,3060,kapandi,5285
 2026-11-24,1601616,Italy - Serie B,Virtus Entella - Hellas Verona,25,0-1,,Virtus Entella,,düşük,,,evet,isabet,34,0.446,,baski,,,,,1116,uyarı,40,3/10,,,,,,,,,,,,,,,
-2026-11-24,1588819,England - EFL Trophy,Salford City - Sunderland U21,46,1-1,,Salford City,,düşük,,,evet,bekliyor,,0.608,,baski,,,,,1118,,61,8/10,,,,,,,,,,,,,,,
-2026-11-24,1563277,England - Championship,Charlton - Lincoln,19,2-0,,Charlton,,düşük,,,evet,bekliyor,,0.51,,baski,,,,,1119,,34,4/10,,,,,,,,,,,,,,,
+2026-11-24,1588819,England - EFL Trophy,Salford City - Sunderland U21,46,1-1,,Salford City,,düşük,,,evet,isabet,54,0.608,,baski,,,,,1118,uyarı,61,8/10,,,,,,,,,,,,,,,
+2026-11-24,1563277,England - Championship,Charlton - Lincoln,19,2-0,,Charlton,,düşük,,,evet,ıska,,0.51,,baski,,,,,1119,uyarı,34,4/10,,,,,,,,,,,,,,,
+2026-11-24,1563278,England - Championship,Middlesbrough - Swansea,28,1-1,,Swansea,,düşük,,,evet,bekliyor,,0.448,,baski,,,,,1121,,43,3/10,,,,,,,,,,,,,,,
+2026-11-24,1601613,Italy - Serie B,Benevento - Empoli,54,3-0,,Empoli,,düşük,,,evet,bekliyor,,0.668,,baski,,,,,1122,,69,4/10,,,,,,,,,,,,,,,
+2026-11-24,1635713,World - UEFA Champions League,RB Leipzig - Lens,16,2-0,,RB Leipzig,,düşük,,,evet,bekliyor,,0.697,,baski,,,,,1123,,31,4/10,,,,,,,,,,,,,,,
+2026-11-24,1564333,England - League One,Blackpool - Leicester,33,0-0,,Leicester,,düşük,,,evet,bekliyor,,0.478,,baski,,,,,1124,,45,6/10,,,,,,,,,,,,,,,
