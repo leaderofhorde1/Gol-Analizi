@@ -633,4 +633,4 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-24,1635611,World - UEFA Champions League,Arsenal - Borussia Dortmund,72,1-1,,Arsenal,,düşük,,,evet,ıska,,0.526,,baski,,,,,1135,uyarı,87,8/10,,,,,,,,,,,,,,,
 2026-11-24,1635692,World - UEFA Champions League,Manchester City - Napoli,73,1-1,,Manchester City,,düşük,,,evet,isabet,76,0.655,,baski,,,,,1136,uyarı,88,9/10,,,,,,,,,,,,,,,
 2026-11-25,1492472,Brazil - Serie A,Chapecoense-sc - Palmeiras,66,2-0,iki taraf,10.3,10.1,orta,hayır,"Baskı zayıf: son pencerede xG 0.11, isabetli şut yok. 2-0 önde ev tempo düşürür; piyasa verisi yok, avantaj marjinal.",hayır,bekliyor,,0.692,0.62,gol,0.03455,,,,,,2.5,10/18,,,home:küme hattında,,4,1.533,0.06,,,,,,,,
-2026-11-25,1492472,Brazil - Serie A,Chapecoense-sc - Palmeiras,75,2-0,,2-0,,yüksek,,,evet,bekliyor,,0.547,0.423,kg,0.04188,,,,1146,,,8/10,,,home:küme hattında,,,2.2,0.203,0.04395,,,Güçlü,1.5,2500,acik,
+2026-11-25,1492472,Brazil - Serie A,Chapecoense-sc - Palmeiras,75,2-0,,2-0,,yüksek,,,evet,bekliyor,,0.547,0.423,kg,0.04188,0.04585,,,1146,,,8/10,lehte,,home:küme hattında,,,2.2,0.203,0.04395,0.06264,,Güçlü,1.5,2500,acik,

@@ -1748,7 +1748,8 @@
     "dep": "Glenavon FC",
     "lig": "Northern-Ireland - League Cup",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "2-2"
    },
    {
     "tur": "ust15",
@@ -1782,9 +1783,11 @@
     "neden": "2 gol gerekiyordu, maçta 1 gol oldu (1-0). Şutlar 0-0, isabetli 0-0."
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 1098,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 1.56,
+  "kar": -100
  },
  {
   "tarih": "2026-11-24",
