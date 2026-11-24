@@ -1216,12 +1216,16 @@
     "dep": "Ascoli",
     "lig": "Italy - Serie B",
     "etiket": "2.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "5-1",
+    "neden": "En fazla 2 gol olmalıydı, maçta 6 gol oldu (5-1). Gol dakikaları: 33' Cesena, 47' Cesena, 69' Cesena, 84' Cesena, 86' Ascoli, 87' Cesena. Bahsi kaybettiren 3. gol 69. dakikada geldi."
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 1074,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 4.39,
+  "kar": -100
  },
  {
   "tarih": "2026-11-24",
