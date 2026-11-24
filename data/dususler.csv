@@ -203,3 +203,6 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-23,1608377,22:45,Italy - Serie C - Girone A,Lecco - Lumezzane,1x2:ev,Ev sahibi,2.05,1.65,0.195,0.436,0.544,isabet,1-0,65
 2026-11-23,1552539,22:45,France - Ligue 2,Sochaux - Dunkerque,1x2:dep,Deplasman,2.88,2.45,0.149,0.312,0.363,isabet,2-3,145
 2026-11-24,1648376,12:00,Indonesia - League Cup Indonesia,Garudayaksa - PSS Sleman,1x2:ev,Ev sahibi,1.9,1.48,0.221,0.473,0.611,bekliyor,,
+2026-11-24,1604066,15:20,Saudi-Arabia - Division 1,Al Jabalain - Al Zulfi,ou:ust,Üst 2.5,2.35,1.95,0.17,0.401,0.487,bekliyor,,
+2026-11-24,1648380,15:00,Indonesia - League Cup Indonesia,Persepam Madura Utd - Persela Lamongan,1x2:x,Beraberlik,5.0,4.33,0.134,0.179,0.208,bekliyor,,
+2026-11-24,1648380,15:00,Indonesia - League Cup Indonesia,Persepam Madura Utd - Persela Lamongan,1x2:dep,Deplasman,7.5,6.0,0.2,0.12,0.15,bekliyor,,
