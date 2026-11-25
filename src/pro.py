@@ -1860,12 +1860,28 @@ class ProEngine:
             if tur == "iy" and m.status not in ("1H", "HT"):
                 undone = False
             if not undone:
+                r.pop("_undo", None)
                 continue
+            # Skor bir anlık geri gidebiliyor (veri hatası): düzeltme ancak art arda 3 kontrolde aynıysa yapılır
+            r["_undo"] = r.get("_undo", 0) + 1
+            if r["_undo"] < 3:
+                continue
+            r.pop("_undo", None)
             log(f"VAR düzeltmesi: {m.name} {tur} {r['dakika']}' → yeniden açık")
-            r.update({"sonuc": "bekliyor", "gol_dakikasi": "", "kar": "", "adil_oran": "", "duyuruldu": ""})
-            if r.get("tg_mesaj"):
+            was_announced = r.get("duyuruldu") == "evet"
+            r.update({"sonuc": "bekliyor", "gol_dakikasi": "", "kar": "", "adil_oran": "",
+                      "duyuruldu": "uyarı" if tur == "baski" else ""})
+            kl = []
+            try:
+                import kasa
+                kl = kasa.unsettle(r)
+            except Exception as e:
+                log("Kasa düzeltme hatası:", e)
+            # baskı uyarısının sonucu hiç duyurulmuyor; düzeltme de duyurulmaz
+            if r.get("tg_mesaj") and tur != "baski" and was_announced:
                 from main import telegram_reply
-                telegram_reply(lambda r=r: r.get("tg_mesaj"), f"⚠️ DÜZELTME\n🖥 Gol VAR ile iptal edildi, sinyal yeniden açık\n📊 Skor: {m.gh}-{m.ga}")
+                telegram_reply(lambda r=r: r.get("tg_mesaj"), "\n".join(
+                    ["⚠️ DÜZELTME", "🖥 Gol VAR ile iptal edildi, sinyal yeniden açık", f"📊 Skor: {m.gh}-{m.ga}", *kl]))
 
     def check_outcomes(self, m: Match):
         self.recheck_goal_results(m)
@@ -1878,8 +1894,11 @@ class ProEngine:
             over = m.minute > smin + 10 or m.status in FINISHED
             done = m.status in FINISHED
             sh, sa = (int(x) for x in r["skor"].split("-"))
-            after = sorted(g["minute"] for g in m.goals if g["minute"] >= smin)
-            more_goals = (m.gh + m.ga) > (sh + sa)
+            n_new = max(0, (m.gh + m.ga) - (sh + sa))
+            # yalnız skorun doğruladığı goller: olay listesinde VAR'la iptal edilen gol kalmış olabilir
+            confirmed = sorted(m.goals, key=lambda g: g["minute"])[-n_new:] if n_new else []
+            after = sorted(g["minute"] for g in confirmed if g["minute"] >= smin)
+            more_goals = n_new > 0
             line = float(r["cizgi"]) if r.get("cizgi") not in ("", None) else None
             if tur == "gol":  # maç sonu Üst
                 if more_goals:
@@ -1893,7 +1912,7 @@ class ProEngine:
                     r["sonuc"] = "isabet"
             elif tur == "baski":  # ALARM_WINDOW dakika içinde gol
                 end = int(float(r["cizgi"])) if r.get("cizgi") not in ("", None) else smin + ALARM_WINDOW
-                hits = [g for g in m.goals if smin < g["minute"] <= end]
+                hits = [g for g in confirmed if smin < g["minute"] <= end]
                 if hits or (more_goals and m.minute <= end):
                     r["sonuc"], r["gol_dakikasi"] = "isabet", (hits[0]["minute"] if hits else m.minute)
                 elif m.minute > end or done or (end == 45 and m.status in ("HT", "2H")):
@@ -1923,7 +1942,7 @@ class ProEngine:
                 elif done:
                     r["sonuc"], r["gol_dakikasi"] = "ıska", now
             elif tur == "iy":
-                hits = [g["minute"] for g in m.goals if smin < g["minute"] <= 45]
+                hits = [g["minute"] for g in confirmed if smin < g["minute"] <= 45]
                 if hits:
                     r["sonuc"], r["gol_dakikasi"] = "isabet", hits[0]
                 elif m.status not in ("1H",) and (m.minute > 45 or m.status in FINISHED or m.status == "HT"):

@@ -161,3 +161,22 @@ def deposit(day: str, amount: float, key: str) -> list[str]:
         _save(d)
     return [f"💼 Kasaya {tl(amount)} eklendi", f"💵 Güncel nakit: {tl(st['nakit'])}",
             f"📒 Bugün kasaya yatırılan toplam: {tl(st['baslangic'])}"]
+
+
+def unsettle(row: dict) -> list[str]:
+    """Sonucu geri alınan (VAR) bahsin kapanışını geri al: dönen para kasadan düşülür, bahis yeniden açık olur."""
+    if row.get("kasa_durum") != "kapandi":
+        return []
+    stake = float(row.get("kasa_bahis") or 0)
+    ret = float(row.get("kasa_donus") or 0)
+    day = row.get("tarih")
+    with _lock:
+        d = _load()
+        st = day_state(day, d)
+        st["nakit"] -= ret
+        st["acik"] += stake
+        st["kazanan" if ret else "kaybeden"] = max(0, st["kazanan" if ret else "kaybeden"] - 1)
+        d[day] = st
+        _save(d)
+    row["kasa_durum"], row["kasa_donus"] = "acik", ""
+    return [f"💼 Kasa düzeltildi: {tl(ret)} geri alındı, bahis yeniden açık"] if ret else []
