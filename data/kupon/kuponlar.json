@@ -1929,7 +1929,8 @@
     "dep": "Shimizu S-pulse",
     "lig": "Japan - J1 League",
     "etiket": "Korner 9.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "2-0, 10 korner"
    },
    {
     "tur": "korner",
@@ -2026,7 +2027,8 @@
     "dep": "Jubilo Iwata",
     "lig": "Japan - J2 League",
     "etiket": "3.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "1-0"
    },
    {
     "tur": "alt35",
@@ -2314,7 +2316,9 @@
     "dep": "Oita Trinita",
     "lig": "Japan - J2 League",
     "etiket": "3.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "4-0",
+    "neden": "En fazla 3 gol olmalıydı, maçta 4 gol oldu (4-0). Gol dakikaları: 12' Sagan Tosu, 19' Sagan Tosu, 30' Sagan Tosu, 85' Sagan Tosu. Bahsi kaybettiren 4. gol 85. dakikada geldi."
    },
    {
     "tur": "alt35",
@@ -2340,7 +2344,8 @@
     "dep": "Ventforet Kofu",
     "lig": "Japan - J2 League",
     "etiket": "3.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "1-0"
    },
    {
     "tur": "ust25",
@@ -2370,6 +2375,7 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 1155
+  "tg": 1155,
+  "yatti": true
  }
 ]
