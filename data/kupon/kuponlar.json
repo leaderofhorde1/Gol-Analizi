@@ -2135,7 +2135,9 @@
     "dep": "Ceramica Cleopatra",
     "lig": "Egypt - Premier League",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "1-0",
+    "neden": "2 gol gerekiyordu, maçta 1 gol oldu (1-0). Şutlar 7-9, isabetli 2-4, xG 0.5-0.8."
    },
    {
     "tur": "ust15",
@@ -2194,7 +2196,8 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 1153
+  "tg": 1153,
+  "yatti": true
  },
  {
   "tarih": "2026-11-25",
