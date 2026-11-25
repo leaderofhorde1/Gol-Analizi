@@ -1,7 +1,7 @@
 {
- "olusturma": "2026-11-24T04:02+03:00",
+ "olusturma": "2026-11-25T04:08+03:00",
  "gol": {
-  "orneklem": 179,
+  "orneklem": 188,
   "kullan": false,
   "not": "en az 300 sonuç gerekli"
  },
@@ -11,7 +11,7 @@
   "not": "en az 300 sonuç gerekli"
  },
  "korner": {
-  "orneklem": 84,
+  "orneklem": 87,
   "kullan": false,
   "not": "en az 300 sonuç gerekli"
  },
@@ -21,12 +21,12 @@
   "not": "en az 300 sonuç gerekli"
  },
  "iy": {
-  "orneklem": 17,
+  "orneklem": 18,
   "kullan": false,
   "not": "en az 300 sonuç gerekli"
  },
  "kg": {
-  "orneklem": 75,
+  "orneklem": 77,
   "kullan": false,
   "not": "en az 300 sonuç gerekli"
  }
