@@ -46,7 +46,7 @@ LOOKBACK_MIN = 10             # baskı penceresi (maç dakikası)
 MIN_SPAN = 6                  # en az bu kadar dakikalık veri olmalı
 COOLDOWN_MIN = 12             # aynı maçta iki sinyal arası
 EVAL_WINDOW = 10              # sinyalden sonra kaç dakika içinde gol = isabet
-MAX_CLAUDE_CALLS = int(os.environ.get("MAX_CLAUDE_CALLS", "100"))
+MAX_CLAUDE_CALLS = int(os.environ.get("MAX_CLAUDE_CALLS", "400"))
 CLAUDE_MODEL = os.environ.get("CLAUDE_MODEL", "sonnet")
 USE_CLAUDE = os.environ.get("USE_CLAUDE", "1") == "1"
 
@@ -450,11 +450,27 @@ class Claude:
             '{"onay": true/false, "guven": "düşük"|"orta"|"yüksek", '
             '"taraf": "ev"|"deplasman"|"iki taraf", "yorum": "en fazla 20 kelime Türkçe"}'
         )
-        txt = self.ask(prompt)
-        m = re.search(r"\{.*\}", txt, re.S)
-        if not m:
-            raise RuntimeError(f"Claude JSON dönmedi: {txt[:200]}")
-        return json.loads(m.group(0))
+        # Cevap kesin alınsın: hata, zaman aşımı ya da bozuk cevapta 3 kez daha denenir (bekleyerek)
+        last = None
+        for attempt, wait in enumerate((0, 3, 8, 15)):
+            if wait:
+                time.sleep(wait)
+            try:
+                txt = self.ask(prompt if attempt == 0 else prompt + "\n\nÖNEMLİ: Yalnızca JSON yaz.",
+                               timeout=90)
+                m = re.search(r"\{.*\}", txt, re.S)
+                if not m:
+                    raise RuntimeError(f"Claude JSON dönmedi: {txt[:200]}")
+                out = json.loads(m.group(0))
+                if "onay" not in out:
+                    raise RuntimeError("Claude cevabında 'onay' yok")
+                if attempt:
+                    log(f"Claude {attempt + 1}. denemede cevap verdi")
+                return out
+            except Exception as e:
+                last = e
+                log(f"Claude denemesi {attempt + 1}/4 başarısız: {e}")
+        raise RuntimeError(f"Claude 4 denemede cevap vermedi: {last}")
 
 
 # ---------------------------------------------------------------- veri işleme
