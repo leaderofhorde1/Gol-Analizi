@@ -1959,7 +1959,9 @@
     "dep": "Železničar Pančevo",
     "lig": "Serbia - Super Liga",
     "etiket": "Korner 8.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "0-2, 7 korner",
+    "neden": "En az 9 korner gerekiyordu, 7 korner oldu (Radnicki NIS 6, Železničar Pančevo 1)."
    },
    {
     "tur": "korner",
@@ -1989,7 +1991,8 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 1151
+  "tg": 1151,
+  "yatti": true
  },
  {
   "tarih": "2026-11-25",
