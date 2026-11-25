@@ -89,7 +89,7 @@ Sonuç şansa çok bağlıdır; piyasanın sinyalden sonraki hareketi çok daha 
 |  | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
 | Onayladı (gönderildi) | 117 | %63 | %63 | -825 TL |
-| Reddetti (gönderilmedi) | 59 | %46 | %50 | -266 TL |
+| Reddetti (gönderilmedi) | 60 | %45 | %49 | -366 TL |
 
 ➡️ Filtre işe yarıyor.
 
@@ -274,7 +274,7 @@ Sonuç şansa çok bağlıdır; piyasanın sinyalden sonraki hareketi çok daha 
 |  | Sonuç | İsabet | Piyasa | Sanal kâr |
 |---|---|---|---|---|
 | Onayladı (gönderildi) | 117 | %63 | %63 | -825 TL |
-| Reddetti (gönderilmedi) | 59 | %46 | %50 | -266 TL |
+| Reddetti (gönderilmedi) | 60 | %45 | %49 | -366 TL |
 
 ➡️ Filtre işe yarıyor.
 
