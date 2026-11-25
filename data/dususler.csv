@@ -278,10 +278,10 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-25,1635728,20:45,World - UEFA Champions League,Slavia Praha - Villarreal,kg:yok,KG Yok,2.62,2.25,0.141,0.355,0.411,isabet,0-1,125
 2026-11-25,1645619,21:00,World - AGCFF Gulf Champions League,Qatar SC - Al Nasr,1x2:ev,Ev sahibi,3.8,3.25,0.145,0.238,0.277,isabet,2-0,225
 2026-11-25,1638250,19:30,Rwanda - National Soccer League,APR - Musanze,1x2:dep,Deplasman,6.5,5.25,0.192,0.138,0.17,ıska,3-0,-100
-2026-11-25,1642049,22:30,Lebanon - Premier League,Safa - Al Nejmeh,1x2:ev,Ev sahibi,4.33,3.6,0.169,0.209,0.25,bekliyor,,
-2026-11-25,1635642,23:00,World - UEFA Champions League,Club Brugge KV - Liverpool,kg:yok,KG Yok,3.25,2.75,0.154,0.29,0.337,bekliyor,,
+2026-11-25,1642049,22:30,Lebanon - Premier League,Safa - Al Nejmeh,1x2:ev,Ev sahibi,4.33,3.6,0.169,0.209,0.25,ıska,0-1,-100
+2026-11-25,1635642,23:00,World - UEFA Champions League,Club Brugge KV - Liverpool,kg:yok,KG Yok,3.25,2.75,0.154,0.29,0.337,isabet,0-3,175
 2026-11-25,1648103,22:45,San-Marino - Coppa Titano,Tre Penne - Pennarossa,1x2:dep,Deplasman,11.0,8.5,0.227,0.083,0.107,ıska,2-1,-100
-2026-11-25,1635673,23:00,World - UEFA Champions League,Inter - VfB Stuttgart,ou:alt,Alt 2.5,4.0,3.5,0.125,0.238,0.271,bekliyor,,
-2026-11-25,1635682,23:00,World - UEFA Champions League,Lille - Bayern München,ou:alt,Alt 2.5,2.3,2.0,0.13,0.413,0.474,bekliyor,,
-2026-11-25,1635703,23:00,World - UEFA Champions League,Paris Saint Germain - AS Roma,1x2:dep,Deplasman,7.0,5.0,0.286,0.135,0.19,bekliyor,,
+2026-11-25,1635673,23:00,World - UEFA Champions League,Inter - VfB Stuttgart,ou:alt,Alt 2.5,4.0,3.5,0.125,0.238,0.271,isabet,2-0,250
+2026-11-25,1635682,23:00,World - UEFA Champions League,Lille - Bayern München,ou:alt,Alt 2.5,2.3,2.0,0.13,0.413,0.474,ıska,2-1,-100
+2026-11-25,1635703,23:00,World - UEFA Champions League,Paris Saint Germain - AS Roma,1x2:dep,Deplasman,7.0,5.0,0.286,0.135,0.19,ıska,2-2,-100
 2026-11-25,1648103,22:45,San-Marino - Coppa Titano,Tre Penne - Pennarossa,1x2:x,Beraberlik,6.5,5.25,0.192,0.14,0.173,ıska,2-1,-100

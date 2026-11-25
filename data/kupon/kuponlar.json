@@ -1987,12 +1987,15 @@
     "dep": "Liverpool",
     "lig": "World - UEFA Champions League",
     "etiket": "Korner 9.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "0-3, 12 korner"
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 1151,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 5.39,
+  "kar": -100
  },
  {
   "tarih": "2026-11-25",
