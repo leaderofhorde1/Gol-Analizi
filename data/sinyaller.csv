@@ -654,3 +654,6 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-25,1630408,World - AFC Champions League Two,Nasaf - Khalidiya,73,1-0,,5,,yüksek,,,evet,isabet,7,0.691,0.589,korner,0.09434,0.09775,1.57,57,1195,evet,6.5,3/6,nötr,,,,,1.571,0.086,0.09841,olay,olay,Güçlü,1.5,1560,kapandi,2451
 2026-11-25,1546192,World - World Cup - U17,Greece U17 - Qatar U17,77,3-1,,Greece U17,,düşük,,,evet,isabet,87,0.52,,baski,,,,,1200,uyarı,90,6/8,,,,,,,,,,,,,,,
 2026-11-25,1630411,World - AFC Champions League Two,Muharraq - Arkadag,21,1-2,deplasman,23.6,0.0,orta,evet,"Ev 10 kişi, deplasman 5 isabetli şut ve 0.47 xG baskısıyla; piyasa +7% destekliyor, 13/14 benzer sonuç var.",evet,bekliyor,,0.895,0.844,gol,0.02543,0.0273,,,1201,,3.5,13/14,lehte,+7%,,0.844,3,1.111,-0.006,0.02615,0.02814,0.03057,,,1790,acik,
+2026-11-25,1612286,Egypt - Premier League,El Geish - Future FC,77,0-0,,,,orta,,,gölge,bekliyor,,0.705,0.645,alt,0.02421,0.02864,,,,,0.5,13/20,aleyhte,+14%,,,,1.4,-0.013,0.02743,,,,,,,
+2026-11-25,1546327,World - World Cup - U17,Australia U17 - Mozambique U17,51,1-2,,Australia U17,,düşük,,,evet,bekliyor,,0.663,,baski,,,,,1203,,66,6/10,,,,,,,,,,,,,,,
+2026-11-25,1546190,World - World Cup - U17,Denmark U17 - Argentina U17,51,2-0,,Argentina U17,,düşük,,,evet,bekliyor,,0.662,,baski,,,,,1204,,66,6/10,,,,,,,,,,,,,,,
