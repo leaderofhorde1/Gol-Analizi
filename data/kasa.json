@@ -22,9 +22,9 @@
  },
  "2026-11-25": {
   "baslangic": 10000.0,
-  "nakit": 3049.0300000000007,
-  "acik": 0.0,
-  "bahis": 15,
+  "nakit": 2049.0300000000007,
+  "acik": 1000.0,
+  "bahis": 16,
   "kazanan": 7,
   "kaybeden": 8,
   "atlanan": 0
