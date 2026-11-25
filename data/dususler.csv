@@ -271,7 +271,7 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-25,1592048,18:00,Portugal - Júniores U19,União Leiria U19 - Benfica U19,1x2:ev,Ev sahibi,8.0,7.0,0.125,0.111,0.127,ıska,1-1,-100
 2026-11-25,1637388,18:00,World - UEFA Youth League,Atlético Madrid U19 - Viking U19,ou:ust,Üst 2.5,1.3,1.14,0.123,0.723,0.814,ıska,2-0,-100
 2026-11-25,1637392,18:00,World - UEFA Youth League,PSG U19 - Roma U19,1x2:ev,Ev sahibi,1.91,1.65,0.136,0.47,0.544,ıska,1-2,-100
-2026-11-25,1649067,19:00,World - UEFA Youth League,HJK U19 - Stabæk U19,1x2:ev,Ev sahibi,3.25,2.55,0.215,0.276,0.355,bekliyor,,
+2026-11-25,1649067,19:00,World - UEFA Youth League,HJK U19 - Stabæk U19,1x2:ev,Ev sahibi,3.25,2.55,0.215,0.276,0.355,isabet,5-1,155
 2026-11-25,1649068,20:00,World - UEFA Youth League,Hoffenheim U19 - PAOK U19,ou:alt,Alt 2.5,3.25,2.62,0.194,0.29,0.355,bekliyor,,
 2026-11-25,1649068,20:00,World - UEFA Youth League,Hoffenheim U19 - PAOK U19,1x2:x,Beraberlik,5.75,5.0,0.13,0.159,0.18,bekliyor,,
 2026-11-25,1635728,20:45,World - UEFA Champions League,Slavia Praha - Villarreal,ou:alt,Alt 2.5,2.62,2.3,0.122,0.364,0.413,bekliyor,,

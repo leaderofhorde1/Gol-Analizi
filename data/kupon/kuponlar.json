@@ -2256,7 +2256,9 @@
     "dep": "Kairat U19",
     "lig": "World - UEFA Youth League",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "1-0",
+    "neden": "3 gol gerekiyordu, maçta 1 gol oldu (1-0). Şutlar 0-0, isabetli 0-0."
    },
    {
     "tur": "ust25",
@@ -2286,7 +2288,8 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 1154
+  "tg": 1154,
+  "yatti": true
  },
  {
   "tarih": "2026-11-25",
