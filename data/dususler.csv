@@ -261,3 +261,8 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-25,1642048,15:15,Lebanon - Premier League,Shabab Al Sahel - Al Ansar,1x2:ev,Ev sahibi,7.0,5.75,0.179,0.128,0.156,bekliyor,,
 2026-11-25,1646385,15:00,Macedonia - Cup,Akademija Pandev - Aresimi,ou:ust,Üst 2.5,1.85,1.57,0.151,0.513,0.599,bekliyor,,
 2026-11-25,1646385,15:00,Macedonia - Cup,Akademija Pandev - Aresimi,1x2:dep,Deplasman,2.1,1.7,0.19,0.427,0.523,bekliyor,,
+2026-11-25,1637396,16:00,World - UEFA Youth League,Sporting CP U19 - Manchester United U19,ou:alt,Alt 2.5,3.0,2.5,0.167,0.312,0.375,bekliyor,,
+2026-11-25,1637396,16:00,World - UEFA Youth League,Sporting CP U19 - Manchester United U19,1x2:dep,Deplasman,3.4,2.75,0.191,0.263,0.327,bekliyor,,
+2026-11-25,1637396,16:00,World - UEFA Youth League,Sporting CP U19 - Manchester United U19,kg:yok,KG Yok,3.0,2.62,0.127,0.312,0.355,bekliyor,,
+2026-11-25,1630408,16:45,World - AFC Champions League Two,Nasaf - Khalidiya,1x2:dep,Deplasman,3.5,2.88,0.177,0.256,0.311,bekliyor,,
+2026-11-25,1635339,16:00,Uganda - Premier League,Maroons - SC Villa,1x2:ev,Ev sahibi,5.5,4.33,0.213,0.163,0.207,bekliyor,,
