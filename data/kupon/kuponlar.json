@@ -2090,11 +2090,14 @@
     "dep": "AS Kigali",
     "lig": "Rwanda - National Soccer League",
     "etiket": "2.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "2-0"
    }
   ],
-  "sonuc": "bekliyor",
-  "tg": 1152
+  "sonuc": "isabet",
+  "tg": 1152,
+  "oran_gercek": 3.06,
+  "kar": 206
  },
  {
   "tarih": "2026-11-25",
@@ -2382,5 +2385,232 @@
   "sonuc": "bekliyor",
   "tg": 1155,
   "yatti": true
+ },
+ {
+  "tarih": "2026-11-25",
+  "id": "2026-11-25-alt-18",
+  "parti": 18,
+  "tur": "alt",
+  "baslik": "🧊 Alt kuponu (akşam)",
+  "oran": 2.13,
+  "p_piyasa": 0.413,
+  "bacaklar": [
+   {
+    "tur": "alt25",
+    "oran": 1.75,
+    "p": 0.5394736842105263,
+    "cizgi": 2.5,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     7,
+     10
+    ],
+    "oran_form": 0.7,
+    "h2h": null,
+    "sira_puan": 0.3224,
+    "fixture_id": "1601615",
+    "saat": "21:00",
+    "ts": 1795629600,
+    "mac": "Cremonese - Avellino",
+    "ev": "Cremonese",
+    "dep": "Avellino",
+    "lig": "Italy - Serie B",
+    "etiket": "2.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt35",
+    "oran": 1.22,
+    "p": 0.7662835249042146,
+    "cizgi": 3.5,
+    "form_ev": [
+     7,
+     8
+    ],
+    "form_dep": [
+     8,
+     8
+    ],
+    "oran_form": 0.9375,
+    "h2h": null,
+    "sira_puan": 0.4011,
+    "fixture_id": "1650573",
+    "saat": "22:00",
+    "ts": 1795633200,
+    "mac": "América PE - Central SC",
+    "ev": "América PE",
+    "dep": "Central SC",
+    "lig": "Brazil - Pernambucano - 1",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1192
+ },
+ {
+  "tarih": "2026-11-25",
+  "id": "2026-11-25-gol-18",
+  "parti": 18,
+  "tur": "gol",
+  "baslik": "🎯 Gol kuponu (akşam)",
+  "oran": 2.92,
+  "p_piyasa": 0.299,
+  "bacaklar": [
+   {
+    "tur": "kg",
+    "oran": 1.8,
+    "p": 0.5199999999999999,
+    "cizgi": null,
+    "form_ev": [
+     6,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.7,
+    "h2h": null,
+    "sira_puan": 0.336,
+    "fixture_id": "1635718",
+    "saat": "20:45",
+    "ts": 1795628700,
+    "mac": "Sabah FA - Barcelona",
+    "ev": "Sabah FA",
+    "dep": "Barcelona",
+    "lig": "World - UEFA Champions League",
+    "etiket": "KG Var",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "kg",
+    "oran": 1.62,
+    "p": 0.5759162303664922,
+    "cizgi": null,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     7,
+     10
+    ],
+    "oran_form": 0.7,
+    "h2h": null,
+    "sira_puan": 0.2969,
+    "fixture_id": "1563283",
+    "saat": "22:45",
+    "ts": 1795635900,
+    "mac": "Bolton - West Brom",
+    "ev": "Bolton",
+    "dep": "West Brom",
+    "lig": "England - Championship",
+    "etiket": "KG Var",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1193
+ },
+ {
+  "tarih": "2026-11-25",
+  "id": "2026-11-25-ust-18",
+  "parti": 18,
+  "tur": "ust",
+  "baslik": "⚽ Üst kuponu (akşam)",
+  "oran": 4.9,
+  "p_piyasa": 0.172,
+  "bacaklar": [
+   {
+    "tur": "ust25",
+    "oran": 1.65,
+    "p": 0.5714285714285715,
+    "cizgi": 2.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     6,
+     10
+    ],
+    "oran_form": 0.7,
+    "h2h": [
+     2,
+     3
+    ],
+    "sira_puan": 0.3,
+    "fixture_id": "1651385",
+    "saat": "22:00",
+    "ts": 1795633200,
+    "mac": "Lanús Res. - River Plate Res.",
+    "ev": "Lanús Res.",
+    "dep": "River Plate Res.",
+    "lig": "Argentina - Reserve League",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.8,
+    "p": 0.5263157894736842,
+    "cizgi": 2.5,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     7,
+     10
+    ],
+    "oran_form": 0.7,
+    "h2h": null,
+    "sira_puan": 0.3316,
+    "fixture_id": "1563284",
+    "saat": "22:45",
+    "ts": 1795635900,
+    "mac": "Burnley - Birmingham",
+    "ev": "Burnley",
+    "dep": "Birmingham",
+    "lig": "England - Championship",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.65,
+    "p": 0.5714285714285715,
+    "cizgi": 2.5,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     7,
+     10
+    ],
+    "oran_form": 0.7,
+    "h2h": [
+     1,
+     2
+    ],
+    "sira_puan": 0.3,
+    "fixture_id": "1585364",
+    "saat": "22:45",
+    "ts": 1795635900,
+    "mac": "Hartlepool - Solihull Moors",
+    "ev": "Hartlepool",
+    "dep": "Solihull Moors",
+    "lig": "England - National League",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1194
  }
 ]
