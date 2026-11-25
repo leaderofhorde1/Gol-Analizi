@@ -1892,5 +1892,484 @@
   "yatti": true,
   "oran_gercek": 3.77,
   "kar": -100
+ },
+ {
+  "tarih": "2026-11-25",
+  "id": "2026-11-25-korner",
+  "parti": 10,
+  "tur": "korner",
+  "baslik": "🚩 Korner kuponu",
+  "oran": 5.39,
+  "p_piyasa": 0.148,
+  "bacaklar": [
+   {
+    "tur": "korner",
+    "oran": 1.8,
+    "p": 0.5148247978436657,
+    "cizgi": 9.5,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     7,
+     10
+    ],
+    "oran_form": 0.7,
+    "h2h": [
+     1,
+     2
+    ],
+    "sira_puan": 0.3396,
+    "fixture_id": "1556155",
+    "saat": "13:00",
+    "ts": 1795600800,
+    "mac": "Fagiano Okayama - Shimizu S-pulse",
+    "ev": "Fagiano Okayama",
+    "dep": "Shimizu S-pulse",
+    "lig": "Japan - J1 League",
+    "etiket": "Korner 9.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "korner",
+    "oran": 1.73,
+    "p": 0.5361930294906166,
+    "cizgi": 8.5,
+    "form_ev": [
+     6,
+     8
+    ],
+    "form_dep": [
+     7,
+     9
+    ],
+    "oran_form": 0.7647058823529411,
+    "h2h": [
+     2,
+     3
+    ],
+    "sira_puan": 0.3894,
+    "fixture_id": "1553905",
+    "saat": "15:00",
+    "ts": 1795608000,
+    "mac": "Radnicki NIS - Železničar Pančevo",
+    "ev": "Radnicki NIS",
+    "dep": "Železničar Pančevo",
+    "lig": "Serbia - Super Liga",
+    "etiket": "Korner 8.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "korner",
+    "oran": 1.73,
+    "p": 0.5361930294906166,
+    "cizgi": 9.5,
+    "form_ev": [
+     6,
+     9
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.7368421052631579,
+    "h2h": null,
+    "sira_puan": 0.3615,
+    "fixture_id": "1635642",
+    "saat": "23:00",
+    "ts": 1795636800,
+    "mac": "Club Brugge KV - Liverpool",
+    "ev": "Club Brugge KV",
+    "dep": "Liverpool",
+    "lig": "World - UEFA Champions League",
+    "etiket": "Korner 9.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1151
+ },
+ {
+  "tarih": "2026-11-25",
+  "id": "2026-11-25-alt",
+  "parti": 10,
+  "tur": "alt",
+  "baslik": "🧊 Alt kuponu",
+  "oran": 3.06,
+  "p_piyasa": 0.27,
+  "bacaklar": [
+   {
+    "tur": "alt35",
+    "oran": 1.33,
+    "p": 0.7096069868995633,
+    "cizgi": 3.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.9,
+    "h2h": [
+     1,
+     2
+    ],
+    "sira_puan": 0.4033,
+    "fixture_id": "1606778",
+    "saat": "13:00",
+    "ts": 1795600800,
+    "mac": "Montedio Yamagata - Jubilo Iwata",
+    "ev": "Montedio Yamagata",
+    "dep": "Jubilo Iwata",
+    "lig": "Japan - J2 League",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt35",
+    "oran": 1.44,
+    "p": 0.645320197044335,
+    "cizgi": 3.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.85,
+    "h2h": [
+     2,
+     2
+    ],
+    "sira_puan": 0.3983,
+    "fixture_id": "1565476",
+    "saat": "14:00",
+    "ts": 1795604400,
+    "mac": "Kryvbas KR - FC Kharkiv",
+    "ev": "Kryvbas KR",
+    "dep": "FC Kharkiv",
+    "lig": "Ukraine - Premier League",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt25",
+    "oran": 1.6,
+    "p": 0.5897435897435896,
+    "cizgi": 2.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     7,
+     7
+    ],
+    "oran_form": 0.9411764705882353,
+    "h2h": [
+     1,
+     2
+    ],
+    "sira_puan": 0.5284,
+    "fixture_id": "1632512",
+    "saat": "16:00",
+    "ts": 1795611600,
+    "mac": "Al Merreikh - AS Kigali",
+    "ev": "Al Merreikh",
+    "dep": "AS Kigali",
+    "lig": "Rwanda - National Soccer League",
+    "etiket": "2.5 Alt",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1152
+ },
+ {
+  "tarih": "2026-11-25",
+  "id": "2026-11-25-gol",
+  "parti": 10,
+  "tur": "gol",
+  "baslik": "🎯 Gol kuponu",
+  "oran": 2.21,
+  "p_piyasa": 0.374,
+  "bacaklar": [
+   {
+    "tur": "ust15",
+    "oran": 1.36,
+    "p": 0.6880733944954128,
+    "cizgi": 1.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.85,
+    "h2h": [
+     3,
+     3
+    ],
+    "sira_puan": 0.3683,
+    "fixture_id": "1612287",
+    "saat": "21:00",
+    "ts": 1795629600,
+    "mac": "Enppi - Ceramica Cleopatra",
+    "ev": "Enppi",
+    "dep": "Ceramica Cleopatra",
+    "lig": "Egypt - Premier League",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust15",
+    "oran": 1.22,
+    "p": 0.7662835249042146,
+    "cizgi": 1.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.9,
+    "h2h": null,
+    "sira_puan": 0.3636,
+    "fixture_id": "1601622",
+    "saat": "22:00",
+    "ts": 1795633200,
+    "mac": "Pisa - Modena",
+    "ev": "Pisa",
+    "dep": "Modena",
+    "lig": "Italy - Serie B",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust15",
+    "oran": 1.33,
+    "p": 0.7096069868995633,
+    "cizgi": 1.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.85,
+    "h2h": [
+     1,
+     2
+    ],
+    "sira_puan": 0.3533,
+    "fixture_id": "1601620",
+    "saat": "22:00",
+    "ts": 1795633200,
+    "mac": "Padova - Sampdoria",
+    "ev": "Padova",
+    "dep": "Sampdoria",
+    "lig": "Italy - Serie B",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": null
+ },
+ {
+  "tarih": "2026-11-25",
+  "id": "2026-11-25-ust",
+  "parti": 10,
+  "tur": "ust",
+  "baslik": "⚽ Üst kuponu",
+  "oran": 3.53,
+  "p_piyasa": 0.232,
+  "bacaklar": [
+   {
+    "tur": "ust25",
+    "oran": 1.6,
+    "p": 0.5897435897435896,
+    "cizgi": 2.5,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": null,
+    "sira_puan": 0.3872,
+    "fixture_id": "1648207",
+    "saat": "14:00",
+    "ts": 1795604400,
+    "mac": "Polonia Środa - Sokół Kleczew",
+    "ev": "Polonia Środa",
+    "dep": "Sokół Kleczew",
+    "lig": "Poland - Cup",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.44,
+    "p": 0.645320197044335,
+    "cizgi": 2.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.9,
+    "h2h": null,
+    "sira_puan": 0.4483,
+    "fixture_id": "1649069",
+    "saat": "19:00",
+    "ts": 1795622400,
+    "mac": "Hradec Králové U19 - Kairat U19",
+    "ev": "Hradec Králové U19",
+    "dep": "Kairat U19",
+    "lig": "World - UEFA Youth League",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.53,
+    "p": 0.6086956521739131,
+    "cizgi": 2.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     7,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": null,
+    "sira_puan": 0.3739,
+    "fixture_id": "1649070",
+    "saat": "22:00",
+    "ts": 1795633200,
+    "mac": "Rangers U19 - AZ U19",
+    "ev": "Rangers U19",
+    "dep": "AZ U19",
+    "lig": "World - UEFA Youth League",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": null
+ },
+ {
+  "tarih": "2026-11-25",
+  "id": "2026-11-25-karisik",
+  "parti": 10,
+  "tur": "karisik",
+  "baslik": "🎲 Karışık kupon",
+  "oran": 2.88,
+  "p_piyasa": 0.291,
+  "bacaklar": [
+   {
+    "tur": "alt35",
+    "oran": 1.25,
+    "p": 0.75,
+    "cizgi": 3.5,
+    "form_ev": [
+     10,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.9,
+    "h2h": [
+     4,
+     4
+    ],
+    "sira_puan": 0.375,
+    "fixture_id": "1606783",
+    "saat": "13:00",
+    "ts": 1795600800,
+    "mac": "Sagan Tosu - Oita Trinita",
+    "ev": "Sagan Tosu",
+    "dep": "Oita Trinita",
+    "lig": "Japan - J2 League",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt35",
+    "oran": 1.33,
+    "p": 0.7096069868995633,
+    "cizgi": 3.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.85,
+    "h2h": null,
+    "sira_puan": 0.3533,
+    "fixture_id": "1606784",
+    "saat": "13:00",
+    "ts": 1795600800,
+    "mac": "Shonan Bellmare - Ventforet Kofu",
+    "ev": "Shonan Bellmare",
+    "dep": "Ventforet Kofu",
+    "lig": "Japan - J2 League",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.73,
+    "p": 0.5459317585301837,
+    "cizgi": 2.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     6,
+     10
+    ],
+    "oran_form": 0.7,
+    "h2h": null,
+    "sira_puan": 0.3178,
+    "fixture_id": "1585363",
+    "saat": "22:45",
+    "ts": 1795635900,
+    "mac": "Harrogate Town - Kidderminster Harriers",
+    "ev": "Harrogate Town",
+    "dep": "Kidderminster Harriers",
+    "lig": "England - National League",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": null
  }
 ]
