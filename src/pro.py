@@ -255,6 +255,7 @@ def recent_event(m) -> str | None:
     return None
 
 
+VOID_STATUS = {"PST", "CANC", "ABD", "AWD", "WO"}
 CLOCK_MAX = int(os.environ.get("SAAT_FARKI", "5"))  # API dakikası gerçek saatin bu kadar gerisindeyse veri takılı
 
 
@@ -1720,10 +1721,13 @@ class ProEngine:
                 ai = self.claude.judge(ctx)
             except Exception as e:
                 log("Claude hatası:", e)
-        send = True if ai is None else bool(ai.get("onay"))
+        # Claude'un açık onayı zorunlu: yanıt yoksa (hata, sınır, zaman aşımı) sinyal gönderilmez
+        send = bool(ai and ai.get("onay"))
+        if ai is None:
+            ai = {"onay": False, "yorum": "Claude yanıt vermedi (onay zorunlu, gönderilmedi)"}
         # Karar anı fiyat kontrolü: Claude düşünürken oran kaçtıysa sinyal gönderilmez
         p_now, karar_sn = None, round(time.time() - t_start)
-        if ai is not None and send and line is not None:
+        if send and line is not None:
             try:
                 fresh = self.api.get("odds/live", fixture=m.id)
                 if fresh:
@@ -1823,7 +1827,9 @@ class ProEngine:
                     if not getattr(m, "ft_seen", None):
                         m.ft_seen = time.time()
                 # istatistik gelene kadar (en fazla 60 dk) tekrar denenir
-                m.finalized = m.status in FINISHED and (m.final is not None or time.time() - m.ft_seen > 3600)
+                # resmî istatistik 30 dk boyunca güncellenmeye devam eder (geç düşen korner/kart); en fazla 90 dk beklenir
+                waited = time.time() - m.ft_seen if m.status in FINISHED else 0
+                m.finalized = m.status in FINISHED and ((m.final is not None and waited >= 1800) or waited > 5400)
 
     def resolve_carried(self):
         """Önceki oturumdan devralınan sinyallerin maçlarını yükler ve bitenleri sonuçlandırır."""
@@ -1893,6 +1899,10 @@ class ProEngine:
             self.clv_check(m, r)
             over = m.minute > smin + 10 or m.status in FINISHED
             done = m.status in FINISHED
+            if m.status in VOID_STATUS:  # ertelendi / iptal / yarıda kaldı / hükmen: bahis iade
+                self.cancel_row(r, f"Maç oynanmadı ya da tamamlanmadı ({m.status}); bahis iade edildi.")
+                continue
+            settled = done and time.time() - (getattr(m, "ft_seen", None) or time.time()) >= 1800
             sh, sa = (int(x) for x in r["skor"].split("-"))
             n_new = max(0, (m.gh + m.ga) - (sh + sa))
             # yalnız skorun doğruladığı goller: olay listesinde VAR'la iptal edilen gol kalmış olabilir
@@ -1924,13 +1934,11 @@ class ProEngine:
                         r["sonuc"] = "bilinmiyor"
                 elif now is not None and now > line:
                     r["sonuc"], r["gol_dakikasi"] = "isabet", now
-                elif done and getattr(m, "final", None):
+                elif done and getattr(m, "final", None) and settled:
+                    # maç bitiş istatistiği ilk dakikalarda eksik gelebiliyor: ıska ancak 30 dk sonraki sayımla
                     r["sonuc"], r["gol_dakikasi"] = "ıska", now
-                elif done and getattr(m, "finalized", False):
-                    # 60 dk beklendi, bitiş istatistiği hiç gelmedi: son ölçüm 85. dk sonrasındaysa onunla karar ver
-                    late = m.snaps and m.snaps[-1]["min"] >= 85
-                    r["sonuc"] = "ıska" if (late and now is not None) else "bilinmiyor"
-                    r["gol_dakikasi"] = "" if now is None else now
+                elif done and getattr(m, "finalized", False) and not getattr(m, "final", None):
+                    r["sonuc"], r["gol_dakikasi"] = "bilinmiyor", "" if now is None else now
             elif tur == "kart":
                 st_y, st_r = self.current_count(m, "yellow"), self.current_count(m, "red")
                 now = max(len(card_events(m)), (st_y or 0) + (st_r or 0))
@@ -1939,7 +1947,7 @@ class ProEngine:
                         r["sonuc"] = "bilinmiyor"
                 elif now > line:
                     r["sonuc"], r["gol_dakikasi"] = "isabet", now
-                elif done:
+                elif done and settled:
                     r["sonuc"], r["gol_dakikasi"] = "ıska", now
             elif tur == "iy":
                 hits = [g["minute"] for g in confirmed if smin < g["minute"] <= 45]
