@@ -2163,7 +2163,8 @@
     "dep": "Modena",
     "lig": "Italy - Serie B",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "1-1"
    },
    {
     "tur": "ust15",
@@ -2192,12 +2193,15 @@
     "dep": "Sampdoria",
     "lig": "Italy - Serie B",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "1-2"
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 1153,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 2.21,
+  "kar": -100
  },
  {
   "tarih": "2026-11-25",
@@ -2287,12 +2291,15 @@
     "dep": "AZ U19",
     "lig": "World - UEFA Youth League",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "2-2"
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 1154,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 3.53,
+  "kar": -100
  },
  {
   "tarih": "2026-11-25",
@@ -2560,7 +2567,8 @@
     "dep": "River Plate Res.",
     "lig": "Argentina - Reserve League",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "1-2"
    },
    {
     "tur": "ust25",
