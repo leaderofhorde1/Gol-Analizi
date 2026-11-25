@@ -2459,11 +2459,15 @@
     "dep": "Central SC",
     "lig": "Brazil - Pernambucano - 1",
     "etiket": "3.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "3-2",
+    "neden": "En fazla 3 gol olmalıydı, maçta 5 gol oldu (3-2). Gol dakikaları: 1' América PE, 13' América PE, 44' Central SC, 58' Central SC, 69' América PE. Bahsi kaybettiren 4. gol 58. dakikada geldi."
    }
   ],
-  "sonuc": "bekliyor",
-  "tg": 1192
+  "sonuc": "ıska",
+  "tg": 1192,
+  "oran_gercek": 2.13,
+  "kar": -100
  },
  {
   "tarih": "2026-11-25",
