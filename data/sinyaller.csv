@@ -638,4 +638,5 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-25,1630407,World - AFC Champions League Two,Melbourne Victory - Viettel,47,0-0,,Melbourne Victory,,orta,,,evet,ıska,,0.484,0.396,baski,0.03364,0.03639,2.4,-100,1158,uyarı,62,6/10,lehte,-1%,,,,,,0.03513,0.03747,0.03751,,,,,
 2026-11-25,1629990,World - AFC Champions League Elite,Kashima - Jeonbuk Motors,27,1-0,,Kashima,,düşük,,,evet,ıska,,0.382,0.362,baski,0.03,0.03117,2.62,-100,1160,uyarı,42,4/9,nötr,+1%,,,,,,0.02974,0.03111,0.0341,,,,,
 2026-11-25,1556157,Japan - J1 League,V-varen Nagasaki - Kawasaki Frontale,29,1-1,,Kawasaki Frontale,,düşük,,,evet,ıska,,0.46,0.404,baski,0.03448,0.03328,2.35,-100,1161,uyarı,44,7/10,aleyhte,-1%,,,,,,0.03376,0.03499,0.03521,,,,,
-2026-11-25,1556152,Japan - J1 League,JEF United Chiba - Nagoya Grampus,42,1-1,,4,,orta,,,evet,bekliyor,,0.629,0.558,korner,0.09595,,,,1168,,8.5,11/20,,,,,,1.666,0.048,,,,Hafif,0.5,1880,acik,
+2026-11-25,1556152,Japan - J1 League,JEF United Chiba - Nagoya Grampus,42,1-1,,4,,orta,,,evet,bekliyor,,0.629,0.558,korner,0.09595,veri yok,,,1168,,8.5,11/20,veri yok,,,,,1.666,0.048,veri yok,veri yok,,Hafif,0.5,1880,acik,
+2026-11-25,1556157,Japan - J1 League,V-varen Nagasaki - Kawasaki Frontale,52,1-2,,5,,orta,,,evet,bekliyor,,0.534,0.463,korner,0.10658,,,,1170,,9.5,10/20,,,,,,2.025,0.081,olay,,,Orta,1.0,1400,acik,
