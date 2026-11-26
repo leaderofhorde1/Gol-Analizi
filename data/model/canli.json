@@ -1,101 +1,102 @@
 {
- "olusturma": "2026-11-25T04:08+03:00",
+ "olusturma": "2026-11-26T04:08+03:00",
  "gol": {
-  "orneklem": 16489,
+  "orneklem": 18432,
   "kullan": true,
-  "logloss_piyasa_durum": 0.56514,
+  "logloss_piyasa_durum": 0.5631,
   "brier": {
-   "piyasa": 0.18961,
-   "piyasa_durum": 0.18945,
-   "tam": 0.18916
+   "piyasa": 0.18891,
+   "piyasa_durum": 0.18848,
+   "tam": 0.18777
   },
-  "test": 4947,
-  "oran": 0.261,
-  "logloss_piyasa": 0.56561,
-  "logloss_eski_model": 0.59468,
-  "logloss_yeni_model": 0.56419,
+  "test": 5530,
+  "oran": 0.258,
+  "logloss_piyasa": 0.56408,
+  "logloss_eski_model": 0.59462,
+  "logloss_yeni_model": 0.56094,
   "agirliklar": [
-   0.9846,
-   1.3226,
-   0.7541,
-   -0.1464,
-   -0.0969,
-   -0.3927,
-   0.1453,
-   -0.0762,
-   -0.0076
+   1.0103,
+   1.3432,
+   0.7896,
+   -0.225,
+   -0.0309,
+   -0.377,
+   0.1766,
+   -0.0572,
+   -0.0207
   ],
   "sinyal_sim": {
-   "adet": 82,
-   "isabet": 0.305,
-   "piyasa_ort": 0.217
+   "adet": 61,
+   "isabet": 0.279,
+   "piyasa_ort": 0.218
   }
  },
  "korner": {
-  "orneklem": 1317,
+  "orneklem": 2089,
   "kullan": false,
-  "logloss_piyasa_durum": 0.4283,
+  "logloss_piyasa_durum": 0.42685,
   "brier": {
-   "piyasa": 0.26553,
-   "piyasa_durum": 0.12829,
-   "tam": 0.11891
+   "piyasa": 0.27999,
+   "piyasa_durum": 0.13122,
+   "tam": 0.12029
   },
-  "test": 392,
-  "oran": 0.135,
-  "logloss_piyasa": 0.90141,
-  "logloss_eski_model": 0.3617,
-  "logloss_yeni_model": 0.39072,
+  "test": 627,
+  "oran": 0.159,
+  "logloss_piyasa": 0.94172,
+  "logloss_eski_model": 0.39581,
+  "logloss_yeni_model": 0.38114,
   "agirliklar": [
-   -1.0679,
-   0.3638,
-   0.2135,
-   1.1505,
-   -0.1801,
-   -0.9078,
-   -0.0786,
-   -0.31,
-   0.5438,
-   -0.0537,
-   -0.9173
+   -0.8287,
+   0.6635,
+   0.5405,
+   1.2091,
+   -0.3354,
+   -0.325,
+   -0.0951,
+   -0.2183,
+   0.4778,
+   -0.3077,
+   -0.9597
   ],
   "sinyal_sim": {
-   "adet": 71,
-   "isabet": 0.155,
-   "piyasa_ort": 0.255
+   "adet": 74,
+   "isabet": 0.284,
+   "piyasa_ort": 0.281
   },
+  "not": "sinyal anlarında piyasayı geçmiyor",
   "ek": true,
-  "tempo_orneklem": 5591
+  "tempo_orneklem": 8529
  },
  "kart": {
-  "orneklem": 1616,
+  "orneklem": 1848,
   "kullan": false,
-  "logloss_piyasa_durum": 0.65708,
+  "logloss_piyasa_durum": 0.63563,
   "brier": {
-   "piyasa": 0.25165,
-   "piyasa_durum": 0.23219,
-   "tam": 0.23338
+   "piyasa": 0.24063,
+   "piyasa_durum": 0.22261,
+   "tam": 0.2225
   },
-  "test": 485,
-  "oran": 0.402,
-  "logloss_piyasa": 0.70013,
-  "logloss_eski_model": 0.66807,
-  "logloss_yeni_model": 0.66086,
+  "test": 555,
+  "oran": 0.377,
+  "logloss_piyasa": 0.67995,
+  "logloss_eski_model": 0.64436,
+  "logloss_yeni_model": 0.63587,
   "agirliklar": [
-   -1.1652,
-   0.732,
-   -0.1343,
-   -0.2488,
-   0.1865,
-   1.1224,
-   -0.1212,
-   -0.2951,
-   -0.7133,
-   0.2146
+   -1.1763,
+   0.6475,
+   -0.1502,
+   -0.0016,
+   -0.0459,
+   1.0204,
+   -0.0481,
+   -0.2042,
+   -0.8517,
+   0.1714
   ],
   "sinyal_sim": {
-   "adet": 1,
+   "adet": 2,
    "isabet": 0.0,
-   "piyasa_ort": 0.277
+   "piyasa_ort": 0.273
   }
  }
 }
