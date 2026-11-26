@@ -749,6 +749,8 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-26,1636231,World - UEFA Europa League,Beşiktaş - Hapoel Beer Sheva,87,1-0,,5,,orta,,,evet,isabet,6,0.547,0.463,kart,,,2.0,100,1372,evet,5.5,7/20,,,,,,2.0,0.093,,,,Orta,1.0,2060,kapandi,4120
 2026-11-26,1636261,World - UEFA Europa League,Ferencvarosi TC - Celje,8,0-0,,1,,orta,,,evet,bekliyor,,0.621,0.537,korner,0.09216,0.10293,,,1375,,8.5,9/12,lehte,,,,,1.727,0.073,0.0913,0.10429,0.10659,Orta,1.0,1540,acik,
 2026-11-26,1636336,World - UEFA Europa League,Sparta Praha - AZ Alkmaar,11,1-0,,Sparta Praha,,düşük,,,evet,ıska,,0.364,0.357,baski,0.0294,0.03004,2.66,-100,1378,uyarı,26,5/10,nötr,-1%,,,,,,0.03013,0.0321,0.03127,,,,,
-2026-11-26,1636410,World - UEFA Europa Conference League,SC Freiburg - Twente,17,1-0,,Twente,,orta,,,evet,bekliyor,,0.459,0.378,baski,0.03169,0.03389,,,1379,,32,5/10,lehte,+6%,,,,,,0.03254,0.03345,,,,,,
-2026-11-26,1636349,World - UEFA Europa League,Torreense - Celtic,25,1-1,,Torreense,,düşük,,,evet,bekliyor,,0.426,0.386,baski,0.03248,,,,1380,,40,6/10,,+7%,,,,,,0.03345,,,,,,,
-2026-11-26,1564429,England - League One,Doncaster - Huddersfield,27,0-2,,Huddersfield,,düşük,,,evet,bekliyor,,0.416,0.36,baski,0.0298,,,,1381,,42,6/10,,+84%,,,,,,0.03072,,,,,,,
+2026-11-26,1636410,World - UEFA Europa Conference League,SC Freiburg - Twente,17,1-0,,Twente,,orta,,,evet,ıska,,0.459,0.378,baski,0.03169,0.03389,2.51,-100,1379,uyarı,32,5/10,lehte,+6%,,,,,,0.03254,0.03345,0.0343,,,,,
+2026-11-26,1636349,World - UEFA Europa League,Torreense - Celtic,25,1-1,,Torreense,,düşük,,,evet,bekliyor,,0.426,0.386,baski,0.03248,0.0312,,,1380,,40,6/10,aleyhte,+7%,,,,,,0.03345,0.03262,,,,,,
+2026-11-26,1564429,England - League One,Doncaster - Huddersfield,27,0-2,,Huddersfield,,düşük,,,evet,isabet,35,0.416,0.36,baski,0.0298,0.0322,2.64,164,1381,uyarı,42,6/10,lehte,+84%,,,,,,0.03072,,,,,,,
+2026-11-26,1636301,World - UEFA Europa League,NEC Nijmegen - Rennes,36,1-0,,1,,orta,,,evet,isabet,38,0.422,0.355,iy,,,2.62,162,1382,evet,1.5,14/20,,+2%,,,,2.625,0.108,,,,Hafif,0.5,2190,kapandi,5749
+2026-11-26,1636389,World - UEFA Europa Conference League,SC Braga - KuPS,37,2-0,,2-0,,yüksek,,,evet,bekliyor,,0.521,0.312,kg,0.03731,,,,1383,,,5/10,,+9%,,,,3.0,0.562,0.03867,,,Güçlü,2.0,1640,acik,
