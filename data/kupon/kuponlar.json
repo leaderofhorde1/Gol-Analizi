@@ -2647,5 +2647,294 @@
   "tg": 1194,
   "oran_gercek": 4.9,
   "kar": -100
+ },
+ {
+  "tarih": "2026-11-26",
+  "id": "2026-11-26-korner",
+  "parti": 10,
+  "tur": "korner",
+  "baslik": "🚩 Korner kuponu",
+  "oran": 2.89,
+  "p_piyasa": 0.299,
+  "bacaklar": [
+   {
+    "tur": "korner",
+    "oran": 1.73,
+    "p": 0.5361930294906166,
+    "cizgi": 8.5,
+    "form_ev": [
+     6,
+     9
+    ],
+    "form_dep": [
+     7,
+     9
+    ],
+    "oran_form": 0.7222222222222222,
+    "h2h": null,
+    "sira_puan": 0.3469,
+    "fixture_id": "1636329",
+    "saat": "20:45",
+    "ts": 1795715100,
+    "mac": "Union St. Gilloise - Lech Poznan",
+    "ev": "Union St. Gilloise",
+    "dep": "Lech Poznan",
+    "lig": "World - UEFA Europa League",
+    "etiket": "Korner 8.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "korner",
+    "oran": 1.67,
+    "p": 0.557029177718833,
+    "cizgi": 8.5,
+    "form_ev": [
+     6,
+     7
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.8235294117647058,
+    "h2h": null,
+    "sira_puan": 0.4336,
+    "fixture_id": "1636386",
+    "saat": "23:00",
+    "ts": 1795723200,
+    "mac": "Borac Banja Luka - Atalanta",
+    "ev": "Borac Banja Luka",
+    "dep": "Atalanta",
+    "lig": "World - UEFA Europa Conference League",
+    "etiket": "Korner 8.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": null
+ },
+ {
+  "tarih": "2026-11-26",
+  "id": "2026-11-26-alt",
+  "parti": 10,
+  "tur": "alt",
+  "baslik": "🧊 Alt kuponu",
+  "oran": 1.96,
+  "p_piyasa": 0.461,
+  "bacaklar": [
+   {
+    "tur": "alt35",
+    "oran": 1.36,
+    "p": 0.7017543859649122,
+    "cizgi": 3.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.85,
+    "h2h": null,
+    "sira_puan": 0.3588,
+    "fixture_id": "1636244",
+    "saat": "20:45",
+    "ts": 1795715100,
+    "mac": "Celta Vigo - Bournemouth",
+    "ev": "Celta Vigo",
+    "dep": "Bournemouth",
+    "lig": "World - UEFA Europa League",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt35",
+    "oran": 1.44,
+    "p": 0.6563245823389022,
+    "cizgi": 3.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.85,
+    "h2h": null,
+    "sira_puan": 0.3906,
+    "fixture_id": "1636305",
+    "saat": "23:00",
+    "ts": 1795723200,
+    "mac": "OFI - Anderlecht",
+    "ev": "OFI",
+    "dep": "Anderlecht",
+    "lig": "World - UEFA Europa League",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": null
+ },
+ {
+  "tarih": "2026-11-26",
+  "id": "2026-11-26-gol",
+  "parti": 10,
+  "tur": "gol",
+  "baslik": "🎯 Gol kuponu",
+  "oran": 3.93,
+  "p_piyasa": 0.205,
+  "bacaklar": [
+   {
+    "tur": "kg",
+    "oran": 1.57,
+    "p": 0.5890052356020942,
+    "cizgi": null,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.75,
+    "h2h": null,
+    "sira_puan": 0.3377,
+    "fixture_id": "1636315",
+    "saat": "20:45",
+    "ts": 1795715100,
+    "mac": "Plzen - Benfica",
+    "ev": "Plzen",
+    "dep": "Benfica",
+    "lig": "World - UEFA Europa League",
+    "etiket": "KG Var",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "kg",
+    "oran": 1.5,
+    "p": 0.625,
+    "cizgi": null,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.75,
+    "h2h": null,
+    "sira_puan": 0.3125,
+    "fixture_id": "1636460",
+    "saat": "20:45",
+    "ts": 1795715100,
+    "mac": "Pafos - FC Midtjylland",
+    "ev": "Pafos",
+    "dep": "FC Midtjylland",
+    "lig": "World - UEFA Europa Conference League",
+    "etiket": "KG Var",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "kg",
+    "oran": 1.67,
+    "p": 0.557029177718833,
+    "cizgi": null,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     7,
+     10
+    ],
+    "oran_form": 0.7,
+    "h2h": null,
+    "sira_puan": 0.3101,
+    "fixture_id": "1636381",
+    "saat": "20:45",
+    "ts": 1795715100,
+    "mac": "Ajax - FC Thun",
+    "ev": "Ajax",
+    "dep": "FC Thun",
+    "lig": "World - UEFA Europa Conference League",
+    "etiket": "KG Var",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": null
+ },
+ {
+  "tarih": "2026-11-26",
+  "id": "2026-11-26-ust",
+  "parti": 10,
+  "tur": "ust",
+  "baslik": "⚽ Üst kuponu",
+  "oran": 2.49,
+  "p_piyasa": 0.352,
+  "bacaklar": [
+   {
+    "tur": "ust25",
+    "oran": 1.44,
+    "p": 0.645320197044335,
+    "cizgi": 2.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": [
+     1,
+     1
+    ],
+    "sira_puan": 0.3483,
+    "fixture_id": "1630419",
+    "saat": "15:15",
+    "ts": 1795695300,
+    "mac": "Wofoo Tai Po - Adelaide United",
+    "ev": "Wofoo Tai Po",
+    "dep": "Adelaide United",
+    "lig": "World - AFC Champions League Two",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.73,
+    "p": 0.5459317585301837,
+    "cizgi": 2.5,
+    "form_ev": [
+     6,
+     10
+    ],
+    "form_dep": [
+     10,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": null,
+    "sira_puan": 0.4178,
+    "fixture_id": "1636431",
+    "saat": "20:45",
+    "ts": 1795715100,
+    "mac": "FK Jablonec - FC Lugano",
+    "ev": "FK Jablonec",
+    "dep": "FC Lugano",
+    "lig": "World - UEFA Europa Conference League",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": null
  }
 ]
