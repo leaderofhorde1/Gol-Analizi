@@ -2708,11 +2708,14 @@
     "dep": "Atalanta",
     "lig": "World - UEFA Europa Conference League",
     "etiket": "Korner 8.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "2-3, 10 korner"
    }
   ],
-  "sonuc": "bekliyor",
-  "tg": 1285
+  "sonuc": "isabet",
+  "tg": 1285,
+  "oran_gercek": 2.89,
+  "kar": 189
  },
  {
   "tarih": "2026-11-26",
@@ -2774,11 +2777,15 @@
     "dep": "Anderlecht",
     "lig": "World - UEFA Europa League",
     "etiket": "3.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "1-3",
+    "neden": "En fazla 3 gol olmalıydı, maçta 4 gol oldu (1-3). Gol dakikaları: 20' Anderlecht, 39' Anderlecht, 54' OFI, 90'+5 Anderlecht. Bahsi kaybettiren 4. gol 90'+5. dakikada geldi."
    }
   ],
-  "sonuc": "bekliyor",
-  "tg": 1286
+  "sonuc": "ıska",
+  "tg": 1286,
+  "oran_gercek": 1.96,
+  "kar": -100
  },
  {
   "tarih": "2026-11-26",
