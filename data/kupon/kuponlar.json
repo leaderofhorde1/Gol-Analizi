@@ -2681,7 +2681,8 @@
     "dep": "Lech Poznan",
     "lig": "World - UEFA Europa League",
     "etiket": "Korner 8.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "2-2, 9 korner"
    },
    {
     "tur": "korner",
@@ -2746,7 +2747,8 @@
     "dep": "Bournemouth",
     "lig": "World - UEFA Europa League",
     "etiket": "3.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "1-2"
    },
    {
     "tur": "alt35",
@@ -2811,7 +2813,9 @@
     "dep": "Benfica",
     "lig": "World - UEFA Europa League",
     "etiket": "KG Var",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "4-0",
+    "neden": "Benfica gol atamadı (4-0). Şutlar 15-16, isabetli 11-2, xG 2.1-0.5."
    },
    {
     "tur": "kg",
@@ -2837,7 +2841,9 @@
     "dep": "FC Midtjylland",
     "lig": "World - UEFA Europa Conference League",
     "etiket": "KG Var",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "0-2",
+    "neden": "Pafos gol atamadı (0-2). Şutlar 14-15, isabetli 3-9, xG 0.8-2.2."
    },
    {
     "tur": "kg",
@@ -2863,11 +2869,15 @@
     "dep": "FC Thun",
     "lig": "World - UEFA Europa Conference League",
     "etiket": "KG Var",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "4-0",
+    "neden": "FC Thun gol atamadı (4-0). Şutlar 21-11, isabetli 9-4, xG 2.6-0.8."
    }
   ],
-  "sonuc": "bekliyor",
-  "tg": 1287
+  "sonuc": "ıska",
+  "tg": 1287,
+  "oran_gercek": 3.93,
+  "kar": -100
  },
  {
   "tarih": "2026-11-26",
@@ -2932,11 +2942,15 @@
     "dep": "FC Lugano",
     "lig": "World - UEFA Europa Conference League",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "2-0",
+    "neden": "3 gol gerekiyordu, maçta 2 gol oldu (2-0). Şutlar 19-14, isabetli 4-4, xG 3.2-0.7. Takımlar pozisyona girdi ama golü bulamadı."
    }
   ],
-  "sonuc": "bekliyor",
-  "tg": 1288
+  "sonuc": "ıska",
+  "tg": 1288,
+  "oran_gercek": 2.49,
+  "kar": -100
  },
  {
   "tarih": "2026-11-26",

@@ -293,8 +293,8 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-26,1630418,15:15,World - AFC Champions League Two,Svay Rieng - Machida Zelvia,1x2:ev,Ev sahibi,3.75,2.88,0.232,0.239,0.312,isabet,2-0,188
 2026-11-26,1629135,19:00,Kenya - FKF Premier League,GOR Mahia - Mombasa Elite,1x2:ev,Ev sahibi,1.38,1.2,0.13,0.645,0.744,isabet,3-0,20
 2026-11-26,1636231,20:45,World - UEFA Europa League,Beşiktaş - Hapoel Beer Sheva,1x2:x,Beraberlik,7.5,6.5,0.133,0.127,0.145,bekliyor,,
-2026-11-26,1636381,20:45,World - UEFA Europa Conference League,Ajax - FC Thun,1x2:dep,Deplasman,15.0,13.0,0.133,0.063,0.071,bekliyor,,
-2026-11-26,1636431,20:45,World - UEFA Europa Conference League,FK Jablonec - FC Lugano,1x2:ev,Ev sahibi,3.5,2.9,0.171,0.269,0.323,bekliyor,,
+2026-11-26,1636381,20:45,World - UEFA Europa Conference League,Ajax - FC Thun,1x2:dep,Deplasman,15.0,13.0,0.133,0.063,0.071,ıska,4-0,-100
+2026-11-26,1636431,20:45,World - UEFA Europa Conference League,FK Jablonec - FC Lugano,1x2:ev,Ev sahibi,3.5,2.9,0.171,0.269,0.323,isabet,2-0,190
 2026-11-26,1635340,19:00,Uganda - Premier League,URA - Kigezi HomeBoyz,1x2:dep,Deplasman,10.0,7.5,0.25,0.09,0.119,ıska,2-0,-100
 2026-11-26,1636294,23:00,World - UEFA Europa League,Lyon - Lillestrom,ou:alt,Alt 2.5,3.2,2.75,0.141,0.298,0.344,bekliyor,,
 2026-11-26,1636294,23:00,World - UEFA Europa League,Lyon - Lillestrom,1x2:x,Beraberlik,8.0,7.0,0.125,0.118,0.135,bekliyor,,
