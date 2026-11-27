@@ -3163,12 +3163,16 @@
     "dep": "Churchill Brothers",
     "lig": "India - Indian Super League",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "0-1",
+    "neden": "2 gol gerekiyordu, maçta 1 gol oldu (0-1)."
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 1428,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 1.83,
+  "kar": -100
  },
  {
   "tarih": "2026-11-27",
