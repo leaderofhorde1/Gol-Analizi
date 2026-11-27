@@ -329,8 +329,8 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-27,1576025,22:45,Wales - Premier League,Flint Town United - The New Saints,1x2:ev,Ev sahibi,19.0,15.0,0.211,0.049,0.061,ıska,0-4,-100
 2026-11-27,1576026,22:45,Wales - Premier League,Haverfordwest County AFC - GAP Connah S Quay FC,ou:alt,Alt 2.5,2.0,1.75,0.125,0.474,0.539,ıska,1-2,-100
 2026-11-27,1580808,22:45,Wales - FAW Championship,Caerphilly Athletic - Baglan Dragons,ou:alt,Alt 2.5,2.25,1.85,0.178,0.419,0.513,isabet,0-2,85
-2026-11-27,1647628,23:00,World - Friendlies Women,France W - Venezuela W,ou:alt,Alt 2.5,5.5,4.5,0.182,0.169,0.206,bekliyor,,
-2026-11-27,1647628,23:00,World - Friendlies Women,France W - Venezuela W,1x2:x,Beraberlik,17.0,13.0,0.235,0.056,0.072,bekliyor,,
+2026-11-27,1647628,23:00,World - Friendlies Women,France W - Venezuela W,ou:alt,Alt 2.5,5.5,4.5,0.182,0.169,0.206,ıska,4-2,-100
+2026-11-27,1647628,23:00,World - Friendlies Women,France W - Venezuela W,1x2:x,Beraberlik,17.0,13.0,0.235,0.056,0.072,ıska,4-2,-100
 2026-11-27,1650292,22:00,France - Coupe de France,Saint-Omer - Caen,1x2:ev,Ev sahibi,13.0,10.0,0.231,0.069,0.09,isabet,1-0,900
 2026-11-27,1650292,22:00,France - Coupe de France,Saint-Omer - Caen,1x2:x,Beraberlik,8.0,4.5,0.438,0.113,0.2,ıska,1-0,-100
 2026-11-27,1632070,23:30,Paraguay - Division Profesional - Clausura,Nacional Asuncion - Rubio NU,ou:ust,Üst 2.5,2.05,1.8,0.122,0.461,0.526,bekliyor,,
