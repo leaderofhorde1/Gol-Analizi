@@ -1,6 +1,6 @@
-# Canlı model eğitimi – 2026-11-26T04:08+03:00
+# Canlı model eğitimi – 2026-11-27T04:13+03:00
 
-Toplam örnek: 32390
+Toplam örnek: 34442
 
 Log kayıp: düşük = daha iyi. Yeni model ancak testte piyasadan iyiyse kullanılır.
 
@@ -8,47 +8,47 @@ Log kayıp: düşük = daha iyi. Yeni model ancak testte piyasadan iyiyse kullan
 
 | | Değer |
 |---|---|
-| Örneklem / test | 18432 / 5530 |
-| Olay oranı | 0.258 |
-| Log kayıp: piyasa | 0.56408 |
-| Log kayıp: eski model | 0.59462 |
-| Log kayıp: piyasa + maç durumu (B) | 0.5631 |
-| Log kayıp: tam model (C) | 0.56094 |
-| Brier (piyasa / B / C) | 0.18891 / 0.18848 / 0.18777 |
-| Simüle sinyal (yeni − piyasa ≥ 5 puan) | 61 adet, isabet 0.279, piyasa ort. 0.218 |
-| Kullanımda | evet |
+| Örneklem / test | 19845 / 5954 |
+| Olay oranı | 0.261 |
+| Log kayıp: piyasa | 0.56855 |
+| Log kayıp: eski model | 0.60256 |
+| Log kayıp: piyasa + maç durumu (B) | 0.5699 |
+| Log kayıp: tam model (C) | 0.56941 |
+| Brier (piyasa / B / C) | 0.19085 / 0.19132 / 0.19123 |
+| Simüle sinyal (yeni − piyasa ≥ 5 puan) | 102 adet, isabet 0.294, piyasa ort. 0.246 |
+| Kullanımda | hayır |
 
-Ağırlıklar: sabit 1.0103, logit(piyasa) 1.3432, model-piyasa farkı 0.7896, log toplam baskı -0.225, log en yüksek baskı -0.0309, dakika -0.377, skor eşit 0.1766, 1 gol fark -0.0572, kırmızı kart farkı -0.0207
+Ağırlıklar: sabit 1.0832, logit(piyasa) 1.3254, model-piyasa farkı 0.831, log toplam baskı -0.1256, log en yüksek baskı -0.163, dakika -0.4169, skor eşit 0.1352, 1 gol fark -0.1136, kırmızı kart farkı 0.0619
 
 ## korner
 
 | | Değer |
 |---|---|
-| Örneklem / test | 2089 / 627 |
-| Olay oranı | 0.159 |
-| Log kayıp: piyasa | 0.94172 |
-| Log kayıp: eski model | 0.39581 |
-| Log kayıp: piyasa + maç durumu (B) | 0.42685 |
-| Log kayıp: tam model (C) | 0.38114 |
-| Brier (piyasa / B / C) | 0.27999 / 0.13122 / 0.12029 |
-| Simüle sinyal (yeni − piyasa ≥ 5 puan) | 74 adet, isabet 0.284, piyasa ort. 0.281 |
+| Örneklem / test | 2898 / 869 |
+| Olay oranı | 0.261 |
+| Log kayıp: piyasa | 0.68122 |
+| Log kayıp: eski model | 0.56766 |
+| Log kayıp: piyasa + maç durumu (B) | 0.57552 |
+| Log kayıp: tam model (C) | 0.55492 |
+| Brier (piyasa / B / C) | 0.22606 / 0.19423 / 0.1883 |
+| Simüle sinyal (yeni − piyasa ≥ 5 puan) | 181 adet, isabet 0.293, piyasa ort. 0.291 |
 | Kullanımda | hayır (sinyal anlarında piyasayı geçmiyor) |
 
-Ağırlıklar: sabit -0.8287, logit(piyasa) 0.6635, model-piyasa farkı 0.5405, log toplam baskı 1.2091, log en yüksek baskı -0.3354, dakika -0.325, skor eşit -0.0951, 1 gol fark -0.2183, kırmızı kart farkı 0.4778, log faul temposu -0.3077
+Ağırlıklar: sabit -1.0377, logit(piyasa) 0.619, model-piyasa farkı 0.578, log toplam baskı 1.2849, log en yüksek baskı -0.2253, dakika -0.1864, skor eşit -0.0573, 1 gol fark -0.1184, kırmızı kart farkı 0.4126, log faul temposu -0.4389
 
 ## kart
 
 | | Değer |
 |---|---|
-| Örneklem / test | 1848 / 555 |
-| Olay oranı | 0.377 |
-| Log kayıp: piyasa | 0.67995 |
-| Log kayıp: eski model | 0.64436 |
-| Log kayıp: piyasa + maç durumu (B) | 0.63563 |
-| Log kayıp: tam model (C) | 0.63587 |
-| Brier (piyasa / B / C) | 0.24063 / 0.22261 / 0.2225 |
-| Simüle sinyal (yeni − piyasa ≥ 5 puan) | 2 adet, isabet 0.0, piyasa ort. 0.273 |
+| Örneklem / test | 2237 / 672 |
+| Olay oranı | 0.369 |
+| Log kayıp: piyasa | 0.68722 |
+| Log kayıp: eski model | 0.67525 |
+| Log kayıp: piyasa + maç durumu (B) | 0.6464 |
+| Log kayıp: tam model (C) | 0.64797 |
+| Brier (piyasa / B / C) | 0.24318 / 0.22783 / 0.22848 |
+| Simüle sinyal (yeni − piyasa ≥ 5 puan) | 8 adet, isabet 0.5, piyasa ort. 0.325 |
 | Kullanımda | hayır |
 
-Ağırlıklar: sabit -1.1763, logit(piyasa) 0.6475, model-piyasa farkı -0.1502, log toplam baskı -0.0016, log en yüksek baskı -0.0459, dakika 1.0204, skor eşit -0.0481, 1 gol fark -0.2042, kırmızı kart farkı -0.8517, log faul temposu 0.1714
+Ağırlıklar: sabit -1.0872, logit(piyasa) 0.7672, model-piyasa farkı -0.0102, log toplam baskı -0.0622, log en yüksek baskı 0.1013, dakika 0.8349, skor eşit -0.1396, 1 gol fark -0.2489, kırmızı kart farkı -1.0475, log faul temposu 0.1842
 
