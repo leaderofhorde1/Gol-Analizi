@@ -3031,7 +3031,9 @@
     "dep": "Maccabi Kiryat Gat",
     "lig": "Israel - Liga Leumit",
     "etiket": "3.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "3-1",
+    "neden": "En fazla 3 gol olmalıydı, maçta 4 gol oldu (3-1). Gol dakikaları: 6' Maccabi Bnei Raina, 49' Maccabi Kiryat Gat, 71' Maccabi Bnei Raina, 80' Maccabi Bnei Raina. Bahsi kaybettiren 4. gol 80. dakikada geldi."
    },
    {
     "tur": "alt35",
@@ -3064,7 +3066,8 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 1427
+  "tg": 1427,
+  "yatti": true
  },
  {
   "tarih": "2026-11-27",
@@ -3228,7 +3231,9 @@
     "dep": "Kiryat Yam SC",
     "lig": "Israel - Liga Leumit",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "2-0",
+    "neden": "3 gol gerekiyordu, maçta 2 gol oldu (2-0)."
    },
    {
     "tur": "ust25",
