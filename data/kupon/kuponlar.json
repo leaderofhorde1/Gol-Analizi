@@ -3199,7 +3199,9 @@
     "dep": "Hapoel Tel Aviv",
     "lig": "Israel - Ligat Ha'al",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "2-0",
+    "neden": "3 gol gerekiyordu, maçta 2 gol oldu (2-0). Şutlar 11-14, isabetli 2-5, xG 1.5-1.7."
    },
    {
     "tur": "ust25",
@@ -3258,7 +3260,8 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 1429
+  "tg": 1429,
+  "yatti": true
  },
  {
   "tarih": "2026-11-27",
@@ -3293,7 +3296,9 @@
     "dep": "Sisaket United",
     "lig": "Thailand - Thai League 1",
     "etiket": "Korner 8.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "2-2, 7 korner",
+    "neden": "En az 9 korner gerekiyordu, 7 korner oldu (Uthai Thani 4, Sisaket United 3)."
    },
    {
     "tur": "ust15",
@@ -3352,6 +3357,7 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 1430
+  "tg": 1430,
+  "yatti": true
  }
 ]
