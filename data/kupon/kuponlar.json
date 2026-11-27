@@ -3365,5 +3365,355 @@
   "sonuc": "bekliyor",
   "tg": 1430,
   "yatti": true
+ },
+ {
+  "tarih": "2026-11-27",
+  "id": "2026-11-27-alt-18",
+  "parti": 18,
+  "tur": "alt",
+  "baslik": "🧊 Alt kuponu (akşam)",
+  "oran": 2.81,
+  "p_piyasa": 0.314,
+  "bacaklar": [
+   {
+    "tur": "alt25",
+    "oran": 1.95,
+    "p": 0.48684210526315796,
+    "cizgi": 2.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     5,
+     8
+    ],
+    "oran_form": 0.7777777777777778,
+    "h2h": null,
+    "sira_puan": 0.437,
+    "fixture_id": "1643383",
+    "saat": "19:30",
+    "ts": 1795797000,
+    "mac": "Al Wihdat - Doqarah",
+    "ev": "Al Wihdat",
+    "dep": "Doqarah",
+    "lig": "Jordan - League",
+    "etiket": "2.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt35",
+    "oran": 1.44,
+    "p": 0.645320197044335,
+    "cizgi": 3.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.85,
+    "h2h": null,
+    "sira_puan": 0.3983,
+    "fixture_id": "1558692",
+    "saat": "22:45",
+    "ts": 1795808700,
+    "mac": "OH Leuven - Kortrijk",
+    "ev": "OH Leuven",
+    "dep": "Kortrijk",
+    "lig": "Belgium - Jupiler Pro League",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1457
+ },
+ {
+  "tarih": "2026-11-27",
+  "id": "2026-11-27-gol-18",
+  "parti": 18,
+  "tur": "gol",
+  "baslik": "🎯 Gol kuponu (akşam)",
+  "oran": 2.61,
+  "p_piyasa": 0.313,
+  "bacaklar": [
+   {
+    "tur": "ust15",
+    "oran": 1.25,
+    "p": 0.75,
+    "cizgi": 1.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     10,
+     10
+    ],
+    "oran_form": 0.95,
+    "h2h": null,
+    "sira_puan": 0.425,
+    "fixture_id": "1648996",
+    "saat": "22:00",
+    "ts": 1795806000,
+    "mac": "Northern Ireland W - Greece W",
+    "ev": "Northern Ireland W",
+    "dep": "Greece W",
+    "lig": "World - Friendlies Women",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "kg",
+    "oran": 1.57,
+    "p": 0.5890052356020942,
+    "cizgi": null,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": null,
+    "sira_puan": 0.3877,
+    "fixture_id": "1650303",
+    "saat": "22:00",
+    "ts": 1795806000,
+    "mac": "Le Pays du Valois - Valenciennes",
+    "ev": "Le Pays du Valois",
+    "dep": "Valenciennes",
+    "lig": "France - Coupe de France",
+    "etiket": "KG Var",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust15",
+    "oran": 1.33,
+    "p": 0.7096069868995633,
+    "cizgi": 1.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     10,
+     10
+    ],
+    "oran_form": 0.9,
+    "h2h": null,
+    "sira_puan": 0.4033,
+    "fixture_id": "1567971",
+    "saat": "22:30",
+    "ts": 1795807800,
+    "mac": "Wacker Innsbruck - First Vienna",
+    "ev": "Wacker Innsbruck",
+    "dep": "First Vienna",
+    "lig": "Austria - 2. Liga",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1458
+ },
+ {
+  "tarih": "2026-11-27",
+  "id": "2026-11-27-ust-18",
+  "parti": 18,
+  "tur": "ust",
+  "baslik": "⚽ Üst kuponu (akşam)",
+  "oran": 3.46,
+  "p_piyasa": 0.24,
+  "bacaklar": [
+   {
+    "tur": "ust25",
+    "oran": 1.44,
+    "p": 0.6521739130434782,
+    "cizgi": 2.5,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": [
+     0,
+     1
+    ],
+    "sira_puan": 0.3435,
+    "fixture_id": "1561748",
+    "saat": "19:30",
+    "ts": 1795797000,
+    "mac": "Stal Stalowa Wola - Legia Warszawa II",
+    "ev": "Stal Stalowa Wola",
+    "dep": "Legia Warszawa II",
+    "lig": "Poland - II Liga - East",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.5,
+    "p": 0.625,
+    "cizgi": 2.5,
+    "form_ev": [
+     10,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.9,
+    "h2h": null,
+    "sira_puan": 0.4625,
+    "fixture_id": "1580809",
+    "saat": "22:30",
+    "ts": 1795807800,
+    "mac": "Carmarthen Town - Swansea University",
+    "ev": "Carmarthen Town",
+    "dep": "Swansea University",
+    "lig": "Wales - FAW Championship",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.6,
+    "p": 0.5897435897435896,
+    "cizgi": 2.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     10,
+     10
+    ],
+    "oran_form": 0.9,
+    "h2h": [
+     0,
+     1
+    ],
+    "sira_puan": 0.4872,
+    "fixture_id": "1576023",
+    "saat": "22:45",
+    "ts": 1795808700,
+    "mac": "Cardiff MET - Airbus UK",
+    "ev": "Cardiff MET",
+    "dep": "Airbus UK",
+    "lig": "Wales - Premier League",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1459
+ },
+ {
+  "tarih": "2026-11-27",
+  "id": "2026-11-27-karisik-18",
+  "parti": 18,
+  "tur": "karisik",
+  "baslik": "🎲 Karışık kupon (akşam)",
+  "oran": 3.13,
+  "p_piyasa": 0.261,
+  "bacaklar": [
+   {
+    "tur": "ust15",
+    "oran": 1.25,
+    "p": 0.75,
+    "cizgi": 1.5,
+    "form_ev": [
+     10,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.9,
+    "h2h": [
+     2,
+     2
+    ],
+    "sira_puan": 0.375,
+    "fixture_id": "1603086",
+    "saat": "20:30",
+    "ts": 1795800600,
+    "mac": "Al-Ittihad FC - NEOM",
+    "ev": "Al-Ittihad FC",
+    "dep": "NEOM",
+    "lig": "Saudi-Arabia - Pro League",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "kg",
+    "oran": 1.5,
+    "p": 0.625,
+    "cizgi": null,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": [
+     4,
+     4
+    ],
+    "sira_puan": 0.3625,
+    "fixture_id": "1560286",
+    "saat": "21:30",
+    "ts": 1795804200,
+    "mac": "Gyori ETO FC - Debreceni VSC",
+    "ev": "Gyori ETO FC",
+    "dep": "Debreceni VSC",
+    "lig": "Hungary - NB I",
+    "etiket": "KG Var",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "korner",
+    "oran": 1.67,
+    "p": 0.557029177718833,
+    "cizgi": 8.5,
+    "form_ev": [
+     7,
+     9
+    ],
+    "form_dep": [
+     6,
+     9
+    ],
+    "oran_form": 0.7222222222222222,
+    "h2h": null,
+    "sira_puan": 0.3323,
+    "fixture_id": "1570043",
+    "saat": "22:30",
+    "ts": 1795807800,
+    "mac": "Leganes - Sabadell",
+    "ev": "Leganes",
+    "dep": "Sabadell",
+    "lig": "Spain - Segunda División",
+    "etiket": "Korner 8.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1460
  }
 ]
