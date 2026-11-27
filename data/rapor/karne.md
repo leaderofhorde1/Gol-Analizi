@@ -20,7 +20,7 @@ Sonuç şansa çok bağlıdır; piyasanın sinyalden sonraki hareketi çok daha 
 |---|---|---|---|---|
 | ⚽ Üst (gol) | 75 | %84 | +5.4% | ✅ piyasadan önce |
 | 🧊 Alt | 16 | %50 | +2.6% | ➖ belirsiz |
-| 🧊 Alt (gölge) | 12 | %25 | -5.5% | ➖ belirsiz |
+| 🧊 Alt (gölge) | 13 | %31 | -4.6% | ➖ belirsiz |
 | 🚩 Korner | 25 | %96 | +22.9% | ✅ piyasadan önce |
 | 🟨 Kart | 13 | %77 | +9.2% | ➖ belirsiz |
 | ⏱ İlk yarı | 5 | %80 | +7.1% | veri az |
@@ -178,7 +178,7 @@ EV = model olasılığı × gerçek oran − 1. Negatif EV'li sinyal, model piya
 | Tür | Sonuç | İsabet | Piyasa | Fark | Sanal kâr | Durum |
 |---|---|---|---|---|---|---|
 | 🚩 Korner | 1 | %100 | %55 | +45 puan | +67 TL | ⏳ veri az (1/30) |
-| 🧊 Alt | 14 | %43 | %51 | -9 puan | -386 TL | ⏳ veri az (14/30) |
+| 🧊 Alt | 15 | %40 | %51 | -11 puan | -486 TL | ⏳ veri az (15/30) |
 
 ### 📶 Güven seviyesine göre
 
@@ -206,7 +206,7 @@ Sonuç şansa çok bağlıdır; piyasanın sinyalden sonraki hareketi çok daha 
 |---|---|---|---|---|
 | ⚽ Üst (gol) | 82 | %80 | +4.5% | ✅ piyasadan önce |
 | 🧊 Alt | 16 | %50 | +2.6% | ➖ belirsiz |
-| 🧊 Alt (gölge) | 12 | %25 | -5.5% | ➖ belirsiz |
+| 🧊 Alt (gölge) | 13 | %31 | -4.6% | ➖ belirsiz |
 | 🚩 Korner | 25 | %96 | +22.9% | ✅ piyasadan önce |
 | 🟨 Kart | 13 | %77 | +9.2% | ➖ belirsiz |
 | ⏱ İlk yarı | 5 | %80 | +7.1% | veri az |
@@ -370,7 +370,7 @@ EV = model olasılığı × gerçek oran − 1. Negatif EV'li sinyal, model piya
 | Tür | Sonuç | İsabet | Piyasa | Fark | Sanal kâr | Durum |
 |---|---|---|---|---|---|---|
 | 🚩 Korner | 1 | %100 | %55 | +45 puan | +67 TL | ⏳ veri az (1/30) |
-| 🧊 Alt | 14 | %43 | %51 | -9 puan | -386 TL | ⏳ veri az (14/30) |
+| 🧊 Alt | 15 | %40 | %51 | -11 puan | -486 TL | ⏳ veri az (15/30) |
 
 ### 📶 Güven seviyesine göre
 
