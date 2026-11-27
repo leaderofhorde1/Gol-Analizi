@@ -3441,11 +3441,15 @@
     "dep": "Kortrijk",
     "lig": "Belgium - Jupiler Pro League",
     "etiket": "3.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "2-2",
+    "neden": "En fazla 3 gol olmalıydı, maçta 4 gol oldu (2-2). Gol dakikaları: 14' OH Leuven, 54' Kortrijk, 70' Kortrijk, 89' OH Leuven. Bahsi kaybettiren 4. gol 89. dakikada geldi."
    }
   ],
-  "sonuc": "bekliyor",
-  "tg": 1457
+  "sonuc": "ıska",
+  "tg": 1457,
+  "oran_gercek": 2.81,
+  "kar": -100
  },
  {
   "tarih": "2026-11-27",
@@ -3637,11 +3641,14 @@
     "dep": "Airbus UK",
     "lig": "Wales - Premier League",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "3-0"
    }
   ],
-  "sonuc": "bekliyor",
-  "tg": 1459
+  "sonuc": "isabet",
+  "tg": 1459,
+  "oran_gercek": 3.46,
+  "kar": 246
  },
  {
   "tarih": "2026-11-27",
