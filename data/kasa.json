@@ -41,10 +41,10 @@
  "2026-11-27": {
   "baslangic": 10000.0,
   "nakit": 771.8799999999992,
-  "acik": 1170.0,
+  "acik": 0.0,
   "bahis": 13,
   "kazanan": 5,
-  "kaybeden": 7,
+  "kaybeden": 8,
   "atlanan": 4
  }
 }
