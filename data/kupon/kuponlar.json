@@ -3270,12 +3270,15 @@
     "dep": "Slovácko",
     "lig": "Czech-Republic - Czech Liga",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "4-1"
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 1429,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 4.88,
+  "kar": -100
  },
  {
   "tarih": "2026-11-27",
