@@ -2967,5 +2967,387 @@
   "bacaklar": [],
   "sonuc": "yok",
   "tg": null
+ },
+ {
+  "tarih": "2026-11-27",
+  "id": "2026-11-27-alt",
+  "parti": 10,
+  "tur": "alt",
+  "baslik": "🧊 Alt kuponu",
+  "oran": 2.82,
+  "p_piyasa": 0.283,
+  "bacaklar": [
+   {
+    "tur": "alt35",
+    "oran": 1.44,
+    "p": 0.645320197044335,
+    "cizgi": 3.5,
+    "form_ev": [
+     7,
+     7
+    ],
+    "form_dep": [
+     7,
+     8
+    ],
+    "oran_form": 0.9333333333333333,
+    "h2h": [
+     1,
+     2
+    ],
+    "sira_puan": 0.4816,
+    "fixture_id": "1593709",
+    "saat": "11:40",
+    "ts": 1795768800,
+    "mac": "Macarthur - Melbourne City",
+    "ev": "Macarthur",
+    "dep": "Melbourne City",
+    "lig": "Australia - A-League",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt35",
+    "oran": 1.4,
+    "p": 0.6626506024096386,
+    "cizgi": 3.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": null,
+    "sira_puan": 0.3361,
+    "fixture_id": "1555216",
+    "saat": "16:00",
+    "ts": 1795784400,
+    "mac": "Maccabi Bnei Raina - Maccabi Kiryat Gat",
+    "ev": "Maccabi Bnei Raina",
+    "dep": "Maccabi Kiryat Gat",
+    "lig": "Israel - Liga Leumit",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt35",
+    "oran": 1.4,
+    "p": 0.6626506024096386,
+    "cizgi": 3.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": [
+     2,
+     2
+    ],
+    "sira_puan": 0.3361,
+    "fixture_id": "1585847",
+    "saat": "20:00",
+    "ts": 1795798800,
+    "mac": "Ümraniyespor - Manisa F.K.",
+    "ev": "Ümraniyespor",
+    "dep": "Manisa F.K.",
+    "lig": "Turkey - 1. Lig",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1427
+ },
+ {
+  "tarih": "2026-11-27",
+  "id": "2026-11-27-gol",
+  "parti": 10,
+  "tur": "gol",
+  "baslik": "🎯 Gol kuponu",
+  "oran": 1.83,
+  "p_piyasa": 0.45,
+  "bacaklar": [
+   {
+    "tur": "ust15",
+    "oran": 1.25,
+    "p": 0.75,
+    "cizgi": 1.5,
+    "form_ev": [
+     8,
+     8
+    ],
+    "form_dep": [
+     7,
+     8
+    ],
+    "oran_form": 0.9375,
+    "h2h": [
+     3,
+     3
+    ],
+    "sira_puan": 0.4125,
+    "fixture_id": "1633942",
+    "saat": "14:00",
+    "ts": 1795777200,
+    "mac": "Nam Dinh - Công An Nhân Dân",
+    "ev": "Nam Dinh",
+    "dep": "Công An Nhân Dân",
+    "lig": "Vietnam - V.League 1",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust15",
+    "oran": 1.22,
+    "p": 0.7662835249042146,
+    "cizgi": 1.5,
+    "form_ev": [
+     10,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.95,
+    "h2h": [
+     3,
+     3
+    ],
+    "sira_puan": 0.4136,
+    "fixture_id": "1603087",
+    "saat": "15:15",
+    "ts": 1795781700,
+    "mac": "Al Kholood - Al Khaleej Saihat",
+    "ev": "Al Kholood",
+    "dep": "Al Khaleej Saihat",
+    "lig": "Saudi-Arabia - Pro League",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust15",
+    "oran": 1.2,
+    "p": 0.783001808318264,
+    "cizgi": 1.5,
+    "form_ev": [
+     8,
+     8
+    ],
+    "form_dep": [
+     5,
+     5
+    ],
+    "oran_form": 1.0,
+    "h2h": null,
+    "sira_puan": 0.4519,
+    "fixture_id": "1642201",
+    "saat": "17:00",
+    "ts": 1795788000,
+    "mac": "Inter Kashi - Churchill Brothers",
+    "ev": "Inter Kashi",
+    "dep": "Churchill Brothers",
+    "lig": "India - Indian Super League",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1428
+ },
+ {
+  "tarih": "2026-11-27",
+  "id": "2026-11-27-ust",
+  "parti": 10,
+  "tur": "ust",
+  "baslik": "⚽ Üst kuponu",
+  "oran": 4.88,
+  "p_piyasa": 0.173,
+  "bacaklar": [
+   {
+    "tur": "ust25",
+    "oran": 1.6,
+    "p": 0.5897435897435896,
+    "cizgi": 2.5,
+    "form_ev": [
+     10,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.9,
+    "h2h": null,
+    "sira_puan": 0.4872,
+    "fixture_id": "1555552",
+    "saat": "15:00",
+    "ts": 1795780800,
+    "mac": "Maccabi Petah Tikva - Hapoel Tel Aviv",
+    "ev": "Maccabi Petah Tikva",
+    "dep": "Hapoel Tel Aviv",
+    "lig": "Israel - Ligat Ha'al",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.65,
+    "p": 0.5714285714285715,
+    "cizgi": 2.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": null,
+    "sira_puan": 0.4,
+    "fixture_id": "1555218",
+    "saat": "16:00",
+    "ts": 1795784400,
+    "mac": "Maccabi Ahi Nazareth - Kiryat Yam SC",
+    "ev": "Maccabi Ahi Nazareth",
+    "dep": "Kiryat Yam SC",
+    "lig": "Israel - Liga Leumit",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.85,
+    "p": 0.513157894736842,
+    "cizgi": 2.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     7,
+     10
+    ],
+    "oran_form": 0.75,
+    "h2h": [
+     2,
+     3
+    ],
+    "sira_puan": 0.3908,
+    "fixture_id": "1560084",
+    "saat": "20:00",
+    "ts": 1795798800,
+    "mac": "Artis - Slovácko",
+    "ev": "Artis",
+    "dep": "Slovácko",
+    "lig": "Czech-Republic - Czech Liga",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": null
+ },
+ {
+  "tarih": "2026-11-27",
+  "id": "2026-11-27-karisik",
+  "parti": 10,
+  "tur": "karisik",
+  "baslik": "🎲 Karışık kupon",
+  "oran": 3.8,
+  "p_piyasa": 0.217,
+  "bacaklar": [
+   {
+    "tur": "korner",
+    "oran": 1.78,
+    "p": 0.531578947368421,
+    "cizgi": 8.5,
+    "form_ev": [
+     8,
+     9
+    ],
+    "form_dep": [
+     6,
+     8
+    ],
+    "oran_form": 0.8235294117647058,
+    "h2h": null,
+    "sira_puan": 0.4514,
+    "fixture_id": "1598091",
+    "saat": "15:00",
+    "ts": 1795780800,
+    "mac": "Uthai Thani - Sisaket United",
+    "ev": "Uthai Thani",
+    "dep": "Sisaket United",
+    "lig": "Thailand - Thai League 1",
+    "etiket": "Korner 8.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust15",
+    "oran": 1.28,
+    "p": 0.7322175732217574,
+    "cizgi": 1.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.9,
+    "h2h": [
+     5,
+     6
+    ],
+    "sira_puan": 0.3874,
+    "fixture_id": "1561974",
+    "saat": "21:30",
+    "ts": 1795804200,
+    "mac": "Grazer AK - SCR Altach",
+    "ev": "Grazer AK",
+    "dep": "SCR Altach",
+    "lig": "Austria - Bundesliga",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "kg",
+    "oran": 1.67,
+    "p": 0.557029177718833,
+    "cizgi": null,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": null,
+    "sira_puan": 0.4101,
+    "fixture_id": "1552238",
+    "saat": "22:00",
+    "ts": 1795806000,
+    "mac": "Groningen - Willem II",
+    "ev": "Groningen",
+    "dep": "Willem II",
+    "lig": "Netherlands - Eredivisie",
+    "etiket": "KG Var",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": null
  }
 ]
