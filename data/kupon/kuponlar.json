@@ -3371,12 +3371,15 @@
     "dep": "Willem II",
     "lig": "Netherlands - Eredivisie",
     "etiket": "KG Var",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "1-1"
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 1430,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 3.8,
+  "kar": -100
  },
  {
   "tarih": "2026-11-27",
@@ -3477,7 +3480,8 @@
     "dep": "Greece W",
     "lig": "World - Friendlies Women",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "0-2"
    },
    {
     "tur": "kg",
@@ -3503,7 +3507,8 @@
     "dep": "Valenciennes",
     "lig": "France - Coupe de France",
     "etiket": "KG Var",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "1-2"
    },
    {
     "tur": "ust15",
