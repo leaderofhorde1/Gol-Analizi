@@ -14,6 +14,7 @@ PATH = DATA / "kasa.json"
 BASLANGIC = float(os.environ.get("KASA_BASLANGIC", "10000"))
 ORAN = float(os.environ.get("KASA_ORAN", "0.25"))
 MIN_BAHIS = float(os.environ.get("KASA_MIN", "1000"))
+YENIDEN = float(os.environ.get("KASA_YENIDEN", "10000"))  # para bitince eklenen sanal bakiye
 _lock = threading.Lock()
 
 
@@ -39,6 +40,21 @@ def day_state(day: str, d: dict | None = None) -> dict:
                           "kaybeden": 0, "atlanan": 0}
 
 
+def _notify_topup(st: dict, cash: float):
+    try:
+        from main import notify
+        toplam = st["nakit"] + st["acik"]
+        fark = toplam - st["baslangic"]
+        notify("♻️ Kasa yenilendi", "\n".join([
+            f"♻️ Kasada para kalmadı (nakit {tl(cash)}).",
+            f"💼 Kasaya {tl(YENIDEN)} sanal bakiye eklendi.",
+            f"💵 Güncel nakit: {tl(st['nakit'])}" + (f" (açık bahislerde {tl(st['acik'])})" if st["acik"] else ""),
+            f"📒 Bugün kasaya yatırılan toplam: {tl(st['baslangic'])}  •  Durum: {'+' if fark >= 0 else '−'}{tl(abs(fark))}"]),
+            priority=3)
+    except Exception as e:
+        print("Kasa bildirimi gönderilemedi:", e)
+
+
 def bet(row: dict) -> list[str]:
     """Gönderilen sinyal için bahis aç; mesaj satırlarını döndür."""
     if row.get("kasa_durum"):
@@ -52,13 +68,16 @@ def bet(row: dict) -> list[str]:
         d = _load()
         st = day_state(day, d)
         cash = st["nakit"]
+        topup = []
         if cash < MIN_BAHIS:
-            st["atlanan"] += 1
-            d[day] = st
-            _save(d)
-            row["kasa_durum"] = "yetersiz"
-            return [f"⚠️ Kasada henüz para yok (nakit {tl(cash)}, açık bahislerde {tl(st['acik'])}). "
-                    "Bu sinyale bahis yapılmadı."]
+            # para bitti: kasaya otomatik 10.000 TL sanal bakiye eklenir ve gruba bildirilir
+            n = sum(1 for k in st.get("ekler", []) if k.startswith("otomatik")) + 1
+            st["nakit"] += YENIDEN
+            st["baslangic"] += YENIDEN
+            st.setdefault("ekler", []).append(f"otomatik-{n}")
+            topup = [f"♻️ Kasa bitmişti: {tl(YENIDEN)} sanal bakiye eklendi"]
+            _notify_topup(st, cash)
+            cash = st["nakit"]
         stake = min(cash, max(MIN_BAHIS, round(cash * ORAN / 10) * 10))
         st["nakit"] = cash - stake
         st["acik"] += stake
@@ -66,7 +85,7 @@ def bet(row: dict) -> list[str]:
         d[day] = st
         _save(d)
     row["kasa_bahis"], row["kasa_durum"] = round(stake), "acik"
-    return [f"💼 Kasa: {tl(stake)} basıldı (olası dönüş {tl(stake * odd)})",
+    return [*topup, f"💼 Kasa: {tl(stake)} basıldı (olası dönüş {tl(stake * odd)})",
             f"💵 Kalan nakit: {tl(st['nakit'])}"]
 
 
