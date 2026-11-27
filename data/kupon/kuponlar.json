@@ -3062,12 +3062,16 @@
     "dep": "Manisa F.K.",
     "lig": "Turkey - 1. Lig",
     "etiket": "3.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "2-2",
+    "neden": "En fazla 3 gol olmalıydı, maçta 4 gol oldu (2-2). Gol dakikaları: 33' Manisa F.K., 55' Ümraniyespor, 73' Manisa F.K., 90'+1 Ümraniyespor. Bahsi kaybettiren 4. gol 90'+1. dakikada geldi."
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 1427,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 2.82,
+  "kar": -100
  },
  {
   "tarih": "2026-11-27",
