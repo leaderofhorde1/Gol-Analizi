@@ -46,5 +46,14 @@
   "kazanan": 5,
   "kaybeden": 8,
   "atlanan": 22
+ },
+ "2026-11-28": {
+  "baslangic": 10000.0,
+  "nakit": 7500.0,
+  "acik": 2500.0,
+  "bahis": 1,
+  "kazanan": 0,
+  "kaybeden": 0,
+  "atlanan": 0
  }
 }
