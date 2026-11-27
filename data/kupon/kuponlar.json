@@ -3668,7 +3668,9 @@
     "dep": "NEOM",
     "lig": "Saudi-Arabia - Pro League",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "1-0",
+    "neden": "2 gol gerekiyordu, maçta 1 gol oldu (1-0). Şutlar 17-9, isabetli 4-3, xG 2.4-0.9."
    },
    {
     "tur": "kg",
@@ -3727,6 +3729,7 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 1460
+  "tg": 1460,
+  "yatti": true
  }
 ]
