@@ -3102,7 +3102,9 @@
     "dep": "Công An Nhân Dân",
     "lig": "Vietnam - V.League 1",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "0-0",
+    "neden": "2 gol gerekiyordu, maçta 0 gol oldu (0-0). Şutlar 0-0, isabetli 0-0."
    },
    {
     "tur": "ust15",
@@ -3161,7 +3163,8 @@
    }
   ],
   "sonuc": "bekliyor",
-  "tg": 1428
+  "tg": 1428,
+  "yatti": true
  },
  {
   "tarih": "2026-11-27",
