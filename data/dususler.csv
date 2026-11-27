@@ -320,10 +320,10 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-27,1576245,20:30,Germany - 2. Bundesliga,1. FC Heidenheim - 1. FC Nürnberg,ou:alt,Alt 2.5,3.1,2.7,0.129,0.305,0.348,ıska,3-1,-100
 2026-11-27,1584475,20:00,Turkey - Süper Lig,Alanyaspor - Konyaspor,kg:yok,KG Yok,2.0,1.73,0.135,0.464,0.536,ıska,1-2,-100
 2026-11-27,1551902,22:00,Netherlands - Eerste Divisie,NAC Breda - Den Bosch,ou:alt,Alt 2.5,4.0,3.5,0.125,0.238,0.271,ıska,6-2,-100
-2026-11-27,1580809,22:30,Wales - FAW Championship,Carmarthen Town - Swansea University,ou:alt,Alt 2.5,3.4,2.5,0.265,0.277,0.375,bekliyor,,
-2026-11-27,1613428,22:30,Spain - Tercera División RFEF - Group 3,Revilla - Velarde,1x2:dep,Deplasman,7.5,6.5,0.133,0.119,0.136,bekliyor,,
+2026-11-27,1580809,22:30,Wales - FAW Championship,Carmarthen Town - Swansea University,ou:alt,Alt 2.5,3.4,2.5,0.265,0.277,0.375,ıska,1-5,-100
+2026-11-27,1613428,22:30,Spain - Tercera División RFEF - Group 3,Revilla - Velarde,1x2:dep,Deplasman,7.5,6.5,0.133,0.119,0.136,isabet,0-2,550
 2026-11-27,1621091,22:00,England - Premier League 2 Division One,Norwich City U21 - Chelsea U21,1x2:ev,Ev sahibi,3.8,3.2,0.158,0.237,0.284,ıska,2-5,-100
-2026-11-27,1647346,22:30,Scotland - FA Cup,Largs Thistle - Ayr Utd,1x2:ev,Ev sahibi,8.0,7.0,0.125,0.112,0.129,bekliyor,,
+2026-11-27,1647346,22:30,Scotland - FA Cup,Largs Thistle - Ayr Utd,1x2:ev,Ev sahibi,8.0,7.0,0.125,0.112,0.129,ıska,0-3,-100
 2026-11-27,1576022,22:45,Wales - Premier League,Cambrian & Clydach - Trefelin,ou:alt,Alt 2.5,2.62,2.15,0.179,0.355,0.437,bekliyor,,
 2026-11-27,1576023,22:45,Wales - Premier League,Cardiff MET - Airbus UK,ou:alt,Alt 2.5,2.62,2.3,0.122,0.355,0.41,bekliyor,,
 2026-11-27,1576025,22:45,Wales - Premier League,Flint Town United - The New Saints,1x2:ev,Ev sahibi,19.0,15.0,0.211,0.049,0.061,bekliyor,,

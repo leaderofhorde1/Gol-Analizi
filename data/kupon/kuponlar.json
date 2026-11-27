@@ -3534,11 +3534,15 @@
     "dep": "First Vienna",
     "lig": "Austria - 2. Liga",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "0-1",
+    "neden": "2 gol gerekiyordu, maçta 1 gol oldu (0-1). Şutlar 0-0, isabetli 0-0."
    }
   ],
-  "sonuc": "bekliyor",
-  "tg": 1458
+  "sonuc": "ıska",
+  "tg": 1458,
+  "oran_gercek": 2.61,
+  "kar": -100
  },
  {
   "tarih": "2026-11-27",
@@ -3603,7 +3607,8 @@
     "dep": "Swansea University",
     "lig": "Wales - FAW Championship",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "1-5"
    },
    {
     "tur": "ust25",
@@ -3732,11 +3737,14 @@
     "dep": "Sabadell",
     "lig": "Spain - Segunda División",
     "etiket": "Korner 8.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "0-0, 14 korner"
    }
   ],
-  "sonuc": "bekliyor",
+  "sonuc": "ıska",
   "tg": 1460,
-  "yatti": true
+  "yatti": true,
+  "oran_gercek": 3.13,
+  "kar": -100
  }
 ]
