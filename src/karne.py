@@ -373,6 +373,28 @@ def section(title, rows):
     return L
 
 
+def iddaa_block(rows, name) -> list[str]:
+    """Gönderilen sinyaller iddaa.com'un o anki oranıyla oynansaydı: 100 TL'lik sanal kâr, piyasa oranıyla kıyas."""
+    done = [r for r in rows if r.get("gonderildi") == "evet" and r.get("tur") != "baski"
+            and r.get("sonuc") in ("isabet", "ıska")]
+    io_ = [r for r in done if (_f(r.get("iddaa_oran")) or 0) > 1.01]
+    if not io_:
+        return []
+    k_i = sum((_f(r["iddaa_oran"]) - 1) * 100 if r["sonuc"] == "isabet" else -100 for r in io_)
+    both = [r for r in io_ if (_f(r.get("oran")) or 0) > 1.01]
+    k_p = sum((_f(r["oran"]) - 1) * 100 if r["sonuc"] == "isabet" else -100 for r in both)
+    k_b = sum((_f(r["iddaa_oran"]) - 1) * 100 if r["sonuc"] == "isabet" else -100 for r in both)
+    ort = sum(_f(r["iddaa_oran"]) / _f(r["oran"]) for r in both) / len(both) if both else None
+    w = sum(r["sonuc"] == "isabet" for r in io_)
+    out = [f"## 🇹🇷 İddaa oranlarıyla ({name})", "",
+           f"İddaa'da açık olan {len(io_)} sinyal: {w} tuttu. Her birine iddaa oranıyla 100 TL: **{k_i:+.0f} TL**.",
+           f"İddaa'da yoktu/askıdaydı: {len(done) - len(io_)} sinyal."]
+    if both:
+        out.append(f"Aynı {len(both)} sinyal piyasa oranıyla: {k_p:+.0f} TL, iddaa ile: {k_b:+.0f} TL "
+                   f"(iddaa oranı piyasanın ortalama %{round(100 * ort)}'i).")
+    return out + [""]
+
+
 def build(days=7):
     rows = load()
     today = dt.datetime.now(TZ).date()
@@ -409,6 +431,7 @@ def build(days=7):
                 L.append("")
     except Exception as e:
         L += [f"(Oran düşüşü özeti alınamadı: {e})", ""]
+    L += iddaa_block(recent, f"son {days} gün") + iddaa_block(rows, "tüm zamanlar")
     text = "\n".join(L)
     RAPOR.mkdir(parents=True, exist_ok=True)
     (RAPOR / "karne.md").write_text(text, encoding="utf-8")

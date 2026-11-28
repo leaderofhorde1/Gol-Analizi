@@ -105,7 +105,7 @@ class Iddaa:
                 if want is not None and str(mk.get("sov")) != want:
                     continue
                 for o in mk.get("o") or []:
-                    if o.get("n") == pick and o.get("odd"):
+                    if o.get("n") == pick and (o.get("odd") or 0) > 1.01:
                         return {"oran": float(o["odd"]), "durum": "var" if mk.get("s") == 1 else "askıda",
                                 "iddaa_id": eid}
             return {"oran": None, "durum": "yok", "iddaa_id": eid}
