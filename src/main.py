@@ -1121,32 +1121,56 @@ def run_basket():
 
 
 def run_iddaa():
-    """İddaa keşfi: sportsbookv2.iddaa.com'a erişim, canlı/maç öncesi bülten ve pazar yapısı."""
+    """İddaa keşfi: canlı maçların pazarları hangi uçtan geliyor?"""
     import requests as rq
     B = "https://sportsbookv2.iddaa.com/sportsbook"
     h = {"User-Agent": "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/124 Mobile Safari/537.36",
          "Accept": "application/json", "Origin": "https://www.iddaa.com", "Referer": "https://www.iddaa.com/"}
-    def g(path):
+    def g(path, show=300):
         try:
-            r = rq.get(f"{B}/{path}", headers=h, timeout=30)
-            print(f"--- {path} → HTTP {r.status_code}, {len(r.content)} bayt, {r.headers.get('content-type')}")
-            return r.json() if r.ok else (print(r.text[:300]) or None)
+            r = rq.get(f"{B}/{path}" if not path.startswith("http") else path, headers=h, timeout=30)
+            print(f"--- {path} → HTTP {r.status_code}, {len(r.content)} bayt")
+            if r.ok and show:
+                print("   ", r.text[:show].replace("\n", " "))
+            return r.json() if r.ok else None
         except Exception as e:
             print(f"--- {path} → HATA {e}")
             return None
-    for t in (1, 0):
-        js = g(f"events?st=1&type={t}&version=0")
-        ev = ((js or {}).get("data") or {}).get("events") or []
-        print(f"type={t}: {len(ev)} maç")
-        for e in ev[:2]:
-            print(json.dumps({k: e.get(k) for k in e if k != "m"}, ensure_ascii=False)[:400])
-            print("  pazar sayısı:", len(e.get("m") or []))
-            for mk in (e.get("m") or [])[:6]:
-                print("  ", json.dumps(mk, ensure_ascii=False)[:400])
-    comp = g("competitions")
-    print("competitions:", json.dumps(comp, ensure_ascii=False)[:300] if comp else None)
-    js = g("markets") or g("market-types")
-    print("market tanımları:", json.dumps(js, ensure_ascii=False)[:600] if js else None)
+    js = g("events?st=1&type=1&version=0", 0)
+    ev = ((js or {}).get("data") or {}).get("events") or []
+    withm = [e for e in ev if e.get("m")]
+    playing = [e for e in ev if e.get("s") not in (0, None) or e.get("bp")]
+    print(f"canlı liste: {len(ev)} maç, pazarı dolu {len(withm)}, oynanan(s/bp) {len(playing)}")
+    print("alan örnekleri:", [json.dumps({k: e.get(k) for k in ("i", "hn", "an", "s", "bp", "il", "d", "mbc")}, ensure_ascii=False) for e in ev[:3]])
+    if withm:
+        e = withm[0]
+        print("pazarlı canlı örnek:", e.get("hn"), e.get("an"), "pazar", len(e["m"]))
+        for mk in e["m"][:12]:
+            print("  ", json.dumps(mk, ensure_ascii=False)[:300])
+    import time as _t
+    now = _t.time()
+    live_now = [e for e in ev if e.get("d") and e["d"] < now]
+    print("başlama saati geçmiş:", len(live_now))
+    e = (live_now or ev)[0] if ev else None
+    if e:
+        eid = e["i"]
+        for path in (f"events/{eid}", f"event/{eid}", f"events/{eid}/markets", f"event?id={eid}",
+                     f"events?st=1&type=1&version=0&eventId={eid}", f"live/events/{eid}",
+                     f"https://sportsbookv2.iddaa.com/sportsbook/event-detail/{eid}",
+                     f"https://sportsbookv2.iddaa.com/sportsbook/events/detail/{eid}",
+                     "events?st=1&type=1&version=1", "live-events?st=1"):
+            g(path, 500)
+    print("st kodları (maç öncesi):")
+    js0 = g("events?st=1&type=0&version=0", 0)
+    from collections import Counter
+    c = Counter()
+    names = {}
+    for e in ((js0 or {}).get("data") or {}).get("events") or []:
+        for mk in e.get("m") or []:
+            c[mk.get("st")] += 1
+            names.setdefault(mk.get("st"), [o.get("n") for o in mk.get("o") or []][:4] + [mk.get("sov")])
+    for st, n in c.most_common(25):
+        print("  st", st, n, names.get(st))
     return 0
 
 
