@@ -1120,9 +1120,41 @@ def run_basket():
     return 0
 
 
+def run_iddaa():
+    """İddaa keşfi: sportsbookv2.iddaa.com'a erişim, canlı/maç öncesi bülten ve pazar yapısı."""
+    import requests as rq
+    B = "https://sportsbookv2.iddaa.com/sportsbook"
+    h = {"User-Agent": "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/124 Mobile Safari/537.36",
+         "Accept": "application/json", "Origin": "https://www.iddaa.com", "Referer": "https://www.iddaa.com/"}
+    def g(path):
+        try:
+            r = rq.get(f"{B}/{path}", headers=h, timeout=30)
+            print(f"--- {path} → HTTP {r.status_code}, {len(r.content)} bayt, {r.headers.get('content-type')}")
+            return r.json() if r.ok else (print(r.text[:300]) or None)
+        except Exception as e:
+            print(f"--- {path} → HATA {e}")
+            return None
+    for t in (1, 0):
+        js = g(f"events?st=1&type={t}&version=0")
+        ev = ((js or {}).get("data") or {}).get("events") or []
+        print(f"type={t}: {len(ev)} maç")
+        for e in ev[:2]:
+            print(json.dumps({k: e.get(k) for k in e if k != "m"}, ensure_ascii=False)[:400])
+            print("  pazar sayısı:", len(e.get("m") or []))
+            for mk in (e.get("m") or [])[:6]:
+                print("  ", json.dumps(mk, ensure_ascii=False)[:400])
+    comp = g("competitions")
+    print("competitions:", json.dumps(comp, ensure_ascii=False)[:300] if comp else None)
+    js = g("markets") or g("market-types")
+    print("market tanımları:", json.dumps(js, ensure_ascii=False)[:600] if js else None)
+    return 0
+
+
 def main():
     if MODE == "diag":
         return run_diag()
+    if MODE == "iddaa":
+        return run_iddaa()
     if MODE == "basket":
         return run_basket()
     if MODE == "kapsam":  # API-Football lig kapsamı: canlı istatistik hangi liglerde var
