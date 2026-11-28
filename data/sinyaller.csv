@@ -936,5 +936,5 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-28,1557482,England - Premier League,Ipswich - Aston Villa,33,1-2,,Aston Villa,,düşük,,,evet,ıska,,0.491,,baski,,,,,1686,uyarı,45,6/10,,,,,,,,,,,,,,,,,
 2026-11-28,1553923,Serbia - Super Liga,FK Partizan - Radnicki NIS,32,1-0,,FK Partizan,,düşük,,,evet,ıska,,0.584,,baski,,,,,1687,uyarı,45,5/10,,,,,,,,,,,,,,,,,
 2026-11-28,1649499,USA - Major League Soccer,Charlotte - Chicago Fire,25,1-0,,Chicago Fire,,düşük,,,evet,ıska,,0.532,,baski,,,,,1688,uyarı,40,5/10,,,,,,,,,,,,,,,,,
-2026-11-28,1560082,Czech-Republic - Czech Liga,Hradec Králové - Bohemians 1905,46,1-1,,Bohemians 1905,,düşük,,,evet,bekliyor,,0.501,,baski,,,,,1689,,61,5/10,,,,,,,,,,,,,,,,,
-2026-11-28,1550214,Italy - Serie A,Torino - Lazio,50,0-2,,Lazio,,düşük,,,evet,bekliyor,,0.655,,baski,,,,,1690,,65,9/10,,,,,,,,,,,,,,,,,
+2026-11-28,1560082,Czech-Republic - Czech Liga,Hradec Králové - Bohemians 1905,46,1-1,,Bohemians 1905,,düşük,,,evet,ıska,,0.501,,baski,,,,,1689,uyarı,61,5/10,,,,,,,,,,,,,,,,,
+2026-11-28,1550214,Italy - Serie A,Torino - Lazio,50,0-2,,Lazio,,düşük,,,evet,isabet,63,0.655,,baski,,,,,1690,uyarı,65,9/10,,,,,,,,,,,,,,,,,

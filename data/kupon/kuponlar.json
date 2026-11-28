@@ -3820,11 +3820,15 @@
     "dep": "Lens",
     "lig": "France - Ligue 1",
     "etiket": "Korner 9.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "ıska",
+    "skor": "2-5, 5 korner",
+    "neden": "En az 10 korner gerekiyordu, 5 korner oldu (Angers 3, Lens 2)."
    }
   ],
-  "sonuc": "bekliyor",
-  "tg": 1566
+  "sonuc": "ıska",
+  "tg": 1566,
+  "oran_gercek": 3.11,
+  "kar": -100
  },
  {
   "tarih": "2026-11-28",

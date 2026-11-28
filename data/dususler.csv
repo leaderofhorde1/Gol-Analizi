@@ -380,7 +380,7 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-28,1647340,18:00,Scotland - FA Cup,Annan Athletic - Morton,1x2:x,Beraberlik,4.0,3.5,0.125,0.224,0.256,ıska,0-3,-100
 2026-11-28,1647343,18:00,Scotland - FA Cup,Cumnock Juniors - Arbroath,1x2:ev,Ev sahibi,6.0,5.25,0.125,0.149,0.171,ıska,1-3,-100
 2026-11-28,1647351,18:00,Scotland - FA Cup,Ross County - Brora Rangers,kg:yok,KG Yok,2.0,1.57,0.215,0.467,0.589,ıska,3-1,-100
-2026-11-28,1572446,19:30,Spain - Segunda División RFEF - Group 2,Barcelona B - Terrassa,1x2:dep,Deplasman,4.33,3.8,0.122,0.209,0.237,bekliyor,,
+2026-11-28,1572446,19:30,Spain - Segunda División RFEF - Group 2,Barcelona B - Terrassa,1x2:dep,Deplasman,4.33,3.8,0.122,0.209,0.237,ıska,1-0,-100
 2026-11-28,1584480,19:00,Turkey - Süper Lig,Gaziantep FK - Amed,ou:alt,Alt 2.5,2.15,1.85,0.14,0.437,0.513,ıska,1-2,-100
 2026-11-28,1587926,18:00,England - National League - North,King's Lynn Town - Macclesfield,ou:alt,Alt 2.5,2.38,2.05,0.139,0.391,0.461,isabet,0-0,105
 2026-11-28,1587926,18:00,England - National League - North,King's Lynn Town - Macclesfield,kg:yok,KG Yok,2.62,2.2,0.16,0.355,0.424,isabet,0-0,120
@@ -390,7 +390,7 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-28,1647352,18:00,Scotland - FA Cup,Stenhousemuir - East Fife,1x2:dep,Deplasman,7.0,5.0,0.286,0.128,0.181,ıska,2-1,-100
 2026-11-28,1648250,18:00,Scotland - FA Cup,Musselburgh Athletic - Airdrie United,1x2:ev,Ev sahibi,8.5,5.75,0.324,0.106,0.157,ıska,1-2,-100
 2026-11-28,1648250,18:00,Scotland - FA Cup,Musselburgh Athletic - Airdrie United,1x2:x,Beraberlik,5.25,4.33,0.175,0.172,0.208,ıska,1-2,-100
-2026-11-28,1650275,19:00,France - Coupe de France,La Roche VF - Châteaubriant,1x2:x,Beraberlik,5.0,4.1,0.18,0.179,0.218,bekliyor,,
+2026-11-28,1650275,19:00,France - Coupe de France,La Roche VF - Châteaubriant,1x2:x,Beraberlik,5.0,4.1,0.18,0.179,0.218,isabet,0-0,310
 2026-11-28,1614043,20:45,Spain - Tercera División RFEF - Group 5,San Juan Atletico de Montcada - Badalona,ou:ust,Üst 2.5,1.9,1.65,0.132,0.5,0.571,bekliyor,,
 2026-11-28,1614043,20:45,Spain - Tercera División RFEF - Group 5,San Juan Atletico de Montcada - Badalona,1x2:ev,Ev sahibi,3.5,2.55,0.271,0.258,0.349,bekliyor,,
 2026-11-28,1647673,19:00,World - CAF Champions League,ES Tunis - Wiliete,1x2:dep,Deplasman,11.0,9.0,0.182,0.082,0.1,ıska,3-0,-100
