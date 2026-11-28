@@ -347,7 +347,7 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-28,1639117,14:00,Philippines - PFL,Davao Aguilas - Manila Digger,1x2:ev,Ev sahibi,12.0,9.0,0.25,0.077,0.101,ıska,1-2,-100
 2026-11-28,1639117,14:00,Philippines - PFL,Davao Aguilas - Manila Digger,1x2:x,Beraberlik,8.0,7.0,0.125,0.115,0.13,ıska,1-2,-100
 2026-11-28,1551495,14:00,Macedonia - First League,Aresimi - Vardar Skopje,ou:alt,Alt 2.5,2.38,2.0,0.16,0.391,0.474,isabet,0-1,100
-2026-11-28,1551499,15:00,Macedonia - First League,Tikveš - Shkendija,1x2:ev,Ev sahibi,2.6,2.25,0.135,0.345,0.401,bekliyor,,
+2026-11-28,1551499,15:00,Macedonia - First League,Tikveš - Shkendija,1x2:ev,Ev sahibi,2.6,2.25,0.135,0.345,0.401,ıska,0-2,-100
 2026-11-28,1650286,15:30,France - Coupe de France,OCPAM - Reims,1x2:ev,Ev sahibi,6.5,4.5,0.308,0.138,0.201,bekliyor,,
 2026-11-28,1650286,15:30,France - Coupe de France,OCPAM - Reims,1x2:x,Beraberlik,6.25,5.25,0.16,0.144,0.172,bekliyor,,
 2026-11-28,1565314,15:30,Romania - Liga I,FC Voluntari - CFR 1907 Cluj,ou:alt,Alt 2.5,1.95,1.7,0.128,0.487,0.553,bekliyor,,
@@ -357,7 +357,7 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-28,1642533,16:00,Greece - Gamma Ethniki - Group 8,Proodeftiki - Amfiali,ou:alt,Alt 2.5,1.85,1.62,0.124,0.513,0.581,bekliyor,,
 2026-11-28,1642652,16:00,Greece - Gamma Ethniki - Group 9,Ethnikos Asteras - Thyella Diastavroseos,1x2:ev,Ev sahibi,3.1,2.25,0.274,0.29,0.396,bekliyor,,
 2026-11-28,1575235,17:30,Germany - Bundesliga,Hamburger SV - Bayern München,1x2:x,Beraberlik,7.0,5.75,0.179,0.135,0.164,bekliyor,,
-2026-11-28,1637724,15:00,Indonesia - Liga 2,Sumsel United - Persiraja Banda Aceh,1x2:dep,Deplasman,3.9,3.4,0.128,0.231,0.264,bekliyor,,
+2026-11-28,1637724,15:00,Indonesia - Liga 2,Sumsel United - Persiraja Banda Aceh,1x2:dep,Deplasman,3.9,3.4,0.128,0.231,0.264,ıska,3-0,-100
 2026-11-28,1643384,17:00,Jordan - League,Al Arabi - Al Faisaly,1x2:ev,Ev sahibi,8.0,7.0,0.125,0.112,0.129,bekliyor,,
 2026-11-28,1650286,15:30,France - Coupe de France,OCPAM - Reims,kg:var,KG Var,2.0,1.73,0.135,0.464,0.536,bekliyor,,
 2026-11-28,1552236,18:30,Netherlands - Eredivisie,Excelsior - Telstar,1x2:dep,Deplasman,3.9,3.3,0.154,0.243,0.286,bekliyor,,
