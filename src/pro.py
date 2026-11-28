@@ -184,12 +184,35 @@ def stake(p, odd) -> tuple[str, float] | None:
 GUC_ICON = {"Güçlü": "💪💪💪", "Orta": "💪💪", "Hafif": "💪"}
 
 
-def odd_line(row: dict, minute) -> list[str]:
-    """Sinyal mesajında bahsin o dakikadaki oranı, sinyal gücü ve önerilen pay."""
+_IDDAA = None
+
+
+def iddaa_info(m, row: dict) -> str | None:
+    """Aynı bahsin iddaa.com canlı oranı (kayda yazılır, mesajda kısa gösterilir). Hata sinyali engellemez."""
+    global _IDDAA
+    if m is None or os.environ.get("IDDAA", "1") == "0":
+        return None
+    try:
+        import iddaa
+        if _IDDAA is None:
+            _IDDAA = iddaa.Iddaa()
+        info = _IDDAA.lookup(m, row.get("tur"), row.get("cizgi"))
+        row["iddaa_durum"] = info.get("durum", "")
+        row["iddaa_oran"] = info.get("oran") or ""
+        log(f"İddaa[{row.get('tur')}] {m.name}: {info}")
+        return iddaa.short_text(info)
+    except Exception as e:
+        log("İddaa hatası:", e)
+        return None
+
+
+def odd_line(row: dict, minute, m=None) -> list[str]:
+    """Sinyal mesajında bahsin o dakikadaki oranı (+ iddaa oranı), sinyal gücü ve önerilen pay."""
     o = row.get("oran")
+    idd = iddaa_info(m, row)
     if o in ("", None):
-        return []
-    out = [f"💰 Oran: {float(o):.2f}"]
+        return [idd] if idd else []
+    out = [f"💰 Oran: {float(o):.2f}" + (f"  •  {idd}" if idd else "")]
     st = stake(row.get("p_model"), o)
     if st:  # kayıt için (karnede ölçülür); mesajda tek güç göstergesi "Sinyal gücü" satırıdır
         row["guc"], row["pay"] = st
@@ -1688,7 +1711,7 @@ class ProEngine:
             body = compose(maç, [tahmin, olas[0]], [DETAY], [*lines, *(form["lines"] if form else [])],
                            [f"💬 Neden: {why}"] if why else [], olas[1:])
         else:
-            ol = odd_line(row, m.minute)
+            ol = odd_line(row, m.minute, m)
             top = [tahmin, ((ol[0] + "  •  ") if ol else "") + olas[0]]
             body = compose(maç, top, kasa_lines(row), [DETAY], [olas[1]], lines,
                            [*(form["lines"] if form else []), *self.squad_lines(m)],
@@ -1768,7 +1791,7 @@ class ProEngine:
         d = pr["d_home"] if side == "ev" else pr["d_away"] if side == "deplasman" else {
             k: pr["d_home"][k] + pr["d_away"][k] for k in pr["d_home"]}
         team = m.home if side == "ev" else m.away if side == "deplasman" else "İki takım"
-        ol, pl = odd_line(row, m.minute), prob_lines(p_model, p_mkt, conf)
+        ol, pl = odd_line(row, m.minute, m), prob_lines(p_model, p_mkt, conf)
         tahmin = [f"🎯 TAHMİN: MAÇ SONU {fmt_line(line)} ÜST", ((ol[0] + "  •  ") if ol else "") + pl[0]]
         stats = [*([f"👉 Baskıyı kuran: {team}"] if side in ("ev", "deplasman") else []),
                  f"📈 Son {int(pr['span'])} dk ({team}):", *stat_bullets(d)]

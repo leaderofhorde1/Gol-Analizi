@@ -88,7 +88,7 @@ CSV_FIELDS = [
     "tarih", "fixture_id", "lig", "mac", "dakika", "skor", "taraf", "baski",
     "baski_rakip", "guven", "ai_onay", "ai_yorum", "gonderildi", "sonuc",
     "gol_dakikasi", "p_model", "p_piyasa", "tur", "q_once", "q_sonra", "adil_oran", "kar",
-    "tg_mesaj", "duyuruldu", "cizgi", "form", "piyasa_yon", "oran_akisi", "baglam", "p_piyasa_karar", "karar_sn", "oran", "ev", "q_2", "q_10", "q_15", "guc", "pay", "kasa_bahis", "kasa_durum", "kasa_donus",
+    "tg_mesaj", "duyuruldu", "cizgi", "form", "piyasa_yon", "oran_akisi", "baglam", "p_piyasa_karar", "karar_sn", "oran", "ev", "q_2", "q_10", "q_15", "guc", "pay", "kasa_bahis", "kasa_durum", "kasa_donus", "iddaa_oran", "iddaa_durum",
 ]
 
 
@@ -1121,25 +1121,32 @@ def run_basket():
 
 
 def run_iddaa():
-    """İddaa keşfi: canlı maç pazar kodları (st) ve adları."""
-    import requests as rq
-    from collections import defaultdict
-    B = "https://sportsbookv2.iddaa.com/sportsbook"
-    h = {"User-Agent": "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/124 Mobile Safari/537.36",
-         "Accept": "application/json", "Origin": "https://www.iddaa.com", "Referer": "https://www.iddaa.com/"}
-    ev = rq.get(f"{B}/events?st=1&type=1&version=0", headers=h, timeout=30).json()["data"]["events"]
-    live = [e for e in ev if e.get("bp") or e.get("s")]
-    print("oynanan canlı maç:", len(live))
-    seen = defaultdict(set)
-    for e in live[:12]:
-        d = rq.get(f"{B}/event/{e['i']}", headers=h, timeout=30).json().get("data") or {}
-        print(f"{e['hn']} - {e['an']}: {len(d.get('m') or [])} pazar; alanlar {sorted(k for k in d if k != 'm')}")
-        print("   ", json.dumps({k: d.get(k) for k in d if k not in ('m',)}, ensure_ascii=False)[:300])
-        for mk in d.get("m") or []:
-            seen[(mk.get("t"), mk.get("st"))].add((tuple(o.get("n") for o in mk.get("o") or []), mk.get("sov"), mk.get("s")))
-    for (t, st), v in sorted(seen.items(), key=lambda x: (x[0][0] or 0, x[0][1] or 0)):
-        ex = sorted(v, key=str)[:3]
-        print(f"t={t} st={st}: {ex}")
+    """İddaa eşleşme testi: canlı API-Football maçlarını iddaa'da bulup gol/KG/İY oranlarını yazdırır."""
+    import iddaa
+    api0, idd = Api(API_KEY), iddaa.Iddaa()
+    live = api0.get("fixtures", live="all")
+    print("API-Football canlı:", len(live), "| iddaa canlı bülten:", len(idd.live_list()))
+    ok = 0
+    for fx in live[:60]:
+        m = Match(fx)
+        m.gh, m.ga = fx["goals"]["home"] or 0, fx["goals"]["away"] or 0
+        eid = idd.find(m)
+        if not eid:
+            continue
+        ok += 1
+        if ok > 15:
+            continue
+        e = next((x for x in idd.live_list() if x.get("i") == eid), {})
+        line = m.gh + m.ga + 0.5
+        res = {t: idd.lookup(m, t, line if t != "iy" else 0.5) for t in ("gol", "kg", "iy")}
+        print(f"{m.name}  <->  {e.get('hn')} - {e.get('an')} | {fx['fixture']['status']['elapsed']}' "
+              f"{m.gh}-{m.ga} | Üst{line}: {res['gol']} | KG: {res['kg']} | İY0.5: {res['iy']}")
+        if ok <= 2:
+            for mk in idd.event(eid).get("m") or []:
+                if mk.get("st") in (14, 63, 131, 203, 207, 737, 738):
+                    print("     st", mk.get("st"), "sov", mk.get("sov"), "s", mk.get("s"), mk.get("n") or mk.get("mn"),
+                          [(o.get("n"), o.get("odd")) for o in mk.get("o") or []])
+    print("EŞLEŞEN:", ok, "/", min(60, len(live)))
     return 0
 
 
