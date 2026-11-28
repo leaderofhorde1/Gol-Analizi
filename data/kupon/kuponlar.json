@@ -3958,7 +3958,8 @@
     "dep": "Bodrum FK",
     "lig": "Turkey - 1. Lig",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "0-4"
    },
    {
     "tur": "ust15",
@@ -3984,7 +3985,8 @@
     "dep": "Batman Petrolspor",
     "lig": "Turkey - 1. Lig",
     "etiket": "1.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "1-4"
    },
    {
     "tur": "ust15",
@@ -4055,7 +4057,8 @@
     "dep": "Tulevik",
     "lig": "Estonia - Esiliiga A",
     "etiket": "2.5 Üst",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "5-0"
    },
    {
     "tur": "ust25",
