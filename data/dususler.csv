@@ -361,35 +361,35 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-28,1643384,17:00,Jordan - League,Al Arabi - Al Faisaly,1x2:ev,Ev sahibi,8.0,7.0,0.125,0.112,0.129,isabet,2-0,600
 2026-11-28,1650286,15:30,France - Coupe de France,OCPAM - Reims,kg:var,KG Var,2.0,1.73,0.135,0.464,0.536,ıska,0-2,-100
 2026-11-28,1552236,18:30,Netherlands - Eredivisie,Excelsior - Telstar,1x2:dep,Deplasman,3.9,3.3,0.154,0.243,0.286,bekliyor,,
-2026-11-28,1564434,18:00,England - League One,Sheffield Wednesday - Reading,1x2:dep,Deplasman,2.9,2.55,0.121,0.321,0.364,bekliyor,,
-2026-11-28,1564946,18:00,Northern-Ireland - Championship,Newington Youth - Glenavon FC,1x2:dep,Deplasman,2.05,1.75,0.146,0.434,0.509,bekliyor,,
-2026-11-28,1586945,18:00,Germany - Regionalliga - Nordost,Hallescher FC - Greifswalder FC,1x2:dep,Deplasman,4.33,3.75,0.134,0.206,0.239,bekliyor,,
-2026-11-28,1588474,18:00,England - National League - South,Braintree - AFC Totton,ou:alt,Alt 2.5,2.38,2.05,0.139,0.391,0.461,bekliyor,,
-2026-11-28,1588474,18:00,England - National League - South,Braintree - AFC Totton,kg:yok,KG Yok,2.5,2.1,0.16,0.375,0.443,bekliyor,,
-2026-11-28,1588478,18:00,England - National League - South,Hemel Hempstead Town - Walton & Hersham,ou:alt,Alt 2.5,2.5,2.2,0.12,0.375,0.429,bekliyor,,
-2026-11-28,1596563,18:00,England - Non League Premier - Northern,Avro - Bamber Bridge,ou:alt,Alt 2.5,3.0,2.62,0.127,0.312,0.355,bekliyor,,
-2026-11-28,1597487,18:00,England - Non League Premier - Southern South,Berkhamsted - Evesham United,1x2:x,Beraberlik,4.75,4.1,0.137,0.188,0.218,bekliyor,,
-2026-11-28,1597487,18:00,England - Non League Premier - Southern South,Berkhamsted - Evesham United,1x2:dep,Deplasman,6.25,4.5,0.28,0.143,0.198,bekliyor,,
+2026-11-28,1564434,18:00,England - League One,Sheffield Wednesday - Reading,1x2:dep,Deplasman,2.9,2.55,0.121,0.321,0.364,isabet,1-4,155
+2026-11-28,1564946,18:00,Northern-Ireland - Championship,Newington Youth - Glenavon FC,1x2:dep,Deplasman,2.05,1.75,0.146,0.434,0.509,isabet,0-2,75
+2026-11-28,1586945,18:00,Germany - Regionalliga - Nordost,Hallescher FC - Greifswalder FC,1x2:dep,Deplasman,4.33,3.75,0.134,0.206,0.239,isabet,0-1,275
+2026-11-28,1588474,18:00,England - National League - South,Braintree - AFC Totton,ou:alt,Alt 2.5,2.38,2.05,0.139,0.391,0.461,ıska,3-3,-100
+2026-11-28,1588474,18:00,England - National League - South,Braintree - AFC Totton,kg:yok,KG Yok,2.5,2.1,0.16,0.375,0.443,ıska,3-3,-100
+2026-11-28,1588478,18:00,England - National League - South,Hemel Hempstead Town - Walton & Hersham,ou:alt,Alt 2.5,2.5,2.2,0.12,0.375,0.429,ıska,4-4,-100
+2026-11-28,1596563,18:00,England - Non League Premier - Northern,Avro - Bamber Bridge,ou:alt,Alt 2.5,3.0,2.62,0.127,0.312,0.355,ıska,2-1,-100
+2026-11-28,1597487,18:00,England - Non League Premier - Southern South,Berkhamsted - Evesham United,1x2:x,Beraberlik,4.75,4.1,0.137,0.188,0.218,ıska,3-1,-100
+2026-11-28,1597487,18:00,England - Non League Premier - Southern South,Berkhamsted - Evesham United,1x2:dep,Deplasman,6.25,4.5,0.28,0.143,0.198,ıska,3-1,-100
 2026-11-28,1597493,18:00,England - Non League Premier - Southern South,Plymouth Parkway - Sholing,1x2:dep,Deplasman,4.5,3.9,0.133,0.198,0.228,iptal,,0
 2026-11-28,1616488,18:15,Spain - Tercera División RFEF - Group 13,SFC Minerva - UCAM Murcia II,1x2:dep,Deplasman,2.1,1.8,0.143,0.424,0.495,bekliyor,,
-2026-11-28,1616491,18:00,Spain - Tercera División RFEF - Group 13,Santa Cruz - Algar,ou:ust,Üst 2.5,1.65,1.44,0.127,0.571,0.645,bekliyor,,
-2026-11-28,1616491,18:00,Spain - Tercera División RFEF - Group 13,Santa Cruz - Algar,1x2:dep,Deplasman,10.0,8.5,0.15,0.09,0.106,bekliyor,,
+2026-11-28,1616491,18:00,Spain - Tercera División RFEF - Group 13,Santa Cruz - Algar,ou:ust,Üst 2.5,1.65,1.44,0.127,0.571,0.645,ıska,2-0,-100
+2026-11-28,1616491,18:00,Spain - Tercera División RFEF - Group 13,Santa Cruz - Algar,1x2:dep,Deplasman,10.0,8.5,0.15,0.09,0.106,ıska,2-0,-100
 2026-11-28,1618016,18:30,Spain - Tercera División RFEF - Group 18,La Solana - Villarrubia,1x2:ev,Ev sahibi,3.7,3.1,0.162,0.241,0.288,bekliyor,,
-2026-11-28,1647340,18:00,Scotland - FA Cup,Annan Athletic - Morton,ou:alt,Alt 2.5,2.7,2.25,0.167,0.348,0.419,bekliyor,,
-2026-11-28,1647340,18:00,Scotland - FA Cup,Annan Athletic - Morton,1x2:ev,Ev sahibi,5.0,4.1,0.18,0.179,0.218,bekliyor,,
-2026-11-28,1647340,18:00,Scotland - FA Cup,Annan Athletic - Morton,1x2:x,Beraberlik,4.0,3.5,0.125,0.224,0.256,bekliyor,,
+2026-11-28,1647340,18:00,Scotland - FA Cup,Annan Athletic - Morton,ou:alt,Alt 2.5,2.7,2.25,0.167,0.348,0.419,ıska,0-3,-100
+2026-11-28,1647340,18:00,Scotland - FA Cup,Annan Athletic - Morton,1x2:ev,Ev sahibi,5.0,4.1,0.18,0.179,0.218,ıska,0-3,-100
+2026-11-28,1647340,18:00,Scotland - FA Cup,Annan Athletic - Morton,1x2:x,Beraberlik,4.0,3.5,0.125,0.224,0.256,ıska,0-3,-100
 2026-11-28,1647343,18:00,Scotland - FA Cup,Cumnock Juniors - Arbroath,1x2:ev,Ev sahibi,6.0,5.25,0.125,0.149,0.171,ıska,1-3,-100
-2026-11-28,1647351,18:00,Scotland - FA Cup,Ross County - Brora Rangers,kg:yok,KG Yok,2.0,1.57,0.215,0.467,0.589,bekliyor,,
+2026-11-28,1647351,18:00,Scotland - FA Cup,Ross County - Brora Rangers,kg:yok,KG Yok,2.0,1.57,0.215,0.467,0.589,ıska,3-1,-100
 2026-11-28,1572446,19:30,Spain - Segunda División RFEF - Group 2,Barcelona B - Terrassa,1x2:dep,Deplasman,4.33,3.8,0.122,0.209,0.237,bekliyor,,
 2026-11-28,1584480,19:00,Turkey - Süper Lig,Gaziantep FK - Amed,ou:alt,Alt 2.5,2.15,1.85,0.14,0.437,0.513,bekliyor,,
-2026-11-28,1587926,18:00,England - National League - North,King's Lynn Town - Macclesfield,ou:alt,Alt 2.5,2.38,2.05,0.139,0.391,0.461,bekliyor,,
-2026-11-28,1587926,18:00,England - National League - North,King's Lynn Town - Macclesfield,kg:yok,KG Yok,2.62,2.2,0.16,0.355,0.424,bekliyor,,
+2026-11-28,1587926,18:00,England - National League - North,King's Lynn Town - Macclesfield,ou:alt,Alt 2.5,2.38,2.05,0.139,0.391,0.461,isabet,0-0,105
+2026-11-28,1587926,18:00,England - National League - North,King's Lynn Town - Macclesfield,kg:yok,KG Yok,2.62,2.2,0.16,0.355,0.424,isabet,0-0,120
 2026-11-28,1609149,19:30,Italy - Serie C - Girone C,Salernitana - SS Monopoli,1x2:ev,Ev sahibi,1.95,1.7,0.128,0.461,0.522,bekliyor,,
 2026-11-28,1616791,19:00,Spain - Tercera División RFEF - Group 14,CD Zafra - Santa Amalia,1x2:ev,Ev sahibi,2.0,1.67,0.165,0.448,0.537,bekliyor,,
-2026-11-28,1647352,18:00,Scotland - FA Cup,Stenhousemuir - East Fife,ou:alt,Alt 2.5,2.25,1.9,0.156,0.419,0.5,bekliyor,,
-2026-11-28,1647352,18:00,Scotland - FA Cup,Stenhousemuir - East Fife,1x2:dep,Deplasman,7.0,5.0,0.286,0.128,0.181,bekliyor,,
-2026-11-28,1648250,18:00,Scotland - FA Cup,Musselburgh Athletic - Airdrie United,1x2:ev,Ev sahibi,8.5,5.75,0.324,0.106,0.157,bekliyor,,
-2026-11-28,1648250,18:00,Scotland - FA Cup,Musselburgh Athletic - Airdrie United,1x2:x,Beraberlik,5.25,4.33,0.175,0.172,0.208,bekliyor,,
+2026-11-28,1647352,18:00,Scotland - FA Cup,Stenhousemuir - East Fife,ou:alt,Alt 2.5,2.25,1.9,0.156,0.419,0.5,ıska,2-1,-100
+2026-11-28,1647352,18:00,Scotland - FA Cup,Stenhousemuir - East Fife,1x2:dep,Deplasman,7.0,5.0,0.286,0.128,0.181,ıska,2-1,-100
+2026-11-28,1648250,18:00,Scotland - FA Cup,Musselburgh Athletic - Airdrie United,1x2:ev,Ev sahibi,8.5,5.75,0.324,0.106,0.157,ıska,1-2,-100
+2026-11-28,1648250,18:00,Scotland - FA Cup,Musselburgh Athletic - Airdrie United,1x2:x,Beraberlik,5.25,4.33,0.175,0.172,0.208,ıska,1-2,-100
 2026-11-28,1650275,19:00,France - Coupe de France,La Roche VF - Châteaubriant,1x2:x,Beraberlik,5.0,4.1,0.18,0.179,0.218,bekliyor,,
 2026-11-28,1614043,20:45,Spain - Tercera División RFEF - Group 5,San Juan Atletico de Montcada - Badalona,ou:ust,Üst 2.5,1.9,1.65,0.132,0.5,0.571,bekliyor,,
 2026-11-28,1614043,20:45,Spain - Tercera División RFEF - Group 5,San Juan Atletico de Montcada - Badalona,1x2:ev,Ev sahibi,3.5,2.55,0.271,0.258,0.349,bekliyor,,
