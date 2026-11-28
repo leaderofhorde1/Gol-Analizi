@@ -50,10 +50,10 @@
  "2026-11-28": {
   "baslangic": 20000.0,
   "nakit": 5390.1399999999985,
-  "acik": 1170.0,
+  "acik": 0.0,
   "bahis": 35,
   "kazanan": 16,
-  "kaybeden": 18,
+  "kaybeden": 19,
   "atlanan": 0,
   "ekler": [
    "otomatik-1"

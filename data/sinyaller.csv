@@ -902,7 +902,7 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-28,1597970,Qatar - Stars League,Al Wakrah - Al Sadd,73,1-0,,,,orta,,,gölge,isabet,,0.412,0.352,alt,0.04979,0.05296,2.67,167,,,1.5,10/20,nötr,+5%,,,,2.675,0.103,0.05162,0.06065,0.06959,,,,,,,
 2026-11-28,1553924,Serbia - Super Liga,Radnik Surdulica - Vojvodina,73,0-2,,0-2,,orta,,,evet,isabet,89,0.409,0.312,kg,0.03884,0.04332,3.0,200,1633,evet,,6/10,lehte,+8%,,,,3.0,0.226,0.04293,0.05004,0.05396,Orta,1.0,1000,kapandi,3000,2.52,var
 2026-11-28,1575236,Germany - Bundesliga,1. FC Köln - SV Elversberg,14,1-0,,1. FC Köln,,düşük,,,evet,isabet,16,0.418,0.367,baski,0.0305,,2.59,159,1636,uyarı,29,5/10,,+6%,,,,,,0.03004,,,,,,,,,
-2026-11-28,1567964,Austria - 2. Liga,Admira Wacker - FC Liefering,31,1-0,,4,,orta,,,evet,bekliyor,,0.533,0.442,korner,0.1155,0.12545,,,1643,,11.5,,lehte,,,,,2.1,0.12,0.11928,0.13729,0.15159,Orta,1.0,1170,acik,,,yok
+2026-11-28,1567964,Austria - 2. Liga,Admira Wacker - FC Liefering,31,1-0,,4,,orta,,,evet,ıska,11,0.533,0.442,korner,0.1155,0.12545,2.1,-100,1643,evet,11.5,,lehte,,,,,2.1,0.12,0.11928,0.13729,0.15159,Orta,1.0,1170,kapandi,0,,yok
 2026-11-28,1556713,Scotland - Premiership,Dundee Utd - ST Johnstone,17,1-0,,Dundee Utd,,düşük,,,evet,isabet,20,0.547,,baski,,,,,1648,uyarı,32,7/10,,,,,,,,,,,,,,,,,
 2026-11-28,1563881,England - League Two,Rochdale - Barnet,24,0-1,,Barnet,,düşük,,,evet,isabet,31,0.483,,baski,,,,,1650,uyarı,39,5/10,,,,,,,,,,,,,,,,,
 2026-11-28,1563287,England - Championship,Birmingham - Bolton,35,1-0,,Bolton,,düşük,,,evet,isabet,44,0.511,,baski,,,,,1653,uyarı,45,7/10,,,,,,,,,,,,,,,,,
@@ -920,6 +920,8 @@ tarih,fixture_id,lig,mac,dakika,skor,taraf,baski,baski_rakip,guven,ai_onay,ai_yo
 2026-11-28,1563291,England - Championship,Millwall - Burnley,66,0-1,,Millwall,,düşük,,,evet,ıska,,0.604,,baski,,,,,1667,uyarı,81,4/10,,,,,,,,,,,,,,,,,
 2026-11-28,1563880,England - League Two,Port Vale - Newport County,64,1-1,,Newport County,,düşük,,,evet,isabet,67,0.462,,baski,,,,,1668,uyarı,79,6/10,,,,,,,,,,,,,,,,,
 2026-11-28,1593369,Greece - Super League 1,Iraklis 1908 - Panetolikos,69,2-0,,Iraklis 1908,,düşük,,,evet,ıska,,0.57,,baski,,,,,1669,uyarı,84,6/10,,,,,,,,,,,,,,,,,
-2026-11-28,1557483,England - Premier League,Leeds - Coventry,75,3-0,,Coventry,,düşük,,,evet,bekliyor,,0.771,,baski,,,,,1670,,90,6/10,,,,,,,,,,,,,,,,,
+2026-11-28,1557483,England - Premier League,Leeds - Coventry,75,3-0,,Coventry,,düşük,,,evet,ıska,,0.771,,baski,,,,,1670,uyarı,90,6/10,,,,,,,,,,,,,,,,,
 2026-11-28,1563879,England - League Two,Fleetwood Town - Accrington ST,75,0-1,,Fleetwood Town,,düşük,,,evet,isabet,80,0.528,,baski,,,,,1671,uyarı,90,9/10,,,,,,,,,,,,,,,,,
 2026-11-28,1557484,England - Premier League,Manchester United - Brentford,80,0-2,,Manchester United,,düşük,,,evet,isabet,82,0.634,,baski,,,,,1672,uyarı,90,5/10,,,,,,,,,,,,,,,,,
+2026-11-28,1560288,Hungary - NB I,MTK Budapest - Ujpest,48,2-1,,Ujpest,,düşük,,,evet,bekliyor,,0.65,,baski,,,,,1674,,63,5/10,,,,,,,,,,,,,,,,,
+2026-11-28,1601628,Italy - Serie B,Vicenza Virtus - Cesena,37,0-1,,Cesena,,düşük,,,evet,bekliyor,,0.434,,baski,,,,,1675,,45,5/10,,,,,,,,,,,,,,,,,
