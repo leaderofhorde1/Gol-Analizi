@@ -3753,5 +3753,367 @@
   "yatti": true,
   "oran_gercek": 3.13,
   "kar": -100
+ },
+ {
+  "tarih": "2026-11-28",
+  "id": "2026-11-28-korner",
+  "parti": 10,
+  "tur": "korner",
+  "baslik": "🚩 Korner kuponu",
+  "oran": 3.11,
+  "p_piyasa": 0.276,
+  "bacaklar": [
+   {
+    "tur": "korner",
+    "oran": 1.8,
+    "p": 0.5148247978436657,
+    "cizgi": 10.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     6,
+     10
+    ],
+    "oran_form": 0.7,
+    "h2h": [
+     1,
+     1
+    ],
+    "sira_puan": 0.3396,
+    "fixture_id": "1556713",
+    "saat": "18:00",
+    "ts": 1795878000,
+    "mac": "Dundee Utd - ST Johnstone",
+    "ev": "Dundee Utd",
+    "dep": "ST Johnstone",
+    "lig": "Scotland - Premiership",
+    "etiket": "Korner 10.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "korner",
+    "oran": 1.73,
+    "p": 0.5361930294906166,
+    "cizgi": 9.5,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     7,
+     10
+    ],
+    "oran_form": 0.7,
+    "h2h": [
+     2,
+     2
+    ],
+    "sira_puan": 0.3247,
+    "fixture_id": "1552828",
+    "saat": "19:15",
+    "ts": 1795882500,
+    "mac": "Angers - Lens",
+    "ev": "Angers",
+    "dep": "Lens",
+    "lig": "France - Ligue 1",
+    "etiket": "Korner 9.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1566
+ },
+ {
+  "tarih": "2026-11-28",
+  "id": "2026-11-28-alt",
+  "parti": 10,
+  "tur": "alt",
+  "baslik": "🧊 Alt kuponu",
+  "oran": 4.16,
+  "p_piyasa": 0.199,
+  "bacaklar": [
+   {
+    "tur": "alt25",
+    "oran": 1.65,
+    "p": 0.5714285714285715,
+    "cizgi": 2.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     7,
+     10
+    ],
+    "oran_form": 0.75,
+    "h2h": [
+     2,
+     3
+    ],
+    "sira_puan": 0.35,
+    "fixture_id": "1551156",
+    "saat": "13:45",
+    "ts": 1795862700,
+    "mac": "Lokomotiv Plovdiv - Spartak Varna",
+    "ev": "Lokomotiv Plovdiv",
+    "dep": "Spartak Varna",
+    "lig": "Bulgaria - First League",
+    "etiket": "2.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt25",
+    "oran": 1.8,
+    "p": 0.5263157894736842,
+    "cizgi": 2.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     7,
+     10
+    ],
+    "oran_form": 0.75,
+    "h2h": [
+     2,
+     2
+    ],
+    "sira_puan": 0.3816,
+    "fixture_id": "1614343",
+    "saat": "14:00",
+    "ts": 1795863600,
+    "mac": "Levante II - Hércules II",
+    "ev": "Levante II",
+    "dep": "Hércules II",
+    "lig": "Spain - Tercera División RFEF - Group 6",
+    "etiket": "2.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt35",
+    "oran": 1.4,
+    "p": 0.6626506024096386,
+    "cizgi": 3.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.85,
+    "h2h": null,
+    "sira_puan": 0.3861,
+    "fixture_id": "1585848",
+    "saat": "16:00",
+    "ts": 1795870800,
+    "mac": "Vanspor FK - Bursaspor",
+    "ev": "Vanspor FK",
+    "dep": "Bursaspor",
+    "lig": "Turkey - 1. Lig",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1567
+ },
+ {
+  "tarih": "2026-11-28",
+  "id": "2026-11-28-gol",
+  "parti": 10,
+  "tur": "gol",
+  "baslik": "🎯 Gol kuponu",
+  "oran": 2.05,
+  "p_piyasa": 0.409,
+  "bacaklar": [
+   {
+    "tur": "ust15",
+    "oran": 1.28,
+    "p": 0.7322175732217574,
+    "cizgi": 1.5,
+    "form_ev": [
+     10,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.95,
+    "h2h": [
+     2,
+     2
+    ],
+    "sira_puan": 0.4374,
+    "fixture_id": "1585846",
+    "saat": "13:30",
+    "ts": 1795861800,
+    "mac": "Sivasspor - Bodrum FK",
+    "ev": "Sivasspor",
+    "dep": "Bodrum FK",
+    "lig": "Turkey - 1. Lig",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust15",
+    "oran": 1.25,
+    "p": 0.75,
+    "cizgi": 1.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     10,
+     10
+    ],
+    "oran_form": 0.95,
+    "h2h": null,
+    "sira_puan": 0.425,
+    "fixture_id": "1585840",
+    "saat": "13:30",
+    "ts": 1795861800,
+    "mac": "Bandırmaspor - Batman Petrolspor",
+    "ev": "Bandırmaspor",
+    "dep": "Batman Petrolspor",
+    "lig": "Turkey - 1. Lig",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust15",
+    "oran": 1.28,
+    "p": 0.7455268389662029,
+    "cizgi": 1.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     10,
+     10
+    ],
+    "oran_form": 0.95,
+    "h2h": [
+     2,
+     2
+    ],
+    "sira_puan": 0.4281,
+    "fixture_id": "1550214",
+    "saat": "20:00",
+    "ts": 1795885200,
+    "mac": "Torino - Lazio",
+    "ev": "Torino",
+    "dep": "Lazio",
+    "lig": "Italy - Serie A",
+    "etiket": "1.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1568
+ },
+ {
+  "tarih": "2026-11-28",
+  "id": "2026-11-28-ust",
+  "parti": 10,
+  "tur": "ust",
+  "baslik": "⚽ Üst kuponu",
+  "oran": 2.74,
+  "p_piyasa": 0.3,
+  "bacaklar": [
+   {
+    "tur": "ust25",
+    "oran": 1.4,
+    "p": 0.6626506024096386,
+    "cizgi": 2.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     10,
+     10
+    ],
+    "oran_form": 0.9,
+    "h2h": [
+     1,
+     1
+    ],
+    "sira_puan": 0.4361,
+    "fixture_id": "1649808",
+    "saat": "13:30",
+    "ts": 1795861800,
+    "mac": "FC Tallinn - Tulevik",
+    "ev": "FC Tallinn",
+    "dep": "Tulevik",
+    "lig": "Estonia - Esiliiga A",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.4,
+    "p": 0.6728971962616822,
+    "cizgi": 2.5,
+    "form_ev": [
+     10,
+     10
+    ],
+    "form_dep": [
+     7,
+     10
+    ],
+    "oran_form": 0.85,
+    "h2h": [
+     1,
+     1
+    ],
+    "sira_puan": 0.379,
+    "fixture_id": "1555436",
+    "saat": "20:00",
+    "ts": 1795885200,
+    "mac": "FC Vaduz - FC Zurich",
+    "ev": "FC Vaduz",
+    "dep": "FC Zurich",
+    "lig": "Switzerland - Super League",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.4,
+    "p": 0.6728971962616822,
+    "cizgi": 2.5,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     10,
+     10
+    ],
+    "oran_form": 0.85,
+    "h2h": null,
+    "sira_puan": 0.379,
+    "fixture_id": "1552234",
+    "saat": "23:00",
+    "ts": 1795896000,
+    "mac": "Cambuur - Sparta Rotterdam",
+    "ev": "Cambuur",
+    "dep": "Sparta Rotterdam",
+    "lig": "Netherlands - Eredivisie",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1569
  }
 ]
