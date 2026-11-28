@@ -3918,11 +3918,14 @@
     "dep": "Bursaspor",
     "lig": "Turkey - 1. Lig",
     "etiket": "3.5 Alt",
-    "sonuc": "bekliyor"
+    "sonuc": "isabet",
+    "skor": "1-1"
    }
   ],
-  "sonuc": "bekliyor",
-  "tg": 1567
+  "sonuc": "isabet",
+  "tg": 1567,
+  "oran_gercek": 4.16,
+  "kar": 316
  },
  {
   "tarih": "2026-11-28",
@@ -4120,5 +4123,299 @@
   ],
   "sonuc": "bekliyor",
   "tg": 1569
+ },
+ {
+  "tarih": "2026-11-28",
+  "id": "2026-11-28-alt-18",
+  "parti": 18,
+  "tur": "alt",
+  "baslik": "🧊 Alt kuponu (akşam)",
+  "oran": 4.18,
+  "p_piyasa": 0.201,
+  "bacaklar": [
+   {
+    "tur": "alt35",
+    "oran": 1.33,
+    "p": 0.7096069868995633,
+    "cizgi": 3.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.85,
+    "h2h": [
+     6,
+     8
+    ],
+    "sira_puan": 0.3533,
+    "fixture_id": "1639811",
+    "saat": "19:30",
+    "ts": 1795883400,
+    "mac": "Universidad Catolica - Independiente del Valle",
+    "ev": "Universidad Catolica",
+    "dep": "Independiente del Valle",
+    "lig": "Ecuador - Liga Pro",
+    "etiket": "3.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt25",
+    "oran": 1.7,
+    "p": 0.5526315789473685,
+    "cizgi": 2.5,
+    "form_ev": [
+     4,
+     6
+    ],
+    "form_dep": [
+     4,
+     5
+    ],
+    "oran_form": 0.7272727272727273,
+    "h2h": [
+     1,
+     2
+    ],
+    "sira_puan": 0.3404,
+    "fixture_id": "1651839",
+    "saat": "20:00",
+    "ts": 1795885200,
+    "mac": "Nouakchott King's - Chemal",
+    "ev": "Nouakchott King's",
+    "dep": "Chemal",
+    "lig": "Mauritania - Premier League",
+    "etiket": "2.5 Alt",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "alt25",
+    "oran": 1.85,
+    "p": 0.513157894736842,
+    "cizgi": 2.5,
+    "form_ev": [
+     6,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.7,
+    "h2h": [
+     2,
+     2
+    ],
+    "sira_puan": 0.3408,
+    "fixture_id": "1614038",
+    "saat": "20:15",
+    "ts": 1795886100,
+    "mac": "Cornellà - Montañesa",
+    "ev": "Cornellà",
+    "dep": "Montañesa",
+    "lig": "Spain - Tercera División RFEF - Group 5",
+    "etiket": "2.5 Alt",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1645
+ },
+ {
+  "tarih": "2026-11-28",
+  "id": "2026-11-28-gol-18",
+  "parti": 18,
+  "tur": "gol",
+  "baslik": "🎯 Gol kuponu (akşam)",
+  "oran": 4.84,
+  "p_piyasa": 0.163,
+  "bacaklar": [
+   {
+    "tur": "kg",
+    "oran": 1.73,
+    "p": 0.5361930294906166,
+    "cizgi": null,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     7,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": null,
+    "sira_puan": 0.4247,
+    "fixture_id": "1650271",
+    "saat": "19:00",
+    "ts": 1795881600,
+    "mac": "Feurs - Annecy",
+    "ev": "Feurs",
+    "dep": "Annecy",
+    "lig": "France - Coupe de France",
+    "etiket": "KG Var",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "kg",
+    "oran": 1.83,
+    "p": 0.5,
+    "cizgi": null,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.75,
+    "h2h": null,
+    "sira_puan": 0.4,
+    "fixture_id": "1650294",
+    "saat": "20:00",
+    "ts": 1795885200,
+    "mac": "St-Pryvé St-Hilaire - Selongey",
+    "ev": "St-Pryvé St-Hilaire",
+    "dep": "Selongey",
+    "lig": "France - Coupe de France",
+    "etiket": "KG Var",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "kg",
+    "oran": 1.53,
+    "p": 0.6086956521739131,
+    "cizgi": null,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     9,
+     10
+    ],
+    "oran_form": 0.85,
+    "h2h": [
+     2,
+     2
+    ],
+    "sira_puan": 0.4239,
+    "fixture_id": "1585376",
+    "saat": "20:30",
+    "ts": 1795887000,
+    "mac": "Hartlepool - Southend",
+    "ev": "Hartlepool",
+    "dep": "Southend",
+    "lig": "England - National League",
+    "etiket": "KG Var",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1646
+ },
+ {
+  "tarih": "2026-11-28",
+  "id": "2026-11-28-ust-18",
+  "parti": 18,
+  "tur": "ust",
+  "baslik": "⚽ Üst kuponu (akşam)",
+  "oran": 3.63,
+  "p_piyasa": 0.231,
+  "bacaklar": [
+   {
+    "tur": "ust25",
+    "oran": 1.4,
+    "p": 0.6728971962616822,
+    "cizgi": 2.5,
+    "form_ev": [
+     9,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.85,
+    "h2h": [
+     4,
+     5
+    ],
+    "sira_puan": 0.379,
+    "fixture_id": "1649499",
+    "saat": "20:30",
+    "ts": 1795887000,
+    "mac": "Charlotte - Chicago Fire",
+    "ev": "Charlotte",
+    "dep": "Chicago Fire",
+    "lig": "USA - Major League Soccer",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.44,
+    "p": 0.6521739130434782,
+    "cizgi": 2.5,
+    "form_ev": [
+     8,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.8,
+    "h2h": [
+     1,
+     1
+    ],
+    "sira_puan": 0.3435,
+    "fixture_id": "1561972",
+    "saat": "21:30",
+    "ts": 1795890600,
+    "mac": "Austria Lustenau - Rapid Vienna",
+    "ev": "Austria Lustenau",
+    "dep": "Rapid Vienna",
+    "lig": "Austria - Bundesliga",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   },
+   {
+    "tur": "ust25",
+    "oran": 1.8,
+    "p": 0.5263157894736842,
+    "cizgi": 2.5,
+    "form_ev": [
+     7,
+     10
+    ],
+    "form_dep": [
+     8,
+     10
+    ],
+    "oran_form": 0.75,
+    "h2h": [
+     1,
+     2
+    ],
+    "sira_puan": 0.3816,
+    "fixture_id": "1552831",
+    "saat": "22:45",
+    "ts": 1795895100,
+    "mac": "Le Havre - Strasbourg",
+    "ev": "Le Havre",
+    "dep": "Strasbourg",
+    "lig": "France - Ligue 1",
+    "etiket": "2.5 Üst",
+    "sonuc": "bekliyor"
+   }
+  ],
+  "sonuc": "bekliyor",
+  "tg": 1647
  }
 ]
