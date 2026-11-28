@@ -398,3 +398,6 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-28,1650263,20:00,France - Coupe de France,Bourg-en-bresse 01 - Thionville Lusitanos,1x2:ev,Ev sahibi,2.9,2.55,0.121,0.31,0.355,bekliyor,,
 2026-11-28,1650266,20:00,France - Coupe de France,Chambly Thelle FC - Avranches,1x2:dep,Deplasman,3.4,2.8,0.176,0.264,0.319,bekliyor,,
 2026-11-28,1650284,20:00,France - Coupe de France,Nimes - Grenoble,ou:alt,Alt 2.5,1.95,1.67,0.144,0.487,0.563,bekliyor,,
+2026-11-28,1650296,21:00,France - Coupe de France,Saint Etienne - Villefranche,1x2:x,Beraberlik,6.0,5.25,0.125,0.15,0.172,bekliyor,,
+2026-11-28,1650296,21:00,France - Coupe de France,Saint Etienne - Villefranche,1x2:dep,Deplasman,8.0,6.0,0.25,0.112,0.15,bekliyor,,
+2026-11-28,1650296,21:00,France - Coupe de France,Saint Etienne - Villefranche,kg:var,KG Var,2.2,1.83,0.168,0.424,0.5,bekliyor,,
