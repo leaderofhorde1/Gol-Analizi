@@ -356,7 +356,7 @@ tarih,fixture_id,saat,lig,mac,secim,etiket,ilk_oran,oran,dusus,p_ilk,p_piyasa,so
 2026-11-28,1635023,14:00,Vietnam - V.League 2,Than Quang Ninh - Ho Chi Minh,ou:alt,Alt 2.5,2.05,1.73,0.156,0.461,0.546,ıska,2-1,-100
 2026-11-28,1642533,16:00,Greece - Gamma Ethniki - Group 8,Proodeftiki - Amfiali,ou:alt,Alt 2.5,1.85,1.62,0.124,0.513,0.581,isabet,0-1,62
 2026-11-28,1642652,16:00,Greece - Gamma Ethniki - Group 9,Ethnikos Asteras - Thyella Diastavroseos,1x2:ev,Ev sahibi,3.1,2.25,0.274,0.29,0.396,isabet,4-1,125
-2026-11-28,1575235,17:30,Germany - Bundesliga,Hamburger SV - Bayern München,1x2:x,Beraberlik,7.0,5.75,0.179,0.135,0.164,bekliyor,,
+2026-11-28,1575235,17:30,Germany - Bundesliga,Hamburger SV - Bayern München,1x2:x,Beraberlik,7.0,5.75,0.179,0.135,0.164,isabet,0-0,475
 2026-11-28,1637724,15:00,Indonesia - Liga 2,Sumsel United - Persiraja Banda Aceh,1x2:dep,Deplasman,3.9,3.4,0.128,0.231,0.264,ıska,3-0,-100
 2026-11-28,1643384,17:00,Jordan - League,Al Arabi - Al Faisaly,1x2:ev,Ev sahibi,8.0,7.0,0.125,0.112,0.129,isabet,2-0,600
 2026-11-28,1650286,15:30,France - Coupe de France,OCPAM - Reims,kg:var,KG Var,2.0,1.73,0.135,0.464,0.536,ıska,0-2,-100
